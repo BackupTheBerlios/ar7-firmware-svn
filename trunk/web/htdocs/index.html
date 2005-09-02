@@ -1,0 +1,227 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META HTTP-EQUIV="Content-Type" Content="text/html">
+<title>AR7-Firmware</title>
+<link rel=stylesheet type="text/css" href="ar7.css" />
+</head>
+
+<body>
+<h2>Firmware f&uuml;r Sinus 154 DSL Basic SE</h2>
+
+In diesem Projekt m&ouml;chten wir als erstes eine Open Source Firmware
+f&uuml;r den DSL-Router Sinus 154 DSL Basic SE</h2>
+entwickeln. Dieses Ger&auml;t wird in Deutschland von der Telekom
+vermarktet und ist daher vermutlich sehr verbreitet.<p>
+
+Das Sinus 154 DSL Basic SE basiert auf einem Prozessor der AR7-Familie von
+Texas Instruments und verwendet im Originalzustand eine Closed Source
+Firmware, vermutlich 
+mit dem Echtzeitbetriebssystem VxWorks von WindRiver Systems.<p>
+
+Da so Erweiterungen und Fehlerkorrekturen f&uuml;r den Anwender nicht
+m&ouml;glich sind, suchen wir eine Alternative, die frei erweiterbar ist.<p>
+
+Die Erfahrungen des Projektes k&ouml;nnen sicher auf verwandte Ger&auml;te
+der Sinus 154 Familie und auch weitere anderer Hersteller angewendet werden.
+Besitzer solcher Hardware sind willkommen und k&ouml;nnen sich im
+Wiki-Bereich des Projektes eintragen.<p>
+
+Diesen findet man ebenso wie das Entwickler- und Anwender-Forum und weitere
+Information &uuml;ber die <a href="http://developer.berlios.de/projects/ar7-firmware/">
+Projektseite</a> auf BerliOS.
+
+<h2>Wichtige Hinweise</h2>
+
+Jegliche &Auml;nderungen an Ger&auml;ten, die nach hier gemachten Angaben erfolgen,
+sind auf eigene Gefahr. Sie k&ouml;nnen zum Verlust der Garantie f&uuml;hren und
+machen im schlimmsten Fall das Ger&auml;t unbrauchbar.
+
+<h2>Projektplanung</h2>
+
+Folgende Schritte sind vorgesehen:
+<ul>
+<li>Bestimmung der Hardware des Sinus 154 DSL Basic SE.<br>
+Dies ist weitgehend abgeschlossen.</li>
+<li>Analyse des Bootloaders, mit dem neue Firmware geladen werden kann.<br>
+Auch hier gibt es schon weitgehende Erkenntnisse.</li>
+<li>Debugm&ouml;glichkeit schaffen.<br>
+Da ein neuer Firmware-Kernel sicher nicht auf Anhieb so funktionieren
+wird, dass eine Netzwerkverbindung zustande kommt, wird eine
+Diagnosem&ouml;glichkeit ben&ouml;tigt. Optimal w&auml;re eine
+serielle Schnittstelle, notfalls Diagnose
+per Statuslampen. Inzwischen klappt die serielle Verbindung.</li>
+<li>Auswahl und Erstellung eines Kernels.<br>
+Dazu muss ein geeignetes Betriebssystem ausgew&auml;hlt werden (siehe unten).
+Erste Versuche wurden bereits mit dem Linux-Kernel von OpenWRT gemacht und
+waren teilweise erfolgreich (Shell &uuml;ber serielle Konsole bedienbar).</li>
+<li>Auswahl und Einbindung weiterer Firmware-Komponenten.<br>
+F&uuml;r WLAN-Treiber und weitere Komponenten wie Shell, Serverdienste,
+Firewall, Bridgefunktionalit&auml;t usw. kann man gl&uuml;cklicherweise
+weitgehend auf andere Open Source
+Projekte zur&uuml;ckgreifen.</li>
+</ul>
+
+<h2>Hardware</h2>
+
+<h3>Ger&auml;te&uuml;bersicht</h3>
+
+<table>
+<tr><th>Ger&auml;t</th><th>Prozessor</th><th>Flash</th><th>RAM</th></tr>
+<tr><td>Sinus 154 DSL Basic SE</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MB</td><td>32 MB</td></tr>
+<tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MB</td><td>32 MB (?)</td></tr>
+</table>
+
+<p>
+
+Es gibt auch noch etliche andere Ger&auml;te mit sehr &auml;hnlicher Hardware,
+beispielsweise von AVM (siehe <a href="http://www.wehavemorefun.de/fritzbox/">
+Wiki-Webseite</a>). Deren Firmware ist aber nicht direkt verwendbar.
+
+<h3>Serielle Schnittstelle</h3>
+
+Alle Ger&auml;te haben eine serielle Schnittstelle, die aber nur im Ger&auml;t
+zug&auml;nglich ist. Schnittstellenparameter 115000 bps 8N1. F&uuml;r den
+Anschluss an PCs wird ein Pegelkonverter ben&ouml;tigt.
+
+&Uuml;ber die serielle Schnittstelle kann die Firmware geladen, bedient und
+diagnostiziert werden.
+
+<h3>Ethernet</h3>
+
+Jedes Ger&auml;t hat eine Ethernetschnittstelle.
+
+<h3>DSL</h3>
+
+Jedes Ger&auml;t hat einen DSL-Anschluss.
+
+<h3>WLAN</h3>
+
+Jedes Ger&auml;t hat eine Mini-PCI-Karte f&uuml;r WLAN eingebaut.
+
+<h3>Speicherbelegung</h3>
+
+<table>
+<tr><th>Startadresse</th><th>Endadresse</th><th>Inhalt</th></tr>
+<tr><td>0x80000000</td><td>0x80000fff</td><td>interner RAM 4 KB</td></tr>
+<tr><td>0x80001000</td><td>0x8fffffff</td><td>?</td></tr>
+<tr><td>0x90000000</td><td>0x91ffffff</td><td>RAM 32 MB</td></tr>
+<tr><td>0x92000000</td><td>0x93ffffff</td><td>?</td></tr>
+<tr><td>0x94000000</td><td>0x95ffffff</td><td>wie 0x90000000?</td></tr>
+<tr><td>0x96000000</td><td>0xafffffff</td><td>?</td></tr>
+<tr><td>0xa8610900</td><td></td><td>GPIO</td></tr>
+<tr><td>0xa8610E00</td><td></td><td>UART</td></tr>
+<tr><td>0xb0000000</td><td>0xb01fffff</td><td>Flash Memory 2 MB</td></tr>
+<tr><td>0xb0200000</td><td>0xb03fffff</td><td>wie 0xb0000000</td></tr>
+<tr><td>0xb0400000</td><td>0xbfbfffff</td><td>?</td></tr>
+<tr><td>0xbfc00000</td><td>0xbfc00fff</td><td>interner PROM 4 KB</td></tr>
+</table>
+
+<h3>Aufteilung Flash Memory (2 MB)</h3>
+
+<table>
+<tr><th>Index</th><th>Inhalt</th><th>Adresse</th><th>Gr&ouml;sse</th></tr>
+<tr><td>[0] </td><td>Boot            </td><td>0xB0000000     </td><td>128K</td></tr>
+<tr><td>[1] </td><td>Configuration   </td><td>0xB0020000     </td><td>128K</td></tr>
+<tr><td>[2] </td><td>Web Image       </td><td>0xB0040000     </td><td>832K</td></tr>
+<tr><td>[3] </td><td>Code Image      </td><td>0xB0110000     </td><td>896K</td></tr>
+<tr><td>[4] </td><td>Boot Params     </td><td>0xB01F0000      </td><td>64K</td></tr>
+<tr><td>[5] </td><td>Flash Image     </td><td>0xB0000000    </td><td>2048K</td></tr>
+<tr><td>    </td><td>Flashende       </td><td>0xB01FFFFF</td><td></td></tr>
+</table>
+
+<h2>Firmwarekomponenten</h2>
+
+<h3>Bootloader</h3>
+
+Alle Ger&auml;te verwenden einen Bootloader der Firma Broad Net Technology, INC.
+Dieser ist normalerweise nur &uuml;ber die serielle Schnittstelle bedienbar.<p>
+
+Durch Dr&uuml;cken einer beliebigen Taste unmittelbar nach dem Einschalten
+unterbricht man den normalen Bootvorgang und kommt in ein Debugmen&uuml;,
+das wiederum durch Dr&uuml;cken von Taste "!" um Administratorbefehle erweitert
+wird.<p>
+
+<pre>
+[U] Upload to Flash
+[E] Erase Flash
+[G] Run Runtime Code
+[M] Upload to Memory
+[R] Read from Memory
+[W] Write to Memory
+[T] Memory Test
+[Y] Go to Memory
+[A] Set MAC Address
+[#] Set Serial Number
+[V] Set Board Version
+[H] Set Options
+[P] Print Boot Params
+</pre>
+
+Im Administratormode sind unter anderem Firmware-Uploads m&ouml;glich.
+So kann ein Linux-Kernel vorerst ins RAM geladen werden. Der Kernel muss dazu
+im Binary-Format ohne Zus&auml;tze vorliegen.
+
+<h4>Notfall-Kernel</h4>
+Der Bootloader enth&auml;lt auch einen Notfall-Kernel, mit dem defekte Firmware
+repariert werden kann (das geht, wenn der Bootloader selbst noch unversehrt ist).
+Aktiviert wird er, indem der Resetknopf beim Einschalten gedr&uuml;ckt und so
+lange gehalten wird, bis die Betriebs-LED blinkt.<p>
+
+In dieser Betriebsart l&auml;uft ein DHCP-Server und ein Web-Server. &Uuml;ber die
+Adresse http://192.168.2.1/ kann damit neue Firmware ins Flash geladen werden.
+
+<h3>Betriebssystem</h3>
+
+Zur Wahl stehen aktuell die Alternativen Linux oder eCOS.
+
+Bei Linux wiederum besteht eine reiche Auswahl an Distributionen und Kernels:
+Kernelversion 2.4 oder 2.6? Kernel eines anderen DSL-Routers mit &auml;hnlicher
+Hardware? Distribution mit Anpassungen f&uuml;r MIPS-Prozessoren? Kritisch ist
+bei Linux das relativ klein bemessene Flash.<p>
+
+Mit einem gepatchten Linux-Kernel von <a href="http://www.openwrt.org/">OpenWRT</a>
+konnte bereits gebootet werden. OpenWRT stellt auch Komponenten wie Shell usw.
+bereit, ist also eine ziemlich komplette Distribution f&uuml;r Router.<p>
+
+LED-Anzeige, Ethernet, WLAN, DSL funktionieren noch nicht. Der Kernel konnte bisher
+nur per serieller Schnittstelle geladen und aus dem RAM gestartet werden -
+dabei war im Flash ein Filesystem (squashfs). Notwendig w&auml;re ein Kernel im Flash,
+der beim Einschalten automatisch erkannt und gestartet wird.
+
+<h3>Ethernet</h3>
+
+Der Treiber f&uuml;r Ethernet sollte bereits Teil des gew&auml;hlten Betriebssystems sein.
+
+<h3>WLAN</h3>
+
+F&uuml;r den WLAN-Chipsatz gibt es bereits ein Open Source Projekt,
+dessen Ergebnisse hoffentlich integriert werden k&ouml;nnen.<p>
+
+Angestrebt wird der Betrieb als Access Point (auch mit WDS) oder
+Wireless Client Adapter.<p>
+
+Die gebr&auml;uchlichen Verschl&uuml;sselungsverfahren sollen
+unterst&uuml;tzt werden.
+
+<h3>Shell</h3>
+
+Hier kommt eigentlich nur Busybox in Frage. Damit stehen dann auch
+gleich Dienste wie Telnet, Webserver, TFTP bereit.
+
+<h3>NTP</h3>
+
+<h3>SSH</h3>
+
+<h3>Firewall</h3>
+
+<h2>Sonstiges</h2>
+
+<h3>Dateiformat Firmware-Image</h3>
+
+Firmware-Images, die vom Webfrontend f&uuml;r Updates akzeptiert werden,
+k&ouml;nnen mit dem kleinen Hilfsprogramm <a href="mkfirm.c">mkfirm</a>
+erzeugt werden. Das Programm enth&auml;lt Informationen zum Dateiformat.<p>
+
+</body>
+</html>
