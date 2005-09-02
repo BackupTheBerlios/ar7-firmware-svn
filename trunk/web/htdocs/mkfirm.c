@@ -1,9 +1,10 @@
-/* Original version by Petr Novak for SMC7004ABR rev.2
+/* $Id: mkfirm.c,v 1.1 2005/09/01 20:49:08 stefan Exp stefan $
+ *
+ * Original version by Petr Novak for SMC7004ABR rev.2
  * Modified to support SMC7004VWBR PN720.x version by BLFC from Openline ISP.
  * Heavily modified to support many different devices by Stefan Weil.
- * $Id: mkfirm.c,v 1.1 2005/09/01 20:49:08 stefan Exp stefan $
  *
- * This software may be distributed under the GNU public license GPL.
+ * This software is distributed under the GNU public license (GPL).
  */
 
 #include <stdio.h>
