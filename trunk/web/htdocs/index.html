@@ -37,14 +37,16 @@ Jegliche &Auml;nderungen an Ger&auml;ten, die nach hier gemachten Angaben erfolg
 sind auf eigene Gefahr. Sie k&ouml;nnen zum Verlust der Garantie f&uuml;hren und
 machen im schlimmsten Fall das Ger&auml;t unbrauchbar.
 
-<h2>Projektplanung</h2>
+<h2>Projektplanung (Stand 13.09.2005)</h2>
 
 Folgende Schritte sind vorgesehen:
 <ul>
 <li>Bestimmung der Hardware des Sinus 154 DSL Basic SE.<br>
 Dies ist weitgehend abgeschlossen.</li>
 <li>Analyse des Bootloaders, mit dem neue Firmware geladen werden kann.<br>
-Auch hier gibt es schon weitgehende Erkenntnisse.</li>
+Auch hier gibt es schon weitgehende Erkenntnisse.
+Booten von Linux aus dem Flash funktioniert, allerdings wird der Flash dabei
+schlecht ausgenutzt (viel verschenkter Speicher).</li>
 <li>Debugm&ouml;glichkeit schaffen.<br>
 Da ein neuer Firmware-Kernel sicher nicht auf Anhieb so funktionieren
 wird, dass eine Netzwerkverbindung zustande kommt, wird eine
@@ -54,7 +56,8 @@ per Statuslampen. Inzwischen klappt die serielle Verbindung.</li>
 <li>Auswahl und Erstellung eines Kernels.<br>
 Dazu muss ein geeignetes Betriebssystem ausgew&auml;hlt werden (siehe unten).
 Erste Versuche wurden bereits mit dem Linux-Kernel von OpenWRT gemacht und
-waren teilweise erfolgreich (Shell &uuml;ber serielle Konsole bedienbar).</li>
+waren teilweise erfolgreich (Shell &uuml;ber serielle Konsole bedienbar,
+komplettes Betriebssystem bootet nach Einschalten direkt aus dem Flash).</li>
 <li>Auswahl und Einbindung weiterer Firmware-Komponenten.<br>
 F&uuml;r WLAN-Treiber und weitere Komponenten wie Shell, Serverdienste,
 Firewall, Bridgefunktionalit&auml;t usw. kann man gl&uuml;cklicherweise
@@ -184,10 +187,11 @@ Mit einem gepatchten Linux-Kernel von <a href="http://www.openwrt.org/">OpenWRT<
 konnte bereits gebootet werden. OpenWRT stellt auch Komponenten wie Shell usw.
 bereit, ist also eine ziemlich komplette Distribution f&uuml;r Router.<p>
 
-LED-Anzeige, Ethernet, WLAN, DSL funktionieren noch nicht. Der Kernel konnte bisher
+LED-Anzeige, Ethernet, WLAN, DSL und JFFS2 funktionieren noch nicht.
+Der Kernel konnte zun&auml;chst
 nur per serieller Schnittstelle geladen und aus dem RAM gestartet werden -
-dabei war im Flash ein Filesystem (squashfs). Notwendig w&auml;re ein Kernel im Flash,
-der beim Einschalten automatisch erkannt und gestartet wird.
+dabei war im Flash ein Filesystem (squashfs). Inzwischen laufen Kernel und Filesystem
+nach dem Einschalten automatisch aus dem Flash.
 
 <h3>Ethernet</h3>
 
@@ -222,6 +226,11 @@ gleich Dienste wie Telnet, Webserver, TFTP bereit.
 Firmware-Images, die vom Webfrontend f&uuml;r Updates akzeptiert werden,
 k&ouml;nnen mit dem kleinen Hilfsprogramm <a href="mkfirm.c">mkfirm</a>
 erzeugt werden. Das Programm enth&auml;lt Informationen zum Dateiformat.<p>
+
+Achtung! Linux-Kernel und Filesystem sind so gross, dass sie nicht in
+ein Firmware-Image passen (genauer: sie passen schon, aber der Bootloader
+st&uuml;rzt beim Ladeversuch ab. Das aktuelle mkfirm.c kann daher getrennte
+Firmware-Images f&uuml;r Kernel und Filesystem erzeugen.
 
 </body>
 </html>
