@@ -1,15 +1,27 @@
+? ChangeLog
 ? target/linux/image/ar7/src/entry.c
 ? target/linux/image/ar7/src/loader.h
 ? target/linux/image/ar7/src/uart16550.c
 ? target/linux/image/ar7/src/uart16550.h
+? target/linux/linux-2.4/patches/ar7/007-cpmac_driver.patch
+? target/linux/linux-2.4/patches/ar7/008-sinus154_support.patch
 ? target/linux/linux-2.4/patches/ar7/009-diag_driver.patch
 Index: target/linux/image/ar7/Makefile
 ===================================================================
 RCS file: /openwrt/openwrt/target/linux/image/ar7/Makefile,v
-retrieving revision 1.11
-diff -u -b -B -u -r1.11 Makefile
---- target/linux/image/ar7/Makefile	1 Sep 2005 20:08:18 -0000	1.11
-+++ target/linux/image/ar7/Makefile	2 Sep 2005 18:44:58 -0000
+retrieving revision 1.12
+diff -u -b -B -r1.12 Makefile
+--- target/linux/image/ar7/Makefile	16 Sep 2005 14:45:21 -0000	1.12
++++ target/linux/image/ar7/Makefile	17 Sep 2005 10:01:17 -0000
+@@ -4,7 +4,7 @@
+ 
+ PKG_BUILD_DIR:=$(BUILD_DIR)/ar7loader
+ 
+-LOADADDR := 0x94020000
++LOADADDR := 0x94000000
+ KERNEL_ENTRY := 0x${shell nm $(KDIR)/linux-$(KERNEL)*/vmlinux | grep kernel_entry | cut -d' ' -f1}
+ OUTPUT_FORMAT := elf32-tradlittlemips
+ 
 @@ -25,12 +25,18 @@
  	sed -e 's/@@OUTPUT_FORMAT@@/$(OUTPUT_FORMAT)/' \
  	    -e 's/@@LOADADDR@@/$(LOADADDR)/' <$< >$@
@@ -44,7 +56,7 @@ diff -u -b -B -u -r1.11 Makefile
  	$(STAGING_DIR)/bin/srec2bin $(KDIR)/ram_zimage.sre $@
  	
  $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel.bin: $(KDIR)/vmlinux.bin 
-@@ -84,7 +93,8 @@
+@@ -85,7 +94,8 @@
  	rm -f $(BIN_DIR)/openwrt-$(BOARD)*
  
  prepare: $(PKG_BUILD_DIR) $(PKG_BUILD_DIR)/zimage.script $(PKG_BUILD_DIR)/ld.script
@@ -58,10 +70,10 @@ Index: target/linux/image/ar7/src/loader.c
 ===================================================================
 RCS file: /openwrt/openwrt/target/linux/image/ar7/src/loader.c,v
 retrieving revision 1.2
-diff -u -b -B -u -r1.2 loader.c
+diff -u -b -B -r1.2 loader.c
 --- target/linux/image/ar7/src/loader.c	25 Jul 2005 09:34:53 -0000	1.2
-+++ target/linux/image/ar7/src/loader.c	2 Sep 2005 18:44:58 -0000
-@@ -15,21 +15,23 @@
++++ target/linux/image/ar7/src/loader.c	17 Sep 2005 10:01:17 -0000
+@@ -15,24 +15,32 @@
  #include <linux/config.h>
  #include "gzip.h"
  #include "LzmaDecode.h"
@@ -94,18 +106,29 @@ diff -u -b -B -u -r1.2 loader.c
  	uch *in, *out;
  	int status;
  
-@@ -54,8 +56,8 @@
++#if defined(DEBUG)
++	printf("argc = "); print_i(argc); printf("\n");
++	printf("argv = "); print_i((int)argv); printf("\n");
++	printf("arge = "); print_i((int)arge); printf("\n");
++#endif
++	
+ 	printf("Launching kernel decompressor.\n");
+ 
+ 	out = (unsigned char *) LOADADDR;
+@@ -53,9 +61,9 @@
+ 	}
  }
  
- #if 0
+-#if 0
 -char hex[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 -void print_i(int i)
++#if defined(DEBUG)
 +static const char hex[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 +static void print_i(int i)
  {
  	int j;
  	char buf[11];
-@@ -74,10 +76,8 @@
+@@ -74,10 +82,8 @@
  }
  #endif
  
@@ -117,7 +140,7 @@ diff -u -b -B -u -r1.2 loader.c
  	unsigned int i;  /* temp value */
  	unsigned int lc; /* literal context bits */
  	unsigned int lp; /* literal pos state bits */
-@@ -120,15 +120,18 @@
+@@ -120,15 +126,18 @@
  	return status;
  }
  
@@ -145,10 +168,10 @@ diff -u -b -B -u -r1.2 loader.c
 Index: target/linux/linux-2.4/ar7.mk
 ===================================================================
 RCS file: /openwrt/openwrt/target/linux/linux-2.4/ar7.mk,v
-retrieving revision 1.3
-diff -u -b -B -u -r1.3 ar7.mk
---- target/linux/linux-2.4/ar7.mk	25 Jul 2005 19:25:14 -0000	1.3
-+++ target/linux/linux-2.4/ar7.mk	2 Sep 2005 18:44:58 -0000
+retrieving revision 1.4
+diff -u -b -B -r1.4 ar7.mk
+--- target/linux/linux-2.4/ar7.mk	7 Sep 2005 22:28:21 -0000	1.4
++++ target/linux/linux-2.4/ar7.mk	17 Sep 2005 10:01:17 -0000
 @@ -23,6 +23,9 @@
  	zcat $(DL_DIR)/$(ATM_FIRMWARE_FILE) | tar -C $(BUILD_DIR) $(TAR_OPTIONS) -
  	touch $@
@@ -162,17 +185,34 @@ diff -u -b -B -u -r1.3 ar7.mk
 Index: target/linux/linux-2.4/config/ar7
 ===================================================================
 RCS file: /openwrt/openwrt/target/linux/linux-2.4/config/ar7,v
-retrieving revision 1.18
-diff -u -b -B -u -r1.18 ar7
---- target/linux/linux-2.4/config/ar7	22 Aug 2005 12:20:23 -0000	1.18
-+++ target/linux/linux-2.4/config/ar7	2 Sep 2005 18:44:58 -0000
-@@ -845,6 +845,9 @@
+retrieving revision 1.19
+diff -u -b -B -r1.19 ar7
+--- target/linux/linux-2.4/config/ar7	11 Sep 2005 15:14:28 -0000	1.19
++++ target/linux/linux-2.4/config/ar7	17 Sep 2005 10:01:17 -0000
+@@ -856,7 +856,9 @@
  # CONFIG_JFFS2_BBC_LZSS is not set
  # CONFIG_CRAMFS is not set
  CONFIG_SQUASHFS=y
+-# CONFIG_SQUASHFS_EMBEDDED is not set
 +CONFIG_SQUASHFS_EMBEDDED=y
 +CONFIG_SQUASHFS_FRAGMENT_CACHE_SIZE=3
 +# CONFIG_SQUASHFS_VMALLOC is not set
  CONFIG_TMPFS=y
  CONFIG_RAMFS=y
  CONFIG_ISO9660_FS=m
+Index: target/linux/linux-2.4/patches/ar7/000-ar7_support.patch
+===================================================================
+RCS file: /openwrt/openwrt/target/linux/linux-2.4/patches/ar7/000-ar7_support.patch,v
+retrieving revision 1.12
+diff -u -b -B -r1.12 000-ar7_support.patch
+--- target/linux/linux-2.4/patches/ar7/000-ar7_support.patch	12 Aug 2005 13:59:13 -0000	1.12
++++ target/linux/linux-2.4/patches/ar7/000-ar7_support.patch	17 Sep 2005 10:01:20 -0000
+@@ -2200,7 +2200,7 @@
+ +		int line;
+ +		argptr += strlen("kgdb=ttyS");
+ +		if (*argptr != '0' && *argptr != '1')
+-+			printk("KGDB: Uknown serial line /dev/ttyS%c, "
+++			printk("KGDB: Unknown serial line /dev/ttyS%c, "
+ +					"falling back to /dev/ttyS1\n", *argptr);
+ +		line = *argptr == '0' ? 0 : 1;
+ +		printk("KGDB: Using serial line /dev/ttyS%d for session\n",
