@@ -39,9 +39,12 @@ Projektseite</a> auf BerliOS.
 
 Jegliche &Auml;nderungen an Ger&auml;ten, die nach hier gemachten Angaben erfolgen,
 sind auf eigene Gefahr. Sie k&ouml;nnen zum Verlust der Garantie f&uuml;hren und
-machen im schlimmsten Fall das Ger&auml;t unbrauchbar.
+machen im schlimmsten Fall das Ger&auml;t unbrauchbar.<p>
 
-<h2>Projektplanung (Stand 13.09.2005)</h2>
+Insbesondere jede Ver&auml;nderung des Bootloaders (im Flash) ist fatal und
+daher unbedingt zu vermeiden!
+
+<h2>Projektplanung (Stand 16.09.2005)</h2>
 
 Folgende Schritte sind vorgesehen:
 <ul>
@@ -50,23 +53,27 @@ Dies ist weitgehend abgeschlossen.</li>
 <li>Analyse des Bootloaders, mit dem neue Firmware geladen werden kann.<br>
 Auch hier gibt es schon weitgehende Erkenntnisse.
 Booten von Linux aus dem Flash funktioniert, allerdings wird der Flash dabei
-schlecht ausgenutzt (viel verschenkter Speicher).</li>
+schlecht ausgenutzt
+(jeweils 128 KiB verschenkter Speicher bei Kernel und Filesystem).</li>
 <li>Debugm&ouml;glichkeit schaffen.<br>
 Da ein neuer Firmware-Kernel sicher nicht auf Anhieb so funktionieren
 wird, dass eine Netzwerkverbindung zustande kommt, wird eine
 Diagnosem&ouml;glichkeit ben&ouml;tigt. Optimal w&auml;re eine
 serielle Schnittstelle, notfalls Diagnose
-per Statuslampen. Inzwischen klappt die serielle Verbindung.</li>
+per Statuslampen. Inzwischen klappt die serielle Verbindung,
+und auch zwei der Statuslampen lassen sich ansprechen.
+Leider gibt es aber noch keinen Kernel Debugger (kgdb).</li>
 <li>Auswahl und Erstellung eines Kernels.<br>
 Dazu muss ein geeignetes Betriebssystem ausgew&auml;hlt werden (siehe unten).
-Erste Versuche wurden bereits mit dem Linux-Kernel von OpenWRT gemacht und
-waren teilweise erfolgreich (Shell &uuml;ber serielle Konsole bedienbar,
+Erste Versuche wurden bereits mit dem Linux-Kernel von
+<a href="openwrt/index.html">OpenWRT</a> gemacht und waren schon recht erfolgreich
+(Shell &uuml;ber serielle Konsole oder per Telnet bedienbar,
 komplettes Betriebssystem bootet nach Einschalten direkt aus dem Flash).</li>
 <li>Auswahl und Einbindung weiterer Firmware-Komponenten.<br>
 F&uuml;r WLAN-Treiber und weitere Komponenten wie Shell, Serverdienste,
 Firewall, Bridgefunktionalit&auml;t usw. kann man gl&uuml;cklicherweise
-weitgehend auf andere Open Source
-Projekte zur&uuml;ckgreifen.</li>
+weitgehend auf andere Open Source Projekte zur&uuml;ckgreifen.
+<a href="openwrt/index.html">OpenWRT</a> enth&auml;lt schon alles Notwendige.</li>
 </ul>
 
 <h2>Hardware</h2>
@@ -75,8 +82,8 @@ Projekte zur&uuml;ckgreifen.</li>
 
 <table>
 <tr><th>Ger&auml;t</th><th>Prozessor</th><th>Flash</th><th>RAM</th></tr>
-<tr><td>Sinus 154 DSL Basic SE</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MB</td><td>32 MB</td></tr>
-<tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MB</td><td>32 MB (?)</td></tr>
+<tr><td>Sinus 154 DSL Basic SE</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MiB</td><td>32 MiB</td></tr>
+<tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MiB</td><td>32 MiB (?)</td></tr>
 </table>
 
 <p>
@@ -110,21 +117,21 @@ Jedes Ger&auml;t hat eine Mini-PCI-Karte f&uuml;r WLAN eingebaut.
 
 <table>
 <tr><th>Startadresse</th><th>Endadresse</th><th>Inhalt</th></tr>
-<tr><td>0x80000000</td><td>0x80000fff</td><td>interner RAM 4 KB</td></tr>
+<tr><td>0x80000000</td><td>0x80000fff</td><td>interner RAM 4 KiB</td></tr>
 <tr><td>0x80001000</td><td>0x8fffffff</td><td>?</td></tr>
-<tr><td>0x90000000</td><td>0x91ffffff</td><td>RAM 32 MB</td></tr>
+<tr><td>0x90000000</td><td>0x91ffffff</td><td>RAM 32 MiB</td></tr>
 <tr><td>0x92000000</td><td>0x93ffffff</td><td>?</td></tr>
 <tr><td>0x94000000</td><td>0x95ffffff</td><td>wie 0x90000000?</td></tr>
 <tr><td>0x96000000</td><td>0xafffffff</td><td>?</td></tr>
 <tr><td>0xa8610900</td><td></td><td>GPIO</td></tr>
 <tr><td>0xa8610E00</td><td></td><td>UART</td></tr>
-<tr><td>0xb0000000</td><td>0xb01fffff</td><td>Flash Memory 2 MB</td></tr>
+<tr><td>0xb0000000</td><td>0xb01fffff</td><td>Flash Memory 2 MiB</td></tr>
 <tr><td>0xb0200000</td><td>0xb03fffff</td><td>wie 0xb0000000</td></tr>
 <tr><td>0xb0400000</td><td>0xbfbfffff</td><td>?</td></tr>
-<tr><td>0xbfc00000</td><td>0xbfc00fff</td><td>interner PROM 4 KB</td></tr>
+<tr><td>0xbfc00000</td><td>0xbfc00fff</td><td>interner PROM 4 KiB</td></tr>
 </table>
 
-<h3>Aufteilung Flash Memory (2 MB)</h3>
+<h3>Aufteilung Flash Memory (2 MiB)</h3>
 
 <table>
 <tr><th>Index</th><th>Inhalt</th><th>Adresse</th><th>Gr&ouml;sse</th></tr>
@@ -188,14 +195,21 @@ Hardware? Distribution mit Anpassungen f&uuml;r MIPS-Prozessoren? Kritisch ist
 bei Linux das relativ klein bemessene Flash.<p>
 
 Mit einem gepatchten Linux-Kernel von <a href="http://www.openwrt.org/">OpenWRT</a>
-konnte bereits gebootet werden. OpenWRT stellt auch Komponenten wie Shell usw.
+konnte bereits gebootet werden.
+<a href="openwrt/index.html">OpenWRT</a> stellt auch Komponenten wie Shell usw.
 bereit, ist also eine ziemlich komplette Distribution f&uuml;r Router.<p>
 
-LED-Anzeige, Ethernet, WLAN, DSL und JFFS2 funktionieren noch nicht.
-Der Kernel konnte zun&auml;chst
-nur per serieller Schnittstelle geladen und aus dem RAM gestartet werden -
-dabei war im Flash ein Filesystem (squashfs). Inzwischen laufen Kernel und Filesystem
+WLAN und JFFS2 funktionieren noch nicht.
+DSL wurde noch nicht getestet, k&ouml;nnte aber vielleicht schon tun.<p>
+
+Der Kernel konnte zun&auml;chst nur per serieller Schnittstelle geladen
+und aus dem RAM gestartet werden -
+dabei war im Flash ein Filesystem (squashfs).<p>
+
+Inzwischen laufen Kernel und Filesystem
 nach dem Einschalten automatisch aus dem Flash.
+Auch LED-Anzeige und Ethernet funktionieren.
+Man kann sich also sofort (naja, nach der Bootzeit) per Telnet einloggen.
 
 <h3>Ethernet</h3>
 

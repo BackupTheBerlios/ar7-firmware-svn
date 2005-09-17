@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>OpenWRT f&uuml;r Sinus 154 DSL Basic SE</title>
+	<meta http-equiv="Content-Type" content="text/html">
+	<meta name="author" content="Stefan Weil">
+	<link rel=stylesheet type="text/css" href="/ar7.css" />
+</head>
+
+<body>
+<a href="http://developer.berlios.de">
+<img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS Logo"></a>
+
+<h2>Die OpenWRT Portierung f&uuml;r Sinus 154 DSL Basic SE</h2>
+
+Die Portierung f&uuml; Sinus 154 DSL Basic SE basiert auf den
+<a href="http://openwrt.org/AR7Port">OpenWRT-Erweiterungen</a>
+f&uuml;r die AR7-Prozessorfamilie.<p>
+
+Die Erfahrungen des Projektes k&ouml;nnen sicher auf verwandte Ger&auml;te
+der Sinus 154 Familie und auch weitere anderer Hersteller angewendet werden,
+insbesondere wenn diese den gleichen Bootloader
+von Broad Net Technology verwenden.<p>
+
+<h2>Wichtige Hinweise</h2>
+
+Jegliche &Auml;nderungen an Ger&auml;ten, die nach hier gemachten Angaben erfolgen,
+sind auf eigene Gefahr. Sie k&ouml;nnen zum Verlust der Garantie f&uuml;hren und
+machen im schlimmsten Fall das Ger&auml;t unbrauchbar.<p>
+
+Insbesondere jede Ver&auml;nderung des Bootloaders (im Flash) ist fatal und
+daher unbedingt zu vermeiden!
+
+<h2>Projektstatus (Stand 16.09.2005)</h2>
+
+<h3>Offene Punkte</h3>
+
+Die wichtigsten Punkte stehen zuerst:
+
+<ul>
+<li>Das Flash-Filesystem JFFS2 funktioniert noch nicht.
+Grund daf&uuml;r ist offenbar,
+dass der daf&uuml;r vorgesehene Flash maximal 128 KiB gross ist und
+der Flashtreiber eine Blockgr&ouml;sse von 64 KiB zum L&ouml;schen
+erkennt. Es gibt also nur 2 Bl&ouml;cke, aber JFFS2 ben&ouml;tigt
+mindestens 5 davon!<br>
+Ein funktionierendes Flash-Filesystem w&uuml;rde die weiteren
+Entwicklungsschritte deutlich einfacher machen,
+weil damit einzelne Dateien im Flash ausgetauscht werden k&ouml;nnen.
+<li>WLAN funktionieren noch nicht.</li>
+<li>DSL funktioniert vielleicht, wurde aber noch nicht getestet.</li>
+<li>Der Flash wird zur Zeit schlecht ausgenutzt
+(jeweils 128 KiB verschenkter Speicher bei Kernel und Filesystem).</li>
+<li>Leider gibt es noch keinen Kernel Debugger (kgdb).</li>
+</ul>
+
+<h3>Was geht schon?</h3>
+
+<ul>
+<li>Firmware (Linux-Kernel) und User-Filesystem (Squashfs) lassen
+sich im Bootloader-spezifischen Format erzeugen und mit dem im
+Bootloader integrierten Webserver laden und flashen.</li>
+<li>Booten von Linux aus dem Flash funktioniert.</li>
+<li>Die serielle Verbindung funktioniert und erlaubt Bedienung,
+Anzeige von Logmeldungen und Downloads per XModem-Protokoll.</li>
+<li>Zwei der Diagnose-LEDs lassen sich ansprechen.</li>
+<li>Ethernet funktioniert, damit auch Telnet-Server und Web-Server.</li>
+</ul>
+
+<h3>Betriebssystem</h3>
+
+Verwendet wird der Linux-Kernel 2.4.30 von
+<a href="http://www.openwrt.org/">OpenWRT</a>.
+OpenWRT stellt auch Komponenten wie Shell usw.
+bereit, ist also eine ziemlich komplette Distribution f&uuml;r Router.<p>
+
+Nur der aktuelle CVS-Stand enth&auml;lt die notwendigen Erweiterungen
+f&uuml;r AR7-basierte Router.
+Da der Bootloader des Sinus 154 nicht unterst&uuml;tzt wird,
+sind zus&auml;tzliche Patches notwendig.<p>
+
+Beim Entwickeln wird ein Lader mit komprimiertem Kernel
+per serieller Schnittstelle und XModem-Protokoll auf Adresse 0x94200000
+geladen und direkt aus dem RAM gestartet.
+Der Lader entpackt den Kernel auf Adresse 0x94000000 und startet ihn.<p>
+
+Alternativ kann ein unkomprimierter Kernel auch direkt auf Adresse 0x94000000
+geladen und dort gestartet werden.<p>
+
+F&uuml;r den normalen Betrieb liegt der Kernel als ZIP-Datei im Flash.
+Der Bootloader entpackt ihn automatisch nach Adresse 0x94000000
+und startet ihn auch.<p>
+
+Damit der Kernel mehr macht, als nur Bootmeldungen anzuzeigen, brauchen
+wir noch ein Filesystem im Flash (squashfs).<p>
+
+Mit Kernel und Filesystem im Flash ist der Router rund 35 s nach dem
+Einschalten betriebsbereit: man kann sich per Telnet einloggen.
+
+<h3>Dateiformat Firmware-Image</h3>
+
+Firmware-Images, die vom Webfrontend f&uuml;r Updates akzeptiert werden,
+k&ouml;nnen mit dem kleinen Hilfsprogramm <a href="tools/mkfirm.c">mkfirm</a>
+erzeugt werden. Das Programm enth&auml;lt Informationen zum Dateiformat.<p>
+
+Achtung! Linux-Kernel und Filesystem sind so gross, dass sie nicht in
+ein Firmware-Image passen (genauer: sie passen schon, aber der Bootloader
+st&uuml;rzt beim Ladeversuch ab. Das aktuelle mkfirm.c kann daher getrennte
+Firmware-Images f&uuml;r Kernel und Filesystem erzeugen.
+
+</body>
+</html>
