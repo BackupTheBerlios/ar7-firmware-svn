@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>AR7 Firmware</title>
+	<meta http-equiv="Content-Type" content="text/html">
+	<meta name="author" content="Stefan Weil">
+	<link rel=stylesheet type="text/css" href="ar7.css" />
+</head>
+
+<body>
+<a href="http://developer.berlios.de">
+<img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS Logo"></a>
+<a href="index.html.de">deutsch</a> <a href="index.html.en">english</a>
+
+<h2>Firmware for Sinus 154 DSL Basic SE</h2>
+
+The project's goal is to develop an open source firmware for
+the router device Sinus 154 DSL Basic SE.
+As this device is only distributed in Germany by Deutsche  Telekom,
+most documentation is written in german language.<p>
+
+The english translation is an extract of the german text.<p>
+
+The Sinus 154 DSL Basic SE is based on a CPU which is a member of the
+AR7 family made by Texas Instruments.
+It's original firmware is closed source - maybe
+based on the realtime OS VxWorks from WindRiver Systems.<p>
+
+Extensions and bug fixes from Telekom are rare,
+so we are looking for a firmware
+which must be freely available and
+which allows users to make full usage of their hardware.<p>
+
+Of course all experiances made in this project can also be used for
+other similar devices. If you are owner of such a device, you are welcome
+to contribute.<p>
+
+Please have a look at the developer and user forum and additional
+information at the
+<a href="http://developer.berlios.de/projects/ar7-firmware/">
+project's web site</a> on BerliOS.
+
+<h2>Important Hints</h2>
+
+Any change of the original firmware is at your own risk.
+In the worst case, wrong usage or bad firmware will make your
+device unusable.<p>
+
+Especially changes of the bootloader (in flash memory) are fatal
+and must be avoided!
+
+<h2>Project Status(2005-09-16)</h2>
+
+Currently, on power on a Linux kernel boots from flash memory and uses the
+filesystem (squashfs) from flash. Serial console is available very fast.
+Telnet login on IP address 192.168.2.1 is possible 35 s after power on.<p>
+
+See <a href="openwrt/index.html.en">OpenWRT port</a> for details.
+
+<h2>Hardware</h2>
+
+<h3>Devices</h3>
+
+<table>
+<tr><th>Device</th><th>CPU</th><th>Flash</th><th>RAM</th></tr>
+<tr><td>Sinus 154 DSL Basic SE</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MiB</td><td>32 MiB</td></tr>
+<tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MiB</td><td>32 MiB (?)</td></tr>
+</table>
+
+<p>
+
+There are several other devices with very similar hardware,
+for example from AVM (see <a href="http://www.wehavemorefun.de/fritzbox/">
+Wiki web page</a>).
+
+<h3>Serial Port</h3>
+
+Sinus 154 has a builtin serial connector. You must open the case to get access to it.
+Parameters are 115000 bps 8N1. The serial port uses 3 V signal level, so it
+needs a converter to connect to a standard RS232 port.
+
+The serial port allows firmware uploads, operation and diagnostics using
+the builtin bootloader.
+
+<h3>Memory Table</h3>
+
+<table>
+<tr><th>Start address</th><th>end address</th><th>contents</th></tr>
+<tr><td>0x80000000</td><td>0x80000fff</td><td>internal RAM 4 KiB</td></tr>
+<tr><td>0x80001000</td><td>0x8fffffff</td><td>?</td></tr>
+<tr><td>0x90000000</td><td>0x91ffffff</td><td>RAM 32 MiB</td></tr>
+<tr><td>0x92000000</td><td>0x93ffffff</td><td>?</td></tr>
+<tr><td>0x94000000</td><td>0x95ffffff</td><td>like 0x90000000?</td></tr>
+<tr><td>0x96000000</td><td>0xafffffff</td><td>?</td></tr>
+<tr><td>0xa8610900</td><td></td><td>GPIO</td></tr>
+<tr><td>0xa8610E00</td><td></td><td>UART</td></tr>
+<tr><td>0xb0000000</td><td>0xb01fffff</td><td>Flash Memory 2 MiB</td></tr>
+<tr><td>0xb0200000</td><td>0xb03fffff</td><td>like 0xb0000000</td></tr>
+<tr><td>0xb0400000</td><td>0xbfbfffff</td><td>?</td></tr>
+<tr><td>0xbfc00000</td><td>0xbfc00fff</td><td>internal PROM 4 KiB</td></tr>
+</table>
+
+<h3>Flash Memory Usage (2 MiB)</h3>
+
+<table>
+<tr><th>Index</th><th>Inhalt</th><th>Adresse</th><th>Gr&ouml;sse</th></tr>
+<tr><td>[0] </td><td>Boot            </td><td>0xB0000000     </td><td>128K</td></tr>
+<tr><td>[1] </td><td>Configuration   </td><td>0xB0020000     </td><td>128K</td></tr>
+<tr><td>[2] </td><td>Web Image       </td><td>0xB0040000     </td><td>832K</td></tr>
+<tr><td>[3] </td><td>Code Image      </td><td>0xB0110000     </td><td>896K</td></tr>
+<tr><td>[4] </td><td>Boot Params     </td><td>0xB01F0000      </td><td>64K</td></tr>
+<tr><td>[5] </td><td>Flash Image     </td><td>0xB0000000    </td><td>2048K</td></tr>
+<tr><td>    </td><td>Flashende       </td><td>0xB01FFFFF</td><td></td></tr>
+</table>
+
+<h2>Firmware Components</h2>
+
+<h3>Bootloader</h3>
+
+All devices use a bootloader made by Broad Net Technology, INC.
+The bootloader allows operation via serial port.<p>
+
+<h4>Debug Menu</h4>
+
+By pressing any key immediately after power on,
+the normal boot sequence will stop and the bootloader enters a debug menu.
+Pressing a second key <!> enters the administrator debug menu with
+additional commands.<p>
+
+<pre>
+[U] Upload to Flash
+[E] Erase Flash
+[G] Run Runtime Code
+[M] Upload to Memory
+[R] Read from Memory
+[W] Write to Memory
+[T] Memory Test
+[Y] Go to Memory
+[A] Set MAC Address
+[#] Set Serial Number
+[V] Set Board Version
+[H] Set Options
+[P] Print Boot Params
+</pre>
+
+Administrator mode allows firmware uploads, program uploads to memory and
+running programs from memory.
+
+<h4>Emergency Kernel</h4>
+
+The bootloader also contains an emergency kernel. Use this kernel to repair
+a damaged firmware (this will be possible as long as you do not destroy the
+bootloader itself).
+The emergency kernel is activated by pressing the reset button at power up
+until the operation LED starts to blink.<p>
+
+The kernel starts a DHCP server and a web server. Using URL
+http://192.168.2.1/, new firmware can be loaded into the flash memory.
+
+<h3>File Format for Firmware Images</h3>
+
+Use the program <a href="tools/mkfirm.c">mkfirm</a> to create
+firmware images. See the source code for more information on the
+file format.<p>
+
+Attention! Linux kernel and filesystem are larger than the original firmware.
+Both will fit into a single firmware image,
+but the bootloader crashs when you try to load this image.
+The current version of mkfirm.c supports separate firmware images for
+kernel and filesystem which load without any problem.
+
+</body>
+</html>

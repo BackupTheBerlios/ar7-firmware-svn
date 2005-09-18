@@ -1,0 +1,245 @@
+diff -urN linux-2.4.30-sinus154/drivers/net/avalanche_cpmac/cpmac.c linux-2.4.30-20050916-mit-sinus/drivers/net/avalanche_cpmac/cpmac.c
+--- linux-2.4.30-sinus154/drivers/net/avalanche_cpmac/cpmac.c	2005-09-16 21:45:17.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/drivers/net/avalanche_cpmac/cpmac.c	2005-09-16 20:57:22.000000000 +0200
+@@ -34,8 +34,7 @@
+ #include <linux/config.h>
+ #include <asm/ar7/if_port.h>
+ 
+-extern void build_psp_config(void);
+-extern void psp_config_cleanup(void);
++#include "psp_config_mgr.h"	/* build_psp_config, psp_config_cleanup */
+ 
+ #include "cpmacHalLx.h"
+ #include "cpmac.h"
+@@ -955,9 +954,9 @@
+         dbgPrint("Maintaining the link up loopback for %s.\n", p_dev->name);
+ 	netif_carrier_on(p_dev);
+ 
+-//#if defined (CONFIG_MIPS_AVALANCHE_LED)
+-//        avalanche_led_action(p_cpmac_priv->led_handle, CPMAC_LINK_ON);
+-//#endif
++#if defined (CONFIG_MIPS_AVALANCHE_LED)
++        avalanche_led_action(p_cpmac_priv->led_handle, CPMAC_LINK_ON);
++#endif
+ 
+         return(0);
+     }
+@@ -972,9 +971,9 @@
+ 	{
+             netif_carrier_on(p_cpmac_priv->owner);
+ 
+-//#if defined (CONFIG_MIPS_AVALANCHE_LED)
+-//            avalanche_led_action(p_cpmac_priv->led_handle, CPMAC_LINK_ON);
+-//#endif
++#if defined (CONFIG_MIPS_AVALANCHE_LED)
++            avalanche_led_action(p_cpmac_priv->led_handle, CPMAC_LINK_ON);
++#endif
+ 	    dbgPrint("Found the Link for the CPMAC instance %s.\n", p_dev->name);
+         }
+ 
+@@ -997,9 +996,9 @@
+ 
+ 	    netif_carrier_off(p_dev);
+ 
+-//#if defined (CONFIG_MIPS_AVALANCHE_LED)
+-//            avalanche_led_action(p_cpmac_priv->led_handle, CPMAC_LINK_OFF);
+-//#endif
++#if defined (CONFIG_MIPS_AVALANCHE_LED)
++            avalanche_led_action(p_cpmac_priv->led_handle, CPMAC_LINK_OFF);
++#endif
+ 
+ 	    dbgPrint("Lost the Link for the CPMAC for %s.\n", p_dev->name);
+ 	}
+@@ -1467,7 +1466,7 @@
+     if(!mac_string)
+     {
+         mac_string="08.00.28.32.06.02";
+-        printk("Error getting mac from Boot enviroment for %s\n",p_dev->name);
++        printk("Error getting mac from Boot environment for %s\n",p_dev->name);
+         printk("Using default mac address: %s\n",mac_string);
+         if(mac_name)
+         {
+@@ -1546,9 +1545,9 @@
+ 
+     netif_carrier_off(p_dev);
+ 
+-//#if defined (CONFIG_MIPS_AVALANCHE_LED)
+-//    avalanche_led_action(p_cpmac_priv->led_handle, CPMAC_LINK_OFF);
+-//#endif
++#if defined (CONFIG_MIPS_AVALANCHE_LED)
++    avalanche_led_action(p_cpmac_priv->led_handle, CPMAC_LINK_OFF);
++#endif
+ 
+     /* Tasklet is initialized at the isr registeration time. */
+     p_drv_hal->hal_funcs->Control(p_drv_hal->hal_dev, "CpmacBase", "Get", &p_dev->base_addr);
+@@ -1698,9 +1697,9 @@
+         p_cpmac_priv->link_mode         = 1;
+         netif_carrier_off(p_dev);
+ 
+-//#if defined (CONFIG_MIPS_AVALANCHE_LED)
+-//        avalanche_led_action(p_cpmac_priv->led_handle, CPMAC_LINK_OFF);
+-//#endif
++#if defined (CONFIG_MIPS_AVALANCHE_LED)
++        avalanche_led_action(p_cpmac_priv->led_handle, CPMAC_LINK_OFF);
++#endif
+ 
+         clear_bit(0, &p_cpmac_priv->non_data_irq_expected);
+ 
+@@ -1751,10 +1750,10 @@
+     int                     val           = 1;
+     int                     channel       = 0;
+ 
+-//#if defined (CONFIG_MIPS_AVALANCHE_LED)    
+-//    if(netif_carrier_ok(p_dev))
+-//      avalanche_led_action(p_cpmac_priv->led_handle, CPMAC_LINK_ON);
+-//#endif
++#if defined (CONFIG_MIPS_AVALANCHE_LED)    
++    if(netif_carrier_ok(p_dev))
++      avalanche_led_action(p_cpmac_priv->led_handle, CPMAC_LINK_ON);
++#endif
+ 
+     if(p_dev->flags & IFF_PROMISC)
+     {
+@@ -1920,9 +1919,9 @@
+         goto cpmac_dev_tx_drop_pkt; 
+     }
+ 
+-//#if defined (CONFIG_MIPS_AVALANCHE_LED)
+-//    avalanche_led_action(p_cpmac_priv->led_handle, CPMAC_TX_ACTIVITY);
+-//#endif
++#if defined (CONFIG_MIPS_AVALANCHE_LED)
++    avalanche_led_action(p_cpmac_priv->led_handle, CPMAC_TX_ACTIVITY);
++#endif
+ 
+     return(ret_val);
+ 
+@@ -2219,9 +2218,9 @@
+ 
+     netif_rx(p_skb);
+ 
+-//#if defined (CONFIG_MIPS_AVALANCHE_LED)
+-//    avalanche_led_action(p_cpmac_priv->led_handle, CPMAC_RX_ACTIVITY);	
+-//#endif
++#if defined (CONFIG_MIPS_AVALANCHE_LED)
++    avalanche_led_action(p_cpmac_priv->led_handle, CPMAC_RX_ACTIVITY);	
++#endif
+ 
+     p_cpmac_priv->net_dev_stats.rx_packets++;
+     p_cpmac_priv->net_dev_stats.rx_bytes += packet_size;
+@@ -2325,6 +2324,10 @@
+     //cpmac_cpu_freq = avalanche_clkc_get_freq(CLKC_MIPS);
+     cpmac_cpu_freq = CONFIG_AR7_CPU * 1000 * 1000;
+ 
++    dbgPrint("%s:%u freq = %lu\n", __FILE__, __LINE__, (unsigned long)cpmac_cpu_freq);
++
++    proc_mkdir("avalanche", NULL);
++
+     build_psp_config();                       
+ 
+     for(unit = 0; unit < instance_count; unit++)
+@@ -2494,6 +2497,7 @@
+ 
+     remove_proc_entry("avalanche/cpmac_link",  NULL);
+     remove_proc_entry("avalanche/cpmac_ver",   NULL);
++    remove_proc_entry("avalanche", NULL);
+ 
+     psp_config_cleanup();
+ }
+diff -urN linux-2.4.30-sinus154/drivers/net/avalanche_cpmac/cpmacHalLx.c linux-2.4.30-20050916-mit-sinus/drivers/net/avalanche_cpmac/cpmacHalLx.c
+--- linux-2.4.30-sinus154/drivers/net/avalanche_cpmac/cpmacHalLx.c	2005-09-16 21:45:17.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/drivers/net/avalanche_cpmac/cpmacHalLx.c	2005-09-16 18:15:56.000000000 +0200
+@@ -370,10 +370,13 @@
+     int ret_val = 0;
+     int count   = 0;
+ 
++    dbgPrint("%s:%u\n", __FILE__, __LINE__);
++
+     /* Let's setup the TX Channels. */
+     for(;  p_tx_chan_info->opened_chan > 0; 
+         p_tx_chan_info->opened_chan--, count++)
+     {
++	dbgPrint("%s:%u\n", __FILE__, __LINE__);
+         if(p_hal_funcs->ChannelTeardown(p_hal_dev, count, flags) != 0)
+         {
+             errPrint("Error in tearing down channel %d for TX.\n", count);
+diff -urN linux-2.4.30-sinus154/drivers/net/avalanche_cpmac/cpmac_reg.h linux-2.4.30-20050916-mit-sinus/drivers/net/avalanche_cpmac/cpmac_reg.h
+--- linux-2.4.30-sinus154/drivers/net/avalanche_cpmac/cpmac_reg.h	2005-09-16 21:45:17.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/drivers/net/avalanche_cpmac/cpmac_reg.h	2005-09-16 18:46:41.000000000 +0200
+@@ -403,4 +403,4 @@
+ #define RX_QOS_ACT               (1 << 2)
+ #define RX_FLOW_ACT              (1 << 1)
+ #define TX_FLOW_ACT              (1 << 0)
+-#endif _INC_CPMAC_REG
++#endif // _INC_CPMAC_REG
+diff -urN linux-2.4.30-sinus154/drivers/net/avalanche_cpmac/cppi_cpmac.c linux-2.4.30-20050916-mit-sinus/drivers/net/avalanche_cpmac/cppi_cpmac.c
+--- linux-2.4.30-sinus154/drivers/net/avalanche_cpmac/cppi_cpmac.c	2005-09-16 21:45:17.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/drivers/net/avalanche_cpmac/cppi_cpmac.c	2005-09-16 18:44:03.000000000 +0200
+@@ -1097,6 +1097,7 @@
+    bit32u base = HalDev->dev_base;
+ 
+ /* Set the module, used for error returns */
++   dbgPrintf("%s:%u\n", __FILE__, __LINE__);
+ 
+    DoTx = (Mode & TX_TEARDOWN);
+    DoRx = (Mode & RX_TEARDOWN);
+@@ -1163,6 +1164,8 @@
+     }
+      }
+ 
++   dbgPrintf("%s:%u\n", __FILE__, __LINE__);
++
+    /* Perform Tx Teardown Duties */
+    if ((DoTx) && (HalDev->State == enOpened))
+      {
+@@ -1180,12 +1183,15 @@
+             timeout++;
+         if (timeout > 100000)
+           {
++               dbgPrintf("%s:%u\n", __FILE__, __LINE__);
+                return(EC_CPMAC |EC_FUNC_CHTEARDOWN|EC_VAL_TX_TEARDOWN_TIMEOUT);
+           }
+        }
+     }
+      } /* if DoTx */
+ 
++   dbgPrintf("%s:%u\n", __FILE__, __LINE__);
++
+    /* Perform Rx Teardown Duties */
+    if ((DoRx) && (HalDev->State == enOpened))
+      {
+diff -urN linux-2.4.30-sinus154/drivers/net/avalanche_cpmac/dox_cpmac.h linux-2.4.30-20050916-mit-sinus/drivers/net/avalanche_cpmac/dox_cpmac.h
+--- linux-2.4.30-sinus154/drivers/net/avalanche_cpmac/dox_cpmac.h	2005-09-16 21:45:17.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/drivers/net/avalanche_cpmac/dox_cpmac.h	2005-09-16 18:45:30.000000000 +0200
+@@ -520,7 +520,7 @@
+ 
+ 
+    OsFunc->Memset                    = memset;
+-   OsFunc->Printf                    = printf;
++   OsFunc->Printf                    = printk;
+    OsFunc->Sprintf                   = sprintf;
+    OsFunc->Strcmpi                   = osStrcmpi;
+    OsFunc->Strlen                    = strlen;
+diff -urN linux-2.4.30-sinus154/drivers/net/avalanche_cpmac/psp_config_build.c linux-2.4.30-20050916-mit-sinus/drivers/net/avalanche_cpmac/psp_config_build.c
+--- linux-2.4.30-sinus154/drivers/net/avalanche_cpmac/psp_config_build.c	2005-09-16 21:45:17.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/drivers/net/avalanche_cpmac/psp_config_build.c	2005-09-16 17:27:11.000000000 +0200
+@@ -127,6 +127,8 @@
+             phy_sel = SELECT_INT_PHY_MAC;
+         }
+ 
++	printk("%s:%d detected cpmac_phy = %d\n", __FILE__, __LINE__, auto_detect_cpmac_phy());
++
+         //if(phy_sel == auto_detect_cpmac_phy())
+         if(!mac_port || (0 != strcmp(mac_port, "0")))
+         {
+diff -urN linux-2.4.30-sinus154/drivers/net/avalanche_cpmac/psp_config_mgr.h linux-2.4.30-20050916-mit-sinus/drivers/net/avalanche_cpmac/psp_config_mgr.h
+--- linux-2.4.30-sinus154/drivers/net/avalanche_cpmac/psp_config_mgr.h	2005-09-16 21:45:17.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/drivers/net/avalanche_cpmac/psp_config_mgr.h	2005-09-13 22:47:20.000000000 +0200
+@@ -105,6 +105,8 @@
+   -------------------------------------------------------------------------*/
+ void  psp_config_print(char *key);
+ 
++void  psp_config_cleanup(void);
++
+ void  dump_device_cfg_pool(void);
+ 
+ #endif /* __PSP_CONFIG_MGR_H__ */

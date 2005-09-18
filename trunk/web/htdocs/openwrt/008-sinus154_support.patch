@@ -1,0 +1,921 @@
+diff -urN linux-2.4.30-sinus154/arch/mips/ar7/cmdline.c linux-2.4.30-20050916-mit-sinus/arch/mips/ar7/cmdline.c
+--- linux-2.4.30-sinus154/arch/mips/ar7/cmdline.c	2005-09-16 22:08:42.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/arch/mips/ar7/cmdline.c	2005-09-16 21:50:13.000000000 +0200
+@@ -41,7 +41,10 @@
+ 
+ void  __init prom_init_cmdline(void)
+ {
+-	char *cp;
++    char *cp = prom_getenv("cmdline");
++    if (cp != 0) {
++        strncpy(arcs_cmdline, cp, sizeof(arcs_cmdline));
++    } else {
+ 	int actr;
+ 
+ 	actr = 1; /* Always ignore argv[0] */
+@@ -61,4 +64,5 @@
+ 	if (cp != &(arcs_cmdline[0])) /* get rid of trailing space */
+ 		--cp;
+ 	*cp = '\0';
++    }
+ }
+diff -urN linux-2.4.30-sinus154/arch/mips/ar7/init.c linux-2.4.30-20050916-mit-sinus/arch/mips/ar7/init.c
+--- linux-2.4.30-sinus154/arch/mips/ar7/init.c	2005-09-16 22:08:42.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/arch/mips/ar7/init.c	2005-09-16 21:54:14.000000000 +0200
+@@ -39,7 +39,75 @@
+ /* max # of Adam2 environment variables */
+ #define MAX_ENV_ENTRY 80
+ 
++#if 0
+ static t_env_var local_envp[MAX_ENV_ENTRY];
++#else // SINUS
++static t_env_var local_envp[/*MAX_ENV_ENTRY*/] = {
++	// Ethernet
++        {"ethaddr", "192.168.2.1"},
++        {"maca", "01:02:03:04:05:06"},
++	{"mac_phy_sel", "int"},			// unused?
++	{"MAC_PORT", "0"},			// internal = 0, external = 1
++	{"threshold", "20"},
++	// ATM
++	{"oam_lb_timeout", "5000"},
++        {"modulation", "MMODE"},
++        {"enable_margin_retrain", 0},
++        {"enable_rate_adapt", 0},
++        {"enable_trellis", 0},
++        {"maximum_bits_per_carrier", 0},
++        {"maximum_interleave_depth", 0},
++        {"pair_selection", 0},
++        {"dgas_polarity", 0},
++        {"los_alarm", 0},
++        {"eoc_vendor_id", 0},
++        {"macc", "00:01:02:03:04:05"},
++        {"sar_ipacemax", "2"},
++        {"TurboDSL", "1"},
++	//
++	{"memsize", "0x02000000"},
++        {"modetty0", "115200,n,8,1,hw"},
++	// MTD partitions
++        {"mtd0", "0x90000000,0x90020000,adam2"},      // Boot
++        {"mtd4", "0x90020000,0x90040000,OpenWrt"},    // Configuration
++#if 1
++        {"mtd5", "0x90040000,0x90050000,pfs"},        // Web Image (reserved)
++        {"mtd2", "0x90050000,0x90110000,rootfs"},     // Web Image
++#else
++        {"mtd2", "0x90040000,0x90110000,rootfs"},     // Web Image
++#endif
++        {"mtd1", "0x90110000,0x901F0000,linux"},      // Code Image
++        {"mtd3", "0x901F0000,0x90200000,config"},     // Boot Params
++        //~ {"cmdline", "root=/dev/nfs rw nfsroot=192.168.0.2:/nfsroot console=ttyS0,115200 init=/etc/preinit noinitrd"},
++        {"cmdline", "root=/dev/mtdblock2 rootfstype=squashfs,jffs2 console=ttyS0,115200 init=/etc/preinit noinitrd"},
++        {0}
++#if 0
++flashsize       0x00400000
++modetty1        38400,n,8,1,hw
++bootserport     tty0
++cpufrequency    150000000
++sysfrequency    125000000
++bootloaderVersion       0.22.02
++ProductID       AR7WRD
++HWRevision      Unknown
++SerialNumber    none
++my_ipaddress    10.48.88.66
++usb_vid 0x0
++usb_pid 0x0
++usb_rndis_mac   00.0d.88.11.03.02
++usb_board_mac   00.0d.88.22.03.02
++usb_man N/A
++usb_prod        N/A
++usb_serial      1234567890
++prompt  Adam2_AR7RD
++firstfreeaddress        0x9401d328
++req_fullrate_freq       125000000
++autoload        1
++mac_ap  00:0F:3D:98:09:F4
++#endif
++};
++#endif
++
+ static int env_type = 0;
+ int init_debug = 0;
+ 
+@@ -69,6 +137,7 @@
+ 		env++;
+ 	}
+ 
++	printk("*** getenv(%s) not found\n", envname);
+ 	return NULL;
+ }
+ 
+@@ -138,6 +207,7 @@
+ 
+ int __init prom_init(int argc, char **argv, char **envp)
+ {
++#if 0
+ 	int i;
+ 
+ 	t_env_var *env = (t_env_var *) envp;
+@@ -171,10 +241,15 @@
+ 			}
+ 		}
+ 	}
++#endif
+ 
+ 	set_io_port_base(0);
+ 
++#if 0
+ 	prom_printf("\nLINUX started...\n");
++#else
++	printk("\nLINUX started...\n");
++#endif
+ 	prom_init_cmdline();
+ 	prom_meminit();
+ 
+diff -urN linux-2.4.30-sinus154/arch/mips/ar7/Makefile linux-2.4.30-20050916-mit-sinus/arch/mips/ar7/Makefile
+--- linux-2.4.30-sinus154/arch/mips/ar7/Makefile	2005-09-16 22:08:42.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/arch/mips/ar7/Makefile	2005-09-11 12:42:23.000000000 +0200
+@@ -9,6 +9,8 @@
+ 
+ obj-y := tnetd73xx_misc.o misc.o
+ export-objs := misc.o
++obj-y += paging.o
+ obj-y += setup.o irq.o mipsIRQ.o reset.o init.o psp_env.o memory.o printf.o cmdline.o time.o
+ 
+ include $(TOPDIR)/Rules.make
++
+diff -urN linux-2.4.30-sinus154/arch/mips/ar7/paging.c linux-2.4.30-20050916-mit-sinus/arch/mips/ar7/paging.c
+--- linux-2.4.30-sinus154/arch/mips/ar7/paging.c	1970-01-01 01:00:00.000000000 +0100
++++ linux-2.4.30-20050916-mit-sinus/arch/mips/ar7/paging.c	2005-09-11 12:42:23.000000000 +0200
+@@ -0,0 +1,265 @@
++/*
++ *  -*- linux-c -*-
++ * This file is subject to the terms and conditions of the GNU General Public
++ * License.  See the file "COPYING" in the main directory of this archive
++ * for more details.
++ *
++ * Copyright (C) 2002 by Jeff Harrell (jharrell@ti.com)
++ * Copyright (C) 2002 Texas Instruments, Inc.
++ *
++ */
++
++/*
++ * This file takes care of the "memory hole" issue that exists with the standard
++ * linux kernel and the TI Avalanche ASIC.  The Avalanche ASIC requires an offset
++ * of 0x14000000 due to the ASIC's memory map constraints.  This file corrects the
++ * paging tables so that the only reflect valid memory (i.e. > 0x14000000)
++ * 
++ *  -JAH
++ */
++#include <linux/config.h>
++#include <linux/signal.h>
++#include <linux/sched.h>
++#include <linux/kernel.h>
++#include <linux/errno.h>
++#include <linux/string.h>
++#include <linux/types.h>
++#include <linux/ptrace.h>
++#include <linux/mman.h>
++#include <linux/mm.h>
++#include <linux/swap.h>
++#include <linux/smp.h>
++#include <linux/init.h>
++#ifdef CONFIG_BLK_DEV_INITRD
++#include <linux/blk.h>
++#endif /* CONFIG_BLK_DEV_INITRD */
++#include <linux/highmem.h>
++#include <linux/bootmem.h>
++
++#include <asm/processor.h>
++#include <asm/system.h>
++#include <asm/uaccess.h>
++#include <asm/pgtable.h>
++#include <asm/pgalloc.h>
++#include <asm/mmu_context.h>
++#include <asm/io.h>
++#include <asm/tlb.h>
++#include <asm/cpu.h>
++
++static unsigned long totalram_pages;
++/* static unsigned long totalhigh_pages; */
++
++#define START_PFN (NODE_DATA(0)->bdata->node_boot_start >> PAGE_SHIFT)
++#define MAX_LOW_PFN (NODE_DATA(0)->bdata->node_low_pfn)
++
++#define PFN_UP(x)  (((x) + PAGE_SIZE - 1) >> PAGE_SHIFT)
++#define PFN_DOWN(x)        ((x) >> PAGE_SHIFT)
++#define PFN_PHYS(x)        ((x) << PAGE_SHIFT)
++
++/*
++ * We have upto 8 empty zeroed pages so we can map one of the right colour
++ * when needed.  This is necessary only on R4000 / R4400 SC and MC versions
++ * where we have to avoid VCED / VECI exceptions for good performance at
++ * any price.  Since page is never written to after the initialization we
++ * don't have to care about aliases on other CPUs.
++ */
++
++static inline unsigned long setup_zero_pages(void)
++{
++	unsigned long order, size;
++	struct page *page;
++	if(current_cpu_data.options & MIPS_CPU_VCE) 
++		order = 3;
++	else 
++		order = 0;
++
++	empty_zero_page = __get_free_pages(GFP_KERNEL, order);
++
++	if (!empty_zero_page)
++		panic("Oh boy, that early out of memory?");
++
++	page = virt_to_page(empty_zero_page);
++
++	while (page < virt_to_page(empty_zero_page + (PAGE_SIZE << order))) {
++		set_bit(PG_reserved, &page->flags);
++		set_page_count(page, 0);
++		page++;
++	}
++
++	size = PAGE_SIZE << order;
++	zero_page_mask = (size - 1) & PAGE_MASK;
++	memset((void *)empty_zero_page, 0, size);
++
++	return 1UL << order;
++}
++
++/*
++ * paging_init() sets up the page tables
++ *
++ * This routines also unmaps the page at virtual kernel address 0, so
++ * that we can trap those pesky NULL-reference errors in the kernel.
++ */
++void __init paging_init(void)
++{
++	unsigned long zones_size[MAX_NR_ZONES] = {0, 0, 0};
++	unsigned long low, start_pfn;
++
++	/* Initialize the entire pgd.  */
++	pgd_init((unsigned long)swapper_pg_dir);
++	pgd_init((unsigned long)swapper_pg_dir + PAGE_SIZE / 2);
++
++
++	start_pfn = START_PFN;
++	// max_dma = virt_to_phys((char *)MAX_DMA_ADDRESS) >> PAGE_SHIFT;
++	low = MAX_LOW_PFN;
++
++	/* Avalanche DMA-able memory 0x14000000+memsize */
++
++	zones_size[ZONE_DMA] = low - start_pfn;
++
++	free_area_init_node(0, NODE_DATA(0), 0, zones_size, CONFIG_AR7_MEMORY, 0);
++}
++
++extern char _ftext, _etext, _fdata, _edata, _end;
++extern char __init_begin, __init_end;
++
++void __init mem_init(void)
++{
++	int codesize, reservedpages, datasize, initsize;
++	int tmp;
++
++	max_mapnr = num_physpages = MAX_LOW_PFN - START_PFN;
++	high_memory = (void *)__va(MAX_LOW_PFN * PAGE_SIZE);
++
++	/* free up the memory associated with Adam2 -
++	 * that is the, after the first page that is 
++	 * reserved all the way up to the start of the kernel
++	 */
++	free_bootmem_node(NODE_DATA(0), (CONFIG_AR7_MEMORY+PAGE_SIZE),
++			(__pa(&_ftext))-(CONFIG_AR7_MEMORY+PAGE_SIZE) );
++
++	/* this will put all low memory onto the freelists */
++	totalram_pages += free_all_bootmem_node(NODE_DATA(0));
++
++	/* Setup zeroed pages */
++	totalram_pages -= setup_zero_pages();	
++
++	reservedpages = 0;
++	for (tmp = 0; tmp < num_physpages; tmp++)
++		/*
++		 * Only count reserved RAM pages
++		 */
++		if (PageReserved(mem_map+tmp))
++			reservedpages++;
++
++	codesize =  (unsigned long) &_etext - (unsigned long) &_ftext;
++	datasize =  (unsigned long) &_edata - (unsigned long) &_fdata;
++	initsize =  (unsigned long) &__init_end - (unsigned long) &__init_begin;
++
++	printk("Memory: %luk/%luk available (%dk kernel code, %dk reserved, %dk data, %dk init)\n",
++			(unsigned long) nr_free_pages() << (PAGE_SHIFT-10),
++			max_mapnr << (PAGE_SHIFT-10),
++			codesize >> 10,
++			reservedpages << (PAGE_SHIFT-10),
++			datasize >> 10,
++			initsize >> 10);
++
++}
++
++/* fixes paging routines for avalanche  (utilized in /arch/mips/kernel/setup.c) */
++
++void avalanche_bootmem_init(void)
++{
++	unsigned long start_pfn, max_pfn;
++	unsigned long max_low_pfn;
++	unsigned int memory_end,memory_start;
++	unsigned long bootmap_size;
++
++	memory_start = (unsigned long)PAGE_OFFSET+CONFIG_AR7_MEMORY;
++	memory_end = memory_start + 0x02000000;
++
++	/*
++	 * Find the highest memory page fram number we have available 
++	 */
++
++	max_pfn = PFN_DOWN(__pa(memory_end));
++
++	/*
++	 * Determine the low and high memory ranges 
++	 */
++
++	max_low_pfn = max_pfn;
++
++	/*
++	 * Partially used pages are not usable - thus we are
++	 * rounding upwards:
++	 */
++
++	start_pfn = PFN_UP(__pa(&_end));
++
++	/*
++	 * Find a proper area for the bootmem bitmap. After this
++	 * bootstrap step all allocations (until the page allocator is
++	 * intact)  must be done via bootmem_alloc().
++	 */
++
++	bootmap_size = init_bootmem_node(NODE_DATA(0), start_pfn,
++			CONFIG_AR7_MEMORY>>PAGE_SHIFT, max_low_pfn);
++
++
++	/* 
++	 * Register fully available low RAM pages with the bootmem allocator.
++	 */
++
++	{
++		unsigned long curr_pfn, last_pfn, pages;
++
++		/*
++		 * We are rounding up the start address of usable memory:
++		 */
++		curr_pfn = PFN_UP(CONFIG_AR7_MEMORY);
++
++		/*
++		 * ... and at the end of the usable range downwards:
++		 */
++		last_pfn = PFN_DOWN(__pa(memory_end));
++
++		if (last_pfn > max_low_pfn)
++			last_pfn = max_low_pfn;
++
++		pages = last_pfn - curr_pfn;
++
++
++		free_bootmem_node(NODE_DATA(0), PFN_PHYS(curr_pfn),
++				PFN_PHYS(pages));
++	}
++
++	/*
++	 * Reserve the kernel text and
++	 * Reserve the bootmem bitmap. We do this in two steps (first step
++	 * was init_bootmem()), because this catches the (definitely buggy)
++	 * case of us accidentally initializing the bootmem allocator with
++	 * an invalid RAM area.
++	 */
++	reserve_bootmem_node(NODE_DATA(0), CONFIG_AR7_MEMORY+PAGE_SIZE,
++			(PFN_PHYS(start_pfn)+bootmap_size+PAGE_SIZE-1)-CONFIG_AR7_MEMORY);
++
++	/*
++	 * reserve physical page 0 - it's a special BIOS page on many boxes,
++	 * enabling clean reboots, SMP operation, laptop functions.
++	 */
++	reserve_bootmem_node(NODE_DATA(0), CONFIG_AR7_MEMORY, PAGE_SIZE);
++}
++
++void si_meminfo(struct sysinfo *val)
++{
++	val->totalram = totalram_pages;
++	val->sharedram = 0;
++	val->freeram = nr_free_pages();
++	val->bufferram = atomic_read(&buffermem_pages);
++	val->totalhigh = 0;
++	val->freehigh = nr_free_highpages();
++	val->mem_unit = PAGE_SIZE;
++
++	return;
++}
+diff -urN linux-2.4.30-sinus154/arch/mips/kernel/entry.S linux-2.4.30-20050916-mit-sinus/arch/mips/kernel/entry.S
+--- linux-2.4.30-sinus154/arch/mips/kernel/entry.S	2003-08-25 13:44:40.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/arch/mips/kernel/entry.S	2005-09-11 12:42:23.000000000 +0200
+@@ -87,10 +87,65 @@
+ 		j	ret_from_irq
+ END(spurious_interrupt)
+ 
++/* SINUS */
++	/* TLB Miss Vector */
++
++LEAF(jump_tlb_miss)
++        .set mips2
++        lui     k0,0x9400
++        ori     k0,0
++        jr      k0
++        nop
++END(jump_tlb_miss)
++
++        /* Unused TLB Miss Vector */
++
++LEAF(jump_tlb_miss_unused)
++        .set mips2
++        lui     k0,0x9400
++        ori     k0,0x80
++        jr      k0
++        nop
++END(jump_tlb_miss_unused)
++
++        /* Cache Error Vector */
++
++LEAF(jump_cache_error)
++        .set mips2
++        lui     k0,0x9400
++        ori     k0,0x100
++        jr      k0
++        nop
++END(jump_cache_error)
++
++        /* General Exception */
++
++LEAF(jump_general_exception)
++        .set mips2
++        lui     k0,0x9400
++        ori     k0,0x180
++        jr      k0
++        nop
++END(jump_general_exception)
++
++        /* Dedicated Interrupt */
++
++LEAF(jump_dedicated_interrupt)
++        .set mips2
++        lui     k0,0x9400
++        ori     k0,0x200
++        jr      k0
++        nop
++END(jump_dedicated_interrupt)
++
+ 		__INIT
+ 
+ 		.set	reorder
+ 
++NESTED(except_vec0_generic, 0, sp)
++		PANIC("Exception vector 0 called")
++END(except_vec0_generic)
++
+ NESTED(except_vec1_generic, 0, sp)
+ 		PANIC("Exception vector 1 called")
+ END(except_vec1_generic)
+diff -urN linux-2.4.30-sinus154/arch/mips/kernel/head.S linux-2.4.30-20050916-mit-sinus/arch/mips/kernel/head.S
+--- linux-2.4.30-sinus154/arch/mips/kernel/head.S	2005-09-16 22:08:42.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/arch/mips/kernel/head.S	2005-09-11 21:41:24.000000000 +0200
+@@ -29,11 +29,14 @@
+ #include <asm/stackframe.h>
+ 
+ 		.text
++		lui	k0,%hi(kernel_entry)
++		ori	k0,%lo(kernel_entry)
++		jr	k0
+ 		/*
+ 		 * Reserved space for exception handlers.
+ 		 * Necessary for machines which link their kernels at KSEG0.
+ 		 */
+-		.fill	0x400
++		.fill	0x400 - 4 * 4
+ 
+ 		/* The following two symbols are used for kernel profiling. */
+ 		EXPORT(stext)
+diff -urN linux-2.4.30-sinus154/arch/mips/kernel/setup.c linux-2.4.30-20050916-mit-sinus/arch/mips/kernel/setup.c
+--- linux-2.4.30-sinus154/arch/mips/kernel/setup.c	2005-09-16 22:08:42.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/arch/mips/kernel/setup.c	2005-09-16 20:15:08.000000000 +0200
+@@ -109,6 +109,7 @@
+ unsigned long isa_slot_offset;
+ EXPORT_SYMBOL(isa_slot_offset);
+ 
++extern void avalanche_bootmem_init(void);
+ extern void SetUpBootInfo(void);
+ extern void load_mmu(void);
+ extern asmlinkage void start_kernel(void);
+@@ -123,6 +124,19 @@
+ 	/* Determine which MIPS variant we are running on. */
+ 	cpu_probe();
+ 
++	
++	// SINUS hack.
++	printk("%s:%d\n", __FILE__, __LINE__);
++	printk("argc = %d\n", argc);
++	printk("argv = 0x%p\n", argv);
++	printk("envp = 0x%p\n", envp);
++	printk("prom_vec = 0x%p\n", prom_vec);
++	if (argc < 0 || argc > 10) {
++		argv = 0;
++		envp = 0;
++		prom_vec = 0;
++	}
++	
+ 	prom_init(argc, argv, envp, prom_vec);
+ 
+ 	cpu_report();
+@@ -235,7 +249,7 @@
+ #define PFN_DOWN(x)	((x) >> PAGE_SHIFT)
+ #define PFN_PHYS(x)	((x) << PAGE_SHIFT)
+ 
+-#ifdef CONFIG_AR7
++#ifdef CONFIG_AR7_
+ #define MAXMEM		HIGHMEM_START + CONFIG_AR7_MEMORY
+ #else
+ #define MAXMEM		HIGHMEM_START
+@@ -271,6 +285,11 @@
+ #endif	/* CONFIG_BLK_DEV_INITRD */
+ 
+ 	/* Find the highest page frame number we have available.  */
++#ifdef CONFIG_AR7 // SINUS
++	printk("%s:%d\n", __FILE__, __LINE__);
++	avalanche_bootmem_init();
++#else
++	printk("%s:%d\n", __FILE__, __LINE__);
+ 	max_pfn = 0;
+ 	first_usable_pfn = -1UL;
+ 	for (i = 0; i < boot_mem_map.nr_map; i++) {
+@@ -309,6 +328,7 @@
+ 		printk(KERN_WARNING "Use a HIGHMEM enabled kernel.\n");
+ #endif
+ 	}
++	printk("max_low_pfn = 0x%08lx\n", max_low_pfn);
+ 
+ #ifdef CONFIG_HIGHMEM
+ 	/*
+@@ -324,7 +344,7 @@
+ #endif
+ 
+ 	/* Initialize the boot-time allocator with low memory only.  */
+-#ifdef CONFIG_AR7
++#ifdef CONFIG_AR7_ // SINUS
+ 	bootmap_size = init_bootmem_node(NODE_DATA(0), start_pfn,
+ 			CONFIG_AR7_MEMORY >> PAGE_SHIFT, max_low_pfn);
+ #else
+@@ -386,6 +406,7 @@
+ 	/* Reserve the bootmap memory.  */
+ 	reserve_bootmem(PFN_PHYS(first_usable_pfn), bootmap_size);
+ 
++#endif
+ #ifdef CONFIG_BLK_DEV_INITRD
+ 	/* Board specific code should have set up initrd_start and initrd_end */
+ 	ROOT_DEV = MKDEV(RAMDISK_MAJOR, 0);
+@@ -428,6 +449,7 @@
+ 
+ 		start = boot_mem_map.map[i].addr;
+ 		end = boot_mem_map.map[i].addr + boot_mem_map.map[i].size - 1;
++		printk("start = 0x%08lx, end = 0x%08lx, maxmem = 0x%08lx\n", start, end, MAXMEM);
+ 		if (start >= MAXMEM)
+ 			continue;
+ 		if (end >= MAXMEM)
+diff -urN linux-2.4.30-sinus154/arch/mips/kernel/traps.c linux-2.4.30-20050916-mit-sinus/arch/mips/kernel/traps.c
+--- linux-2.4.30-sinus154/arch/mips/kernel/traps.c	2005-09-16 22:08:42.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/arch/mips/kernel/traps.c	2005-09-11 12:42:23.000000000 +0200
+@@ -923,16 +923,27 @@
+ 	enter_lazy_tlb(&init_mm, current, cpu);
+ }
+ 
++#include <asm/mipsregs.h>
+ void __init trap_init(void)
+ {
+ 	extern char except_vec1_generic;
++	extern char except_vec2_generic;
+ 	extern char except_vec3_generic, except_vec3_r4000;
+ 	extern char except_vec_ejtag_debug;
+ 	extern char except_vec4;
++ #ifdef CONFIG_AR7
++	extern char jump_tlb_miss, jump_tlb_miss_unused;
++	extern char jump_cache_error,jump_general_exception;
++	extern char jump_dedicated_interrupt;
+ 	unsigned long i;
++	clear_c0_status(ST0_BEV);
++#endif
+ 
+ 	/* Copy the generic exception handler code to it's final destination. */
+ 	memcpy((void *)(KSEG0 + 0x80), &except_vec1_generic, 0x80);
++	memcpy((void *)(KSEG0 + 0x100), &except_vec2_generic, 0x80);
++	memcpy((void *)(KSEG0 + 0x180), &except_vec1_generic, 0x80);
++	memcpy((void *)(KSEG0 + 0x200), &except_vec1_generic, 0x80);
+ 
+ 	/*
+ 	 * Setup default vectors
+@@ -1030,9 +1041,15 @@
+ 		board_nmi_handler_setup();
+ #ifdef CONFIG_AR7
+ 	memcpy((void *)(KSEG0 + CONFIG_AR7_MEMORY + 0x80), &except_vec1_generic, 0x80);
++	memcpy((void *)(KSEG0 + CONFIG_AR7_MEMORY + 0x100), &except_vec2_generic, 0x80);
+ 	memcpy((void *)(KSEG0 + CONFIG_AR7_MEMORY + 0x180), &except_vec3_generic, 0x80);
+ 	memcpy((void *)(KSEG0 + CONFIG_AR7_MEMORY + 0x200), &except_vec4, 8);
+-	flush_icache_range(KSEG0 + CONFIG_AR7_MEMORY, KSEG0 + CONFIG_AR7_MEMORY + 0x208);
++        memcpy((void *)(KSEG0 + 0x0),   &jump_tlb_miss, 0x80);
++        memcpy((void *)(KSEG0 + 0x80),  &jump_tlb_miss_unused, 0x80);
++        memcpy((void *)(KSEG0 + 0x100), &jump_cache_error, 0x80);
++        memcpy((void *)(KSEG0 + 0x180), &jump_general_exception, 0x80);
++        memcpy((void *)(KSEG0 + 0x200), &jump_dedicated_interrupt, 0x80);
++	flush_icache_range(KSEG0 + CONFIG_AR7_MEMORY, KSEG0 + CONFIG_AR7_MEMORY + 0x400);
+ #endif
+ 
+ 	flush_icache_range(KSEG0, KSEG0 + 0x400);
+diff -urN linux-2.4.30-sinus154/arch/mips/Makefile linux-2.4.30-20050916-mit-sinus/arch/mips/Makefile
+--- linux-2.4.30-sinus154/arch/mips/Makefile	2005-09-16 22:08:42.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/arch/mips/Makefile	2005-09-11 21:54:37.000000000 +0200
+@@ -375,7 +375,7 @@
+ ifdef CONFIG_AR7
+ LIBS		+= arch/mips/ar7/ar7.o
+ SUBDIRS		+= arch/mips/ar7
+-LOADADDR	+= 0x94020000
++LOADADDR	+= 0x94000000
+ endif
+ 
+ #
+diff -urN linux-2.4.30-sinus154/arch/mips/mm/init.c linux-2.4.30-20050916-mit-sinus/arch/mips/mm/init.c
+--- linux-2.4.30-sinus154/arch/mips/mm/init.c	2005-09-16 22:08:42.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/arch/mips/mm/init.c	2005-09-11 12:42:23.000000000 +0200
+@@ -235,11 +235,14 @@
+ #endif
+ }
+ 
++#ifndef CONFIG_AR7 // SINUS
+ void __init paging_init(void)
+ {
+ 	unsigned long zones_size[MAX_NR_ZONES] = {0, 0, 0};
+ 	unsigned long max_dma, high, low;
+ 
++	printk("%s:%d\n", __FILE__, __LINE__);
++
+ 	pagetable_init();
+ 
+ #ifdef CONFIG_HIGHMEM
+@@ -279,6 +282,7 @@
+ 	free_area_init(zones_size);
+ #endif
+ }
++#endif // SINUS
+ 
+ #define PFN_UP(x)	(((x) + PAGE_SIZE - 1) >> PAGE_SHIFT)
+ #define PFN_DOWN(x)	((x) >> PAGE_SHIFT)
+@@ -305,6 +309,7 @@
+ 	return 0;
+ }
+ 
++#ifndef CONFIG_AR7 // SINUS
+ #ifdef CONFIG_AR7
+ #define START_PFN (NODE_DATA(0)->bdata->node_boot_start >> PAGE_SHIFT)
+ #define MAX_LOW_PFN (NODE_DATA(0)->bdata->node_low_pfn)
+@@ -314,6 +319,8 @@
+ 	unsigned long codesize, reservedpages, datasize, initsize;
+ 	unsigned long tmp, ram;
+ 
++	printk("%s:%d\n", __FILE__, __LINE__);
++
+ #if defined(CONFIG_DISCONTIGMEM) && defined(CONFIG_HIGHMEM)
+ #error "CONFIG_HIGHMEM and CONFIG_DISCONTIGMEM dont work together yet"
+ #endif
+@@ -328,6 +335,8 @@
+ #endif
+ 	
+ #ifdef CONFIG_AR7
++	max_low_pfn = MAX_LOW_PFN;
++
+ 	max_mapnr = num_mappedpages = num_physpages = MAX_LOW_PFN - START_PFN;
+ 	high_memory = (void *) __va(MAX_LOW_PFN * PAGE_SIZE);
+ 	
+@@ -344,12 +353,15 @@
+ 	totalram_pages -= setup_zero_pages();	/* Setup zeroed pages.  */
+ 
+ 	reservedpages = ram = 0;
+-	for (tmp = 0; tmp < max_low_pfn; tmp++)
++	printk("%s:%d max_low_pfn = 0x%08x, MAX_LOW_PFN = 0x%08x, mem_map = 0x%08x\n", __FILE__, __LINE__, max_low_pfn, MAX_LOW_PFN, mem_map);
++	for (tmp = 0; tmp < max_low_pfn; tmp++) {
+ 		if (page_is_ram(tmp)) {
++			if ((tmp % 0x100) == 0) printk("Found RAM at 0x%08lx\n", tmp);
+ 			ram++;
+ 			if (PageReserved(mem_map+tmp))
+ 				reservedpages++;
+ 		}
++	}
+ 
+ #ifdef CONFIG_HIGHMEM
+ 	for (tmp = highstart_pfn; tmp < highend_pfn; tmp++) {
+@@ -381,7 +393,10 @@
+ 	       datasize >> 10,
+ 	       initsize >> 10,
+ 	       (unsigned long) (totalhigh_pages << (PAGE_SHIFT-10)));
++
++	show_mem();
+ }
++#endif // SINUS
+ 
+ #ifdef CONFIG_BLK_DEV_INITRD
+ void free_initrd_mem(unsigned long start, unsigned long end)
+@@ -420,6 +435,7 @@
+ 	       (&__init_end - &__init_begin) >> 10);
+ }
+ 
++#ifndef CONFIG_AR7 // SINUS
+ void si_meminfo(struct sysinfo *val)
+ {
+ 	val->totalram = totalram_pages;
+@@ -432,3 +448,4 @@
+ 
+ 	return;
+ }
++#endif // SINUS
+diff -urN linux-2.4.30-sinus154/arch/mips/mm/tlb-r4k.c linux-2.4.30-20050916-mit-sinus/arch/mips/mm/tlb-r4k.c
+--- linux-2.4.30-sinus154/arch/mips/mm/tlb-r4k.c	2005-09-16 22:08:39.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/arch/mips/mm/tlb-r4k.c	2005-09-11 12:42:23.000000000 +0200
+@@ -375,7 +375,12 @@
+ 		else if (current_cpu_data.cputype == CPU_R4600)
+ 			memcpy((void *)KSEG0, &except_vec0_r4600, 0x80);
+ 		else
++#ifdef CONFIG_AR7
++			memcpy((void *)(KSEG0+CONFIG_AR7_MEMORY), &except_vec0_r4000, 0x80);
++		flush_icache_range((KSEG0+CONFIG_AR7_MEMORY), (KSEG0+CONFIG_AR7_MEMORY) + 0x80);
++#else
+ 			memcpy((void *)KSEG0, &except_vec0_r4000, 0x80);
+ 		flush_icache_range(KSEG0, KSEG0 + 0x80);
++#endif
+ 	}
+ }
+diff -urN linux-2.4.30-sinus154/drivers/mtd/chips/cfi_cmdset_0001.c linux-2.4.30-20050916-mit-sinus/drivers/mtd/chips/cfi_cmdset_0001.c
+--- linux-2.4.30-sinus154/drivers/mtd/chips/cfi_cmdset_0001.c	2004-11-17 12:54:21.000000000 +0100
++++ linux-2.4.30-20050916-mit-sinus/drivers/mtd/chips/cfi_cmdset_0001.c	2005-09-15 18:52:34.000000000 +0200
+@@ -65,7 +65,7 @@
+ };
+ 
+ /* #define DEBUG_LOCK_BITS */
+-/* #define DEBUG_CFI_FEATURES */
++#define DEBUG_CFI_FEATURES
+ 
+ #ifdef DEBUG_CFI_FEATURES
+ static void cfi_tell_features(struct cfi_pri_intelext *extp)
+diff -urN linux-2.4.30-sinus154/drivers/mtd/chips/cfi_probe.c linux-2.4.30-20050916-mit-sinus/drivers/mtd/chips/cfi_probe.c
+--- linux-2.4.30-sinus154/drivers/mtd/chips/cfi_probe.c	2005-09-16 22:08:40.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/drivers/mtd/chips/cfi_probe.c	2005-09-15 18:37:22.000000000 +0200
+@@ -18,7 +18,7 @@
+ #include <linux/mtd/cfi.h>
+ #include <linux/mtd/gen_probe.h>
+ 
+-//#define DEBUG_CFI 
++#define DEBUG_CFI 
+ 
+ #ifdef DEBUG_CFI
+ static void print_cfi_ident(struct cfi_ident *);
+diff -urN linux-2.4.30-sinus154/drivers/mtd/maps/ar7-flash.c linux-2.4.30-20050916-mit-sinus/drivers/mtd/maps/ar7-flash.c
+--- linux-2.4.30-sinus154/drivers/mtd/maps/ar7-flash.c	2005-09-16 22:08:42.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/drivers/mtd/maps/ar7-flash.c	2005-09-15 18:30:43.000000000 +0200
+@@ -24,7 +24,7 @@
+ static int create_mtd_partitions(void);
+ static void __exit ar7_mtd_cleanup(void);
+ 	
+-#define MAX_NUM_PARTITIONS 5
++#define MAX_NUM_PARTITIONS 6
+ static struct mtd_partition ar7_partinfo[MAX_NUM_PARTITIONS];
+ 
+ static struct mtd_info *ar7_mtd_info;
+@@ -105,6 +105,8 @@
+ 		return -ENXIO;
+ 	}
+ 	
++       	printk(KERN_NOTICE "ar7 flash erase size: 0x%lx.\n", (unsigned long)ar7_mtd_info->erasesize);
++
+ 	ar7_mtd_info->module = THIS_MODULE;
+ 
+ 	if (!(partitions = create_mtd_partitions()))
+@@ -135,11 +137,13 @@
+ 	char *env_ptr;
+ 	char *base_ptr;
+ 	char *end_ptr;
++#if 0 // SINUS hack
+ 	unsigned int adam2_size = 0x20000;
+ 	unsigned int config_offset = WINDOW_SIZE;
+ 	unsigned int rootfs_start = 0xe0000;
+ 
+ 	printk("Parsing ADAM2 partition map...\n");
++#endif
+ 	
+ 	do {
+ 		char	env_name[20];
+@@ -157,6 +161,7 @@
+ 		/* Extract the start and stop addresses of the partition */
+ 		base_ptr = strtok(env_ptr, ",");
+ 		end_ptr = strtok(NULL, ",");
++		env_ptr = strtok(NULL, ",");
+ 		if ((base_ptr == NULL) || (end_ptr == NULL)) {	
+ 			printk("ADAM2 partition error: Invalid %s start,end.\n", env_name);
+ 			break;
+@@ -173,8 +178,20 @@
+ 		size = flash_end - flash_base;
+ 		printk("Found a %s image (0x%x), with size (0x%x).\n",env_name, offset, size);
+ 
+-		
+-		if (offset == 0) {
++		if (env_ptr != 0) {
++			ar7_partinfo[p].name = strdup(env_ptr);
++			ar7_partinfo[p].offset = offset;
++			ar7_partinfo[p].size = size;
++			ar7_partinfo[p].mask_flags = 0;
++#if 0 // SINUS hack
++			if (strcmp(name, "adam2") == 0) {
++				adam2_size = size;
++			} else if (strcmp(name, "config") == 0) {
++				config_offset = offset;
++			} else if (strcmp(name, "rootfs") == 0) {
++				rootfs_start = offset;
++			}
++		} else if (offset == 0) {
+ 			printk("Assuming adam2 size of 0x%x\n", size);
+ 			adam2_size = size; 			// boot loader
+ 		} else if (offset > 0x120000) {
+@@ -183,13 +200,15 @@
+ 		} else if (offset > 0x30000) {
+ 			printk("Assuming default rootfs offset of 0x%x\n", offset);
+ 			rootfs_start = offset;			// probably root fs
++#endif
+ 		}
+ 		
+ 		p++;
+ 	} while (p < MAX_NUM_PARTITIONS);
+ 	
++#if 0 // SINUS hack
+ 	p = 0;
+-	
++
+ 	ar7_partinfo[p].name = strdup("adam2");
+ 	ar7_partinfo[p].offset = 0;
+ 	ar7_partinfo[p].size = adam2_size;
+@@ -241,6 +260,7 @@
+ 			ar7_partinfo[p - 2].size -= ar7_mtd_info->erasesize - (rootfs_start % ar7_mtd_info->erasesize);
+ 		}
+ 	}
++#endif
+ 
+ 	return p;
+ }
+diff -urN linux-2.4.30-sinus154/drivers/mtd/maps/Config.in linux-2.4.30-20050916-mit-sinus/drivers/mtd/maps/Config.in
+--- linux-2.4.30-sinus154/drivers/mtd/maps/Config.in	2005-09-16 22:08:42.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/drivers/mtd/maps/Config.in	2005-09-15 19:00:35.000000000 +0200
+@@ -54,7 +54,7 @@
+       if [ "$CONFIG_MTD_AR7" = "y" -o "$CONFIG_MTD_AR7" = "m" ]; then
+          if [ "$CONFIG_MTD_AR7_DEFAULTS" = "y" ]; then
+             define_hex CONFIG_MTD_AR7_START 0x10000000
+-            define_hex CONFIG_MTD_AR7_LEN 0x400000
++            define_hex CONFIG_MTD_AR7_LEN 0x00200000
+             define_int CONFIG_MTD_AR7_BUSWIDTH 2
+          else
+             hex '      Physical start address of flash mapping' CONFIG_MTD_AR7_START 0x10000000
+diff -urN linux-2.4.30-sinus154/fs/jffs2/nodemgmt.c linux-2.4.30-20050916-mit-sinus/fs/jffs2/nodemgmt.c
+--- linux-2.4.30-sinus154/fs/jffs2/nodemgmt.c	2002-08-03 02:39:45.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/fs/jffs2/nodemgmt.c	2005-09-14 20:49:27.000000000 +0200
+@@ -87,6 +87,7 @@
+ 			int ret;
+ 
+ 			up(&c->alloc_sem);
++			D1(printk(KERN_DEBUG "free = %u, erasing = %u, needed = %u\n", c->nr_free_blocks, c->nr_erasing_blocks, blocksneeded));
+ 			if (c->dirty_size < c->sector_size) {
+ 				D1(printk(KERN_DEBUG "Short on space, but total dirty size 0x%08x < sector size 0x%08x, so -ENOSPC\n", c->dirty_size, c->sector_size));
+ 				spin_unlock_bh(&c->erase_completion_lock);
+diff -urN linux-2.4.30-sinus154/fs/jffs2/pushpull.c linux-2.4.30-20050916-mit-sinus/fs/jffs2/pushpull.c
+--- linux-2.4.30-sinus154/fs/jffs2/pushpull.c	2001-10-05 00:13:18.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/fs/jffs2/pushpull.c	2005-09-14 19:20:10.000000000 +0200
+@@ -51,6 +51,7 @@
+ int pushbit(struct pushpull *pp, int bit, int use_reserved)
+ {
+ 	if (pp->ofs >= pp->buflen - (use_reserved?0:pp->reserve)) {
++		printk("%s:%d no space", __FILE__, __LINE__);
+ 		return -ENOSPC;
+ 	}
+ 
+diff -urN linux-2.4.30-sinus154/net/ipv4/netfilter/ip_conntrack_core.c linux-2.4.30-20050916-mit-sinus/net/ipv4/netfilter/ip_conntrack_core.c
+--- linux-2.4.30-sinus154/net/ipv4/netfilter/ip_conntrack_core.c	2005-09-16 22:08:41.000000000 +0200
++++ linux-2.4.30-20050916-mit-sinus/net/ipv4/netfilter/ip_conntrack_core.c	2005-09-11 12:42:23.000000000 +0200
+@@ -1469,10 +1469,13 @@
+ 	WRITE_UNLOCK(&ip_conntrack_lock);
+ 
+ 	for (i = 0; i < ip_conntrack_htable_size; i++)
++	{
+ 		INIT_LIST_HEAD(&ip_conntrack_hash[i]);
++	}
+ 
+ 	/* For use by ipt_REJECT */
+ 	ip_ct_attach = ip_conntrack_attach;
++	
+ 	return ret;
+ 
+ err_free_hash:

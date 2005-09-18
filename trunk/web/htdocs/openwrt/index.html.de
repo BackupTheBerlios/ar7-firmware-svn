@@ -10,10 +10,11 @@
 <body>
 <a href="http://developer.berlios.de">
 <img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS Logo"></a>
+<a href="index.html.de">deutsch</a> <a href="index.html.en">english</a>
 
 <h2>Die OpenWRT Portierung f&uuml;r Sinus 154 DSL Basic SE</h2>
 
-Die Portierung f&uuml; Sinus 154 DSL Basic SE basiert auf den
+Die Portierung f&uuml;r Sinus 154 DSL Basic SE basiert auf den
 <a href="http://openwrt.org/AR7Port">OpenWRT-Erweiterungen</a>
 f&uuml;r die AR7-Prozessorfamilie.<p>
 
@@ -77,8 +78,8 @@ bereit, ist also eine ziemlich komplette Distribution f&uuml;r Router.<p>
 Nur der aktuelle CVS-Stand enth&auml;lt die notwendigen Erweiterungen
 f&uuml;r AR7-basierte Router.
 Da der Bootloader des Sinus 154 nicht unterst&uuml;tzt wird,
-sind zus&auml;tzliche <a href="target.patch">Patches</a>
-und <a href="files.tar.bz2">Dateien</a> notwendig.<p>
+sind zus&auml;tzliche
+<a href="patches.html.en">Patches und Dateien</a> notwendig.<p>
 
 Beim Entwickeln wird ein Lader mit komprimiertem Kernel
 per serieller Schnittstelle und XModem-Protokoll auf Adresse 0x94200000

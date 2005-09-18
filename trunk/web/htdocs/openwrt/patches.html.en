@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>OpenWRT Patches for Sinus 154 DSL Basic SE</title>
+	<meta http-equiv="Content-Type" content="text/html">
+	<meta name="author" content="Stefan Weil">
+	<link rel=stylesheet type="text/css" href="/ar7.css" />
+</head>
+
+<body>
+<a href="http://developer.berlios.de">
+<img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS Logo"></a>
+
+<h2>OpenWRT Patches for Sinus 154 DSL Basic SE</h2>
+
+<h3>New Files</h3>
+
+Get the <a href="files.tar.bz2">Tar archive</a> with all new files.
+
+<h4>target/linux/image/ar7/src/entry.c</h4>
+
+I need a loader with a known start address and had trouble, because the
+compiler rearranged the startup code. So this file only defines the very
+first startup function.
+
+<h4>target/linux/image/ar7/src/loader.h</h4>
+
+Every external function should be declared in a header file
+(and not in C code), so I started a new one...
+
+<h4>target/linux/image/ar7/src/uart16550.c</h4>
+
+I do not know the entry point of the bootloader's output function,
+so this code directly uses the serial port for diagnostics output.
+It should work with any AR7 based device.
+
+<h4>target/linux/image/ar7/src/uart16550.h</h4>
+
+This file belongs to uart16550.c.
+
+<h3>Patches</h3>
+
+<h4><a href="007-cpmac_driver.patch">target/linux/linux-2.4/patches/ar7/007-cpmac_driver.patch</a></h4>
+
+This patch contains some minor bug fixes (usable for all AR7 devices)
+and additional debug messages (I had trouble getting ethernet running at first,
+and unloading of the module still hangs a long time).
+
+<h4><a href="008-sinus154_support.patch">target/linux/linux-2.4/patches/ar7/008-sinus154_support.patch</a></h4>
+
+These patches mainly implementent some sort of ADAM2 emulation.
+Sinus 154 does not use an ADAM2 bootloader, but the OpenWRT uses many of its
+features.<p>
+
+I also had trouble with the original code for trap handling.
+
+<h4><a href="009-diag_driver.patch">target/linux/linux-2.4/patches/ar7/009-diag_driver.patch</a></h4>
+
+OpenWRT CVS head fails during compilation for AR7 because diag.o is missing.
+This patch implements two diag LEDs for the Sinus 154 (maybe also for other
+devices?).
+
+<h3>Configuration Files</h3>
+
+<h4><a href=".config">.config</a></h4>
+
+This is a stripped configuration. The original one from OpenWRT includes
+too many features for our 2 MiB flash memory (and needs too much time for
+compilation during development).
+
+</body>
+</html>
