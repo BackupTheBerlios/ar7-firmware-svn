@@ -76,8 +76,31 @@ Wiki web page</a>).
 <h3>Serial Port</h3>
 
 Sinus 154 has a builtin serial connector. You must open the case to get access to it.
-Parameters are 115000 bps 8N1. The serial port uses 3 V signal level, so it
-needs a converter to connect to a standard RS232 port.
+Parameters are 115000 bps 8N1. The serial port uses 3,3 V signal level, so it
+needs a converter to connect to a standard RS232 port. I use the MAX232CPE,
+here are the connections:<p>
+
+<table>
+<tr><th>Sinus 154</th><th>Usage</th><th>MAX232CPE</th></tr>
+<tr><td>1</td><td>3,3 V</td><td>16</td></tr>
+<tr><td>2</td><td>GND</td><td>15</td></tr>
+<tr><td>6</td><td>out</td><td>11</td></tr>
+<tr><td>8</td><td>in</td><td>12</td></tr>
+</table>
+
+<listing>
+Sinus 154 connector (on PCB)
+
+  2   6 8     |
+  x x x x x   |
+  x x x x x   |
+  1           |
+--------------+
+</listing>
+
+See
+<a href="http://hri.sourceforge.net/tools/">http://hri.sourceforge.net/tools/</a>
+or the Maxim web pages for wiring details.<p>
 
 The serial port allows firmware uploads, operation and diagnostics using
 the builtin bootloader.

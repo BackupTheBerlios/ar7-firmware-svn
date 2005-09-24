@@ -97,7 +97,35 @@ Wiki-Webseite</a>). Deren Firmware ist aber nicht direkt verwendbar.
 
 Alle Ger&auml;te haben eine serielle Schnittstelle, die aber nur im Ger&auml;t
 zug&auml;nglich ist. Schnittstellenparameter 115000 bps 8N1. F&uuml;r den
-Anschluss an PCs wird ein Pegelkonverter ben&ouml;tigt.
+Anschluss an PCs wird ein Pegelkonverter von 3,3 V auf RS232 ben&ouml;tigt.
+Ich verwende einen MAX232CPE, der bei jedem der grossen Elektronikversender
+erh&auml;ltlich ist. Eine
+<a href="http://www.wehavemorefun.de/fritzbox/Serielle_Konsole">alternative
+L&ouml;sung</a> unter Verwendung eines Handykabels hat bei mir nicht
+funktioniert.
+Hier sind die notwendigen Verbindungen:<p>
+
+<table>
+<tr><th>Sinus 154</th><th>Belegung</th><th>MAX232CPE</th></tr>
+<tr><td>1</td><td>3,3 V</td><td>16</td></tr>
+<tr><td>2</td><td>GND</td><td>15</td></tr>
+<tr><td>6</td><td>out</td><td>11</td></tr>
+<tr><td>8</td><td>in</td><td>12</td></tr>
+</table>
+
+<listing>
+Sinus 154 Steckerleiste (im Ger&auml;t)
+
+  2   6 8     |
+  x x x x x   |
+  x x x x x   |
+  1           |
+--------------+
+</listing>
+
+Hinweise zur Beschaltung des MAX232CPE findet man beispielsweise unter
+<a href="http://hri.sourceforge.net/tools/">http://hri.sourceforge.net/tools/</a>
+oder auf den Webseiten von Maxim.<p>
 
 &Uuml;ber die serielle Schnittstelle kann die Firmware geladen, bedient und
 diagnostiziert werden.

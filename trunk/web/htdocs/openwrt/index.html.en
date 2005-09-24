@@ -42,6 +42,14 @@ last 5 blocks!
 <li>ADSL might work, but is still untested.</li>
 <li>Flash usage is not optized (kernel and filesystem waste 128 KiB each).</li>
 <li>Kernel debugger (kgdb) is missing.</li>
+<li>Serial port shows wrong baud value:
+<pre>
+serinfo:1.0 driver:5.05c revision:2001-07-08
+0: uart:16550A port:A8610E00 irq:15 baud:6776 tx:1463 rx:44 RTS|CTS|DTR
+1: uart:16550A port:A8610F00 irq:16 baud:566 tx:47 rx:0 RTS|DTR
+</pre>
+</li>
+
 </ul>
 
 <h3>Working Topics</h3>
