@@ -85,21 +85,38 @@ typedef struct {
 	size_t soho_size;
 } device_t;
 
-#define KB 1024
+#define KiB 1024
+#define MiB (KiB * KiB)
+
+/* Please note:
+ * Not all entries in the following device table could be verified.
+ * Unknown values are marked with BRN??? or 0 * KiB.
+ */
 
 static const device_t device[] = {
-	{"BRNABR", "SMC7004ABR", 0x30000, 0xbb800},
+	// http://hri.sourceforge.net/hw/smc7004abr/
+	{"BRNABR", "SMC7004ABR V2", 576 * KiB, 192 * KiB},
+	// http://hri.sourceforge.net/hw/smc7004vbr/
+	{"BRN???", "SMC7004VBR", 0 * KiB, 0 * KiB},	
+	// http://hri.sourceforge.net/SMC7004/
 	{"BRNAW", "SMC7004VWBR", 0x30000, 0xbb800},
-	{"BRN154BAS", "Sinus 154 DSL Basic SE", 832 * KB, 896 * KB},
+	// http://hri.sourceforge.net/hw/index.html
+	{"BRN???", "SMC7004FW", 0 * KiB, 0 * KiB},	
+	{"BRN???", "SMC7004WFW", 0 * KiB, 0 * KiB},	
+	// http://hri.sourceforge.net/hw/smc2804wbr/
+	{"BRN2804W", "SMC2804WBR V1", 0 * KiB, 0 * KiB},	
+	// http://hri.sourceforge.net/hw/northq9100/
+	{"BRN6104V2", "NorthQ9100", 0x30000, 0x90000},
 	//{"BRN154BAS", "Sinus 154 DSL Basic SE", 0x30000, 0xbb800},
-	{"BRNDTBAS3", "Sinus 154 DSL Basic 3", 0x30000, 0xbb800},
-	{"BRN154DSL", "Sinus 154 DSL", 0x30000, 0xbb800},
-	{"BRN154KOM", "Sinus 154 DSL Komfort", 0x30000, 0xbb800},
+	{"BRN154BAS", "Sinus 154 DSL Basic SE", 832 * KiB, 896 * KiB},
+	{"BRNDTBAS3", "Sinus 154 DSL Basic 3", 832 * KiB, 896 * KiB},
+	{"BRN154DSL", "Sinus 154 DSL", 0 * KiB, 0 * KiB},
+	{"BRN154KOM", "Sinus 154 DSL Komfort", 0 * KiB, 0 * KiB},
 	{0}
 };
 
 /* buffer must be large enough to contain pfs + soho + signature */
-static unsigned char buffer[0x200000];
+static unsigned char buffer[4 * MiB];
 
 static unsigned char signature[10];
 

@@ -12,15 +12,16 @@
 <img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS Logo"></a>
 <a href="index.html.de">deutsch</a> <a href="index.html.en">english</a>
 
-<h2>Firmware f&uuml;r Sinus 154 DSL Basic SE</h2>
+<h2>Firmware f&uuml;r Sinus 154 DSL Basic SE und Sinus 154 DSL Basic 3</h2>
 
 In diesem Projekt m&ouml;chten wir als erstes eine Open Source Firmware
-f&uuml;r den DSL-Router Sinus 154 DSL Basic SE
-entwickeln. Dieses Ger&auml;t wird in Deutschland von der Telekom
-vermarktet und ist daher vermutlich sehr verbreitet.<p>
+f&uuml;r die DSL-Router Sinus 154 DSL Basic SE und das fast baugleiche
+Sinus 154 DSL Basic 3 entwickeln.
+Diese Ger&auml;te werden in Deutschland von der Telekom
+vermarktet und sind daher vermutlich sehr verbreitet.<p>
 
-Das Sinus 154 DSL Basic SE basiert auf einem Prozessor der AR7-Familie von
-Texas Instruments und verwendet im Originalzustand eine Closed Source
+Beide basieren auf einem Prozessor der AR7-Familie von
+Texas Instruments und verwenden im Originalzustand eine Closed Source
 Firmware, vermutlich 
 mit dem Echtzeitbetriebssystem VxWorks von WindRiver Systems.<p>
 
@@ -83,8 +84,8 @@ weitgehend auf andere Open Source Projekte zur&uuml;ckgreifen.
 
 <table>
 <tr><th>Ger&auml;t</th><th>Prozessor</th><th>Flash</th><th>RAM</th></tr>
-<tr><td>Sinus 154 DSL Basic SE</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MiB</td><td>32 MiB</td></tr>
-<tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MiB</td><td>32 MiB (?)</td></tr>
+<tr><td>Sinus 154 DSL Basic SE</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MiB</td><td>16 MiB</td></tr>
+<tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MiB</td><td>16 MiB (?)</td></tr>
 </table>
 
 <p>
@@ -148,9 +149,8 @@ Jedes Ger&auml;t hat eine Mini-PCI-Karte f&uuml;r WLAN eingebaut.
 <tr><th>Startadresse</th><th>Endadresse</th><th>Inhalt</th></tr>
 <tr><td>0x80000000</td><td>0x80000fff</td><td>interner RAM 4 KiB</td></tr>
 <tr><td>0x80001000</td><td>0x8fffffff</td><td>?</td></tr>
-<tr><td>0x90000000</td><td>0x91ffffff</td><td>RAM 32 MiB</td></tr>
-<tr><td>0x92000000</td><td>0x93ffffff</td><td>?</td></tr>
-<tr><td>0x94000000</td><td>0x95ffffff</td><td>wie 0x90000000?</td></tr>
+<tr><td>0x90000000</td><td>0x90ffffff</td><td>RAM 16 MiB</td></tr>
+<tr><td>0x91000000</td><td>0x95ffffff</td><td>wie 0x90000000?</td></tr>
 <tr><td>0x96000000</td><td>0xafffffff</td><td>?</td></tr>
 <tr><td>0xa8610900</td><td></td><td>GPIO</td></tr>
 <tr><td>0xa8610E00</td><td></td><td>UART</td></tr>

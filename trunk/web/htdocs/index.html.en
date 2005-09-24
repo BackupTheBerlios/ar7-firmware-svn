@@ -12,11 +12,12 @@
 <img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS Logo"></a>
 <a href="index.html.de">deutsch</a> <a href="index.html.en">english</a>
 
-<h2>Firmware for Sinus 154 DSL Basic SE</h2>
+<h2>Firmware for Sinus 154 DSL Basic SE and Sinus 154 DSL Basic 3</h2>
 
 The project's goal is to develop an open source firmware for
-the router device Sinus 154 DSL Basic SE.
-As this device is only distributed in Germany by Deutsche  Telekom,
+the router device Sinus 154 DSL Basic SE (and the Sinus 154 DSL Basic 3,
+which is nearly identical).
+As these devices are only distributed in Germany by Deutsche Telekom,
 most documentation is written in german language.<p>
 
 The english translation is an extract of the german text.<p>
@@ -63,8 +64,8 @@ See <a href="openwrt/index.html.en">OpenWRT port</a> for details.
 
 <table>
 <tr><th>Device</th><th>CPU</th><th>Flash</th><th>RAM</th></tr>
-<tr><td>Sinus 154 DSL Basic SE</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MiB</td><td>32 MiB</td></tr>
-<tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MiB</td><td>32 MiB (?)</td></tr>
+<tr><td>Sinus 154 DSL Basic SE</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MiB</td><td>16 MiB</td></tr>
+<tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MiB</td><td>16 MiB (?)</td></tr>
 </table>
 
 <p>
@@ -111,9 +112,8 @@ the builtin bootloader.
 <tr><th>Start address</th><th>end address</th><th>contents</th></tr>
 <tr><td>0x80000000</td><td>0x80000fff</td><td>internal RAM 4 KiB</td></tr>
 <tr><td>0x80001000</td><td>0x8fffffff</td><td>?</td></tr>
-<tr><td>0x90000000</td><td>0x91ffffff</td><td>RAM 32 MiB</td></tr>
-<tr><td>0x92000000</td><td>0x93ffffff</td><td>?</td></tr>
-<tr><td>0x94000000</td><td>0x95ffffff</td><td>like 0x90000000?</td></tr>
+<tr><td>0x90000000</td><td>0x90ffffff</td><td>RAM 16 MiB</td></tr>
+<tr><td>0x91000000</td><td>0x95ffffff</td><td>like 0x90000000?</td></tr>
 <tr><td>0x96000000</td><td>0xafffffff</td><td>?</td></tr>
 <tr><td>0xa8610900</td><td></td><td>GPIO</td></tr>
 <tr><td>0xa8610E00</td><td></td><td>UART</td></tr>
