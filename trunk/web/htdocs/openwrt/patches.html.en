@@ -66,7 +66,12 @@ devices?).
 
 This is a stripped configuration. The original one from OpenWRT includes
 too many features for our 2 MiB flash memory (and needs too much time for
-compilation during development).
+compilation during development).<p>
+
+Some features were added because I needed them during development:
+changes for busybox (added cmp, od, rx).<p>
+
+The IP address was changed to the default for Sinus 154, 192.168.2.1.
 
 </body>
 </html>
