@@ -182,13 +182,16 @@ int main(int argc,char *argv[])
 	char *data_file_name;
 	char packet_data[ XMODEM_DATA_SIZE ];
 	char frame_data[ XMODEM_DATA_SIZE + XMODEM_CRC_SIZE + XMODEM_FRAME_ID_SIZE + 1 ];
-	unsigned char tmp;
 	FILE *datafile;
 	int complete,retry_num,pack_counter,read_number,write_number,i;
 	unsigned short crc_value;
 	unsigned char ack_id;
+	long filelength;
+	long readlength = 0;
 
-	printf("sx-at91 started...\r\n");
+	setbuf(stderr, NULL);
+	
+	fprintf(stderr, "sx-at91 started...\n");
 	
 	//**open serial port1
 	if ( (fd = Initial_SerialPort()) == -1)  
@@ -202,8 +205,12 @@ int main(int argc,char *argv[])
 		return -1 ;
 	}
 
+	fseek(datafile, 0, SEEK_END);
+	filelength = ftell(datafile);
+	fseek(datafile, 0, SEEK_SET);
+
 	//*******************************
-	
+
 	pack_counter = 0;
 	complete = 0;
 	retry_num = 0;
@@ -211,7 +218,7 @@ int main(int argc,char *argv[])
 
 	while((read(fd,&ack_id,1))<=0);
 	
-	printf("%c\r\n",ack_id);
+	fprintf(stderr, "%c\n", ack_id);
 	ack_id=XMODEM_ACK;
 	while(!complete)
 	{
@@ -223,10 +230,11 @@ int main(int argc,char *argv[])
 			read_number = fread( packet_data, sizeof(char), XMODEM_DATA_SIZE, datafile);
 			if(read_number>0)
 			{
+				readlength += read_number;
 				if(read_number<XMODEM_DATA_SIZE_SOH)
 				{
-			
-					printf("Start filling the last frame!\r\n");
+					fprintf(stderr, "\n");
+					fprintf(stderr, "Start filling the last frame!\n");
 					for(;read_number<XMODEM_DATA_SIZE;read_number++)
 						packet_data[read_number] = 0x00;
 				}
@@ -241,19 +249,21 @@ int main(int argc,char *argv[])
 				frame_data[XMODEM_DATA_SIZE_SOH+3]=(unsigned char)(crc_value >> 8);
 				frame_data[XMODEM_DATA_SIZE_SOH+4]=(unsigned char)(crc_value);
 				write_number = write( fd, frame_data, XMODEM_DATA_SIZE_SOH + 5);
-				printf("waiting for ACK,%d,%d,...",pack_counter,write_number);
+				fprintf(stderr, "waiting for ACK,%d,%d,...", pack_counter, write_number);
 				while((read(fd,&ack_id,1))<=0);
 			
+				fprintf(stderr, "%ld %% ", readlength * 100 / filelength);
+
 				if(ack_id == XMODEM_ACK)
-					printf("Ok!\r\n");
+					fprintf(stderr, "Ok!\r");
 				else
-					printf("Error!\r\n");
+					fprintf(stderr, "Error!\n");
 			}
 			else
 			{
 				ack_id = XMODEM_EOT;
 				complete = 1;
-				printf("Waiting for complete ACK ...");
+				fprintf(stderr, "Waiting for complete ACK ...");
 			
 				while(ack_id != XMODEM_ACK)
 				{
@@ -261,33 +271,33 @@ int main(int argc,char *argv[])
 					write_number=write(fd,&ack_id,1);
 					while((read(fd,&ack_id,1))<=0);
 				}
-				printf("OK\r\n");
+				fprintf(stderr, "OK\n");
 		
-				printf("Sending file complete\r\n");
+				fprintf(stderr, "Sending file complete\n");
 			}
 		break;
 
 		case XMODEM_NAK:
 			if( retry_num++ > 10) 
 			{
-				printf("Retry too many times,Quit!\r\n");
+				fprintf(stderr, "Retry too many times, quit!\n");
 				complete = 1;
 			}
 			else
 			{
 				write_number = write(fd,frame_data,XMODEM_DATA_SIZE + 5);
-				printf("Retry for ACK,%d,%d...",pack_counter,write_number);
+				fprintf(stderr, "Retry for ACK,%d,%d...", pack_counter, write_number);
 				while((read(fd,&ack_id,1))<=0);
 				
 				if( ack_id == XMODEM_ACK )
-					printf("OK\r\n");
+					fprintf(stderr, "OK\n");
 				else
-					printf("Error!\r\n");
+					fprintf(stderr, "Error!\n");
 			}
 		break;
 
 		default:
-			printf("Fatal Error!\r\n");
+			fprintf(stderr, "Fatal Error!\n");
 			complete = 1;
 		break;
 		}
