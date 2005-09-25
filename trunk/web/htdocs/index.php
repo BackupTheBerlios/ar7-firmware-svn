@@ -51,11 +51,12 @@ if ( file_exists("/usr/local/httpd/include/adsense.php") ) {
 <tr VALIGN=TOP>
 <td align=center>
 <h2>Welcome to <?php echo "http://".$HTTP_HOST; ?></h2>
-<p>We are sorry but this project has not yet uploaded its personal webpage yet.
-<br>Please check back soon for updates or visit <a href="http://developer.berlios.de/">BerliOS Developer Project</a> Homepage.
+<p>We are sorry but this project does not support your native language.
+<br>Perhaps you might add english to your browser settings.
+<br>Please try the <a href="index.html.de">german</a> or <a href="index.html.en">english</a> Homepage.
 <p>The project is hosted by 
 <a href="http://developer.berlios.de">
-<img src="http://developer.berlios.de/bslogo.php?group_id=0&type=1" width="124" height="32" border="0" alt="BerliOS Logo"></A>
+<img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS Logo"></A>
 </td>
 
 </tr>
