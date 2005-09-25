@@ -64,8 +64,8 @@ See <a href="openwrt/index.html.en">OpenWRT port</a> for details.
 
 <table>
 <tr><th>Device</th><th>CPU</th><th>Flash</th><th>RAM</th></tr>
-<tr><td>Sinus 154 DSL Basic SE</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MiB</td><td>16 MiB</td></tr>
-<tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MiB</td><td>16 MiB (?)</td></tr>
+<tr><td>Sinus 154 DSL Basic SE</td><td>Texas Instruments TNETD7300 (Sangam)</td><td>2 MiB</td><td>16 MiB</td></tr>
+<tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7300 (Sangam)</td><td>2 MiB</td><td>16 MiB (?)</td></tr>
 </table>
 
 <p>
@@ -105,6 +105,13 @@ or the Maxim web pages for wiring details.<p>
 
 The serial port allows firmware uploads, operation and diagnostics using
 the builtin bootloader.
+This bootloader uses the xmodem protocol for binary transfers.
+It works well with MS Windows Hyperterm.
+For LINUX minicom, you will need a special <a href="tools/sx-at91.c">xmodem program</a>.
+
+<h3>WLAN</h3>
+
+Both Sinus devices use a mini PCI card with a TNETW1130 chip.
 
 <h3>Memory Table</h3>
 

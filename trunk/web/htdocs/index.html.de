@@ -84,8 +84,8 @@ weitgehend auf andere Open Source Projekte zur&uuml;ckgreifen.
 
 <table>
 <tr><th>Ger&auml;t</th><th>Prozessor</th><th>Flash</th><th>RAM</th></tr>
-<tr><td>Sinus 154 DSL Basic SE</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MiB</td><td>16 MiB</td></tr>
-<tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7730 (Sangam)</td><td>2 MiB</td><td>16 MiB (?)</td></tr>
+<tr><td>Sinus 154 DSL Basic SE</td><td>Texas Instruments TNETD7300 (Sangam)</td><td>2 MiB</td><td>16 MiB</td></tr>
+<tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7300 (Sangam)</td><td>2 MiB</td><td>16 MiB (?)</td></tr>
 </table>
 
 <p>
@@ -130,6 +130,11 @@ oder auf den Webseiten von Maxim.<p>
 
 &Uuml;ber die serielle Schnittstelle kann die Firmware geladen, bedient und
 diagnostiziert werden.
+Der Bootloader verwendet f&uuml;r bin&auml;re Datentransfers das XModem Protokoll.
+MS Windows Hyperterm funktioniert sofort.
+F&uuml;r Minicom (LINUX) wird ein spezielles
+<a href="tools/sx-at91.c">XModem-Programm</a> ben&ouml;tigt.
+
 
 <h3>Ethernet</h3>
 
@@ -141,7 +146,7 @@ Jedes Ger&auml;t hat einen DSL-Anschluss.
 
 <h3>WLAN</h3>
 
-Jedes Ger&auml;t hat eine Mini-PCI-Karte f&uuml;r WLAN eingebaut.
+Jedes Ger&auml;t hat eine Mini-PCI-Karte mit TNETW1130 f&uuml;r WLAN eingebaut.
 
 <h3>Speicherbelegung</h3>
 
