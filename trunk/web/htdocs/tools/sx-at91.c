@@ -31,7 +31,7 @@
  *   | H  kermit     /usr/bin/kermit -i -l %l -r     N    D    Y       N       N    |
  *   | I  ascii      /usr/bin/ascii-xfr -dsv         Y    U    N       Y       N    |
  *   | J  at91       /home/koan/xmodem/xs-at91       Y    U    Y       N       N    |
- *   | K    -                                                                       |
+ *   | K  sinus      /home/stefan/bin/sx-at91        Y    U    N       Y       N    |
  *   | L    -                                                                       |
  *
  *   save and use it selecting at91 protocol when you start an Xmodem upload to AT91
