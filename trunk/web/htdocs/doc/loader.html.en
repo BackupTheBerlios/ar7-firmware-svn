@@ -33,7 +33,7 @@ Firmware update via web interface uses these combined firmware images.<p>
 The bootloader can also read firmware images with a single zipped file
 and use them for separate updates of program or filesystem.<p>
 
-My enhanced version of the tool <a href="tools/mkfirm.c">mkfirm</a>
+My enhanced version of the tool <a href="/tools/mkfirm.c">mkfirm</a>
 creates all sorts of firmware images and also contains some
 informationen on the file format.<p>
 

@@ -200,7 +200,7 @@ The current version of mkfirm.c supports separate firmware images for
 kernel and filesystem which load without any problem.<p>
 
 See also
-<a href="loader.html.en">loader.html.en</a> for more information.
+<a href="doc/loader.html.en">loader.html.en</a> for more information.
 
 </body>
 </html>

@@ -285,6 +285,6 @@ st&uuml;rzt beim Ladeversuch ab. Das aktuelle mkfirm.c kann daher getrennte
 Firmware-Images f&uuml;r Kernel und Filesystem erzeugen.<p>
 
 Eine ausf&uuml;hrliche Dokumentation steht in
-<a href="loader.html.en">loader.html.en (englisch)</a>.
+<a href="doc/loader.html.en">loader.html.en (englisch)</a>.
 </body>
 </html>
