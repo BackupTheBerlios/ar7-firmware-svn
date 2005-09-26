@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>Bootloader Documentation</title>
+	<meta http-equiv="Content-Type" content="text/html">
+	<meta name="author" content="Stefan Weil">
+	<link rel=stylesheet type="text/css" href="ar7.css" />
+</head>
+
+<body>
+<a href="http://developer.berlios.de">
+<img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS Logo"></a>
+<a href="loader.html.de">deutsch</a> <a href="loader.html.en">english</a>
+
+<h2>Bootloader for Sinus 154 DSL Basic SE and Sinus 154 DSL Basic 3</h2>
+
+This document describes the file format of boot images for the
+bootloader from Broad Net Technology, Inc.<p>
+
+The same bootloader is used in most of the Sinus 154 devices and also in the
+devices of other manufacturers.
+
+<h3>File Format of Firmware Images</h3>
+
+Firmware images are a collection of zipped files.<p>
+
+Most vendor firmware images contain 2 zipped files:
+the zipped filesystem (pfs.img) with all pages for the web interface,
+and a zipped program file (soho.bin).<p>
+
+Firmware update via web interface uses these combined firmware images.<p>
+
+The bootloader can also read firmware images with a single zipped file
+and use them for separate updates of program or filesystem.<p>
+
+My enhanced version of the tool <a href="tools/mkfirm.c">mkfirm</a>
+creates all sorts of firmware images and also contains some
+informationen on the file format.<p>
+
+<h3>Firmware update for Sinus 154</h3>
+
+You have several choices to get your firmware into flash memory.
+
+<h4>Update using standard update procedure</h4>
+
+The normal way of updating is to start the router with the original
+firmware. Then you can connect to the web interface using any browser
+and go into the update firmware menu.<p>
+
+This works well with original firmware updates. In theory it will also
+work with home made firmware images, but it might also fail because
+these images are too large.<p>
+
+After an exchange of the original firmware and installation of the
+Linux based firmware, this update method is no longer available.<p>
+
+So I did never check it for my Linux based firmware...
+
+<h4>Update using the emergency kernel</h4>
+
+This is the recommanded procedure, because it works always (if you did
+not destroy your bootloader!), is fast (it uses the ethernet connection),
+and you don't have to open the case of your Sinus 154.<p>
+
+Start the router while pressing the reset button until the LED will
+blink. This overrides normal startup procedures and starts an
+emergency kernel.<p>
+
+The emergency kernel contains ethernet driver, dhcp server and web server.
+So you can connect to its web interface at URL http://192.168.2.1/
+using any browser.
+The web interface is very simple and only allows firmware updates and
+resetting of the router.<p>
+
+The firmware update menu allows updates of the bootloader (never use it -
+if you destroy the bootloader, you ruin your device), the kernel program
+or the filesystem (user interface). These options need a firmware file
+which includes one zipped file.<p>
+
+You may also update kernel program and
+filesystem in one step. This option needs a standard firmware file which
+includes two zipped files.<p>
+
+My version of the bootloader cannot load standard firmware files which are
+too large: it will accept them but all you get is a bootloader crash.
+So you must use separate updates for kernel program and filesystem.
+
+<h4>Update using the bootloader and serial console</h4>
+
+With a serial connection, you can enter a boot menu which allows firmware
+uploads using the xmodem protocol. Use separate firmware files for
+the kernel program (code image) and filesystem (web image)
+as for the emergency kernel.
+
+<h3>Requirements for firmware files</h3>
+
+The bootloader does not accept every firmware file. It checks these
+conditions during firmware update and/or when booting:
+<ul>
+<li>The zipped kernel file must contain a file named soho.bin (?).
+<li>The zipped filesystem must contain a file named pfs.img (?).
+<li>You cannot use ordinary files in place of the zip file.
+<li>The zipped file must be smaller than the flash partition it belongs to.
+Because the last flash sector is used for a checksum, this sector (typically
+64 KiB) is also unavailable for the zipped file.
+<li>The zipped files must not be too small!
+</ul>
+This results in the following firmware layout for Sinus 154 DSL Basic SE and
+other devices with the same flash partition sizes:
+<ul>
+<li>Partition 3 (code image) has 896 KiB. Only (896 - 64) KiB = 832 KiB
+can be used for the zipped program code. My zipped Linux kernel needs 773 KiB,
+so there is some room left for more drivers.
+<li>Partition 2 (web image) has 832 KiB. Only (832 - 64) KiB = 768 KiB
+can be used for the zipped filesystem. But how can Linux use a zipped
+filesystem? I use a trick and split the partition in two parts:
+64 KiB zip file (first part of the original pfs.img) and fill bytes,
+rest (768 - 64) KiB = 704 KiB
+used for squashfs. My squashfs uses 625 KiB. I had to strip down the
+OpenWRT default filesystem because it was too big.
+</ul>
+With this layout, you can flash kernel and filesystem, and the bootloader will
+automatically boot Linux.
+We might improve flash usage later,
+but for the moment this satisfies the first needs.<p>
+
+Here is an example how you get firmware images from OpenWRT.
+It is still a dirty hack, because you need an original pfs.img.
+You will get three new files in the openwrt/bin directory:
+linux.bin (firmware in standard format, unusable because too large),
+linux-firmware.bin (kernel part) and linux-userinterface.bin (filesystem part).
+
+<listing>
+#!/bin/sh
+tmpdir=/tmp/openwrt.tmp
+openwrt=~/src/openwrt
+magic=BRN154BAS
+
+rm -frv $tmpdir
+mkdir -p $tmpdir
+cd $tmpdir
+ln -f $openwrt/build_mipsel/linux-2.4-ar7/vmlinux soho.bin
+zip -9v soho.zip soho.bin
+ln -f $openwrt/build_mipsel/linux-2.4-ar7/root.squashfs .
+dd if=~/FW_154DSLBasicSE_V1.12/pfs.img of=pfs.img bs=65536 count=1
+#echo >pfs.img
+zip -9v tmp.zip pfs.img
+cat tmp.zip /dev/zero | dd of=pfs.zip bs=65536 count=1
+cat root.squashfs >>pfs.zip
+mkfirm -o linux.bin -m $magic pfs.zip soho.zip
+mkfirm -o linux-firmware.bin -m $magic soho.zip
+mkfirm -o linux-userinterface.bin -m $magic pfs.zip
+ln -f linux*.bin $openwrt/bin
+</listing>
+</body>
+</html>

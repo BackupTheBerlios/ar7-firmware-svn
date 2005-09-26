@@ -197,7 +197,10 @@ Attention! Linux kernel and filesystem are larger than the original firmware.
 Both will fit into a single firmware image,
 but the bootloader crashs when you try to load this image.
 The current version of mkfirm.c supports separate firmware images for
-kernel and filesystem which load without any problem.
+kernel and filesystem which load without any problem.<p>
+
+See also
+<a href="loader.html.en">loader.html.en</a> for more information.
 
 </body>
 </html>

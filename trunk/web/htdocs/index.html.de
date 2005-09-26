@@ -282,7 +282,9 @@ erzeugt werden. Das Programm enth&auml;lt Informationen zum Dateiformat.<p>
 Achtung! Linux-Kernel und Filesystem sind so gross, dass sie nicht in
 ein Firmware-Image passen (genauer: sie passen schon, aber der Bootloader
 st&uuml;rzt beim Ladeversuch ab. Das aktuelle mkfirm.c kann daher getrennte
-Firmware-Images f&uuml;r Kernel und Filesystem erzeugen.
+Firmware-Images f&uuml;r Kernel und Filesystem erzeugen.<p>
 
+Eine ausf&uuml;hrliche Dokumentation steht in
+<a href="loader.html.en">loader.html.en (englisch)</a>.
 </body>
 </html>
