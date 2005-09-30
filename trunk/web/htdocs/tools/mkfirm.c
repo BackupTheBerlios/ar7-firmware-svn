@@ -118,7 +118,7 @@ static const device_t device[] = {
 /* buffer must be large enough to contain pfs + soho + signature */
 static unsigned char buffer[4 * MiB];
 
-static unsigned char signature[10];
+static char signature[10];
 
 static const char *program_name;
 
@@ -142,7 +142,7 @@ static void usage(void)
 	fprintf(stderr, "<blocksize>: size of flash blocks (default: 65536)\n");
 }
 
-static unsigned char *write_data(const char *filename, char *buffer, size_t max_size)
+static unsigned char *write_data(const char *filename, unsigned char *buffer, unsigned long max_size)
 {
 	unsigned long *p;
 	unsigned long crc;
@@ -157,8 +157,9 @@ static unsigned char *write_data(const char *filename, char *buffer, size_t max_
 	fprintf(stderr, "%s has %lu (0x%lx) bytes, %lu bytes left\n", filename, len, len, max_size - len);
 	crc = comp_crc(buffer, len);
 	max_size = ((len + 0x7fff) & 0xffff8000);
-	fprintf(stderr, "%s uses %lu (0x%lx) bytes = %u KiB, %lu bytes left\n", filename, max_size, max_size, max_size / 1024, max_size - len);
-	if (strncmp(buffer, "PK", 2) != 0) {
+	fprintf(stderr, "%s uses %lu (0x%lx) bytes = %lu KiB, %lu bytes left\n",
+			filename, max_size, max_size, max_size / 1024, max_size - len);
+	if (strncmp((char *)buffer, "PK", 2) != 0) {
 		fprintf(stderr, "%s is no zip file\n", filename);
 	}
 	p = (unsigned long *)(buffer + max_size - 3 * 4);
