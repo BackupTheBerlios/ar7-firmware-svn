@@ -68,14 +68,14 @@ Leider gibt es aber noch keinen Kernel Debugger (kgdb).</li>
 <li>Auswahl und Erstellung eines Kernels.<br>
 Dazu muss ein geeignetes Betriebssystem ausgew&auml;hlt werden (siehe unten).
 Erste Versuche wurden bereits mit dem Linux-Kernel von
-<a href="openwrt/index.html.de">OpenWRT</a> gemacht und waren schon recht erfolgreich
+<a href="openwrt/index.html.de">OpenWrt</a> gemacht und waren schon recht erfolgreich
 (Shell &uuml;ber serielle Konsole oder per Telnet bedienbar,
 komplettes Betriebssystem bootet nach Einschalten direkt aus dem Flash).</li>
 <li>Auswahl und Einbindung weiterer Firmware-Komponenten.<br>
 F&uuml;r WLAN-Treiber und weitere Komponenten wie Shell, Serverdienste,
 Firewall, Bridgefunktionalit&auml;t usw. kann man gl&uuml;cklicherweise
 weitgehend auf andere Open Source Projekte zur&uuml;ckgreifen.
-<a href="openwrt/index.html.de">OpenWRT</a> enth&auml;lt schon alles Notwendige.</li>
+<a href="openwrt/index.html.de">OpenWrt</a> enth&auml;lt schon alles Notwendige.</li>
 </ul>
 
 <h2>Hardware</h2>
@@ -228,9 +228,9 @@ Kernelversion 2.4 oder 2.6? Kernel eines anderen DSL-Routers mit &auml;hnlicher
 Hardware? Distribution mit Anpassungen f&uuml;r MIPS-Prozessoren? Kritisch ist
 bei Linux das relativ klein bemessene Flash.<p>
 
-Mit einem gepatchten Linux-Kernel von <a href="http://www.openwrt.org/">OpenWRT</a>
+Mit einem gepatchten Linux-Kernel von <a href="http://www.openwrt.org/">OpenWrt</a>
 konnte bereits gebootet werden.
-<a href="openwrt/index.html.de">OpenWRT</a> stellt auch Komponenten wie Shell usw.
+<a href="openwrt/index.html.de">OpenWrt</a> stellt auch Komponenten wie Shell usw.
 bereit, ist also eine ziemlich komplette Distribution f&uuml;r Router.<p>
 
 WLAN und JFFS2 funktionieren noch nicht.
