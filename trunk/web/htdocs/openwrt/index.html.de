@@ -102,7 +102,7 @@ Einschalten betriebsbereit: man kann sich per Telnet einloggen.
 <h3>Dateiformat Firmware-Image</h3>
 
 Firmware-Images, die vom Webfrontend f&uuml;r Updates akzeptiert werden,
-k&ouml;nnen mit dem kleinen Hilfsprogramm <a href="tools/mkfirm.c">mkfirm</a>
+k&ouml;nnen mit dem kleinen Hilfsprogramm <a href="../tools/mkfirm.c">mkfirm</a>
 erzeugt werden. Das Programm enth&auml;lt Informationen zum Dateiformat.<p>
 
 Achtung! Linux-Kernel und Filesystem sind so gross, dass sie nicht in
