@@ -98,7 +98,7 @@ The bootloader does not accept every firmware file. It checks these
 conditions during firmware update and/or when booting:
 <ul>
 <li>The zipped kernel file must contain a file named soho.bin (?).
-<li>The zipped filesystem must contain a file named pfs.img (?).
+<li>The zipped filesystem must contain a file named pfs.img (?, not checker during boot).
 <li>You cannot use ordinary files in place of the zip file.
 <li>The zipped file must be smaller than the flash partition it belongs to.
 Because the last flash sector is used for a checksum, this sector (typically
@@ -117,14 +117,14 @@ filesystem? I use a trick and split the partition in two parts:
 64 KiB zip file (first part of the original pfs.img) and fill bytes,
 rest (768 - 64) KiB = 704 KiB
 used for squashfs. My squashfs uses 625 KiB. I had to strip down the
-OpenWRT default filesystem because it was too big.
+OpenWrt default filesystem because it was too big.
 </ul>
 With this layout, you can flash kernel and filesystem, and the bootloader will
 automatically boot Linux.
 We might improve flash usage later,
 but for the moment this satisfies the first needs.<p>
 
-Here is an example how you get firmware images from OpenWRT.
+Here is an example how you get firmware images from OpenWrt.
 It is still a dirty hack, because you need an original pfs.img.
 You will get three new files in the openwrt/bin directory:
 linux.bin (firmware in standard format, unusable because too large),
