@@ -32,13 +32,20 @@ machen im schlimmsten Fall das Ger&auml;t unbrauchbar.<p>
 Insbesondere jede Ver&auml;nderung des Bootloaders (im Flash) ist fatal und
 daher unbedingt zu vermeiden!
 
-<h2>Projektstatus (Stand 16.09.2005)</h2>
+<h2>Projektstatus (Stand 03.11.2005)</h2>
 
 <h3>Offene Punkte</h3>
 
 Die wichtigsten Punkte stehen zuerst:
 
 <ul>
+<li>WLAN funktioniert in der Betriebsart AP mit dem Treiber von TI,
+aber noch nicht als WLAN Client. Da ich schon einen Access Point in
+Betrieb habe, w&auml;re letzteres f&uuml;r mich sehr wichtig.
+Auch ist unsch&ouml;n, dass die Lizenzbedingungen des Treiber von TI
+unklar sind.<br>
+Verschl&uuml;sselung mit WPA wird vom Treiber unterst&uuml;tzt,
+ist aber noch ungetestet.</li>
 <li>Das Flash-Filesystem JFFS2 funktioniert noch nicht.
 Grund daf&uuml;r ist offenbar,
 dass der daf&uuml;r vorgesehene Flash maximal 128 KiB gross ist und
@@ -47,9 +54,17 @@ erkennt. Es gibt also nur 2 Bl&ouml;cke, aber JFFS2 ben&ouml;tigt
 mindestens 5 davon!<br>
 Ein funktionierendes Flash-Filesystem w&uuml;rde die weiteren
 Entwicklungsschritte deutlich einfacher machen,
-weil damit einzelne Dateien im Flash ausgetauscht werden k&ouml;nnen.
-<li>WLAN funktionieren noch nicht.</li>
-<li>DSL funktioniert vielleicht, wurde aber noch nicht getestet.</li>
+weil damit einzelne Dateien im Flash ausgetauscht werden k&ouml;nnen.<br>
+Allerdings behelfe ich mir zur Zeit, indem ich beim Hochfahren das
+Flash-Filesystem gegen NFS austausche. Dadurch lassen sich Dateien
+zwischen Linux (Entwicklungsumgebung) und Linux (Router) besonders
+einfach austauschen.
+<li>Ein Root-NFS, das gleich beim Booten aktiv ist, wäre noch besser.
+Bisher scheiterten alle Versuche: der Server sieht zwar Datenpakete des
+Routers und beantwortet diese auch, die Antworten werden aber offenbar
+vom Router nicht erkannt.</li>
+<li>DSL funktioniert vielleicht, wurde aber noch nicht getestet.
+Hat jemand daf&uuml;r Bedarf und Lust, es auszuprobieren?</li>
 <li>Der Flash wird zur Zeit schlecht ausgenutzt
 (jeweils 128 KiB verschenkter Speicher bei Kernel und Filesystem).</li>
 <li>Leider gibt es noch keinen Kernel Debugger (kgdb).</li>
@@ -66,6 +81,8 @@ Bootloader integrierten Webserver laden und flashen.</li>
 Anzeige von Logmeldungen und Downloads per XModem-Protokoll.</li>
 <li>Zwei der Diagnose-LEDs lassen sich ansprechen.</li>
 <li>Ethernet funktioniert, damit auch Telnet-Server und Web-Server.</li>
+<li>WLAN funktioniert mit dem Treiber von TI. Betrieb als Access Point
+mit Verschlüsselung WEP 128 Bit ist m&ouml;glich.</li>
 </ul>
 
 <h3>Betriebssystem</h3>

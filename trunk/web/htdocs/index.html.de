@@ -46,7 +46,7 @@ machen im schlimmsten Fall das Ger&auml;t unbrauchbar.<p>
 Insbesondere jede Ver&auml;nderung des Bootloaders (im Flash) ist fatal und
 daher unbedingt zu vermeiden!
 
-<h2>Projektplanung (Stand 16.09.2005)</h2>
+<h2>Projektplanung (Stand 03.11.2005)</h2>
 
 Folgende Schritte sind vorgesehen:
 <ul>
@@ -108,19 +108,19 @@ Hier sind die notwendigen Verbindungen:<p>
 
 <table>
 <tr><th>Sinus 154</th><th>Belegung</th><th>MAX232CPE</th></tr>
-<tr><td>1</td><td>3,3 V</td><td>16</td></tr>
-<tr><td>2</td><td>GND</td><td>15</td></tr>
-<tr><td>6</td><td>out</td><td>11</td></tr>
-<tr><td>8</td><td>in</td><td>12</td></tr>
+<tr><td>10</td><td>3,3 V</td><td>16</td></tr>
+<tr><td>9</td><td>GND</td><td>15</td></tr>
+<tr><td>5</td><td>out</td><td>11</td></tr>
+<tr><td>3</td><td>in</td><td>12</td></tr>
 </table>
 
 <listing>
 Sinus 154 Steckerleiste (im Ger&auml;t)
 
-  2   6 8     |
+  9   5 3 1   |
   x x x x x   |
   x x x x x   |
-  1           |
+ 10       2   |
 --------------+
 </listing>
 
@@ -142,11 +142,43 @@ Jedes Ger&auml;t hat eine Ethernetschnittstelle.
 
 <h3>DSL</h3>
 
-Jedes Ger&auml;t hat einen DSL-Anschluss.
+Jedes Ger&auml;t hat einen DSL-Anschluss. Die Hardware unterst&uuml;tzt
+ADSL2+ mit bis zu 25 Mbit/s - deutlich mehr, als die Firmware von TCOM
+anbietet.
 
 <h3>WLAN</h3>
 
-Jedes Ger&auml;t hat eine Mini-PCI-Karte mit TNETW1130 f&uuml;r WLAN eingebaut.
+Jedes Ger&auml;t hat eine Mini-PCI-Karte mit TNETW1130 von Texas Instruments
+f&uuml;r WLAN eingebaut.
+Diesen Baustein findet man auch unter der Bezeichnung ACX111.
+Die Ansteuerung erfolgt &uuml;ber einen seriellen Bus (VLYNQ).<p>
+
+Neben den Standards IEEE 802.11b und IEEE 802.11g beherrscht der TNETW1130
+eine Betriebsart mit der Herstellerbezeichnung 802.11g++, mit der ein
+um 35 % h&oouml;herer Nettodurchsatz erreicht wird.
+Die Firmware von TCOM kennt diese Betriebsart allerdings nicht.<p>
+
+Es gibt Treiber f&uuml;r die Betriebssysteme VxWorks und Linux
+vom Hersteller 
+- leider ist der Programmcode aber nicht allgemein zug&auml;nglich.
+N&auml;heres findet man bei http://www.linux-mips.org/wiki/AR7.<p>
+
+Im Open-Source-Bereich findet man das Projekt http://acx100.sourceforge.net/,
+das mit seinem Linux-Treiber f&uuml;r ACX100 auch den ACX111
+zumindest teilweise unterst&uuml;tzt. Das Projekt kennt zur Zeit
+allerdings nur die Bussysteme PCI und USB, nicht aber VLYNQ.<p>
+
+<table>
+<tr><th>Feature</th><th>TCOM</th><th>TI</th><th>ACX100</th></tr>
+<tr><td>Source Code</td><td>no</td><td>closed</td><td>open</td></tr>
+<tr><td>802.11g++</td><td>no</td><td>yes</td><td>no</td></tr>
+<tr><td>Access Point</td><td>yes</td><td>yes</td><td>(no)</td></tr>
+<tr><td>Client Mode</td><td>no</td><td>no</td><td>yes</td></tr>
+<tr><td>WEP</td><td>yes</td><td>yes</td><td>(yes)</td></tr>
+<tr><td>WPA</td><td>yes</td><td>yes</td><td>no</td></tr>
+<tr><td>VLYNQ</td><td>yes</td><td>yes</td><td>no</td></tr>
+<tr><td>Linux ioctls</td><td>no</td><td>no</td><td>yes</td></tr>
+</table>
 
 <h3>Speicherbelegung</h3>
 

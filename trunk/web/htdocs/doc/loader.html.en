@@ -37,6 +37,12 @@ My enhanced version of the tool <a href="/tools/mkfirm.c">mkfirm</a>
 creates all sorts of firmware images and also contains some
 informationen on the file format.<p>
 
+<h3>Firmware Image of Emergency Kernel</h3>
+
+The boot partition in flash memory contains an emergency kernel.
+It is possible to dump this partition into a file and to extract
+the zipped files of pfs.img and soho.bin.
+
 <h3>Firmware update for Sinus 154</h3>
 
 You have several choices to get your firmware into flash memory.

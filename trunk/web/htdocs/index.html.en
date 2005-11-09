@@ -56,7 +56,7 @@ Currently, on power on a Linux kernel boots from flash memory and uses the
 filesystem (squashfs) from flash. Serial console is available very fast.
 Telnet login on IP address 192.168.2.1 is possible 35 s after power on.<p>
 
-See <a href="openwrt/index.html.en">OpenWRT port</a> for details.
+See <a href="openwrt/index.html.en">OpenWrt port</a> for details.
 
 <h2>Hardware</h2>
 
@@ -83,21 +83,23 @@ here are the connections:<p>
 
 <table>
 <tr><th>Sinus 154</th><th>Usage</th><th>MAX232CPE</th></tr>
-<tr><td>1</td><td>3,3 V</td><td>16</td></tr>
-<tr><td>2</td><td>GND</td><td>15</td></tr>
-<tr><td>6</td><td>out</td><td>11</td></tr>
-<tr><td>8</td><td>in</td><td>12</td></tr>
+<tr><td>10</td><td>3,3 V</td><td>16</td></tr>
+<tr><td>9</td><td>GND</td><td>15</td></tr>
+<tr><td>5</td><td>out</td><td>11</td></tr>
+<tr><td>3</td><td>in</td><td>12</td></tr>
 </table>
 
+<table>
 <listing>
 Sinus 154 connector (on PCB)
 
-  2   6 8     |
+  9   5 3 1   |
   x x x x x   |
   x x x x x   |
-  1           |
+ 10       2   |
 --------------+
 </listing>
+</table>
 
 See
 <a href="http://hri.sourceforge.net/tools/">http://hri.sourceforge.net/tools/</a>
