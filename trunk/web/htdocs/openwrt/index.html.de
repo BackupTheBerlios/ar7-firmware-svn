@@ -92,7 +92,7 @@ Verwendet wird der Linux-Kernel 2.4.30 von
 OpenWrt stellt auch Komponenten wie Shell usw.
 bereit, ist also eine ziemlich komplette Distribution f&uuml;r Router.<p>
 
-Nur der aktuelle CVS-Stand enth&auml;lt die notwendigen Erweiterungen
+Nur der aktuelle SVN-Stand enth&auml;lt die notwendigen Erweiterungen
 f&uuml;r AR7-basierte Router.
 Da der Bootloader des Sinus 154 nicht unterst&uuml;tzt wird,
 sind zus&auml;tzliche

@@ -68,7 +68,7 @@ uploads using XModem protocol.</li>
 We use Linux kernel 2.4.30 and other distribution components from
 <a href="http://www.openwrt.org/">OpenWrt</a>.<p>
 
-You will need CVS head with the
+You will need Subversion (SVN) head with the
 <a href="http://openwrt.org/AR7Port">AR7 port</a>.
 Because OpenWrt does not support the bootloader used in Sinus 154,
 additional patches and files are needed.
