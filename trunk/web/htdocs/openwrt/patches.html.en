@@ -15,7 +15,11 @@
 
 <h3>New Files</h3>
 
-Get the <a href="files.tar.bz2">Tar archive</a> with all new files.
+Get the <a href="files.tar.bz2">Tar archive</a> with all new files if
+you still use the CVS based OpenWrt.
+
+For the latest OpenWrt, all these files are included in
+<a href="svndiff.patch">svndiff.patch</a>.
 
 <h4>target/linux/image/ar7/src/entry.c</h4>
 
@@ -38,7 +42,11 @@ It should work with any AR7 based device.
 
 This file belongs to uart16550.c.
 
-<h3>Patches</h3>
+<h3>Old Patches</h3>
+
+These patches were used for the CVS head of OpenWrt.
+In November 2005 OpenWrt switched from CVS to Subversion.
+The current Subversion version needs different patches.
 
 <h4><a href="007-cpmac_driver.patch">target/linux/linux-2.4/patches/ar7/007-cpmac_driver.patch</a></h4>
 
@@ -48,7 +56,7 @@ and unloading of the module still hangs a long time).
 
 <h4><a href="008-sinus154_support.patch">target/linux/linux-2.4/patches/ar7/008-sinus154_support.patch</a></h4>
 
-These patches mainly implementent some sort of ADAM2 emulation.
+These patches mainly implement some sort of ADAM2 emulation.
 Sinus 154 does not use an ADAM2 bootloader, but the OpenWrt uses many of its
 features.<p>
 
@@ -60,7 +68,20 @@ OpenWrt CVS head fails during compilation for AR7 because diag.o is missing.
 This patch implements two diag LEDs for the Sinus 154 (maybe also for other
 devices?).
 
+<h3>New Patches</h3>
+
+OpenWrt switched from CVS to Subversion configuration management.
+The <a href="svndiff.patch">latest patches</a> add Sinus support
+to OpenWrt trunk (this is the Subversion name for the latest version).<p>
+
+Just get OpenWrt trunk and apply the patch file. It will add new files
+and change existing (well, this is what patches are supposed to do),
+fix a number of minor bugs, add missing features and add Sinus support...
+
 <h3>Configuration Files</h3>
+
+For the latest OpenWrt, all configuration files are included in
+<a href="svndiff.patch">svndiff.patch</a>.
 
 <h4><a href=".config">.config</a></h4>
 
@@ -75,3 +96,4 @@ The IP address was changed to the default for Sinus 154, 192.168.2.1.
 
 </body>
 </html>
+
