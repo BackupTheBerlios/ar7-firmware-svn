@@ -79,7 +79,7 @@ unsigned long comp_crc(unsigned char *p, unsigned long len)
 }
 
 typedef struct {
-	const char *magic;
+	const char magic[10];
 	const char *description;
 	size_t pfs_size;
 	size_t soho_size;
@@ -94,6 +94,9 @@ typedef struct {
  */
 
 static const device_t device[] = {
+	// 3COM 11g?
+	// BUFFALO BBR-4HG
+	// A123456789 = AR4502GW = 154BAS???
 	// http://hri.sourceforge.net/hw/smc7004abr/
 	{"BRNABR", "SMC7004ABR V2", 576 * KiB, 192 * KiB},
 	// http://hri.sourceforge.net/hw/smc7004vbr/
