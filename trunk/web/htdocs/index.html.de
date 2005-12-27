@@ -15,7 +15,7 @@
 <h2>Firmware f&uuml;r Sinus 154 DSL Basic SE und Sinus 154 DSL Basic 3</h2>
 
 In diesem Projekt m&ouml;chten wir als erstes eine Open Source Firmware
-f&uuml;r die DSL-Router Sinus 154 DSL Basic SE und das fast baugleiche
+f&uuml;r den DSL-Router Sinus 154 DSL Basic SE und das fast baugleiche
 Sinus 154 DSL Basic 3 entwickeln.
 Diese Ger&auml;te werden in Deutschland von der Telekom
 vermarktet und sind daher vermutlich sehr verbreitet.<p>
@@ -30,8 +30,11 @@ m&ouml;glich sind, suchen wir eine Alternative, die frei erweiterbar ist.<p>
 
 Die Erfahrungen des Projektes k&ouml;nnen sicher auf verwandte Ger&auml;te
 der Sinus 154 Familie und auch weitere anderer Hersteller angewendet werden.
+Ein Beispiel f&uuml;r kompatible Hardware ist das Sinus 154 DSL SE (darauf
+deutet zumindest die Firmware hin, noch nicht praktisch &uuml;berpr&uuml;ft).
 Besitzer solcher Hardware sind willkommen und k&ouml;nnen sich im
-Wiki-Bereich des Projektes eintragen.<p>
+Wiki-Bereich des Projektes eintragen oder an die auf der Projektseite
+angegebene Kontaktadresse wenden.<p>
 
 Diesen findet man ebenso wie das Entwickler- und Anwender-Forum und weitere
 Information &uuml;ber die <a href="http://developer.berlios.de/projects/ar7-firmware/">
@@ -85,7 +88,8 @@ weitgehend auf andere Open Source Projekte zur&uuml;ckgreifen.
 <table>
 <tr><th>Ger&auml;t</th><th>Prozessor</th><th>Flash</th><th>RAM</th></tr>
 <tr><td>Sinus 154 DSL Basic SE</td><td>Texas Instruments TNETD7300 (Sangam)</td><td>2 MiB</td><td>16 MiB</td></tr>
-<tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7300 (Sangam)</td><td>2 MiB</td><td>16 MiB (?)</td></tr>
+<tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7300 (Sangam)</td><td>2 MiB</td><td>16 MiB</td></tr>
+<tr><td>Sinus 154 DSL SE</td><td>Texas Instruments TNETD7300 (Sangam)???</td><td>??? MiB</td><td>??? MiB</td></tr>
 </table>
 
 <p>
@@ -100,10 +104,10 @@ Alle Ger&auml;te haben eine serielle Schnittstelle, die aber nur im Ger&auml;t
 zug&auml;nglich ist. Schnittstellenparameter 115000 bps 8N1. F&uuml;r den
 Anschluss an PCs wird ein Pegelkonverter von 3,3 V auf RS232 ben&ouml;tigt.
 Ich verwende einen MAX232CPE, der bei jedem der grossen Elektronikversender
-erh&auml;ltlich ist. Eine
-<a href="http://www.wehavemorefun.de/fritzbox/Serielle_Konsole">alternative
+erh&auml;ltlich ist. Meine Kosten lagen bei rund 12 EUR.
+Eine <a href="http://www.wehavemorefun.de/fritzbox/Serielle_Konsole">alternative
 L&ouml;sung</a> unter Verwendung eines Handykabels hat bei mir nicht
-funktioniert.
+funktioniert - andere Anwender waren damit aber schon erfolgreich.
 Hier sind die notwendigen Verbindungen:<p>
 
 <table>
@@ -145,6 +149,17 @@ Jedes Ger&auml;t hat eine Ethernetschnittstelle.
 Jedes Ger&auml;t hat einen DSL-Anschluss. Die Hardware unterst&uuml;tzt
 ADSL2+ mit bis zu 25 Mbit/s - deutlich mehr, als die Firmware von TCOM
 anbietet.
+
+<h3>USB</h3>
+
+Der AR7-Prozessor unterst&uuml;tzt auch einen USB-Anschluss, der aber
+bei Sinus 154 DSL Basic SE / Basic 3 nicht herausgef&uuml;hrt ist.
+Falls jemand mutig genug ist, kann er versuchen, diesen
+Anschluss zu finden und selbst zu verdrahten - 
+mit dem Risiko, dabei sein Ger&auml;t zu zerst&ouml;ren.<p>
+
+Das nocht nicht n&auml;her untersuchte Sinus 154 DSL SE hat &uuml;brigens
+einen USB-Anschluss herausgef&uuml;hrt!
 
 <h3>WLAN</h3>
 
@@ -318,5 +333,17 @@ Firmware-Images f&uuml;r Kernel und Filesystem erzeugen.<p>
 
 Eine ausf&uuml;hrliche Dokumentation steht in
 <a href="doc/loader.html.en">loader.html.en (englisch)</a>.
+
+<h2>Links</h2>
+
+<a href="http://www.openwrt.org/">OpenWrt</a>
+Open Source Softwarepakete und Linux-Kernel f&uuml;r diverse Router<p>
+
+<a href="http://www.linux-mips.org/">Linux MIPS</a>
+Linux-Kernel f&uuml;r MIPS-basierte Systeme, sehr gute Dokumentation<p>
+
+<a href="http://www.wewantmorefun.de/fritzbox/">AVM Fritz!Box</a>
+Linux-Kernel f&uuml;r MIPS-basierte Systeme, sehr gute Dokumentation<p>
+
 </body>
 </html>
