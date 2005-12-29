@@ -2,25 +2,13 @@ Index: .config
 ===================================================================
 --- .config	(Revision 0)
 +++ .config	(Revision 0)
-@@ -0,0 +1,1106 @@
+@@ -0,0 +1,1122 @@
 +#
 +# Automatically generated make config: don't edit
 +#
 +MODULES=y
 +BR2_HAVE_DOT_CONFIG=y
 +BR2_mipsel=y
-+# BR2_arm is not set
-+# BR2_armeb is not set
-+# BR2_cris is not set
-+# BR2_i386 is not set
-+# BR2_m68k is not set
-+# BR2_mips is not set
-+# BR2_powerpc is not set
-+# BR2_sh3 is not set
-+# BR2_sh3eb is not set
-+# BR2_sh4 is not set
-+# BR2_sh4eb is not set
-+# BR2_sparc is not set
 +BR2_ARCH="mipsel"
 +BR2_WGET="wget --passive-ftp -nd"
 +# BR2_TAR_VERBOSITY is not set
@@ -95,7 +83,7 @@ Index: .config
 +BUSYBOX_CONFIG_GUNZIP=y
 +BUSYBOX_CONFIG_FEATURE_GUNZIP_UNCOMPRESS=y
 +BUSYBOX_CONFIG_GZIP=y
-+BUSYBOX_CONFIG_IPKG=y
++# BUSYBOX_CONFIG_IPKG is not set
 +# BUSYBOX_CONFIG_RPM2CPIO is not set
 +# BUSYBOX_CONFIG_RPM is not set
 +BUSYBOX_CONFIG_TAR=y
@@ -427,7 +415,7 @@ Index: .config
 +BUSYBOX_CONFIG_TOP=y
 +BUSYBOX_FEATURE_CPU_USAGE_PERCENTAGE=y
 +BUSYBOX_CONFIG_UPTIME=y
-+BUSYBOX_CONFIG_SYSCTL=y
++BUSYBOX_CONFIG_BB_SYSCTL=y
 +
 +#
 +# Another Bourne-like Shell
@@ -519,7 +507,7 @@ Index: .config
 +# BUSYBOX_CONFIG_DEBUG is not set
 +BR2_PACKAGE_BRIDGE=y
 +BR2_PACKAGE_DNSMASQ=y
-+BR2_PACKAGE_IPKG=m
++BR2_PACKAGE_IPKG=y
 +
 +#
 +# iptables.......................... IPv4 / IPv6 firewall administration
@@ -589,6 +577,7 @@ Index: .config
 +# BR2_PACKAGE_SABLEVM is not set
 +# BR2_PACKAGE_LIBSABLEVM_CLASSPATH is not set
 +# BR2_PACKAGE_LIBFFI_SABLE is not set
++# BR2_PACKAGE_SANE_BACKENDS is not set
 +
 +#
 +# rrdtool........................... Round-Robin Database (RRD) libraries and tools
@@ -613,6 +602,7 @@ Index: .config
 +# asterisk.......................... Complete open source PBX
 +#
 +# BR2_PACKAGE_ASTERISK is not set
++# BR2_PACKAGE_ASTERISK_MINI is not set
 +# BR2_PACKAGE_ATFTP is not set
 +# BR2_PACKAGE_ATFTPD is not set
 +
@@ -627,6 +617,7 @@ Index: .config
 +# BR2_PACKAGE_CHILLISPOT is not set
 +# BR2_PACKAGE_CIFSMOUNT is not set
 +# BR2_PACKAGE_CUPS is not set
++# BR2_PACKAGE_CUTTER is not set
 +# BR2_PACKAGE_DHCP_RELAY is not set
 +# BR2_PACKAGE_DHCP_SERVER is not set
 +# BR2_PACKAGE_DHCP_FORWARDER is not set
@@ -657,9 +648,10 @@ Index: .config
 +# BR2_PACKAGE_AUTOIPD is not set
 +# BR2_PACKAGE_MDNSRESPONDER is not set
 +# BR2_PACKAGE_NIFD is not set
-+# BR2_PACKAGE_HOSTAP_UTILS is not set
-+# BR2_PACKAGE_HOSTAPD is not set
++BR2_PACKAGE_HOSTAP_UTILS=m
++BR2_PACKAGE_HOSTAPD=m
 +# BR2_PACKAGE_HTPDATE is not set
++# BR2_PACKAGE_IPCAD is not set
 +
 +#
 +# iproute2.......................... A collection of utilites for controlling TCP/IP networking and Traffic Control
@@ -667,6 +659,7 @@ Index: .config
 +# BR2_PACKAGE_IP is not set
 +# BR2_PACKAGE_TC is not set
 +# BR2_PACKAGE_IPERF is not set
++# BR2_PACKAGE_IPSEC_TOOLS is not set
 +# BR2_PACKAGE_IPSET is not set
 +# BR2_PACKAGE_IPTABLES_SNMP is not set
 +# BR2_PACKAGE_IPTRAF is not set
@@ -676,12 +669,14 @@ Index: .config
 +# BR2_PACKAGE_KNOCK is not set
 +# BR2_PACKAGE_KNOCKD is not set
 +# BR2_PACKAGE_L2TPD is not set
++# BR2_PACKAGE_L2TPNS is not set
 +
 +#
 +# lighttpd.......................... Flexible and lightweight web server
 +#
 +# BR2_PACKAGE_LIGHTTPD is not set
 +# BR2_PACKAGE_LINUX_ATM is not set
++# BR2_PACKAGE_MACCHANGER is not set
 +# BR2_PACKAGE_MARADNS is not set
 +
 +#
@@ -758,11 +753,13 @@ Index: .config
 +# BR2_PACKAGE_PPPOE_SNIFF is not set
 +# BR2_PACKAGE_PPTP is not set
 +# BR2_PACKAGE_PPTPD is not set
++# BR2_PACKAGE_PTUNNEL is not set
 +
 +#
 +# quagga............................ The Quagga Software Routing Suite
 +#
 +# BR2_PACKAGE_QUAGGA is not set
++# BR2_PACKAGE_RADDUMP is not set
 +# BR2_PACKAGE_RARPD is not set
 +# BR2_PACKAGE_REAIM is not set
 +# BR2_PACKAGE_ROBOCFG is not set
@@ -798,6 +795,7 @@ Index: .config
 +# BR2_PACKAGE_SRELAY is not set
 +# BR2_PACKAGE_TMSNC is not set
 +BR2_PACKAGE_TCPDUMP=m
++# BR2_PACKAGE_KMOD_TIAP is not set
 +# BR2_PACKAGE_TINC is not set
 +# BR2_PACKAGE_TOR is not set
 +# BR2_PACKAGE_TTCP is not set
@@ -811,17 +809,22 @@ Index: .config
 +# updatedd.......................... A tool to update dynamic dns services
 +#
 +# BR2_PACKAGE_UPDATEDD is not set
++# BR2_PACKAGE_VGP is not set
++# BR2_PACKAGE_VNC_REFLECTOR is not set
++# BR2_PACKAGE_VNSTAT is not set
++# BR2_PACKAGE_VPNC is not set
++# BR2_PACKAGE_VRRPD is not set
 +# BR2_PACKAGE_VSFTPD is not set
 +# BR2_PACKAGE_VTUN is not set
++# BR2_PACKAGE_WCCPD is not set
 +# BR2_PACKAGE_WIFIDOG is not set
 +BR2_PACKAGE_WIRELESS_TOOLS=y
 +# BR2_PACKAGE_WIVIZ is not set
 +# BR2_PACKAGE_WKNOCK is not set
 +# BR2_PACKAGE_WOL is not set
 +# BR2_PACKAGE_WONDERSHAPER is not set
-+# BR2_PACKAGE_WPA_SUPPLICANT is not set
++BR2_PACKAGE_WPA_SUPPLICANT=m
 +# BR2_PACKAGE_WPUT is not set
-+# BR2_PACKAGE_WRT_RADAUTH is not set
 +# BR2_PACKAGE_XINETD is not set
 +# BR2_PACKAGE_XSUPPLICANT is not set
 +
@@ -830,6 +833,7 @@ Index: .config
 +#
 +# BR2_PACKAGE_6TUNNEL is not set
 +# BR2_PACKAGE_AICCU is not set
++# BR2_PACKAGE_DHCP6 is not set
 +# BR2_PACKAGE_MIREDO is not set
 +# BR2_PACKAGE_MIREDO_SERVER is not set
 +
@@ -850,6 +854,7 @@ Index: .config
 +# BR2_PACKAGE_LIBAMSEL is not set
 +# BR2_PACKAGE_LIBAO is not set
 +# BR2_PACKAGE_LIBART is not set
++# BR2_PACKAGE_LIBCLI is not set
 +# BR2_PACKAGE_LIBCURL is not set
 +# BR2_PACKAGE_LIBDAEMON is not set
 +# BR2_PACKAGE_LIBDB is not set
@@ -865,6 +870,7 @@ Index: .config
 +# BR2_PACKAGE_LIBGMP is not set
 +# BR2_PACKAGE_LIBGNUTLS is not set
 +# BR2_PACKAGE_LIBGPG_ERROR is not set
++# BR2_PACKAGE_LIBGSM is not set
 +# BR2_PACKAGE_LIBID3TAG is not set
 +# BR2_PACKAGE_LIBJPEG is not set
 +# BR2_PACKAGE_LIBLTDL is not set
@@ -879,7 +885,9 @@ Index: .config
 +# BR2_PACKAGE_LIBOGG is not set
 +# BR2_PACKAGE_LIBOPENCDK is not set
 +# BR2_PACKAGE_LIBOPENLDAP is not set
-+# BR2_PACKAGE_LIBOPENSSL is not set
++BR2_COMPILE_OPENSSL=m
++BR2_PACKAGE_LIBOPENSSL=m
++# BR2_PACKAGE_OPENSSL_UTIL is not set
 +# BR2_PACKAGE_LIBOSIP2 is not set
 +BR2_PACKAGE_LIBPCAP=m
 +# BR2_PACKAGE_LIBPCRE is not set
@@ -900,6 +908,7 @@ Index: .config
 +# BR2_PACKAGE_LIBXML2 is not set
 +# BR2_PACKAGE_LIBXSLT is not set
 +# BR2_PACKAGE_UCLIBCXX is not set
++# BR2_PACKAGE_USTL is not set
 +BR2_PACKAGE_ZLIB=y
 +
 +#
@@ -907,6 +916,7 @@ Index: .config
 +#
 +# BR2_PACKAGE_GMEDIASERVER is not set
 +# BR2_PACKAGE_ICECAST is not set
++# BR2_PACKAGE_MADPLAY is not set
 +
 +#
 +# mpd............................... Music Player Daemon
@@ -914,6 +924,7 @@ Index: .config
 +# BR2_PACKAGE_MPD is not set
 +# BR2_PACKAGE_MT_DAAPD is not set
 +# BR2_PACKAGE_PALANTIR is not set
++# BR2_PACKAGE_PEERCAST is not set
 +# BR2_PACKAGE_SETPWC is not set
 +
 +#
@@ -921,16 +932,19 @@ Index: .config
 +#
 +# BR2_PACKAGE_MICROCOM is not set
 +# BR2_PACKAGE_PICOCOM is not set
++# BR2_PACKAGE_SERDISPLIB is not set
 +# BR2_PACKAGE_SETSERIAL is not set
 +
 +#
 +# Utilities
 +#
++# BR2_PACKAGE_BC is not set
++# BR2_PACKAGE_DC is not set
 +# BR2_PACKAGE_GDBSERVER is not set
 +# BR2_PACKAGE_MADWIFI_TOOLS is not set
-+# BR2_PACKAGE_PCMCIA_UTILS is not set
 +# BR2_PACKAGE_LSUSB is not set
 +# BR2_PACKAGE_STRACE is not set
++# BR2_PACKAGE_UDEV is not set
 +
 +#
 +# FileSystems related
@@ -988,6 +1002,7 @@ Index: .config
 +# BR2_LINUX_2_4_X86 is not set
 +# BR2_LINUX_2_6_BRCM is not set
 +# BR2_LINUX_2_6_X86 is not set
++# BR2_LINUX_2_4_AR531X is not set
 +# BR2_LINUX_2_4_WAX is not set
 +BR2_LINUX_2_4_SINUS154=y
 +
@@ -1008,8 +1023,8 @@ Index: .config
 +# Networking modules
 +#
 +BR2_PACKAGE_KMOD_ATM=m
-+BR2_PACKAGE_KMOD_GRE=m
-+BR2_PACKAGE_KMOD_IPV6=m
++# BR2_PACKAGE_KMOD_GRE is not set
++# BR2_PACKAGE_KMOD_IPV6 is not set
 +BR2_PACKAGE_KMOD_PPP=y
 +BR2_PACKAGE_KMOD_MPPE=m
 +BR2_PACKAGE_KMOD_PPPOATM=m
@@ -1033,7 +1048,6 @@ Index: .config
 +BR2_PACKAGE_KMOD_IPT_QUEUE=m
 +BR2_PACKAGE_KMOD_IPT_ULOG=m
 +BR2_PACKAGE_KMOD_IPT_EXTRA=m
-+BR2_PACKAGE_KMOD_IP6TABLES=m
 +
 +#
 +# Block devices support
@@ -1085,7 +1099,6 @@ Index: .config
 +#
 +# PCMCIA/CardBus support
 +#
-+# BR2_PACKAGE_KMOD_PCMCIA_CORE is not set
 +
 +#
 +# USB support
@@ -1105,15 +1118,18 @@ Index: .config
 +BR2_PACKAGE_KMOD_DIAG=y
 +# BR2_PACKAGE_KMOD_FUSE is not set
 +# BR2_PACKAGE_KMOD_HOSTAP is not set
-+# BR2_PACKAGE_KMOD_MADWIFI is not set
++# BR2_PACKAGE_KMOD_IEEE80211_DSCAPE is not set
++BR2_PACKAGE_KMOD_MADWIFI=m
 +# BR2_PACKAGE_KMOD_MINI_FO is not set
 +# BR2_PACKAGE_KMOD_OPENSWAN is not set
 +# BR2_PACKAGE_KMOD_SHFS is not set
++# BR2_PACKAGE_KMOD_SPCA5XX is not set
++# BR2_PACKAGE_KMOD_SWITCH is not set
 Index: target/linux/linux-2.4/ar7.mk
 ===================================================================
---- target/linux/linux-2.4/ar7.mk	(Revision 2576)
+--- target/linux/linux-2.4/ar7.mk	(Revision 2793)
 +++ target/linux/linux-2.4/ar7.mk	(Arbeitskopie)
-@@ -28,6 +28,9 @@
+@@ -28,15 +28,18 @@
  drivers-clean:
  	rm -rf $(BUILD_DIR)/$(ATM_FIRMWARE_DIR)
  
@@ -1122,10 +1138,21 @@ Index: target/linux/linux-2.4/ar7.mk
 +#))
  
  $(eval $(call KMOD_template,SANGAM_ATM_A,sangam-atm-annex-a,\
- 	$(MODULES_DIR)/kernel/drivers/atm/tiatm.o \
+-	$(MODULES_DIR)/kernel/drivers/atm/tiatm.o \
++	$(MODULES_DIR)/kernel/drivers/atm/sangam_atm/tiatm.o \
+ ,CONFIG_MIPS_SANGAM_ATM,kmod-atm,60,tiatm, \
+ 	cp $(BUILD_DIR)/$(ATM_FIRMWARE_DIR)/ar0700xx_a.bin $$(I_SANGAM_ATM_A)/lib/modules/ar0700xx.bin \
+ ))
+ 
+ $(eval $(call KMOD_template,SANGAM_ATM_B,sangam-atm-annex-b,\
+-	$(MODULES_DIR)/kernel/drivers/atm/tiatm.o \
++	$(MODULES_DIR)/kernel/drivers/atm/sangam_atm/tiatm.o \
+ ,CONFIG_MIPS_SANGAM_ATM,kmod-atm,60,tiatm, \
+ 	cp $(BUILD_DIR)/$(ATM_FIRMWARE_DIR)/ar0700xx_b.bin $$(I_SANGAM_ATM_B)/lib/modules/ar0700xx.bin \
+ ))
 Index: target/linux/linux-2.4/config/ar7
 ===================================================================
---- target/linux/linux-2.4/config/ar7	(Revision 2576)
+--- target/linux/linux-2.4/config/ar7	(Revision 2793)
 +++ target/linux/linux-2.4/config/ar7	(Arbeitskopie)
 @@ -77,6 +77,7 @@
  # CONFIG_SGI_IP22 is not set
@@ -1135,7 +1162,7 @@ Index: target/linux/linux-2.4/config/ar7
  # CONFIG_SNI_RM200_PCI is not set
  # CONFIG_TANBAC_TB0226 is not set
  # CONFIG_TANBAC_TB0229 is not set
-@@ -172,99 +173,9 @@
+@@ -172,27 +173,29 @@
  #
  # Memory Technology Devices (MTD)
  #
@@ -1143,100 +1170,66 @@ Index: target/linux/linux-2.4/config/ar7
 -# CONFIG_MTD_DEBUG is not set
 -CONFIG_MTD_PARTITIONS=y
 -# CONFIG_MTD_CONCAT is not set
--# CONFIG_MTD_REDBOOT_PARTS is not set
--# CONFIG_MTD_CMDLINE_PARTS is not set
-+# CONFIG_MTD is not set
++CONFIG_MTD=m
++CONFIG_MTD_DEBUG=y
++CONFIG_MTD_DEBUG_VERBOSE=3
++CONFIG_MTD_PARTITIONS=m
++CONFIG_MTD_CONCAT=m
+ # CONFIG_MTD_REDBOOT_PARTS is not set
+ # CONFIG_MTD_CMDLINE_PARTS is not set
  
  #
--# User Modules And Translation Layers
--#
+ # User Modules And Translation Layers
+ #
 -CONFIG_MTD_CHAR=y
 -CONFIG_MTD_BLOCK=y
--# CONFIG_FTL is not set
--# CONFIG_NFTL is not set
--
--#
--# RAM/ROM/Flash chip drivers
--#
++CONFIG_MTD_CHAR=m
++CONFIG_MTD_BLOCK=m
++CONFIG_MTD_BLOCK_RO=m
+ # CONFIG_FTL is not set
+ # CONFIG_NFTL is not set
+ 
+ #
+ # RAM/ROM/Flash chip drivers
+ #
 -CONFIG_MTD_CFI=y
--# CONFIG_MTD_JEDECPROBE is not set
++CONFIG_MTD_CFI=m
+ # CONFIG_MTD_JEDECPROBE is not set
 -CONFIG_MTD_GEN_PROBE=y
--CONFIG_MTD_CFI_ADV_OPTIONS=y
--CONFIG_MTD_CFI_NOSWAP=y
--# CONFIG_MTD_CFI_BE_BYTE_SWAP is not set
--# CONFIG_MTD_CFI_LE_BYTE_SWAP is not set
--CONFIG_MTD_CFI_GEOMETRY=y
--# CONFIG_MTD_CFI_B1 is not set
--CONFIG_MTD_CFI_B2=y
--# CONFIG_MTD_CFI_B4 is not set
--# CONFIG_MTD_CFI_B8 is not set
--CONFIG_MTD_CFI_I1=y
--# CONFIG_MTD_CFI_I2 is not set
--# CONFIG_MTD_CFI_I4 is not set
--# CONFIG_MTD_CFI_I8 is not set
++CONFIG_MTD_GEN_PROBE=m
+ CONFIG_MTD_CFI_ADV_OPTIONS=y
+ CONFIG_MTD_CFI_NOSWAP=y
+ # CONFIG_MTD_CFI_BE_BYTE_SWAP is not set
+@@ -206,10 +209,10 @@
+ # CONFIG_MTD_CFI_I2 is not set
+ # CONFIG_MTD_CFI_I4 is not set
+ # CONFIG_MTD_CFI_I8 is not set
 -CONFIG_MTD_CFI_INTELEXT=y
 -CONFIG_MTD_CFI_AMDSTD=y
 -# CONFIG_MTD_CFI_STAA is not set
 -# CONFIG_MTD_CFI_SSTSTD is not set
--# CONFIG_MTD_RAM is not set
--# CONFIG_MTD_ROM is not set
--# CONFIG_MTD_ABSENT is not set
--# CONFIG_MTD_OBSOLETE_CHIPS is not set
--# CONFIG_MTD_AMDSTD is not set
--# CONFIG_MTD_SHARP is not set
--# CONFIG_MTD_JEDEC is not set
--
--#
--# Mapping drivers for chip access
--#
--# CONFIG_MTD_PHYSMAP is not set
++CONFIG_MTD_CFI_INTELEXT=m
++CONFIG_MTD_CFI_AMDSTD=m
++CONFIG_MTD_CFI_STAA=m
++CONFIG_MTD_CFI_SSTSTD=m
+ # CONFIG_MTD_RAM is not set
+ # CONFIG_MTD_ROM is not set
+ # CONFIG_MTD_ABSENT is not set
+@@ -222,10 +225,10 @@
+ # Mapping drivers for chip access
+ #
+ # CONFIG_MTD_PHYSMAP is not set
 -CONFIG_MTD_AR7=y
 -CONFIG_MTD_AR7_DEFAULTS=y
--CONFIG_MTD_AR7_START=0x10000000
++CONFIG_MTD_AR7=m
++# CONFIG_MTD_AR7_DEFAULTS is not set
+ CONFIG_MTD_AR7_START=0x10000000
 -CONFIG_MTD_AR7_LEN=0x400000
--CONFIG_MTD_AR7_BUSWIDTH=2
--# CONFIG_MTD_PB1000 is not set
--# CONFIG_MTD_PB1500 is not set
--# CONFIG_MTD_PB1100 is not set
--# CONFIG_MTD_BOSPORUS is not set
--# CONFIG_MTD_XXS1500 is not set
--# CONFIG_MTD_MTX1 is not set
--# CONFIG_MTD_DB1X00 is not set
--# CONFIG_MTD_PB1550 is not set
--# CONFIG_MTD_HYDROGEN3 is not set
--# CONFIG_MTD_MIRAGE is not set
--# CONFIG_MTD_CSTM_MIPS_IXX is not set
--# CONFIG_MTD_OCELOT is not set
--# CONFIG_MTD_LASAT is not set
--# CONFIG_MTD_PCI is not set
--# CONFIG_MTD_PCMCIA is not set
--
--#
--# Self-contained MTD device drivers
--#
--# CONFIG_MTD_PMC551 is not set
--# CONFIG_MTD_SLRAM is not set
--# CONFIG_MTD_MTDRAM is not set
--# CONFIG_MTD_BLKMTD is not set
--
--#
--# Disk-On-Chip Device Drivers
--#
--# CONFIG_MTD_DOC1000 is not set
--# CONFIG_MTD_DOC2000 is not set
--# CONFIG_MTD_DOC2001 is not set
--# CONFIG_MTD_DOCPROBE is not set
--
--#
--# NAND Flash Device Drivers
--#
--# CONFIG_MTD_NAND is not set
--
--#
- # Parallel port support
- #
- # CONFIG_PARPORT is not set
-@@ -325,7 +236,10 @@
++CONFIG_MTD_AR7_LEN=0x200000
+ CONFIG_MTD_AR7_BUSWIDTH=2
+ # CONFIG_MTD_PB1000 is not set
+ # CONFIG_MTD_PB1500 is not set
+@@ -325,7 +328,10 @@
  CONFIG_IP_ROUTE_MULTIPATH=y
  CONFIG_IP_ROUTE_TOS=y
  # CONFIG_IP_ROUTE_VERBOSE is not set
@@ -1248,7 +1241,7 @@ Index: target/linux/linux-2.4/config/ar7
  CONFIG_NET_IPIP=m
  CONFIG_NET_IPGRE=m
  # CONFIG_NET_IPGRE_BROADCAST is not set
-@@ -525,83 +439,9 @@
+@@ -533,83 +539,9 @@
  #
  # SCSI support
  #
@@ -1333,7 +1326,7 @@ Index: target/linux/linux-2.4/config/ar7
  # Fusion MPT device support
  #
  # CONFIG_FUSION is not set
-@@ -630,7 +470,7 @@
+@@ -639,7 +571,7 @@
  # Ethernet (10 or 100Mbit)
  #
  CONFIG_NET_ETHERNET=y
@@ -1342,7 +1335,7 @@ Index: target/linux/linux-2.4/config/ar7
  CONFIG_MIPS_CPMAC_INIT_BUF_MALLOC=y
  CONFIG_MIPS_CPMAC_PORTS=1
  CONFIG_AVALANCHE_CPMAC_AUTO=y
-@@ -692,7 +532,7 @@
+@@ -701,7 +633,7 @@
  # Prism54 PCI/PCMCIA GT/Duette Driver - 802.11(a/b/g)
  #
  # CONFIG_PRISM54 is not set
@@ -1351,7 +1344,7 @@ Index: target/linux/linux-2.4/config/ar7
  
  #
  # Token Ring devices
-@@ -825,33 +665,34 @@
+@@ -834,33 +766,34 @@
  # CONFIG_ADFS_FS_RW is not set
  # CONFIG_AFFS_FS is not set
  # CONFIG_HFS_FS is not set
@@ -1397,7 +1390,7 @@ Index: target/linux/linux-2.4/config/ar7
  # CONFIG_ZISOFS is not set
  # CONFIG_JFS_FS is not set
  # CONFIG_JFS_DEBUG is not set
-@@ -869,13 +710,13 @@
+@@ -878,13 +811,13 @@
  # CONFIG_QNX4FS_FS is not set
  # CONFIG_QNX4FS_RW is not set
  # CONFIG_ROMFS_FS is not set
@@ -1413,7 +1406,7 @@ Index: target/linux/linux-2.4/config/ar7
  # CONFIG_XFS_QUOTA is not set
  # CONFIG_XFS_RT is not set
  # CONFIG_XFS_TRACE is not set
-@@ -886,15 +727,15 @@
+@@ -895,15 +828,15 @@
  #
  # CONFIG_CODA_FS is not set
  # CONFIG_INTERMEZZO_FS is not set
@@ -1433,7 +1426,7 @@ Index: target/linux/linux-2.4/config/ar7
  CONFIG_LOCKD_V4=y
  CONFIG_CIFS=m
  # CONFIG_CIFS_STATS is not set
-@@ -914,22 +755,8 @@
+@@ -923,22 +856,8 @@
  #
  # Partition Types
  #
@@ -1457,7 +1450,7 @@ Index: target/linux/linux-2.4/config/ar7
  # CONFIG_SMB_NLS is not set
  CONFIG_NLS=y
  
-@@ -998,38 +825,16 @@
+@@ -1007,38 +926,16 @@
  #
  # Bluetooth support
  #
@@ -1501,7 +1494,7 @@ Index: target/linux/linux-2.4/config/ar7
  CONFIG_MAGIC_SYSRQ=y
  # CONFIG_MIPS_UNCACHED is not set
  CONFIG_LOG_BUF_SHIFT=0
-@@ -1066,5 +871,5 @@
+@@ -1075,5 +972,5 @@
  #
  # CONFIG_CRC32 is not set
  CONFIG_ZLIB_INFLATE=y
@@ -1510,7 +1503,7 @@ Index: target/linux/linux-2.4/config/ar7
  # CONFIG_FW_LOADER is not set
 Index: target/linux/linux-2.4/patches/ar7/000-ar7_support.patch
 ===================================================================
---- target/linux/linux-2.4/patches/ar7/000-ar7_support.patch	(Revision 2576)
+--- target/linux/linux-2.4/patches/ar7/000-ar7_support.patch	(Revision 2793)
 +++ target/linux/linux-2.4/patches/ar7/000-ar7_support.patch	(Arbeitskopie)
 @@ -1959,7 +1959,7 @@
  +		int line;
@@ -1699,71 +1692,20 @@ Index: target/linux/linux-2.4/patches/ar7/021-debug.patch
 + 	return ent;
 + }
 + 
-Index: target/linux/linux-2.4/patches/ar7/010-sinus.patch
-===================================================================
---- target/linux/linux-2.4/patches/ar7/010-sinus.patch	(Revision 0)
-+++ target/linux/linux-2.4/patches/ar7/010-sinus.patch	(Revision 0)
-@@ -0,0 +1,51 @@
-+diff -urN linux-2.4.30/arch/mips/Makefile linux-2.4.30.new/arch/mips/Makefile
-+--- linux-2.4.30/arch/mips/Makefile	2005-11-12 23:17:11.000000000 +0100
-++++ linux-2.4.30.new/arch/mips/Makefile	2005-11-07 21:10:17.000000000 +0100
-+@@ -376,8 +375,12 @@
-+ ifdef CONFIG_AR7
-+ LIBS		+= arch/mips/ar7/ar7.o
-+ SUBDIRS		+= arch/mips/ar7
-++ifdef CONFIG_MIPS_SINUS154
-++LOADADDR	+= 0x94000000
-++else
-+ LOADADDR	+= 0x94020000
-+ endif
-++endif
-+ 
-+ #
-+ # DECstation family
-+diff -urN linux-2.4.30/arch/mips/config-shared.in linux-2.4.30.new/arch/mips/config-shared.in
-+--- linux-2.4.30/arch/mips/config-shared.in	2005-11-12 23:17:09.000000000 +0100
-++++ linux-2.4.30.new/arch/mips/config-shared.in	2005-11-07 21:10:16.000000000 +0100
-+@@ -218,6 +218,7 @@
-+    fi
-+    define_bool CONFIG_MIPS_RTC y
-+ fi
-++dep_bool 'Support for Sinus 154 boards  (EXPERIMENTAL)' CONFIG_MIPS_SINUS154 $CONFIG_AR7 $CONFIG_EXPERIMENTAL
-+ bool 'Support for SNI RM200 PCI' CONFIG_SNI_RM200_PCI
-+ bool 'Support for TANBAC TB0226 (Mbase)' CONFIG_TANBAC_TB0226
-+ bool 'Support for TANBAC TB0229 (VR4131DIMM)' CONFIG_TANBAC_TB0229
-+diff -urN linux-2.4.30/include/asm-mips/bootinfo.h linux-2.4.30.new/include/asm-mips/bootinfo.h
-+--- linux-2.4.30/include/asm-mips/bootinfo.h	2005-11-12 23:19:46.000000000 +0100
-++++ linux-2.4.30.new/include/asm-mips/bootinfo.h	2005-11-07 21:13:08.000000000 +0100
-+@@ -37,6 +37,7 @@
-+ #define MACH_GROUP_HP_LJ       20 /* Hewlett Packard LaserJet               */
-+ #define MACH_GROUP_LASAT       21
-+ #define MACH_GROUP_TITAN       22 /* PMC-Sierra Titan 			    */
-++#define MACH_GROUP_AR7         23 /* TI AR7 (Sangam) based Boards           */
-+ 
-+ /*
-+  * Valid machtype values for group unknown (low order halfword of mips_machtype)
-+@@ -201,6 +202,12 @@
-+  */
-+ #define	MACH_TITAN_YOSEMITE	1 	/* PMC-Sierra Yosemite */
-+ 
-++/*
-++ * Valid machtype for group AR7 (SANGAM)
-++ */
-++#define MACH_AR7_ADAM2          0       /* ADAM2 based Boards */
-++#define MACH_AR7_SINUS154       1       /* Sinus 154 DSL Basic SE / Basic 3 */
-++
-+ #define CL_SIZE			(256)
-+ 
-+ const char *get_system_type(void);
 Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 ===================================================================
 --- target/linux/linux-2.4/patches/ar7/011-sinus.patch	(Revision 0)
 +++ target/linux/linux-2.4/patches/ar7/011-sinus.patch	(Revision 0)
-@@ -0,0 +1,4439 @@
+@@ -0,0 +1,5651 @@
 +diff -urN linux-2.4.32/arch/mips/ar7/cmdline.c linux-2.4.32.new/arch/mips/ar7/cmdline.c
-+--- linux-2.4.32/arch/mips/ar7/cmdline.c	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/arch/mips/ar7/cmdline.c	2005-12-01 21:13:57.000000000 +0100
-+@@ -21,9 +21,7 @@
++--- linux-2.4.32/arch/mips/ar7/cmdline.c	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/arch/mips/ar7/cmdline.c	2005-12-27 21:44:16.000000000 +0100
++@@ -17,13 +17,12 @@
++  *
++  * Kernel command line creation using the prom monitor (YAMON) argc/argv.
++  */
+++#include <linux/config.h>
++ #include <linux/init.h>
 + #include <linux/string.h>
 + 
 + #include <asm/bootinfo.h>
@@ -1776,7 +1718,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 +  * YAMON (32-bit PROM) pass arguments and environment as 32-bit pointer.
 +diff -urN linux-2.4.32/arch/mips/ar7/gdb_hook.c linux-2.4.32.new/arch/mips/ar7/gdb_hook.c
 +--- linux-2.4.32/arch/mips/ar7/gdb_hook.c	1970-01-01 01:00:00.000000000 +0100
-++++ linux-2.4.32.new/arch/mips/ar7/gdb_hook.c	2005-12-01 21:13:57.000000000 +0100
+++++ linux-2.4.32.new/arch/mips/ar7/gdb_hook.c	2005-12-27 21:44:16.000000000 +0100
 +@@ -0,0 +1,136 @@
 ++/*
 ++ * Carsten Langgaard, carstenl@mips.com
@@ -1915,8 +1857,8 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 ++}
 ++
 +diff -urN linux-2.4.32/arch/mips/ar7/init.c linux-2.4.32.new/arch/mips/ar7/init.c
-+--- linux-2.4.32/arch/mips/ar7/init.c	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/arch/mips/ar7/init.c	2005-12-01 21:13:57.000000000 +0100
++--- linux-2.4.32/arch/mips/ar7/init.c	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/arch/mips/ar7/init.c	2005-12-27 21:44:16.000000000 +0100
 +@@ -24,6 +24,7 @@
 + #include <linux/module.h>
 + 
@@ -1925,7 +1867,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + #include <asm/mips-boards/prom.h>
 + #include <asm/mips-boards/generic.h>
 + 
-+@@ -35,7 +36,87 @@
++@@ -35,7 +36,91 @@
 + /* max # of Adam2 environment variables */
 + #define MAX_ENV_ENTRY 80
 + 
@@ -1981,6 +1923,10 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 ++# warning Using_SQUASHFS_boot
 ++		"root=/dev/mtdblock2 rootfstype=squashfs "
 ++#endif
+++#if defined(CONFIG_MTD_CMDLINE_PARTS) && defined(CONFIG_MIPS_SINUS154)
+++# warning Cmdline defines MTD partitions
+++		"mtdparts=sinus154:128k(Boot)ro,128k(Config),832k(Web),896k(Code),64k(Params) "
+++#endif
 ++#if 0 && defined(CONFIG_KGDB)
 ++		"kgdb=ttyS0 "
 ++#endif
@@ -2013,7 +1959,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + static int env_type = 0;
 + int init_debug = 0;
 + 
-+@@ -155,6 +236,10 @@
++@@ -155,6 +240,10 @@
 + 
 + int __init prom_init(int argc, char **argv, char **envp)
 + {
@@ -2024,7 +1970,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 	int i;
 + 
 + 	t_env_var *env = (t_env_var *) envp;
-+@@ -165,7 +250,7 @@
++@@ -165,7 +254,7 @@
 + 	_prom_argv = (int *)argv;
 + 	_prom_envp = (int *)envp;
 + 
@@ -2033,7 +1979,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 +  		/* PSPBOOT */
 + 
 + 		env_type = 1;
-+@@ -188,10 +273,15 @@
++@@ -188,10 +277,15 @@
 + 			}
 + 		}
 + 	}
@@ -2050,8 +1996,8 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 	prom_meminit();
 + 
 +diff -urN linux-2.4.32/arch/mips/ar7/irq.c linux-2.4.32.new/arch/mips/ar7/irq.c
-+--- linux-2.4.32/arch/mips/ar7/irq.c	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/arch/mips/ar7/irq.c	2005-12-01 21:13:57.000000000 +0100
++--- linux-2.4.32/arch/mips/ar7/irq.c	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/arch/mips/ar7/irq.c	2005-12-27 21:44:16.000000000 +0100
 +@@ -26,20 +26,30 @@
 + 
 + #include <linux/init.h>
@@ -2569,26 +2515,13 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 ++EXPORT_SYMBOL(avalanche_intr_polarity_set);
 +diff -urN linux-2.4.32/arch/mips/ar7/irq-vlynq.c linux-2.4.32.new/arch/mips/ar7/irq-vlynq.c
 +--- linux-2.4.32/arch/mips/ar7/irq-vlynq.c	1970-01-01 01:00:00.000000000 +0100
-++++ linux-2.4.32.new/arch/mips/ar7/irq-vlynq.c	2005-12-01 21:13:57.000000000 +0100
-+@@ -0,0 +1,282 @@
+++++ linux-2.4.32.new/arch/mips/ar7/irq-vlynq.c	2005-12-27 21:44:16.000000000 +0100
++@@ -0,0 +1,269 @@
 ++/*
-++enable_avalanche_irq, disable_avalanche_irq für irq 15 und irq 27 kommen sehr häufig
-++#define AVALANCHE_INT_END_PRIMARY      (40 + MIPS_EXCEPTION_OFFSET)	48
-++#define AVALANCHE_INT_END_SECONDARY    (32 + MIPS_EXCEPTION_OFFSET)	40
+++ * Interrupt handling for VLYNQ interrupts.
+++ */
 ++
-++#define AVALANCHE_INT_END_PRIMARY_REG1 (31 + MIPS_EXCEPTION_OFFSET)	39
-++#define AVALANCHE_INT_END_PRIMARY_REG2 (39 + MIPS_EXCEPTION_OFFSET)	47
-++
-++#define AVALANCHE_INTC_END (AVINTNUM(AVALANCHE_INT_END_PRIMARY) + \	80
-++			    AVINTNUM(AVALANCHE_INT_END_SECONDARY) + \
-++			    MIPS_EXCEPTION_OFFSET)
-++
-++#define AVALANCHE_INT_END_LOW_VLYNQ  (AVALANCHE_INTC_END + 32)		112
-++#define AVALANCHE_INT_END_VLYNQ      (AVALANCHE_INTC_END + 32 * CONFIG_AR7_VLYNQ_PORTS)	144
-++#define AVALANCHE_INT_END             AVALANCHE_INT_END_VLYNQ		144
-++*/
-++
-++//#include <linux/config.h>
+++#include <linux/config.h>
 ++#include <linux/init.h>
 ++#include <linux/interrupt.h>
 ++#include <linux/module.h>
@@ -2601,9 +2534,9 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 ++
 ++#if defined(CONFIG_AR7_VLYNQ)
 ++# define CONFIG_MIPS_AVALANCHE_VLYNQ
-++# include <asm/ar7/vlynq.h>
+++# include <asm/ar7/vlynq_hal.h>
 ++#else
-++# error
+++# error This file needs CONFIG_AR7_VLYNQ
 ++#endif
 ++
 ++#if (AVALANCHE_INT_END) != NR_IRQS
@@ -2854,8 +2787,8 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 ++
 ++#endif
 +diff -urN linux-2.4.32/arch/mips/ar7/Makefile linux-2.4.32.new/arch/mips/ar7/Makefile
-+--- linux-2.4.32/arch/mips/ar7/Makefile	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/arch/mips/ar7/Makefile	2005-12-01 21:13:57.000000000 +0100
++--- linux-2.4.32/arch/mips/ar7/Makefile	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/arch/mips/ar7/Makefile	2005-12-27 21:44:16.000000000 +0100
 +@@ -1,14 +1,19 @@
 +-.S.s:
 +-	$(CPP) $(AFLAGS) $< -o $*.s
@@ -2882,8 +2815,8 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 
 + include $(TOPDIR)/Rules.make
 +diff -urN linux-2.4.32/arch/mips/ar7/misc.c linux-2.4.32.new/arch/mips/ar7/misc.c
-+--- linux-2.4.32/arch/mips/ar7/misc.c	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/arch/mips/ar7/misc.c	2005-12-01 22:45:12.000000000 +0100
++--- linux-2.4.32/arch/mips/ar7/misc.c	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/arch/mips/ar7/misc.c	2005-12-27 21:44:16.000000000 +0100
 +@@ -12,29 +12,28 @@
 + /*****************************************************************************
 +  * Reset Control Module.
@@ -2920,8 +2853,8 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 
 + AVALANCHE_RESET_CTRL_T avalanche_get_reset_status(unsigned int module_reset_bit)
 +diff -urN linux-2.4.32/arch/mips/ar7/setup.c linux-2.4.32.new/arch/mips/ar7/setup.c
-+--- linux-2.4.32/arch/mips/ar7/setup.c	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/arch/mips/ar7/setup.c	2005-12-01 21:13:57.000000000 +0100
++--- linux-2.4.32/arch/mips/ar7/setup.c	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/arch/mips/ar7/setup.c	2005-12-27 21:44:16.000000000 +0100
 +@@ -36,6 +36,7 @@
 + 
 + extern void ar7_reboot_setup(void);
@@ -2947,9 +2880,20 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 				"please connect your debugger\n", line ? 1 : 0);
 + 
 + 		remote_debug = 1;
++diff -urN linux-2.4.32/arch/mips/config-shared.in linux-2.4.32.new/arch/mips/config-shared.in
++--- linux-2.4.32/arch/mips/config-shared.in	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/arch/mips/config-shared.in	2005-12-27 21:44:16.000000000 +0100
++@@ -218,6 +218,7 @@
++    fi
++    define_bool CONFIG_MIPS_RTC y
++ fi
+++dep_bool 'Support for Sinus 154 boards  (EXPERIMENTAL)' CONFIG_MIPS_SINUS154 $CONFIG_AR7 $CONFIG_EXPERIMENTAL
++ bool 'Support for SNI RM200 PCI' CONFIG_SNI_RM200_PCI
++ bool 'Support for TANBAC TB0226 (Mbase)' CONFIG_TANBAC_TB0226
++ bool 'Support for TANBAC TB0229 (VR4131DIMM)' CONFIG_TANBAC_TB0229
 +diff -urN linux-2.4.32/arch/mips/kernel/head.S linux-2.4.32.new/arch/mips/kernel/head.S
-+--- linux-2.4.32/arch/mips/kernel/head.S	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/arch/mips/kernel/head.S	2005-12-01 21:13:57.000000000 +0100
++--- linux-2.4.32/arch/mips/kernel/head.S	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/arch/mips/kernel/head.S	2005-12-27 21:44:16.000000000 +0100
 +@@ -33,7 +33,16 @@
 + 		 * Reserved space for exception handlers.
 + 		 * Necessary for machines which link their kernels at KSEG0.
@@ -2968,8 +2912,8 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 		/* The following two symbols are used for kernel profiling. */
 + 		EXPORT(stext)
 +diff -urN linux-2.4.32/arch/mips/kernel/setup.c linux-2.4.32.new/arch/mips/kernel/setup.c
-+--- linux-2.4.32/arch/mips/kernel/setup.c	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/arch/mips/kernel/setup.c	2005-12-01 21:13:57.000000000 +0100
++--- linux-2.4.32/arch/mips/kernel/setup.c	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/arch/mips/kernel/setup.c	2005-12-27 21:44:16.000000000 +0100
 +@@ -125,6 +125,20 @@
 + 	/* Determine which MIPS variant we are running on. */
 + 	cpu_probe();
@@ -3015,9 +2959,114 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 	case MACH_GROUP_UNKNOWN:
 + 		ar7_setup();
 + 		break;
++diff -urN linux-2.4.32/arch/mips/Makefile linux-2.4.32.new/arch/mips/Makefile
++--- linux-2.4.32/arch/mips/Makefile	2005-12-29 11:23:34.000000000 +0100
+++++ linux-2.4.32.new/arch/mips/Makefile	2005-12-27 21:44:16.000000000 +0100
++@@ -374,8 +374,12 @@
++ ifdef CONFIG_AR7
++ LIBS		+= arch/mips/ar7/ar7.o
++ SUBDIRS		+= arch/mips/ar7
+++ifdef CONFIG_MIPS_SINUS154
+++LOADADDR	+= 0x94000000
+++else
++ LOADADDR	+= 0x94020000
++ endif
+++endif
++ 
++ #
++ # DECstation family
++diff -urN linux-2.4.32/drivers/atm/Makefile linux-2.4.32.new/drivers/atm/Makefile
++--- linux-2.4.32/drivers/atm/Makefile	2005-12-29 11:23:33.000000000 +0100
+++++ linux-2.4.32.new/drivers/atm/Makefile	2005-12-27 21:44:16.000000000 +0100
++@@ -8,38 +8,15 @@
++ export-objs := uPD98402.o suni.o idt77105.o
++ 
++ obj-y := atmdev_init.o
+++obj-m :=
++ 
++ obj-$(CONFIG_ATM_ENI) += eni.o suni.o
++ obj-$(CONFIG_ATM_ZATM) += zatm.o uPD98402.o
++ obj-$(CONFIG_ATM_NICSTAR) += nicstar.o
++ obj-$(CONFIG_ATM_IDT77252) += idt77252.o
++ 
++-ifeq ($(CONFIG_AR7),y)
++-
++ subdir-$(CONFIG_MIPS_SANGAM_ATM) += sangam_atm
++ 
++-EXTRA_CFLAGS += -DEL -I$(TOPDIR)/drivers/atm/sangam_atm -DPOST_SILICON -DCOMMON_NSP -DCONFIG_LED_MODULE -DDEREGISTER_LED -DNO_ACT
++-#EXTRA_CFLAGS += -DEL -I$(TOPDIR)/drivers/atm/sangam_atm -DPOST_SILICON -DCOMMON_NSP
++-
++-ifeq ($(ANNEX),B)
++-EXTRA_CFLAGS += -DANNEX_B -DB
++-else
++-ifeq ($(ANNEX),C)
++-EXTRA_CFLAGS += -DANNEX_C -DC
++-else
++-EXTRA_CFLAGS += -DANNEX_A -DP
++-endif
++-endif
++-
++-list-multi	:= tiatm.o
++-tiatm-objs	:= sangam_atm/tn7atm.o sangam_atm/tn7dsl.o sangam_atm/tn7sar.o \
++-	sangam_atm/dsl_hal_api.o sangam_atm/dsl_hal_support.o sangam_atm/cpsar.o \
++-	sangam_atm/aal5sar.o
++-
++-obj-$(CONFIG_MIPS_SANGAM_ATM) += sangam_atm/tiatm.o
++-
++-endif
++-
++ ifeq ($(CONFIG_ATM_NICSTAR_USE_SUNI),y)
++   obj-$(CONFIG_ATM_NICSTAR) += suni.o
++ endif
++diff -urN linux-2.4.32/drivers/atm/sangam_atm/Makefile linux-2.4.32.new/drivers/atm/sangam_atm/Makefile
++--- linux-2.4.32/drivers/atm/sangam_atm/Makefile	2005-12-29 11:23:33.000000000 +0100
+++++ linux-2.4.32.new/drivers/atm/sangam_atm/Makefile	2005-12-27 21:44:16.000000000 +0100
++@@ -3,14 +3,21 @@
++ # Makefile for the Linux network (CPMAC) device drivers.
++ #
++ 
++-
++ O_TARGET := tiatm.o
++-obj-$(CONFIG_MIPS_SANGAM_ATM) += tiatm.o
++-list-multi      := tiatm.o
++ 
++-tiatm-objs	:= tn7atm.o tn7dsl.o tn7sar.o dsl_hal_api.o dsl_hal_support.o cpsar.o aal5sar.o
+++obj-y :=
+++obj-m :=
+++
+++#~ list-multi := tiatm.o
++ 
++-EXTRA_CFLAGS += -DEL -I$(TOPDIR)/drivers/atm/sangam_atm -DPOST_SILICON -DCOMMON_NSP -DCONFIG_LED_MODULE -DDEREGISTER_LED -DNO_ACT
+++tiatm-objs := tn7atm.o tn7dsl.o tn7sar.o
+++tiatm-objs += dsl_hal_api.o dsl_hal_support.o
+++tiatm-objs += cpsar.o aal5sar.o
+++
+++obj-$(CONFIG_MIPS_SANGAM_ATM) += tiatm.o
+++
+++EXTRA_CFLAGS += -DEL -DPOST_SILICON -DCOMMON_NSP -DCONFIG_LED_MODULE -DDEREGISTER_LED -DNO_ACT
+++#EXTRA_CFLAGS += -DEL -I$(TOPDIR)/drivers/atm/sangam_atm -DPOST_SILICON -DCOMMON_NSP
++ 
++ ifeq ($(ANNEX),B)
++ EXTRA_CFLAGS += -DANNEX_B -DB
++@@ -22,14 +29,7 @@
++ endif
++ endif
++ 
++-
++ include $(TOPDIR)/Rules.make
++ 
++-tiatm.o:      $(tiatm-objs)
+++tiatm.o: $(tiatm-objs)
++ 	$(LD) -r -o $@ $(tiatm-objs)
++-
++-#avalanche_cpmac.o:      $(avalanche_cpmac-objs)
++-#	$(LD) -r -o $@ $(avalanche_cpmac-objs)
++-
++-clean:
++-	rm -f core *.o *.a *.s
 +diff -urN linux-2.4.32/drivers/atm/sangam_atm/tn7dsl.c linux-2.4.32.new/drivers/atm/sangam_atm/tn7dsl.c
-+--- linux-2.4.32/drivers/atm/sangam_atm/tn7dsl.c	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/drivers/atm/sangam_atm/tn7dsl.c	2005-12-01 21:13:57.000000000 +0100
++--- linux-2.4.32/drivers/atm/sangam_atm/tn7dsl.c	2005-12-29 11:23:33.000000000 +0100
+++++ linux-2.4.32.new/drivers/atm/sangam_atm/tn7dsl.c	2005-12-27 21:44:16.000000000 +0100
 +@@ -496,7 +496,7 @@
 +       ptr = kmalloc(size, GFP_KERNEL|GFP_DMA);
 +     }
@@ -3028,8 +3077,8 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 
 + }
 +diff -urN linux-2.4.32/drivers/char/avalanche_led/gpio.c linux-2.4.32.new/drivers/char/avalanche_led/gpio.c
-+--- linux-2.4.32/drivers/char/avalanche_led/gpio.c	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/drivers/char/avalanche_led/gpio.c	2005-12-01 21:13:57.000000000 +0100
++--- linux-2.4.32/drivers/char/avalanche_led/gpio.c	2005-12-29 11:23:33.000000000 +0100
+++++ linux-2.4.32.new/drivers/char/avalanche_led/gpio.c	2005-12-27 21:44:16.000000000 +0100
 +@@ -1,3 +1,10 @@
 ++/*
 ++ * Todo:
@@ -3607,7 +3656,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 +-
 +diff -urN linux-2.4.32/drivers/char/avalanche_led/led.h linux-2.4.32.new/drivers/char/avalanche_led/led.h
 +--- linux-2.4.32/drivers/char/avalanche_led/led.h	1970-01-01 01:00:00.000000000 +0100
-++++ linux-2.4.32.new/drivers/char/avalanche_led/led.h	2005-12-01 21:13:57.000000000 +0100
+++++ linux-2.4.32.new/drivers/char/avalanche_led/led.h	2005-12-27 21:44:16.000000000 +0100
 +@@ -0,0 +1,15 @@
 ++/* ledmod.c */
 ++extern unsigned int sys_mod_state;
@@ -3625,8 +3674,8 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 ++/* uartled.c */
 ++void uart_led_init(void);
 +diff -urN linux-2.4.32/drivers/char/avalanche_led/ledmod.c linux-2.4.32.new/drivers/char/avalanche_led/ledmod.c
-+--- linux-2.4.32/drivers/char/avalanche_led/ledmod.c	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/drivers/char/avalanche_led/ledmod.c	2005-12-01 21:13:57.000000000 +0100
++--- linux-2.4.32/drivers/char/avalanche_led/ledmod.c	2005-12-29 11:23:33.000000000 +0100
+++++ linux-2.4.32.new/drivers/char/avalanche_led/ledmod.c	2005-12-27 21:44:16.000000000 +0100
 +@@ -1,3 +1,10 @@
 ++/*
 ++ * Check:
@@ -5433,18 +5482,51 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + EXPORT_SYMBOL_NOVERS(deregister_led_drv);
 +-
 +diff -urN linux-2.4.32/drivers/char/avalanche_led/leds.c linux-2.4.32.new/drivers/char/avalanche_led/leds.c
-+--- linux-2.4.32/drivers/char/avalanche_led/leds.c	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/drivers/char/avalanche_led/leds.c	2005-11-27 21:38:18.000000000 +0100
-+@@ -12,6 +12,8 @@
++--- linux-2.4.32/drivers/char/avalanche_led/leds.c	2005-12-29 11:23:33.000000000 +0100
+++++ linux-2.4.32.new/drivers/char/avalanche_led/leds.c	2005-12-27 21:44:16.000000000 +0100
++@@ -12,6 +12,41 @@
 + 
 + #include <asm/ar7/ledapp.h>
 + 
 ++#include "led.h"
 ++
+++#if defined(CONFIG_AR7_LED)
+++
+++#include <asm/ar7/led_hal.h>	/* avalanche_led_action, ... */
+++
+++void avalanche_led_action(void *handle, int state_id)
+++{
+++	static unsigned counter;
+++	if (counter++ < 10) {
+++		printk("%s(%s,%d)\n", __FUNCTION__, (const char *)handle, state_id);
+++		if (counter == 10) {
+++			printk("%s log output disabled\n", __FUNCTION__);
+++		}
+++	}
+++}
+++
+++void *avalanche_led_register(const char *module_name, int instance_num)
+++{
+++	printk("%s(%s,%d)\n", __FUNCTION__, module_name, instance_num);
+++	return (void *)module_name;
+++}
+++
+++int avalanche_led_unregister(void *handle)
+++{
+++	printk("%s(%s)\n", __FUNCTION__, (const char *)handle);
+++	return 0;
+++}
+++
+++EXPORT_SYMBOL(avalanche_led_action);
+++EXPORT_SYMBOL(avalanche_led_register);
+++EXPORT_SYMBOL(avalanche_led_unregister);
+++
+++#endif
+++
 + #if defined(CONFIG_AR5D01) || defined(CONFIG_AR5W01) || defined(CONFIG_AR7)
 + 
 + #define ETH_MASK 0x01
-+@@ -103,6 +105,8 @@
++@@ -103,6 +138,8 @@
 + 
 + void avalanche_leds_init(void)
 + {
@@ -5453,7 +5535,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 +   /* Create usb link proc file */
 +   usb_file = create_proc_entry("avalanche/usb_link", 0444, NULL);
 +   if( usb_file == NULL)
-+@@ -126,8 +130,3 @@
++@@ -126,8 +163,3 @@
 + }
 + 
 + #endif
@@ -5462,12 +5544,60 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 +-
 +-
 +-
++diff -urN linux-2.4.32/drivers/char/avalanche_led/Makefile linux-2.4.32.new/drivers/char/avalanche_led/Makefile
++--- linux-2.4.32/drivers/char/avalanche_led/Makefile	2005-12-29 11:23:33.000000000 +0100
+++++ linux-2.4.32.new/drivers/char/avalanche_led/Makefile	2005-12-27 21:44:16.000000000 +0100
++@@ -3,21 +3,11 @@
++ # Makefile for the Linux LED device driver.
++ #
++ 
++-
++ O_TARGET := avalanche_led.o
++-obj-m := avalanche_led.o
++-list-multi      := avalanche_led.o
+++obj-$(CONFIG_AR7_LED) := ledmod.o gpio.o uartled.o leds.o
++ 
++ EXTRA_CFLAGS := -I$(TOPDIR)/include/asm/ar7
++ 
++ export-objs := ledmod.o leds.o
++ 
++-avalanche_led-objs := ledmod.o gpio.o uartled.o leds.o
++-
++ include $(TOPDIR)/Rules.make
++-
++-avalanche_led.o:      $(avalanche_led-objs)
++-	$(LD) -r -o $@ $(avalanche_led-objs)
++-
++-clean:
++-	rm -f core *.o *.a *.s
++diff -urN linux-2.4.32/drivers/char/avalanche_led/uartled.c linux-2.4.32.new/drivers/char/avalanche_led/uartled.c
++--- linux-2.4.32/drivers/char/avalanche_led/uartled.c	2005-12-29 11:23:33.000000000 +0100
+++++ linux-2.4.32.new/drivers/char/avalanche_led/uartled.c	2005-12-27 21:44:16.000000000 +0100
++@@ -9,6 +9,7 @@
++ static spinlock_t	device_lock;
++ led_reg_t temp1[2];
++ 
+++#if defined(CONFIG_AR5D01) || defined(CONFIG_AR5W01)
++ static void uart_led_on(unsigned long param)
++ {
++   unsigned long flags;
++@@ -25,6 +26,7 @@
++    UART_LED_REG |= 0x02;
++ 	spin_unlock_irqrestore(&device_lock, flags);
++ }
+++#endif
++ 
++ void uart_led_init(void)
++ {
 +diff -urN linux-2.4.32/drivers/char/avalanche_vlynq/vlynq_board.c linux-2.4.32.new/drivers/char/avalanche_vlynq/vlynq_board.c
-+--- linux-2.4.32/drivers/char/avalanche_vlynq/vlynq_board.c	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/drivers/char/avalanche_vlynq/vlynq_board.c	2005-12-01 22:37:12.000000000 +0100
-+@@ -23,13 +23,14 @@
++--- linux-2.4.32/drivers/char/avalanche_vlynq/vlynq_board.c	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/drivers/char/avalanche_vlynq/vlynq_board.c	2005-12-27 21:44:16.000000000 +0100
++@@ -21,15 +21,16 @@
++ #include <linux/module.h>
++ #include <asm/ar7/sangam.h>  
 + #include <asm/ar7/avalanche_misc.h>  
-+ #include <asm/ar7/vlynq.h>  
++-#include <asm/ar7/vlynq.h>  
+++#include <asm/ar7/vlynq_hal.h>  
 +    
 ++#include "vlynq_drv.h"
 ++
@@ -5559,11 +5689,14 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 ++#endif
 ++}
 +diff -urN linux-2.4.32/drivers/char/avalanche_vlynq/vlynq_drv.c linux-2.4.32.new/drivers/char/avalanche_vlynq/vlynq_drv.c
-+--- linux-2.4.32/drivers/char/avalanche_vlynq/vlynq_drv.c	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/drivers/char/avalanche_vlynq/vlynq_drv.c	2005-11-29 23:07:24.000000000 +0100
-+@@ -28,20 +28,21 @@
++--- linux-2.4.32/drivers/char/avalanche_vlynq/vlynq_drv.c	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/drivers/char/avalanche_vlynq/vlynq_drv.c	2005-12-27 21:44:16.000000000 +0100
++@@ -26,22 +26,23 @@
++ #include <linux/capability.h>
++ #include <asm/ar7/avalanche_intc.h>
 + #include <asm/ar7/sangam.h>
-+ #include <asm/ar7/vlynq.h>
++-#include <asm/ar7/vlynq.h>
+++#include <asm/ar7/vlynq_hal.h>
 + 
 ++#include "vlynq_drv.h"
 + 
@@ -5683,8 +5816,8 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 +         DBGPRINT("vlynq_cleanup_module(): Unregistring misc device %s\n",vlynq_dev[unit].name);
 +diff -urN linux-2.4.32/drivers/char/avalanche_vlynq/vlynq_drv.h linux-2.4.32.new/drivers/char/avalanche_vlynq/vlynq_drv.h
 +--- linux-2.4.32/drivers/char/avalanche_vlynq/vlynq_drv.h	1970-01-01 01:00:00.000000000 +0100
-++++ linux-2.4.32.new/drivers/char/avalanche_vlynq/vlynq_drv.h	2005-11-27 21:41:57.000000000 +0100
-+@@ -0,0 +1,13 @@
+++++ linux-2.4.32.new/drivers/char/avalanche_vlynq/vlynq_drv.h	2005-12-27 21:44:16.000000000 +0100
++@@ -0,0 +1,10 @@
 ++/* 
 ++ */
 ++
@@ -5695,12 +5828,255 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 ++extern int vlynq_init_status[2];
 ++extern void vlynq_dev_init(void);
 ++
-++/* vlynq_drv.h */
-++extern VLYNQ_DEV vlynqDevice0, vlynqDevice1;
++diff -urN linux-2.4.32/drivers/char/avalanche_vlynq/vlynq_hal.c linux-2.4.32.new/drivers/char/avalanche_vlynq/vlynq_hal.c
++--- linux-2.4.32/drivers/char/avalanche_vlynq/vlynq_hal.c	2005-12-29 11:23:34.000000000 +0100
+++++ linux-2.4.32.new/drivers/char/avalanche_vlynq/vlynq_hal.c	2005-12-27 21:44:16.000000000 +0100
++@@ -36,7 +36,8 @@
++ 
++ #include <linux/stddef.h>
++ #include <linux/types.h>
++-#include <asm/ar7/vlynq.h>
+++#include <linux/kernel_stat.h> /* kstat */
+++#include <asm/ar7/vlynq_hal.h>
++ 
++ /**** Local Function prototypes *******/
++ static int vlynqInterruptInit(VLYNQ_DEV *pdev);
++@@ -128,7 +129,7 @@
++ int vlynq_init(VLYNQ_DEV *pdev, VLYNQ_INIT_OPTIONS options)
++ {
++     unsigned int map;
++-    unsigned int val=0,cnt,tmp;
+++    unsigned int val = 0, tmp;
++     unsigned int counter=0;
++     VLYNQ_INTERRUPT_CNTRL *intSetting=NULL;
++ 
++@@ -538,7 +539,8 @@
++                 {
++                     pdev->isrCount++;   /* update isr invocation count */    
++                     /* Call the user ISR and update the count for ISR */
++-		    entry->isrCount++;   
+++		    entry->isrCount++;
+++		    kstat.irqs[0][80]++;
++                     entry->isr(entry->arg1, entry->arg2, entry->arg3);
++                     if (entry->next == NULL) break;
++                     entry = entry->next;
++diff -urN linux-2.4.32/drivers/char/Makefile linux-2.4.32.new/drivers/char/Makefile
++--- linux-2.4.32/drivers/char/Makefile	2005-12-29 11:23:33.000000000 +0100
+++++ linux-2.4.32.new/drivers/char/Makefile	2005-12-27 21:44:16.000000000 +0100
++@@ -191,7 +191,7 @@
++ endif
++ 
++ #
++-# Texas Intruments LED driver
+++# Texas Instruments LED driver
++ # 
++ obj-$(CONFIG_AR7_LED) += avalanche_led/avalanche_led.o
++ subdir-$(CONFIG_AR7_LED) += avalanche_led
++diff -urN linux-2.4.32/drivers/mtd/maps/ar7-flash.c linux-2.4.32.new/drivers/mtd/maps/ar7-flash.c
++--- linux-2.4.32/drivers/mtd/maps/ar7-flash.c	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/drivers/mtd/maps/ar7-flash.c	2005-12-27 21:44:16.000000000 +0100
++@@ -21,58 +21,55 @@
++ #include <asm/mips-boards/prom.h>
++ extern char *prom_getenv(char *name);
++ 
++-static int create_mtd_partitions(void);
++-static void __exit ar7_mtd_cleanup(void);
++-	
++ #define MAX_NUM_PARTITIONS 5
++ static struct mtd_partition ar7_partinfo[MAX_NUM_PARTITIONS];
++ 
++ static struct mtd_info *ar7_mtd_info;
++ 
++-__u8 ar7_read8(struct map_info *map, unsigned long ofs)
+++static __u8 ar7_read8(struct map_info *map, unsigned long ofs)
++ {
++ 	return __raw_readb(map->map_priv_1 + ofs);
++ }
++ 
++-__u16 ar7_read16(struct map_info *map, unsigned long ofs)
+++static __u16 ar7_read16(struct map_info *map, unsigned long ofs)
++ {
++ 	return __raw_readw(map->map_priv_1 + ofs);
++ }
++ 
++-__u32 ar7_read32(struct map_info *map, unsigned long ofs)
+++static __u32 ar7_read32(struct map_info *map, unsigned long ofs)
++ {
++ 	return __raw_readl(map->map_priv_1 + ofs);
++ }
++ 
++-void ar7_copy_from(struct map_info *map, void *to, unsigned long from, ssize_t len)
+++static void ar7_copy_from(struct map_info *map, void *to, unsigned long from, ssize_t len)
++ {
++ 	memcpy_fromio(to, map->map_priv_1 + from, len);
++ }
++ 
++-void ar7_write8(struct map_info *map, __u8 d, unsigned long adr)
+++static void ar7_write8(struct map_info *map, __u8 d, unsigned long adr)
++ {
++ 	__raw_writeb(d, map->map_priv_1 + adr);
++ 	mb();
++ }
++ 
++-void ar7_write16(struct map_info *map, __u16 d, unsigned long adr)
+++static void ar7_write16(struct map_info *map, __u16 d, unsigned long adr)
++ {
++ 	__raw_writew(d, map->map_priv_1 + adr);
++ 	mb();
++ }
++ 
++-void ar7_write32(struct map_info *map, __u32 d, unsigned long adr)
+++static void ar7_write32(struct map_info *map, __u32 d, unsigned long adr)
++ {
++ 	__raw_writel(d, map->map_priv_1 + adr);
++ 	mb();
++ }
++ 
++-void ar7_copy_to(struct map_info *map, unsigned long to, const void *from, ssize_t len)
+++static void ar7_copy_to(struct map_info *map, unsigned long to, const void *from, ssize_t len)
++ {
++ 	memcpy_toio(map->map_priv_1 + to, from, len);
++ }
++ 
++-struct map_info ar7_map = {
+++static struct map_info ar7_map = {
++ 	name: "Physically mapped flash",
++ 	size: WINDOW_SIZE,
++ 	buswidth: BUSWIDTH,
++@@ -86,44 +83,6 @@
++ 	copy_to: ar7_copy_to
++ };
++ 
++-int __init ar7_mtd_init(void)
++-{
++-	int partitions;
++-	
++-       	printk(KERN_NOTICE "ar7 flash device: 0x%lx at 0x%lx.\n", (unsigned long)WINDOW_SIZE, (unsigned long)WINDOW_ADDR);
++-	ar7_map.map_priv_1 = (unsigned long)ioremap_nocache(WINDOW_ADDR, WINDOW_SIZE);
++-
++-	if (!ar7_map.map_priv_1) {
++-		printk("Failed to ioremap\n");
++-		return -EIO;
++-	}
++-	
++-	ar7_mtd_info = do_map_probe("cfi_probe", &ar7_map);
++-	if (!ar7_mtd_info)
++-	{
++-		ar7_mtd_cleanup();
++-		return -ENXIO;
++-	}
++-	
++-	ar7_mtd_info->module = THIS_MODULE;
++-
++-	if (!(partitions = create_mtd_partitions()))
++-		add_mtd_device(ar7_mtd_info);
++-	else		
++-		add_mtd_partitions(ar7_mtd_info, ar7_partinfo, partitions);
++-
++-	return 0;
++-}
++-
++-static char *strdup(char *str)
++-{
++-	int n = strlen(str)+1;
++-	char *s = kmalloc(n, GFP_KERNEL);
++-	if (!s) return NULL;
++-	return strcpy(s, str);
++-}
++-
++-
++ static int create_mtd_partitions(void)
++ {
++ 	unsigned int offset;
++@@ -190,12 +149,12 @@
++ 	
++ 	p = 0;
++ 	
++-	ar7_partinfo[p].name = strdup("adam2");
+++	ar7_partinfo[p].name = "adam2";
++ 	ar7_partinfo[p].offset = 0;
++ 	ar7_partinfo[p].size = adam2_size;
++ 	ar7_partinfo[p++].mask_flags = 0;
++ 
++-	ar7_partinfo[p].name = strdup("linux");
+++	ar7_partinfo[p].name = "linux";
++ 	ar7_partinfo[p].offset = adam2_size;
++ 	ar7_partinfo[p].size = config_offset - adam2_size;
++ 	ar7_partinfo[p++].mask_flags = 0;
++@@ -205,13 +164,13 @@
++ 		printk("Setting new rootfs offset to %08x\n", rootfs_start);
++ 	}
++ 	
++-	ar7_partinfo[p].name = strdup("rootfs");
+++	ar7_partinfo[p].name = "rootfs";
++ 	ar7_partinfo[p].offset = rootfs_start;
++ 	ar7_partinfo[p].size = config_offset - rootfs_start;
++ 	
++ 	ar7_partinfo[p++].mask_flags = 0;
++ 
++-	ar7_partinfo[p].name = strdup("config");
+++	ar7_partinfo[p].name = "config";
++ 	ar7_partinfo[p].offset = config_offset;
++ 	ar7_partinfo[p].size = WINDOW_SIZE - config_offset;
++ 	ar7_partinfo[p++].mask_flags = 0;
++@@ -222,7 +181,7 @@
++ 
++ 		ar7_copy_from(&ar7_map, &sb, rootfs_start, sizeof(sb));
++ 		printk("Squashfs detected (size = 0x%08x)\n", sb.bytes_used);
++-		
 ++
++ 		newoffset = rootfs_start + sb.bytes_used;
++ 
++ 		if ((newoffset % ar7_mtd_info->erasesize) > 0)
++@@ -230,7 +189,7 @@
++ 		
++ 		ar7_partinfo[p - 2].size = newoffset - rootfs_start;
++ 		
++-		ar7_partinfo[p].name = strdup("OpenWrt");
+++		ar7_partinfo[p].name = "OpenWrt";
++ 		ar7_partinfo[p].offset = newoffset;
++ 		ar7_partinfo[p].size = config_offset - newoffset;
++ 		ar7_partinfo[p++].mask_flags = 0;
++@@ -245,6 +204,36 @@
++ 	return p;
++ }
++ 
+++static int __init ar7_mtd_init(void)
+++{
+++	int partitions;
+++	
+++       	printk(KERN_NOTICE "ar7 flash device: 0x%lx at 0x%lx.\n", (unsigned long)WINDOW_SIZE, (unsigned long)WINDOW_ADDR);
+++	ar7_map.map_priv_1 = (unsigned long)ioremap_nocache(WINDOW_ADDR, WINDOW_SIZE);
+++
+++	if (!ar7_map.map_priv_1) {
+++		printk("Failed to ioremap\n");
+++		return -EIO;
+++	}
+++	
+++	ar7_mtd_info = do_map_probe("cfi_probe", &ar7_map);
+++	if (!ar7_mtd_info)
+++	{
+++		iounmap((void *)ar7_map.map_priv_1);
+++		ar7_map.map_priv_1 = 0;
+++		return -ENXIO;
+++	}
+++	
+++	ar7_mtd_info->module = THIS_MODULE;
+++
+++	if (!(partitions = create_mtd_partitions()))
+++		add_mtd_device(ar7_mtd_info);
+++	else		
+++		add_mtd_partitions(ar7_mtd_info, ar7_partinfo, partitions);
+++
+++	return 0;
+++}
+++
++ static void __exit ar7_mtd_cleanup(void)
++ {
++ 	if (ar7_mtd_info) {
 +diff -urN linux-2.4.32/drivers/mtd/maps/Config.in linux-2.4.32.new/drivers/mtd/maps/Config.in
-+--- linux-2.4.32/drivers/mtd/maps/Config.in	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/drivers/mtd/maps/Config.in	2005-12-01 21:13:57.000000000 +0100
++--- linux-2.4.32/drivers/mtd/maps/Config.in	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/drivers/mtd/maps/Config.in	2005-12-27 21:44:16.000000000 +0100
 +@@ -54,7 +54,11 @@
 +       if [ "$CONFIG_MTD_AR7" = "y" -o "$CONFIG_MTD_AR7" = "m" ]; then
 +          if [ "$CONFIG_MTD_AR7_DEFAULTS" = "y" ]; then
@@ -5714,12 +6090,234 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 +             define_int CONFIG_MTD_AR7_BUSWIDTH 2
 +          else
 +             hex '      Physical start address of flash mapping' CONFIG_MTD_AR7_START 0x10000000
++diff -urN linux-2.4.32/drivers/mtd/maps/Makefile linux-2.4.32.new/drivers/mtd/maps/Makefile
++--- linux-2.4.32/drivers/mtd/maps/Makefile	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/drivers/mtd/maps/Makefile	2005-12-27 21:44:16.000000000 +0100
++@@ -11,6 +11,7 @@
++ 
++ # Chip mappings
++ obj-$(CONFIG_MTD_AR7)		+= ar7-flash.o
+++obj-$(CONFIG_MTD_AR7)		+= sinus154-flash.o
++ obj-$(CONFIG_MTD_CDB89712)	+= cdb89712.o
++ obj-$(CONFIG_MTD_ARM_INTEGRATOR)+= integrator-flash.o
++ obj-$(CONFIG_MTD_CFI_FLAGADM)	+= cfi_flagadm.o
++diff -urN linux-2.4.32/drivers/mtd/maps/sinus154-flash.c linux-2.4.32.new/drivers/mtd/maps/sinus154-flash.c
++--- linux-2.4.32/drivers/mtd/maps/sinus154-flash.c	1970-01-01 01:00:00.000000000 +0100
+++++ linux-2.4.32.new/drivers/mtd/maps/sinus154-flash.c	2005-12-27 21:44:16.000000000 +0100
++@@ -0,0 +1,205 @@
+++/*
+++ * $Id: 011-sinus.patch,v 1.11 2005/12/29 10:26:15 stefan Exp stefan $
+++ *
+++ * Normal mappings of chips in physical memory
+++ */
+++
+++#include <linux/module.h>
+++#include <linux/types.h>
+++#include <linux/kernel.h>
+++#include <asm/io.h>
+++#include <linux/mtd/mtd.h>
+++#include <linux/mtd/map.h>
+++#include <linux/config.h>
+++#include <linux/mtd/partitions.h>
+++#include <linux/squashfs_fs.h>
+++
+++#define WINDOW_ADDR CONFIG_MTD_AR7_START
+++#define WINDOW_SIZE CONFIG_MTD_AR7_LEN
+++#define BUSWIDTH CONFIG_MTD_AR7_BUSWIDTH
+++
+++// AR7 internal PROM at physical address 0xbfc00000, 4 KiB
+++#define AR7_WINDOW_ADDR 0x1fc00000
+++#define AR7_WINDOW_SIZE 0x1000
+++
+++static struct mtd_partition ar7_partinfo[] = {
+++	{
+++		name: "Boot PROM",
+++		offset: 0,
+++		size: AR7_WINDOW_SIZE,
+++		mask_flags: MTD_WRITEABLE, /* force read-only */
+++	}
+++};
+++
+++static struct mtd_info *ar7_mtd_info;
+++
+++static struct mtd_partition sinus154_partinfo[] = {
+++	{
+++		name: "Boot",
+++		offset: 0,
+++		size: 0x20000,
+++		mask_flags: MTD_WRITEABLE, /* force read-only */
+++	},
+++	{
+++		name: "Configuration",
+++		offset: MTDPART_OFS_APPEND,
+++		size: 0x20000,
+++		mask_flags: 0,
+++	},
+++	{
+++		name: "Web Image",
+++		offset: MTDPART_OFS_APPEND,
+++		size: 0xd0000,
+++		mask_flags: 0,
+++	},
+++	{
+++		name: "Code Image",
+++		offset: MTDPART_OFS_APPEND,
+++		size: 0xe0000,
+++		mask_flags: 0,
+++	},
+++	{
+++		name: "Boot Params",
+++		offset: MTDPART_OFS_APPEND,
+++		size: 0x10000,
+++		mask_flags: 0,
+++	},
+++};
+++
+++static struct mtd_info *sinus154_mtd_info;
+++
+++static __u8 ar7_read8(struct map_info *map, unsigned long ofs)
+++{
+++	return __raw_readb(map->map_priv_1 + ofs);
+++}
+++
+++static __u16 ar7_read16(struct map_info *map, unsigned long ofs)
+++{
+++	return __raw_readw(map->map_priv_1 + ofs);
+++}
+++
+++static __u32 ar7_read32(struct map_info *map, unsigned long ofs)
+++{
+++	return __raw_readl(map->map_priv_1 + ofs);
+++}
+++
+++static void ar7_copy_from(struct map_info *map, void *to, unsigned long from, ssize_t len)
+++{
+++	memcpy_fromio(to, map->map_priv_1 + from, len);
+++}
+++
+++static void ar7_write8(struct map_info *map, __u8 d, unsigned long adr)
+++{
+++	__raw_writeb(d, map->map_priv_1 + adr);
+++	mb();
+++}
+++
+++static void ar7_write16(struct map_info *map, __u16 d, unsigned long adr)
+++{
+++	__raw_writew(d, map->map_priv_1 + adr);
+++	mb();
+++}
+++
+++static void ar7_write32(struct map_info *map, __u32 d, unsigned long adr)
+++{
+++	__raw_writel(d, map->map_priv_1 + adr);
+++	mb();
+++}
+++
+++static void ar7_copy_to(struct map_info *map, unsigned long to, const void *from, ssize_t len)
+++{
+++	memcpy_toio(map->map_priv_1 + to, from, len);
+++}
+++
+++static struct map_info ar7_map = {
+++	name: "Boot PROM",
+++	size: AR7_WINDOW_SIZE,
+++	buswidth: BUSWIDTH,
+++	read8: ar7_read8,
+++	read16: ar7_read16,
+++	read32: ar7_read32,
+++	copy_from: ar7_copy_from,
+++	write8: ar7_write8,
+++	write16: ar7_write16,
+++	write32: ar7_write32,
+++	copy_to: ar7_copy_to
+++};
+++
+++static struct map_info sinus154_map = {
+++	name: "Sinus 154 Flash",
+++	size: WINDOW_SIZE,
+++	buswidth: BUSWIDTH,
+++	read8: ar7_read8,
+++	read16: ar7_read16,
+++	read32: ar7_read32,
+++	copy_from: ar7_copy_from,
+++	write8: ar7_write8,
+++	write16: ar7_write16,
+++	write32: ar7_write32,
+++	copy_to: ar7_copy_to
+++};
+++
+++static int __init ar7_mtd_init(void)
+++{
+++       	printk(KERN_NOTICE "ar7 flash device: 0x%lx at 0x%lx.\n", (unsigned long)AR7_WINDOW_SIZE, (unsigned long)AR7_WINDOW_ADDR);
+++	ar7_map.map_priv_1 = (unsigned long)ioremap_nocache(AR7_WINDOW_ADDR, AR7_WINDOW_SIZE);
+++
+++	if (!ar7_map.map_priv_1) {
+++		printk("Failed to ioremap\n");
+++		return -EIO;
+++	}
+++	
+++	ar7_mtd_info = do_map_probe("map_rom", &ar7_map);
+++
+++	if (!ar7_mtd_info)
+++	{
+++		iounmap((void *)ar7_map.map_priv_1);
+++		ar7_map.map_priv_1 = 0;
+++		return -ENXIO;
+++	}
+++	
+++	ar7_mtd_info->module = THIS_MODULE;
+++
+++	//~ add_mtd_device(ar7_mtd_info);
+++	add_mtd_partitions(ar7_mtd_info, ar7_partinfo, 1);
+++
+++       	printk(KERN_NOTICE "Sinus154 flash device: 0x%lx at 0x%lx.\n", (unsigned long)WINDOW_SIZE, (unsigned long)WINDOW_ADDR);
+++	sinus154_map.map_priv_1 = (unsigned long)ioremap_nocache(WINDOW_ADDR, WINDOW_SIZE);
+++	sinus154_mtd_info = do_map_probe("cfi_probe", &sinus154_map);
+++	sinus154_mtd_info->module = THIS_MODULE;
+++	add_mtd_partitions(sinus154_mtd_info, sinus154_partinfo, 5);
+++
+++	return 0;
+++}
+++
+++static void __exit ar7_mtd_cleanup(void)
+++{
+++	if (ar7_mtd_info) {
+++		del_mtd_partitions(ar7_mtd_info);
+++		//~ del_mtd_device(ar7_mtd_info);
+++		map_destroy(ar7_mtd_info);
+++	}
+++
+++	if (ar7_map.map_priv_1) {
+++		iounmap((void *)ar7_map.map_priv_1);
+++		ar7_map.map_priv_1 = 0;
+++	}
+++
+++	if (sinus154_mtd_info) {
+++		del_mtd_partitions(ar7_mtd_info);
+++		//~ del_mtd_device(sinus154_mtd_info);
+++		map_destroy(sinus154_mtd_info);
+++	}
+++
+++	if (sinus154_map.map_priv_1) {
+++		iounmap((void *)sinus154_map.map_priv_1);
+++		sinus154_map.map_priv_1 = 0;
+++	}
+++}
+++
+++module_init(ar7_mtd_init);
+++module_exit(ar7_mtd_cleanup);
+++
+++MODULE_LICENSE("GPL");
+++MODULE_AUTHOR("Stefan Weil");
+++MODULE_DESCRIPTION("AR7 CFI map driver");
 +diff -urN linux-2.4.32/drivers/net/avalanche_cpmac/cpmac.c linux-2.4.32.new/drivers/net/avalanche_cpmac/cpmac.c
-+--- linux-2.4.32/drivers/net/avalanche_cpmac/cpmac.c	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/drivers/net/avalanche_cpmac/cpmac.c	2005-12-01 21:13:57.000000000 +0100
-+@@ -34,12 +34,15 @@
++--- linux-2.4.32/drivers/net/avalanche_cpmac/cpmac.c	2005-12-29 11:23:33.000000000 +0100
+++++ linux-2.4.32.new/drivers/net/avalanche_cpmac/cpmac.c	2005-12-27 21:44:16.000000000 +0100
++@@ -33,13 +33,17 @@
++ #include <asm/uaccess.h>
 + #include <linux/config.h>
 + #include <asm/ar7/if_port.h>
+++#include <asm/ar7/led_hal.h>	/* avalanche_led_action, ... */
 + 
 +-extern void build_psp_config(void);
 +-extern void psp_config_cleanup(void);
@@ -5735,43 +6333,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + static struct net_device *last_cpmac_device = NULL;
 + static int    cpmac_devices_installed = 0;
 + 
-+@@ -198,6 +201,35 @@
-+ 	char			pad[SMP_CACHE_BYTES];
-+ } skb_head_pool[NR_CPUS];
-+ 
-++void *avalanche_led_register(const char *module_name, int instance_num)
-++{
-++	printk("%s:%u %s(%s,%d)\n", __FILE__, __LINE__, __FUNCTION__,
-++		module_name, instance_num);
-++	return (void *)1;
-++}
-++
-++int avalanche_led_unregister(void *handle)
-++{
-++	printk("%s:%u %s(0x%p)\n", __FILE__, __LINE__, __FUNCTION__, handle);
-++	return 0;
-++}
-++
-++void avalanche_led_action(void *handle, int state_id)
-++{
-++	static int log_rx;
-++	static int log_tx;
-++	if (state_id == CPMAC_RX_ACTIVITY) {
-++		if (log_rx) return;
-++		log_rx = 1;
-++	}
-++	if (state_id == CPMAC_TX_ACTIVITY) {
-++		if (log_tx) return;
-++		log_tx = 1;
-++	}
-++	printk("%s:%u %s(0x%p,%d)\n", __FILE__, __LINE__, __FUNCTION__,
-++		handle, state_id);
-++}
-++
-+ /**************************************************************************
-+  * FUNCTION NAME : ti_release_skb
-+  **************************************************************************
-+@@ -955,9 +987,9 @@
++@@ -955,9 +959,9 @@
 +         dbgPrint("Maintaining the link up loopback for %s.\n", p_dev->name);
 + 	netif_carrier_on(p_dev);
 + 
@@ -5784,7 +6346,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 
 +         return(0);
 +     }
-+@@ -972,9 +1004,9 @@
++@@ -972,9 +976,9 @@
 + 	{
 +             netif_carrier_on(p_cpmac_priv->owner);
 + 
@@ -5797,7 +6359,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 	    dbgPrint("Found the Link for the CPMAC instance %s.\n", p_dev->name);
 +         }
 + 
-+@@ -997,9 +1029,9 @@
++@@ -997,9 +1001,9 @@
 + 
 + 	    netif_carrier_off(p_dev);
 + 
@@ -5810,7 +6372,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 
 + 	    dbgPrint("Lost the Link for the CPMAC for %s.\n", p_dev->name);
 + 	}
-+@@ -1467,7 +1499,7 @@
++@@ -1467,7 +1471,7 @@
 +     if(!mac_string)
 +     {
 +         mac_string="08.00.28.32.06.02";
@@ -5819,7 +6381,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 +         printk("Using default mac address: %s\n",mac_string);
 +         if(mac_name)
 +         {
-+@@ -1488,13 +1520,13 @@
++@@ -1488,13 +1492,13 @@
 +     p_cpmac_priv->set_to_close          = 1;
 +     p_cpmac_priv->non_data_irq_expected = 0;
 + 
@@ -5840,7 +6402,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 
 +     if(cpmac_drv_init_module(p_drv_hal, p_dev, instance_num) != 0)
 +     {
-+@@ -1546,11 +1578,11 @@
++@@ -1546,11 +1550,11 @@
 + 
 +     netif_carrier_off(p_dev);
 + 
@@ -5856,7 +6418,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 +     p_drv_hal->hal_funcs->Control(p_drv_hal->hal_dev, "CpmacBase", "Get", &p_dev->base_addr);
 +     p_drv_hal->hal_funcs->Control(p_drv_hal->hal_dev, "CpmacSize", "Get", &p_cpmac_priv->dev_size);
 + 
-+@@ -1698,9 +1730,9 @@
++@@ -1698,9 +1702,9 @@
 +         p_cpmac_priv->link_mode         = 1;
 +         netif_carrier_off(p_dev);
 + 
@@ -5869,7 +6431,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 
 +         clear_bit(0, &p_cpmac_priv->non_data_irq_expected);
 + 
-+@@ -1751,10 +1783,10 @@
++@@ -1751,10 +1755,10 @@
 +     int                     val           = 1;
 +     int                     channel       = 0;
 + 
@@ -5884,7 +6446,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 
 +     if(p_dev->flags & IFF_PROMISC)
 +     {
-+@@ -1920,9 +1952,9 @@
++@@ -1920,9 +1924,9 @@
 +         goto cpmac_dev_tx_drop_pkt; 
 +     }
 + 
@@ -5897,7 +6459,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 
 +     return(ret_val);
 + 
-+@@ -2134,9 +2166,8 @@
++@@ -2134,9 +2138,8 @@
 +         /* For Sangam Mdio-switching  action should be always "set"*/
 +         if(cpmac_ci_strcmp(action, hcSet) == 0 && value != NULL )
 +         {
@@ -5908,7 +6470,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 	   avalanche_set_mdix_on_chip(0xa8610000 , mdix ? 1: 0);
 + #endif
 +   
-+@@ -2219,9 +2250,9 @@
++@@ -2219,9 +2222,9 @@
 + 
 +     netif_rx(p_skb);
 + 
@@ -5921,7 +6483,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 
 +     p_cpmac_priv->net_dev_stats.rx_packets++;
 +     p_cpmac_priv->net_dev_stats.rx_bytes += packet_size;
-+@@ -2325,6 +2356,8 @@
++@@ -2325,6 +2328,8 @@
 +     //cpmac_cpu_freq = avalanche_clkc_get_freq(CLKC_MIPS);
 +     cpmac_cpu_freq = CONFIG_AR7_CPU * 1000 * 1000;
 + 
@@ -5930,7 +6492,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 +     build_psp_config();                       
 + 
 +     for(unit = 0; unit < instance_count; unit++)
-+@@ -2469,9 +2502,9 @@
++@@ -2469,9 +2474,9 @@
 +       
 +         cpmac_drv_cleanup(p_cpmac_priv->drv_hal);
 + 
@@ -5944,8 +6506,8 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 +         strcat(proc_name, p_dev->name);
 +         proc_category_name_len = strlen(proc_name);
 +diff -urN linux-2.4.32/drivers/net/avalanche_cpmac/cpmac.h linux-2.4.32.new/drivers/net/avalanche_cpmac/cpmac.h
-+--- linux-2.4.32/drivers/net/avalanche_cpmac/cpmac.h	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/drivers/net/avalanche_cpmac/cpmac.h	2005-12-01 21:40:03.000000000 +0100
++--- linux-2.4.32/drivers/net/avalanche_cpmac/cpmac.h	2005-12-29 11:23:33.000000000 +0100
+++++ linux-2.4.32.new/drivers/net/avalanche_cpmac/cpmac.h	2005-12-27 21:45:14.000000000 +0100
 +@@ -348,7 +348,7 @@
 + 
 + 
@@ -5956,8 +6518,8 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 
 + void cpmac_hal_tear_down_complete(OS_DEVICE*, int, int);
 +diff -urN linux-2.4.32/drivers/net/avalanche_cpmac/cpmacHalLx.h linux-2.4.32.new/drivers/net/avalanche_cpmac/cpmacHalLx.h
-+--- linux-2.4.32/drivers/net/avalanche_cpmac/cpmacHalLx.h	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/drivers/net/avalanche_cpmac/cpmacHalLx.h	2005-12-01 21:40:03.000000000 +0100
++--- linux-2.4.32/drivers/net/avalanche_cpmac/cpmacHalLx.h	2005-12-29 11:23:33.000000000 +0100
+++++ linux-2.4.32.new/drivers/net/avalanche_cpmac/cpmacHalLx.h	2005-12-27 21:45:14.000000000 +0100
 +@@ -22,16 +22,7 @@
 + typedef struct net_device         OS_DEVICE;
 + typedef struct sk_buff            OS_RECEIVEINFO;
@@ -5976,203 +6538,9 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 
 + #define _CPHAL_CPMAC
 +  
-+diff -urN linux-2.4.32/drivers/net/avalanche_cpmac/psp_config_mgr.h linux-2.4.32.new/drivers/net/avalanche_cpmac/psp_config_mgr.h
-+--- linux-2.4.32/drivers/net/avalanche_cpmac/psp_config_mgr.h	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/drivers/net/avalanche_cpmac/psp_config_mgr.h	2005-12-01 21:13:57.000000000 +0100
-+@@ -105,6 +105,8 @@
-+   -------------------------------------------------------------------------*/
-+ void  psp_config_print(char *key);
-+ 
-++void  psp_config_cleanup(void);
-++
-+ void  dump_device_cfg_pool(void);
-+ 
-+ #endif /* __PSP_CONFIG_MGR_H__ */
-+diff -urN linux-2.4.32/drivers/net/wireless/Config.in linux-2.4.32.new/drivers/net/wireless/Config.in
-+--- linux-2.4.32/drivers/net/wireless/Config.in	2004-11-17 12:54:21.000000000 +0100
-++++ linux-2.4.32.new/drivers/net/wireless/Config.in	2005-12-01 21:13:57.000000000 +0100
-+@@ -38,6 +38,7 @@
-+ 
-+ # yes, this works even when no drivers are selected
-+ if [ "$CONFIG_ISA" = "y" -o "$CONFIG_PCI" = "y" -o \
-++     "$CONFIG_AR7_VLYNQ" = "y" -o \
-+      "$CONFIG_ALL_PPC" = "y" -o "$CONFIG_PCMCIA" != "n" ]; then
-+    define_bool CONFIG_NET_WIRELESS y
-+ else
-+diff -urN linux-2.4.32/include/asm-mips/ar7/adam2_env.h linux-2.4.32.new/include/asm-mips/ar7/adam2_env.h
-+--- linux-2.4.32/include/asm-mips/ar7/adam2_env.h	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/include/asm-mips/ar7/adam2_env.h	2005-12-01 21:13:57.000000000 +0100
-+@@ -1,6 +1,9 @@
-+ #ifndef _INCLUDE_ASM_AR7_ADAM2_ENV_H_
-+ #define	_INCLUDE_ASM_AR7_ADAM2_ENV_H_
-+ 
-++extern int prom_argc;
-++extern int *_prom_argv;
-++
-+ /* Environment variable */
-+ typedef struct {
-+ 	char *name;
-+diff -urN linux-2.4.32/include/asm-mips/ar7/ar7.h linux-2.4.32.new/include/asm-mips/ar7/ar7.h
-+--- linux-2.4.32/include/asm-mips/ar7/ar7.h	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/include/asm-mips/ar7/ar7.h	2005-12-01 21:40:00.000000000 +0100
-+@@ -24,8 +24,6 @@
-+ #include <asm/addrspace.h>
-+ #include <linux/config.h>
-+ 
-+-#define AVALANCHE_VECS_KSEG0 (KSEG0ADDR(CONFIG_AR7_MEMORY))
-+-
-+ #define AR7_UART0_REGS_BASE (KSEG1ADDR(0x08610E00))
-+ #define AR7_UART1_REGS_BASE (KSEG1ADDR(0x08610F00))
-+ #define AR7_BASE_BAUD ( 3686400 / 16 )
-+diff -urN linux-2.4.32/include/asm-mips/ar7/avalanche_intc.h linux-2.4.32.new/include/asm-mips/ar7/avalanche_intc.h
-+--- linux-2.4.32/include/asm-mips/ar7/avalanche_intc.h	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/include/asm-mips/ar7/avalanche_intc.h	2005-12-01 21:39:58.000000000 +0100
-+@@ -27,6 +27,7 @@
-+ #define _AVALANCHE_INTC_H
-+ 
-+ #include <linux/config.h>
-++#include "sangam.h"
-+ 
-+ /* ----- */
-+ 
-+@@ -34,7 +35,6 @@
-+ #define KSEG_INV_MASK               0x1FFFFFFF /* Inverted mask for kseg address */
-+ #define PHYS_ADDR(addr)             ((addr) & KSEG_INV_MASK)
-+ #define PHYS_TO_K1(addr)            (PHYS_ADDR(addr)|KSEG1_BASE)
-+-#define AVALANCHE_INTC_BASE PHYS_TO_K1(0x08612400)
-+ 
-+ /* ----- */
-+ 
-+@@ -285,8 +285,4 @@
-+ 
-+ #define EMIF_INT                    (7 + PRIMARY_INTS)
-+ 
-+-
-+-extern void avalanche_int_set(int channel, int line);
-+-
-+-
-+ #endif /* _AVALANCHE_INTC_H */
-+diff -urN linux-2.4.32/include/asm-mips/ar7/avalanche_misc.h linux-2.4.32.new/include/asm-mips/ar7/avalanche_misc.h
-+--- linux-2.4.32/include/asm-mips/ar7/avalanche_misc.h	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/include/asm-mips/ar7/avalanche_misc.h	2005-12-01 22:42:09.000000000 +0100
-+@@ -79,6 +79,12 @@
-+ 
-+ typedef int (*REMOTE_VLYNQ_DEV_RESET_CTRL_FN)(unsigned int reset_module, AVALANCHE_RESET_CTRL_T reset_ctrl);
-+ 
-++int avalanche_reset_ctrl(unsigned int module_reset_bit, 
-++			 AVALANCHE_RESET_CTRL_T reset_ctrl);
-++ 
-++/* ar7/misc.c */
-++extern REMOTE_VLYNQ_DEV_RESET_CTRL_FN p_remote_vlynq_dev_reset_ctrl;
-++
-+ /*****************************************************************************
-+  * Power Control Module
-+  *****************************************************************************/
-+diff -urN linux-2.4.32/include/asm-mips/ar7/tnetd73xx_misc.h linux-2.4.32.new/include/asm-mips/ar7/tnetd73xx_misc.h
-+--- linux-2.4.32/include/asm-mips/ar7/tnetd73xx_misc.h	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/include/asm-mips/ar7/tnetd73xx_misc.h	2005-12-01 21:13:57.000000000 +0100
-+@@ -17,6 +17,8 @@
-+ #ifndef __TNETD73XX_MISC_H__
-+ #define __TNETD73XX_MISC_H__
-+ 
-++#include <asm/ar7/tnetd73xx_err.h> /* TNETD73XX_ERR */
-++
-+ /*****************************************************************************
-+  * Reset Control Module
-+  *****************************************************************************/
-+diff -urN linux-2.4.32/include/asm-mips/ar7/vlynq.h linux-2.4.32.new/include/asm-mips/ar7/vlynq.h
-+--- linux-2.4.32/include/asm-mips/ar7/vlynq.h	2005-12-01 22:51:02.000000000 +0100
-++++ linux-2.4.32.new/include/asm-mips/ar7/vlynq.h	2005-12-01 21:13:57.000000000 +0100
-+@@ -517,6 +517,7 @@
-+     unsigned int  isrCount; /* number of ISR invocations so far */
-+ }VLYNQ_DEV;
-+ 
-++extern VLYNQ_DEV vlynqDevice0, vlynqDevice1;
-+ 
-+ typedef struct VLYNQ_ISR_ARGS_t
-+ {
-+diff -urN linux-2.4.32/drivers/atm/sangam_atm/Makefile linux-2.4.32.new/drivers/atm/sangam_atm/Makefile
-+--- linux-2.4.32/drivers/atm/sangam_atm/Makefile	2005-12-02 09:16:31.000000000 +0100
-++++ linux-2.4.32.new/drivers/atm/sangam_atm/Makefile	2005-12-02 08:22:31.000000000 +0100
-+@@ -3,12 +3,11 @@
-+ # Makefile for the Linux network (CPMAC) device drivers.
-+ #
-+ 
-+-
-+ O_TARGET := tiatm.o
-+-obj-$(CONFIG_MIPS_SANGAM_ATM) += tiatm.o
-+-list-multi      := tiatm.o
-+ 
-+-tiatm-objs	:= tn7atm.o tn7dsl.o tn7sar.o dsl_hal_api.o dsl_hal_support.o cpsar.o aal5sar.o
-++obj-$(CONFIG_MIPS_SANGAM_ATM) := tn7atm.o tn7dsl.o tn7sar.o
-++obj-$(CONFIG_MIPS_SANGAM_ATM) += dsl_hal_api.o dsl_hal_support.o
-++obj-$(CONFIG_MIPS_SANGAM_ATM) += cpsar.o aal5sar.o
-+ 
-+ EXTRA_CFLAGS += -DEL -I$(TOPDIR)/drivers/atm/sangam_atm -DPOST_SILICON -DCOMMON_NSP -DCONFIG_LED_MODULE -DDEREGISTER_LED -DNO_ACT
-+ 
-+@@ -22,14 +21,4 @@
-+ endif
-+ endif
-+ 
-+-
-+ include $(TOPDIR)/Rules.make
-+-
-+-tiatm.o:      $(tiatm-objs)
-+-	$(LD) -r -o $@ $(tiatm-objs)
-+-
-+-#avalanche_cpmac.o:      $(avalanche_cpmac-objs)
-+-#	$(LD) -r -o $@ $(avalanche_cpmac-objs)
-+-
-+-clean:
-+-	rm -f core *.o *.a *.s
-+diff -urN linux-2.4.32/drivers/char/avalanche_led/Makefile linux-2.4.32.new/drivers/char/avalanche_led/Makefile
-+--- linux-2.4.32/drivers/char/avalanche_led/Makefile	2005-12-02 09:16:31.000000000 +0100
-++++ linux-2.4.32.new/drivers/char/avalanche_led/Makefile	2005-12-02 08:12:35.000000000 +0100
-+@@ -3,21 +3,11 @@
-+ # Makefile for the Linux LED device driver.
-+ #
-+ 
-+-
-+ O_TARGET := avalanche_led.o
-+-obj-m := avalanche_led.o
-+-list-multi      := avalanche_led.o
-++obj-$(CONFIG_AR7_LED) := ledmod.o gpio.o uartled.o leds.o
-+ 
-+ EXTRA_CFLAGS := -I$(TOPDIR)/include/asm/ar7
-+ 
-+ export-objs := ledmod.o leds.o
-+ 
-+-avalanche_led-objs := ledmod.o gpio.o uartled.o leds.o
-+-
-+ include $(TOPDIR)/Rules.make
-+-
-+-avalanche_led.o:      $(avalanche_led-objs)
-+-	$(LD) -r -o $@ $(avalanche_led-objs)
-+-
-+-clean:
-+-	rm -f core *.o *.a *.s
-+diff -urN linux-2.4.32/drivers/char/avalanche_led/uartled.c linux-2.4.32.new/drivers/char/avalanche_led/uartled.c
-+--- linux-2.4.32/drivers/char/avalanche_led/uartled.c	2005-12-02 09:16:31.000000000 +0100
-++++ linux-2.4.32.new/drivers/char/avalanche_led/uartled.c	2005-12-02 08:11:16.000000000 +0100
-+@@ -9,6 +9,7 @@
-+ static spinlock_t	device_lock;
-+ led_reg_t temp1[2];
-+ 
-++#if defined(CONFIG_AR5D01) || defined(CONFIG_AR5W01)
-+ static void uart_led_on(unsigned long param)
-+ {
-+   unsigned long flags;
-+@@ -25,6 +26,7 @@
-+    UART_LED_REG |= 0x02;
-+ 	spin_unlock_irqrestore(&device_lock, flags);
-+ }
-++#endif
-+ 
-+ void uart_led_init(void)
-+ {
 +diff -urN linux-2.4.32/drivers/net/avalanche_cpmac/Makefile linux-2.4.32.new/drivers/net/avalanche_cpmac/Makefile
-+--- linux-2.4.32/drivers/net/avalanche_cpmac/Makefile	2005-12-02 09:16:31.000000000 +0100
-++++ linux-2.4.32.new/drivers/net/avalanche_cpmac/Makefile	2005-12-02 08:18:49.000000000 +0100
++--- linux-2.4.32/drivers/net/avalanche_cpmac/Makefile	2005-12-29 11:23:33.000000000 +0100
+++++ linux-2.4.32.new/drivers/net/avalanche_cpmac/Makefile	2005-12-27 21:44:16.000000000 +0100
 +@@ -5,22 +5,8 @@
 + 
 + O_TARGET := avalanche_cpmac.o
@@ -6199,6 +6567,824 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 +-
 +-clean:
 +-	rm -f core *.o *.a *.s
++diff -urN linux-2.4.32/drivers/net/avalanche_cpmac/psp_config_mgr.h linux-2.4.32.new/drivers/net/avalanche_cpmac/psp_config_mgr.h
++--- linux-2.4.32/drivers/net/avalanche_cpmac/psp_config_mgr.h	2005-12-29 11:23:33.000000000 +0100
+++++ linux-2.4.32.new/drivers/net/avalanche_cpmac/psp_config_mgr.h	2005-12-27 21:44:16.000000000 +0100
++@@ -105,6 +105,8 @@
++   -------------------------------------------------------------------------*/
++ void  psp_config_print(char *key);
++ 
+++void  psp_config_cleanup(void);
+++
++ void  dump_device_cfg_pool(void);
++ 
++ #endif /* __PSP_CONFIG_MGR_H__ */
++diff -urN linux-2.4.32/drivers/net/wireless/Config.in linux-2.4.32.new/drivers/net/wireless/Config.in
++--- linux-2.4.32/drivers/net/wireless/Config.in	2004-11-17 12:54:21.000000000 +0100
+++++ linux-2.4.32.new/drivers/net/wireless/Config.in	2005-12-27 21:44:16.000000000 +0100
++@@ -38,6 +38,7 @@
++ 
++ # yes, this works even when no drivers are selected
++ if [ "$CONFIG_ISA" = "y" -o "$CONFIG_PCI" = "y" -o \
+++     "$CONFIG_AR7_VLYNQ" = "y" -o \
++      "$CONFIG_ALL_PPC" = "y" -o "$CONFIG_PCMCIA" != "n" ]; then
++    define_bool CONFIG_NET_WIRELESS y
++ else
++diff -urN linux-2.4.32/include/asm-mips/ar7/adam2_env.h linux-2.4.32.new/include/asm-mips/ar7/adam2_env.h
++--- linux-2.4.32/include/asm-mips/ar7/adam2_env.h	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/include/asm-mips/ar7/adam2_env.h	2005-12-27 21:44:16.000000000 +0100
++@@ -1,6 +1,9 @@
++ #ifndef _INCLUDE_ASM_AR7_ADAM2_ENV_H_
++ #define	_INCLUDE_ASM_AR7_ADAM2_ENV_H_
++ 
+++extern int prom_argc;
+++extern int *_prom_argv;
+++
++ /* Environment variable */
++ typedef struct {
++ 	char *name;
++diff -urN linux-2.4.32/include/asm-mips/ar7/ar7.h linux-2.4.32.new/include/asm-mips/ar7/ar7.h
++--- linux-2.4.32/include/asm-mips/ar7/ar7.h	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/include/asm-mips/ar7/ar7.h	2005-12-27 21:45:12.000000000 +0100
++@@ -24,8 +24,6 @@
++ #include <asm/addrspace.h>
++ #include <linux/config.h>
++ 
++-#define AVALANCHE_VECS_KSEG0 (KSEG0ADDR(CONFIG_AR7_MEMORY))
++-
++ #define AR7_UART0_REGS_BASE (KSEG1ADDR(0x08610E00))
++ #define AR7_UART1_REGS_BASE (KSEG1ADDR(0x08610F00))
++ #define AR7_BASE_BAUD ( 3686400 / 16 )
++diff -urN linux-2.4.32/include/asm-mips/ar7/avalanche_intc.h linux-2.4.32.new/include/asm-mips/ar7/avalanche_intc.h
++--- linux-2.4.32/include/asm-mips/ar7/avalanche_intc.h	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/include/asm-mips/ar7/avalanche_intc.h	2005-12-27 21:45:06.000000000 +0100
++@@ -27,6 +27,7 @@
++ #define _AVALANCHE_INTC_H
++ 
++ #include <linux/config.h>
+++#include "sangam.h"
++ 
++ /* ----- */
++ 
++@@ -34,7 +35,6 @@
++ #define KSEG_INV_MASK               0x1FFFFFFF /* Inverted mask for kseg address */
++ #define PHYS_ADDR(addr)             ((addr) & KSEG_INV_MASK)
++ #define PHYS_TO_K1(addr)            (PHYS_ADDR(addr)|KSEG1_BASE)
++-#define AVALANCHE_INTC_BASE PHYS_TO_K1(0x08612400)
++ 
++ /* ----- */
++ 
++@@ -285,8 +285,4 @@
++ 
++ #define EMIF_INT                    (7 + PRIMARY_INTS)
++ 
++-
++-extern void avalanche_int_set(int channel, int line);
++-
++-
++ #endif /* _AVALANCHE_INTC_H */
++diff -urN linux-2.4.32/include/asm-mips/ar7/avalanche_misc.h linux-2.4.32.new/include/asm-mips/ar7/avalanche_misc.h
++--- linux-2.4.32/include/asm-mips/ar7/avalanche_misc.h	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/include/asm-mips/ar7/avalanche_misc.h	2005-12-27 21:44:16.000000000 +0100
++@@ -79,6 +79,12 @@
++ 
++ typedef int (*REMOTE_VLYNQ_DEV_RESET_CTRL_FN)(unsigned int reset_module, AVALANCHE_RESET_CTRL_T reset_ctrl);
++ 
+++int avalanche_reset_ctrl(unsigned int module_reset_bit, 
+++			 AVALANCHE_RESET_CTRL_T reset_ctrl);
+++ 
+++/* ar7/misc.c */
+++extern REMOTE_VLYNQ_DEV_RESET_CTRL_FN p_remote_vlynq_dev_reset_ctrl;
+++
++ /*****************************************************************************
++  * Power Control Module
++  *****************************************************************************/
++diff -urN linux-2.4.32/include/asm-mips/ar7/tnetd73xx_misc.h linux-2.4.32.new/include/asm-mips/ar7/tnetd73xx_misc.h
++--- linux-2.4.32/include/asm-mips/ar7/tnetd73xx_misc.h	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/include/asm-mips/ar7/tnetd73xx_misc.h	2005-12-27 21:44:16.000000000 +0100
++@@ -17,6 +17,8 @@
++ #ifndef __TNETD73XX_MISC_H__
++ #define __TNETD73XX_MISC_H__
++ 
+++#include <asm/ar7/tnetd73xx_err.h> /* TNETD73XX_ERR */
+++
++ /*****************************************************************************
++  * Reset Control Module
++  *****************************************************************************/
++diff -urN linux-2.4.32/include/asm-mips/ar7/vlynq.h linux-2.4.32.new/include/asm-mips/ar7/vlynq.h
++--- linux-2.4.32/include/asm-mips/ar7/vlynq.h	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/include/asm-mips/ar7/vlynq.h	1970-01-01 01:00:00.000000000 +0100
++@@ -1,610 +0,0 @@
++-/***************************************************************************
++-**+----------------------------------------------------------------------+**
++-**|                                ****                                  |**
++-**|                                ****                                  |**
++-**|                                ******o***                            |**
++-**|                          ********_///_****                           |**
++-**|                           ***** /_//_/ ****                          |**
++-**|                            ** ** (__/ ****                           |**
++-**|                                *********                             |**
++-**|                                 ****                                 |**
++-**|                                  ***                                 |**
++-**|                                                                      |**
++-**|     Copyright (c) 2003 Texas Instruments Incorporated                |**
++-**|                        ALL RIGHTS RESERVED                           |**
++-**|                                                                      |**
++-**| Permission is hereby granted to licensees of Texas Instruments       |**
++-**| Incorporated (TI) products to use this computer program for the sole |**
++-**| purpose of implementing a licensee product based on TI products.     |**
++-**| No other rights to reproduce, use, or disseminate this computer      |**
++-**| program, whether in part or in whole, are granted.                   |**
++-**|                                                                      |**
++-**| TI makes no representation or warranties with respect to the         |**
++-**| performance of this computer program, and specifically disclaims     |**
++-**| any responsibility for any damages, special or consequential,        |**
++-**| connected with the use of this program.                              |**
++-**|                                                                      |**
++-**+----------------------------------------------------------------------+**
++-***************************************************************************/
++-
++-/*********************************************************************************
++- *  ------------------------------------------------------------------------------
++- *   Module      : vlynq_hal.h
++- *   Description :
++- *   This header file provides the set of functions exported by the 
++- *   VLYNQ HAL. This file is included from the SOC specific VLYNQ driver wrapper.
++- *  ------------------------------------------------------------------------------
++- *********************************************************************************/
++-
++-#ifndef _VLYNQ_HAL_H_
++-#define _VLYNQ_HAL_H_
++-
++-/* Enable/Disable debug feature */
++-#undef VLYNQ_DEBUG 
++-
++-#ifdef VLYNQ_DEBUG  /* This needs to be OS abstracted - for testing use vxworks/linux calls */
++-#define debugPrint(format,args...)    
++-#else 
++-#define debugPrint(format,args...)  
++-#endif
++-
++- /* number of VLYNQ memory regions supported */
++-#define VLYNQ_MAX_MEMORY_REGIONS 0x04
++-  
++- /* Max.number of external interrupt inputs supported by VLYNQ module */
++-#define VLYNQ_IVR_MAXIVR         0x08
++-
++-#define VLYNQ_CLK_DIV_MAX  0x08
++-#define VLYNQ_CLK_DIV_MIN  0x01
++-
++-
++-/*** the total number of entries allocated for ICB would be
++- * 32(for 32 bits in IntPending register) + VLYNQ_IVR_CHAIN_SLOTS*/
++-#define VLYNQ_IVR_CHAIN_SLOTS 10
++-
++-
++-/* Error defines */
++-#define VLYNQ_SUCCESS               0
++-
++-#define VLYNQ_ERRCODE_BASE          0 /* Chosen by system */
++-#define VLYNQ_INVALID_ARG          -(VLYNQ_ERRCODE_BASE+1)
++-#define VLYNQ_INVALID_DRV_STATE    -(VLYNQ_ERRCODE_BASE+2)
++-#define VLYNQ_INT_CONFIG_ERR       -(VLYNQ_ERRCODE_BASE+3)
++-#define VLYNQ_LINK_DOWN            -(VLYNQ_ERRCODE_BASE+4)
++-#define VLYNQ_MEMALLOC_FAIL        -(VLYNQ_ERRCODE_BASE+5)
++-#define VLYNQ_ISR_NON_EXISTENT     -(VLYNQ_ERRCODE_BASE+6)
++-#define VLYNQ_INTVEC_MAP_NOT_FOUND -(VLYNQ_ERRCODE_BASE+7)
++-
++-/* Vlynq Defines and Macros */
++-
++-#define VLYNQ_NUM_INT_BITS              32 /* 32 bit interrupt staus register */
++-
++-/* Base address of module */
++-#define VLYNQ_BASE                      (pdev->module_base)
++-
++-#define VLYNQ_REMOTE_REGS_OFFSET        0x0080
++-
++-#define VLYNQ_REV_OFFSET                0x0000
++-#define VLYNQ_CTRL_OFFSET               0x0004
++-#define VLYNQ_STATUS_OFFSET             0x0008
++-#define VLYNQ_INT_STAT_OFFSET           0x0010
++-#define VLYNQ_INT_PEND_OFFSET           0x0014
++-#define VLYNQ_INT_PTR_OFFSET            0x0018
++-#define VLYNQ_TXMAP_OFFSET              0x001c
++-
++-#define VLYNQ_RX0MAP_SIZE_REG_OFFSET    0x0020
++-#define VLYNQ_RX0MAP_OFFSET_REG_OFFSET  0x0024
++-
++-#define VLYNQ_CHIP_VER_OFFSET           0x0040
++-#define VLYNQ_IVR_REGS_OFFSET           0x0060
++-
++-#define VLYNQ_INT_PENDING_REG_PTR       0x14
++-#define VLYNQ_R_INT_PENDING_REG_PTR     VLYNQ_REMOTE_REGS_OFFSET + 0x14
++-
++-#define VLYNQ_REV_REG       *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_REV_OFFSET))
++-#define VLYNQ_CTRL_REG      *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_CTRL_OFFSET))
++-#define VLYNQ_STATUS_REG    *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_STATUS_OFFSET))
++-#define VLYNQ_INT_STAT_REG  *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_INT_STAT_OFFSET))
++-#define VLYNQ_INT_PEND_REG  *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_INT_PEND_OFFSET))
++-#define VLYNQ_INT_PTR_REG   *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_INT_PTR_OFFSET))
++-#define VLYNQ_TXMAP_REG     *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_TXMAP_OFFSET))
++-
++-/** map takes on values between 1 to VLYNQ_MAX_MEMORY_REGIONS **/
++-#define VLYNQ_RXMAP_SIZE_REG(map) \
++-    *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_RX0MAP_SIZE_REG_OFFSET+( (map-1)<<3)))
++-    
++-/** map takes on values between 1 to VLYNQ_MAX_MEMORY_REGIONS **/
++-#define VLYNQ_RXMAP_OFFSET_REG(map) \
++-    *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_RX0MAP_OFFSET_REG_OFFSET+( (map-1)<<3)))
++-
++-#define VLYNQ_CHIP_VER_REG  *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_CHIP_VER_OFFSET))
++-
++-/* 0 =< ivr <= 31; currently ivr < VLYNQ_IVR_MAXIVR=8) */
++-#define VLYNQ_IVR_OFFSET(ivr)  \
++-    (VLYNQ_BASE + VLYNQ_IVR_REGS_OFFSET +((((unsigned)(ivr)) & 31) & ~3) )
++-
++-#define VLYNQ_IVR_03TO00_REG  *((volatile unsigned int*) (VLYNQ_IVR_OFFSET(0)) )
++-#define VLYNQ_IVR_07TO04_REG  *((volatile unsigned int*) (VLYNQ_IVR_OFFSET(4)) )
++-/*** Can be extended for 11TO08...31TO28 when all 31 are supported**/
++-
++-#define VLYNQ_IVR_INTEN(ivr)    (((unsigned int)(0x80)) << ((((unsigned)(ivr)) % 4) * 8))
++-#define VLYNQ_IVR_INTTYPE(ivr)  (((unsigned int)(0x40)) << ((((unsigned)(ivr)) % 4) * 8))
++-#define VLYNQ_IVR_INTPOL(ivr)   (((unsigned int)(0x20)) << ((((unsigned)(ivr)) % 4) * 8))
++-#define VLYNQ_IVR_INTVEC(ivr)   (((unsigned int)(0x1F)) << ((((unsigned)(ivr)) % 4) * 8))
++-#define VLYNQ_IVR_INTALL(ivr)   (((unsigned int)(0xFF)) << ((((unsigned)(ivr)) % 4) * 8))
++-
++-
++-
++-/*********************************
++- * Remote VLYNQ register set     *
++- *********************************/
++-
++-#define VLYNQ_R_REV_OFFSET              0x0080
++-#define VLYNQ_R_CTRL_OFFSET             0x0084
++-#define VLYNQ_R_STATUS_OFFSET           0x0088
++-#define VLYNQ_R_INT_STAT_OFFSET         0x0090
++-#define VLYNQ_R_INT_PEND_OFFSET         0x0094
++-#define VLYNQ_R_INT_PTR_OFFSET          0x0098
++-#define VLYNQ_R_TXMAP_OFFSET            0x009c
++-
++-#define VLYNQ_R_RX0MAP_SIZE_REG_OFFSET  0x00A0
++-#define VLYNQ_R_RX0MAP_OFFSET_REG_OFFSET 0x00A4
++-
++-#define VLYNQ_R_CHIP_VER_OFFSET         0x00C0
++-#define VLYNQ_R_IVR_REGS_OFFSET         0x00E0
++-
++-#define VLYNQ_R_REV_REG       *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_REV_OFFSET)) 
++-#define VLYNQ_R_CTRL_REG      *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_CTRL_OFFSET))
++-#define VLYNQ_R_STATUS_REG    *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_STATUS_OFFSET))
++-#define VLYNQ_R_INT_STAT_REG  *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_INT_STAT_OFFSET))
++-#define VLYNQ_R_INT_PEND_REG  *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_INT_PEND_OFFSET))
++-#define VLYNQ_R_INT_PTR_REG   *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_INT_PTR_OFFSET))
++-#define VLYNQ_R_TXMAP_REG     *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_TXMAP_OFFSET))
++-
++-/** map takes on values between 1 to VLYNQ_MAX_MEMORY_REGIONS **/
++-#define VLYNQ_R_RXMAP_SIZE_REG(map) \
++-    *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_RX0MAP_SIZE_REG_OFFSET + ((map-1)<<3)))
++-    
++-/** map takes on values between 1 to VLYNQ_MAX_MEMORY_REGIONS **/
++-#define VLYNQ_R_RXMAP_OFFSET_REG(map) \
++-    *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_RX0MAP_OFFSET_REG_OFFSET + ((map-1)<<3)))
++-
++-#define VLYNQ_R_CHIP_VER_REG  *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_CHIP_VER_OFFSET)
++-
++-#define VLYNQ_R_IVR_OFFSET(ivr)  \
++-    (VLYNQ_BASE + VLYNQ_R_IVR_REGS_OFFSET +((((unsigned)(ivr)) & 31) & ~3))
++- 
++-
++-/*** Can be extended for 11TO08...31TO28 when all 31 are supported**/
++-#define VLYNQ_R_IVR_03TO00_REG  *((volatile unsigned int*) (VLYNQ_R_IVR_OFFSET(0)) )
++-#define VLYNQ_R_IVR_07TO04_REG  *((volatile unsigned int*) (VLYNQ_R_IVR_OFFSET(4)) )
++-
++-
++-/****End of remote register set definition******/
++-
++-
++-/*** Masks for individual register fields ***/
++-
++-#define VLYNQ_MODULE_ID_MASK        0xffff0000
++-#define VLYNQ_MAJOR_REV_MASK        0x0000ff00
++-#define VLYNQ_MINOR_REV_MASK        0x000000ff
++-
++-    
++-#define VLYNQ_CTL_ILOOP_MASK        0x00000002
++-#define VLYNQ_CTL_INT2CFG_MASK      0x00000080
++-#define VLYNQ_CTL_INTVEC_MASK       0x00001f00
++-#define VLYNQ_CTL_INTEN_MASK        0x00002000
++-#define VLYNQ_CTL_INTLOCAL_MASK     0x00004000
++-#define VLYNQ_CTL_CLKDIR_MASK       0x00008000
++-#define VLYNQ_CTL_CLKDIV_MASK       0x00070000
++-#define VLYNQ_CTL_MODE_MASK         0x00e00000
++-
++-
++-#define VLYNQ_STS_LINK_MASK         0x00000001  /* Link is active */
++-#define VLYNQ_STS_MPEND_MASK        0x00000002  /* Pending master requests */
++-#define VLYNQ_STS_SPEND_MASK        0x00000004  /* Pending slave requests */
++-#define VLYNQ_STS_NFEMPTY0_MASK     0x00000008  /* Master data FIFO not empty */
++-#define VLYNQ_STS_NFEMPTY1_MASK     0x00000010  /* Master command FIFO not empty */
++-#define VLYNQ_STS_NFEMPTY2_MASK     0x00000020  /* Slave data FIFO not empty */
++-#define VLYNQ_STS_NFEMPTY3_MASK     0x00000040  /* Slave command FIFO not empty */
++-#define VLYNQ_STS_LERROR_MASK       0x00000080  /* Local error, w/c */
++-#define VLYNQ_STS_RERROR_MASK       0x00000100  /* remote error w/c */
++-#define VLYNQ_STS_OFLOW_MASK        0x00000200
++-#define VLYNQ_STS_IFLOW_MASK        0x00000400
++-#define VLYNQ_STS_MODESUP_MASK      0x00E00000  /* Highest mode supported */
++-#define VLYNQ_STS_SWIDTH_MASK       0x07000000  /* Used for reading the width of VLYNQ bus */
++-#define VLYNQ_STS_DEBUG_MASK        0xE0000000 
++-
++-#define VLYNQ_CTL_INTVEC_SHIFT      0x08
++-#define VLYNQ_CTL_INTEN_SHIFT       0x0D
++-#define VLYNQ_CTL_INT2CFG_SHIFT     0x07
++-#define VLYNQ_CTL_INTLOCAL_SHIFT    0x0E
++-
++-#define VLYNQ_CTL_INTFIELDS_CLEAR_MASK  0x7F80
++-
++-#define VLYNQ_CHIPVER_DEVREV_MASK   0xffff0000
++-#define VLYNQ_CHIPVER_DEVID_MASK    0x0000ffff
++-
++-#define VLYNQ_IVR_INTEN_MASK        0x80
++-#define VLYNQ_IVR_INTTYPE_MASK      0x40
++-#define VLYNQ_IVR_INTPOL_MASK       0x20
++-
++-
++-/**** Helper macros ****/
++-
++-#define VLYNQ_RESETCB(arg) \
++-   if( pdev->reset_cb != NULL)   \
++-   {                             \
++-      (pdev->reset_cb)(pdev, (arg));  \
++-   }
++-    
++-#define VLYNQ_STATUS_FLD_WIDTH(sts) (((sts) & VLYNQ_STS_SWIDTH_MASK) >> 24 )
++-#define VLYNQ_CTL_INTVEC(x)         (((x) & 31) << 8 )
++-
++-#define VLYNQ_INRANGE(x,hi,lo)      (((x) <= (hi)) && ((x) >= (lo)))
++-#define VLYNQ_OUTRANGE(x,hi,lo)     (((x) > (hi)) || ((x) < (lo)))
++-
++-#define VLYNQ_ALIGN4(x)             (x)=(x)&(~3)   
++-
++-
++-/*************************************
++- *             Enums                 *
++- *************************************/
++-
++-/* Initialization options define what operations are
++- * undertaken during vlynq module initialization */
++-typedef enum
++-{
++-    /* Init host local memory regions.This allows
++-     * local host access remote memory regions */
++-    VLYNQ_INIT_LOCAL_MEM_REGIONS = 0x01,
++-    /* Init host remote memory regions.This allows
++-     * remote device access local memory regions */
++-    VLYNQ_INIT_REMOTE_MEM_REGIONS =0x02,
++-    /* Init local interrupt config*/
++-    VLYNQ_INIT_LOCAL_INTERRUPTS   =0x04,
++-    /* Init remote interrupt config*/
++-    VLYNQ_INIT_REMOTE_INTERRUPTS  =0x08,
++-    /* Check link during initialization*/
++-    VLYNQ_INIT_CHECK_LINK         =0x10,
++-    /* configure clock during init */
++-    VLYNQ_INIT_CONFIG_CLOCK       =0x20,
++-    /* Clear errors during init */    
++-    VLYNQ_INIT_CLEAR_ERRORS       =0x40,
++-    /* All options */
++-    VLYNQ_INIT_PERFORM_ALL        =0x7F
++-}VLYNQ_INIT_OPTIONS;
++-
++-
++-/* VLYNQ_DEV_TYPE identifies local or remote device */
++-typedef enum
++-{
++-    VLYNQ_LOCAL_DVC  = 0,           /* vlynq local device (SOC's vlynq module) */
++-    VLYNQ_REMOTE_DVC = 1            /* vlynq remote device (remote vlynq module) */
++-}VLYNQ_DEV_TYPE;
++-
++-
++-/* VLYNQ_CLK_SOURCE identifies the vlynq module clock source */
++-typedef enum
++-{
++-    VLYNQ_CLK_SOURCE_NONE   = 0,    /* do not initialize clock generator*/
++-    VLYNQ_CLK_SOURCE_LOCAL  = 1,    /* clock is generated by local machine  */
++-    VLYNQ_CLK_SOURCE_REMOTE = 2     /* clock is generated by remote machine */
++-}VLYNQ_CLK_SOURCE;
++-
++-
++-/* VLYNQ_DRV_STATE indicates the current driver state */
++-typedef enum
++-{
++-    VLYNQ_DRV_STATE_UNINIT = 0,     /* driver is uninitialized  */
++-    VLYNQ_DRV_STATE_ININIT = 1,     /* VLYNQ is being initialized */
++-    VLYNQ_DRV_STATE_RUN    = 2,     /* VLYNQ is running properly  */
++-    VLYNQ_DRV_STATE_HOLD   = 3,     /* driver stopped temporarily */
++-    VLYNQ_DRV_STATE_ERROR  = 4      /* driver stopped on unrecoverable error */
++-}VLYNQ_DRV_STATE;
++-
++-
++-/* VLYNQ_BUS_WIDTH identifies the vlynq module bus width */
++-typedef enum
++-{
++-   VLYNQ_BUS_WIDTH_3 =  3,
++-   VLYNQ_BUS_WIDTH_5 =  5,
++-   VLYNQ_BUS_WIDTH_7 =  7,
++-   VLYNQ_BUS_WIDTH_9 =  9
++-}VLYNQ_BUS_WIDTH;
++-
++-
++-/* VLYNQ_LOCAL_INT_CONFIG indicates whether the local vlynq 
++- * interrupts are processed by the host or passed on to the 
++- * remote device.
++- */
++-typedef enum
++-{
++-    VLYNQ_INT_REMOTE = 0,   /* Interrupt packets sent to remote, intlocal=0 */
++-    VLYNQ_INT_LOCAL  = 1    /* Interrupts are handled locally, intlocal=1 */
++-}VLYNQ_LOCAL_INT_CONFIG;        
++-
++-
++-/* VLYNQ_REMOTE_INT_CONFIG indicates whether the remote 
++- * interrupts are to be handled by the SOC system ISR 
++- * or via the vlynq root ISR
++- */
++-typedef enum 
++-{
++-    VLYNQ_INT_ROOT_ISR   = 0,   /* remote ints handled via vlynq root ISR */
++-    VLYNQ_INT_SYSTEM_ISR = 1    /* remote ints handled via system ISR */
++-}VLYNQ_REMOTE_INT_CONFIG;
++-
++-
++-/* VLYNQ_INTR_POLARITY - vlynq interrupt polarity setting */
++-typedef enum
++-{
++-    VLYNQ_INTR_ACTIVE_HIGH = 0,
++-    VLYNQ_INTR_ACTIVE_LOW  = 1
++-}VLYNQ_INTR_POLARITY;
++-
++-
++-/* VLYNQ_INTR_TYPE  - vlynq interrupt type */
++-typedef enum
++-{
++-    VLYNQ_INTR_LEVEL  = 0,
++-    VLYNQ_INTR_PULSED = 1
++-}VLYNQ_INTR_TYPE;
++-
++-
++-/* VLYNQ_RESET_MODE - vlynq reset mode */
++-typedef enum
++-{
++-   VLYNQ_RESET_ASSERT,      /* hold device in reset state */
++-   VLYNQ_RESET_DEASSERT,    /* release device from reset state */
++-   VLYNQ_RESET_INITFAIL,    /* handle the device in case driver initialization fails */
++-   VLYNQ_RESET_LINKESTABLISH,  /* handle the device in case driver established link */
++-   VLYNQ_RESET_INITFAIL2,   /* Driver initialization failed but VLYNQ link exist. */
++-   VLYNQ_RESET_INITOK       /* Driver initialization finished OK. */
++-}VLYNQ_RESET_MODE;
++- 
++-
++-
++-/*************************************
++- *             Typedefs              *
++- *************************************/
++-
++-struct VLYNQ_DEV_t; /*forward declaration*/
++-
++-/*--------Function Pointers defintions -----------*/
++-
++-/* prototype for interrupt handler definition */
++-typedef void (*VLYNQ_INTR_CNTRL_ISR)(void *arg1,void *arg2,void *arg3);
++-
++-typedef void 
++-(*VLYNQ_RESET_REMOTE)(struct VLYNQ_DEV_t *pDev, VLYNQ_RESET_MODE mode);
++-
++-typedef void 
++-(*VLYNQ_REPORT_CB)( struct VLYNQ_DEV_t *pDev,   /* This VLYNQ */
++-                    VLYNQ_DEV_TYPE  aSrcDvc,    /* Event Cause -local/remote? */
++-                    unsigned int  dwStatRegVal);      /* Value of the relevant status register */
++-
++-
++-/*-------Structure Definitions------------*/
++-
++-typedef struct VLYNQ_MEMORY_MAP_t
++-{
++-    unsigned int Txmap;
++-    unsigned int RxOffset[VLYNQ_MAX_MEMORY_REGIONS];
++-    unsigned int RxSize[VLYNQ_MAX_MEMORY_REGIONS];
++-}VLYNQ_MEMORY_MAP;
++-
++-
++-/**VLYNQ_INTERRUPT_CNTRL - defines the vlynq module interrupt
++- * settings in vlynq Control register  */ 
++-typedef struct VLYNQ_INTERRUPT_CNTRL_t
++-{
++-    /* vlynq interrupts handled by host or remote - maps to 
++-     * intLocal bit in vlynq control register */
++-    VLYNQ_LOCAL_INT_CONFIG intLocal;
++-
++-    /* remote interrupts handled by vlynq isr or host system
++-     * interrupt controller - maps to the int2Cfg in vlynq 
++-     * control register */
++-    VLYNQ_REMOTE_INT_CONFIG intRemote;
++-    
++-    /* bit in pending/set register used for module interrupts*/
++-    unsigned int map_vector;
++-    
++-    /* used only if remote interrupts are to be handled by system ISR*/    
++-    unsigned int intr_ptr;
++-
++-}VLYNQ_INTERRUPT_CNTRL;
++-
++-
++-/* VLYNQ_INTR_CNTRL_ICB - defines the Interrupt control block which hold
++- * the interrupt dispatch table. The vlynq_root_isr() indexes into this 
++- * table to identify the ISR to be invoked
++- */
++-typedef struct VLYNQ_INTR_CNTRL_ICB_t
++-{
++-    VLYNQ_INTR_CNTRL_ISR            isr;    /* Clear errors during initialization */
++-    void                            *arg1 ; /* Arg 1 for the ISR */
++-    void                            *arg2 ; /* Arg 2 for the ISR */
++-    void                            *arg3 ; /* Arg 3 for the ISR */
++-    unsigned int  isrCount; /* number of ISR invocations so far */
++-    struct VLYNQ_INTR_CNTRL_ICB_t   *next;
++-}VLYNQ_INTR_CNTRL_ICB;
++-
++-/* overlay of vlynq register set */
++-typedef struct VLYNQ_REG_SET_t
++-{
++-    unsigned int revision; /*offset : 0x00 */
++-    unsigned int control;  /* 0x04*/
++-    unsigned int status;   /* 0x08*/
++-    unsigned int pad1;     /* 0x0c*/
++-    unsigned int intStatus;   /*0x10*/
++-    unsigned int intPending;  /*0x14*/
++-    unsigned int intPtr;      /*0x18*/
++-    unsigned int txMap;       /*0x1C*/ 
++-    unsigned int rxSize1;     /*0x20*/
++-    unsigned int rxOffset1;   /*0x24*/
++-    unsigned int rxSize2;     /*0x28*/
++-    unsigned int rxOffset2;   /*0x2C*/
++-    unsigned int rxSize3;     /*0x30*/
++-    unsigned int rxOffset3;   /*0x34*/
++-    unsigned int rxSize4;     /*0x38*/
++-    unsigned int rxOffset4;   /*0x3C*/
++-    unsigned int chipVersion; /*0x40*/
++-    unsigned int pad2[8];
++-    unsigned int ivr30;       /*0x60*/
++-    unsigned int ivr74;       /*0x64*/
++-    unsigned int pad3[7];
++-}VLYNQ_REG_SET;
++-    
++-
++-typedef struct VLYNQ_DEV_t
++-{
++-    /** module index:1,2,3... used for debugging purposes */
++-    unsigned int dev_idx; 
++-    
++-    /*VLYNQ module base address */
++-    unsigned int module_base;
++-   
++-    /* clock source selection */
++-    VLYNQ_CLK_SOURCE clk_source;
++-   
++-    /* Clock Divider.Val=1 to 8. VLYNQ_clk = VBUSCLK/clk_div */
++-    unsigned int  clk_div;
++-   
++-    /* State of the VLYNQ driver, set to VLYNQ_DRV_STATE_UNINIT, when initializing */
++-    VLYNQ_DRV_STATE state;
++-   
++-    /* Valid VLYNQ bus width, filled by driver  */
++-    VLYNQ_BUS_WIDTH width;
++-   
++-    /* local memory mapping   */
++-    VLYNQ_MEMORY_MAP local_mem;
++-   
++-    /* remote memory mapping   */
++-    VLYNQ_MEMORY_MAP remote_mem;
++-   
++-    /* Local module interrupt params */
++-    VLYNQ_INTERRUPT_CNTRL  local_irq;
++-   
++-    /* remote module interrupt params */
++-    VLYNQ_INTERRUPT_CNTRL  remote_irq;
++-
++-    /*** ICB related fields **/
++-   
++-    /* Sizeof of ICB = VLYNQ_NUM_INT_BITS(for 32 bits in IntPending) + 
++-     * expansion slots for shared interrupts*/
++-    VLYNQ_INTR_CNTRL_ICB  pIntrCB[VLYNQ_NUM_INT_BITS + VLYNQ_IVR_CHAIN_SLOTS];
++-    VLYNQ_INTR_CNTRL_ICB  *freelist;
++-   
++-   /* table holding mapping between intVector and the bit position the interrupt
++-    * is mapped to(mapVector)*/
++-    char vector_map[32];
++-   
++-    /* user callback for vlynq events, NULL if unused */
++-    VLYNQ_REPORT_CB        report_cb;    
++-    
++-   /* user callback for resetting/realeasing remote device */
++-    VLYNQ_RESET_REMOTE     reset_cb;
++-
++-    /*** Handles provided for direct access to register set if need be
++-     * Must be intialized to point to appropriate address during 
++-     * vlynq_init */
++-    volatile VLYNQ_REG_SET * local;
++-    volatile VLYNQ_REG_SET * remote;
++-
++-    unsigned int  intCount; /* number of interrupts generated so far */
++-    unsigned int  isrCount; /* number of ISR invocations so far */
++-}VLYNQ_DEV;
++-
++-
++-typedef struct VLYNQ_ISR_ARGS_t
++-{
++-    int irq;
++-    void * arg;
++-    void * regset;
++-}VLYNQ_ISR_ARGS;
++-
++-
++-/****************************************
++- *        Function Prototypes           *
++- * API exported by generic vlynq driver *
++- ****************************************/
++-/* Initialization function */ 
++-int vlynq_init( VLYNQ_DEV *pdev, VLYNQ_INIT_OPTIONS options);
++-
++-/* Check vlynq link */
++-unsigned int vlynq_link_check( VLYNQ_DEV * pdev);
++-
++-/* Set interrupt vector in local or remote device */
++-int vlynq_interrupt_vector_set( VLYNQ_DEV *pdev, 
++-                                         unsigned int int_vector,
++-                                         unsigned int map_vector, 
++-                                         VLYNQ_DEV_TYPE dev,
++-                                         VLYNQ_INTR_POLARITY pol,
++-                                         VLYNQ_INTR_TYPE type);
++-
++-
++-int vlynq_interrupt_vector_cntl( VLYNQ_DEV *pdev,
++-                                          unsigned int int_vector,
++-                                          VLYNQ_DEV_TYPE dev,
++-                                          unsigned int enable);
++-
++-unsigned int vlynq_interrupt_get_count( VLYNQ_DEV *pdev,
++-                                         unsigned int map_vector);
++-
++-int vlynq_install_isr( VLYNQ_DEV *pdev,
++-                                unsigned int map_vector,
++-                                VLYNQ_INTR_CNTRL_ISR isr,
++-                                void *arg1, void *arg2, void *arg3);
++-
++-int vlynq_uninstall_isr( VLYNQ_DEV *pdev,
++-                                  unsigned int map_vector,
++-                                  void *arg1, void *arg2, void *arg3);
++-
++-
++-void vlynq_root_isr(void *arg);
++-
++-void vlynq_delay(unsigned int clktime);
++-
++-/* The following functions, provide better granularity in setting
++- * interrupt parameters. (for better support of linux INT Controller)
++- * Note: The interrupt source is identified by "map_vector"- the bit 
++- * position in interrupt status register*/
++-
++-int vlynq_interrupt_vector_map(VLYNQ_DEV * pdev,
++-                                        VLYNQ_DEV_TYPE dev,
++-                                        unsigned int int_vector,
++-                                        unsigned int map_vector);
++-
++-int vlynq_interrupt_set_polarity(VLYNQ_DEV * pdev,
++-                                          VLYNQ_DEV_TYPE dev,
++-                                          unsigned int map_vector,
++-                                          VLYNQ_INTR_POLARITY pol);
++-
++-int vlynq_interrupt_get_polarity( VLYNQ_DEV *pdev ,
++-                                           VLYNQ_DEV_TYPE dev_type,
++-                                           unsigned int map_vector);
++-
++-int vlynq_interrupt_set_type(VLYNQ_DEV * pdev,
++-                                      VLYNQ_DEV_TYPE dev,
++-                                      unsigned int map_vector,
++-                                      VLYNQ_INTR_TYPE type);
++-
++-int vlynq_interrupt_get_type( VLYNQ_DEV *pdev, 
++-                                       VLYNQ_DEV_TYPE dev_type,
++-                                       unsigned int map_vector);
++-
++-int vlynq_interrupt_enable(VLYNQ_DEV* pdev,
++-                                    VLYNQ_DEV_TYPE dev,
++-                                    unsigned int map_vector);
++-
++-int vlynq_interrupt_disable(VLYNQ_DEV * pdev,
++-                                     VLYNQ_DEV_TYPE dev,
++-                                     unsigned int map_vector);
++-                 
++-
++-              
++-        
++-
++-#endif /* _VLYNQ_HAL_H_ */
++diff -urN linux-2.4.32/include/asm-mips/ar7/vlynq_hal.h linux-2.4.32.new/include/asm-mips/ar7/vlynq_hal.h
++--- linux-2.4.32/include/asm-mips/ar7/vlynq_hal.h	2005-12-29 11:23:32.000000000 +0100
+++++ linux-2.4.32.new/include/asm-mips/ar7/vlynq_hal.h	2005-12-27 21:44:16.000000000 +0100
++@@ -598,9 +598,8 @@
++ GLOBAL INT32 vlynq_interrupt_disable(VLYNQ_DEV * pdev,
++                                      VLYNQ_DEV_TYPE dev,
++                                      UINT32 map_vector);
++-                 
++ 
++-              
++-        
+++/* vlynq_drv.h */
+++extern VLYNQ_DEV vlynqDevice0, vlynqDevice1;
++ 
++ #endif /* _VLYNQ_HAL_H_ */
++diff -urN linux-2.4.32/include/asm-mips/bootinfo.h linux-2.4.32.new/include/asm-mips/bootinfo.h
++--- linux-2.4.32/include/asm-mips/bootinfo.h	2005-12-29 11:23:22.000000000 +0100
+++++ linux-2.4.32.new/include/asm-mips/bootinfo.h	2005-12-27 21:46:52.000000000 +0100
++@@ -37,6 +37,8 @@
++ #define MACH_GROUP_HP_LJ       20 /* Hewlett Packard LaserJet               */
++ #define MACH_GROUP_LASAT       21
++ #define MACH_GROUP_TITAN       22 /* PMC-Sierra Titan 			    */
+++#define MACH_GROUP_AR531X      23 /* Atheros AR531X                         */
+++#define MACH_GROUP_AR7         24 /* TI AR7 (Sangam) based Boards           */
++ 
++ /*
++  * Valid machtype values for group unknown (low order halfword of mips_machtype)
++@@ -201,6 +203,23 @@
++  */
++ #define	MACH_TITAN_YOSEMITE	1 	/* PMC-Sierra Yosemite */
++ 
+++/*
+++ * Valid machtype for group AR7 (SANGAM)
+++ */
+++#define MACH_AR7_ADAM2          0       /* ADAM2 based Boards */
+++#define MACH_AR7_SINUS154       1       /* Sinus 154 DSL Basic SE / Basic 3 */
+++
+++/*
+++ * Valid machtype for group MACH_GROUP_AR5312
+++ */
+++#define MACH_ATHEROS_UNUSED     0
+++#define MACH_ATHEROS_AP30       1       /* AP30 */
+++#define MACH_ATHEROS_AP33	2       /* AP33 */
+++#define MACH_ATHEROS_AP38       3       /* AP38 */
+++#define MACH_ATHEROS_AP43       4       /* AP43 */
+++#define MACH_ATHEROS_AP48       5       /* AP48 */
+++#define MACH_ATHEROS_PB32       6       /* PB32 */
+++
++ #define CL_SIZE			(256)
++ 
++ const char *get_system_type(void);
++diff -urN linux-2.4.32/net/core/wireless.c linux-2.4.32.new/net/core/wireless.c
++--- linux-2.4.32/net/core/wireless.c	2003-11-28 19:26:21.000000000 +0100
+++++ linux-2.4.32.new/net/core/wireless.c	2005-12-27 21:44:16.000000000 +0100
++@@ -474,6 +474,8 @@
++ 	/* Check if there is enough buffer up there */
++ 	if(iwr->u.data.length < dev->wireless_handlers->num_private_args) {
++ 		printk(KERN_ERR "%s (WE) : Buffer for request SIOCGIWPRIV too small (%d<%d)\n", dev->name, iwr->u.data.length, dev->wireless_handlers->num_private_args);
+++		/* Give wireless tools a hint. */
+++		iwr->u.data.length = dev->wireless_handlers->num_private_args;
++ 		return -E2BIG;
++ 	}
++ #endif	/* WE_STRICT_WRITE */
+Index: target/linux/image/ar7/src/gzip.h
+===================================================================
+--- target/linux/image/ar7/src/gzip.h	(Revision 2793)
++++ target/linux/image/ar7/src/gzip.h	(Arbeitskopie)
+@@ -14,25 +14,12 @@
+ typedef unsigned long  ulg;
+ 
+ 
+-static char *output_data;
+-static ulg output_ptr;
+-
+ #ifndef NULL
+ #define NULL 0
+ #endif
+ 
+ #define NOMEMCPY                /* Does routine memcpy exist? */
+ 
+-//bvb static uch *inbuf;		/* input buffer */
+-static uch *window;
+-
+-//bvb static uch outwin[WSIZE];
+-
+-//bvb static unsigned insize;		/* valid bytes in inbuf */
+-static unsigned inptr;		/* index of next byte to process in inbuf */
+-
+-static unsigned outcnt;		/* bytes in output buffer */
+-
+ /* gzip flag byte */
+ #define ASCII_FLAG   0x01 /* bit 0 set: file probably ascii text */
+ #define CONTINUATION 0x02 /* bit 1 set: continuation of multi-part gzip file */
+@@ -46,6 +33,3 @@
+ #define BMAX 16         /* maximum bit length of any code (16 for explode) */
+ #define N_MAX 288       /* maximum number of codes in any set */
+ 
+-static char *input_data;
+-
+-static void *freememstart;
 Index: target/linux/image/ar7/src/uart16550.h
 ===================================================================
 --- target/linux/image/ar7/src/uart16550.h	(Revision 0)
@@ -6277,25 +7463,26 @@ Index: target/linux/image/ar7/src/entry.c
 +}
 Index: target/linux/image/ar7/src/loader.c
 ===================================================================
---- target/linux/image/ar7/src/loader.c	(Revision 2576)
+--- target/linux/image/ar7/src/loader.c	(Revision 2793)
 +++ target/linux/image/ar7/src/loader.c	(Arbeitskopie)
-@@ -15,24 +15,35 @@
+@@ -15,24 +15,46 @@
  #include <linux/config.h>
  #include "gzip.h"
  #include "LzmaDecode.h"
 +#include "loader.h"
++#if defined(NO_FIRMWARE)
 +#include "uart16550.h"
++#endif
  
  /* Function prototypes */
 -unsigned char get_byte(void);
 -int tikernelunzip(int,char *[], char *[]);
  static int tidecompress(uch *, uch *);
-+static unsigned char get_byte(void);
-+static void print(const char *ptr);
-+#define printf(s) print(s)
 +#if defined(DEBUG)
 +static void print_i(int i);
 +#endif
++static void print_s(const char *ptr);
++#define printf(s) print_s(s)
  
 -void kernel_entry(int, char *[], char *[]);
 -void (*ke)(int, char *[], char *[]); /* Gen reference to kernel function */
@@ -6306,12 +7493,22 @@ Index: target/linux/image/ar7/src/loader.c
 +extern unsigned char kernelimage[], kernelimage_end[];
  
 -int tikernelunzip(int argc, char *argv[], char *arge[])
-+static void (*ke)(int, const char *[], const char *[]); /* Gen reference to kernel function */
++static unsigned char *input_data;
 +
-+int tikernelunzip2(int argc, const char *argv[], const char *arge[])
++static inline unsigned char get_byte(void)
  {
 -	extern unsigned int _ftext;
 -	extern uch kernelimage[];
++	unsigned char c;
++	
++	c = *input_data;
++	input_data++;
++
++	return c;
++}
++
++int tikernelunzip2(int argc, const char *argv[], const char *arge[])
++{
  	uch *in, *out;
  	int status;
  
@@ -6324,16 +7521,22 @@ Index: target/linux/image/ar7/src/loader.c
  	printf("Launching kernel decompressor.\n");
  
  	out = (unsigned char *) LOADADDR;
-@@ -43,7 +54,7 @@
+@@ -41,11 +63,11 @@
+ 	status = tidecompress(in, out);
+ 
  	if (status == 0) {
++		/* Gen reference to kernel function */
++		void (*ke)(int, const char *[], const char *[]) =
++			(void(*)(int, const char *[], const char*[]))kernel_entry;
  		printf("Kernel decompressor was successful ... launching kernel.\n");
- 
+-
 -		ke = ( void(*)(int, char *[],char*[]))kernel_entry;
-+		ke = ( void(*)(int, const char *[], const char*[]))kernel_entry;
  		(*ke)(argc,argv,arge);
- 
+-
  		return (0);
-@@ -53,9 +64,9 @@
+ 	} else {
+ 		printf("Error in decompression.\n");
+@@ -53,9 +75,9 @@
  	}
  }
  
@@ -6346,7 +7549,16 @@ Index: target/linux/image/ar7/src/loader.c
  {
  	int j;
  	char buf[11];
-@@ -74,10 +85,8 @@
+@@ -63,7 +85,7 @@
+ 	buf[0] = '0';
+ 	buf[1] = 'x';
+ 	buf[10] = 0;
+-	
++
+ 	for (j = 0; j < 8; j++)
+ 	{
+ 		buf[2 + 7 - j] = hex[i & 0xf];
+@@ -74,10 +96,8 @@
  }
  #endif
  
@@ -6358,17 +7570,31 @@ Index: target/linux/image/ar7/src/loader.c
  	unsigned int i;  /* temp value */
  	unsigned int lc; /* literal context bits */
  	unsigned int lp; /* literal pos state bits */
-@@ -120,15 +129,18 @@
+@@ -87,8 +107,6 @@
+ 	unsigned int insize = kernelimage_end - kernelimage;
+ 	int status;
+ 	
+-	output_ptr = 0;
+-	output_data = outdata;
+ 	input_data = indata;
+ 
+ 	/* lzma args */
+@@ -114,27 +132,25 @@
+ 	wsize = (LZMA_BASE_SIZE + (LZMA_LIT_SIZE << (lc + lp))) * sizeof(CProb);
+ 
+ 	if ((status = LzmaDecode((unsigned char *) &workspace, wsize, lc, lp, pb,
+-		indata + 13, insize - 13, (unsigned char *) output_data, osize, &i)) == LZMA_RESULT_OK)
++		indata + 13, insize - 13, outdata, osize, &i)) == LZMA_RESULT_OK)
+ 			return 0;
+ 
  	return status;
  }
  
 -
 -void printf(char *ptr)
-+static void printf(const char *ptr)
++static void print_s(const char *ptr)
  {
--	unsigned int *tempptr = (unsigned int  *)0x90000534;
--	prnt = ( void (*)(unsigned int, char *)) *tempptr;
--	(*prnt)(0,ptr);
++#if defined(NO_FIRMWARE)
 +	while (*ptr) {
 +		if (*ptr == '\n') {
 +			Uart16550Put('\r');
@@ -6376,13 +7602,108 @@ Index: target/linux/image/ar7/src/loader.c
 +		Uart16550Put(*ptr);
 +		ptr++;
 +	}
++#else
+ 	unsigned int *tempptr = (unsigned int  *)0x90000534;
+ 	prnt = ( void (*)(unsigned int, char *)) *tempptr;
+ 	(*prnt)(0,ptr);
++#endif
+ }
+-
+-unsigned char get_byte()
+-{
+-	unsigned char c;
+-	
+-	c = *input_data;
+-	input_data++;
+-
+-	return c;
+-}
+-
+Index: target/linux/image/ar7/src/LzmaDecode.c
+===================================================================
+--- target/linux/image/ar7/src/LzmaDecode.c	(Revision 2793)
++++ target/linux/image/ar7/src/LzmaDecode.c	(Arbeitskopie)
+@@ -45,7 +45,7 @@
+   int ExtraBytes;
+ } CRangeDecoder;
+ 
+-Byte RangeDecoderReadByte(CRangeDecoder *rd)
++static Byte RangeDecoderReadByte(CRangeDecoder *rd)
+ {
+   if (rd->Buffer == rd->BufferLim)
+   {
+@@ -66,7 +66,7 @@
+ /* #define ReadByte (*rd->Buffer++) */
+ #define ReadByte (RangeDecoderReadByte(rd))
+ 
+-void RangeDecoderInit(CRangeDecoder *rd,
++static void RangeDecoderInit(CRangeDecoder *rd,
+   #ifdef _LZMA_IN_CB
+     ILzmaInCallback *inCallback
+   #else
+@@ -93,7 +93,7 @@
+ #define RC_FLUSH_VAR rd->Range = range; rd->Code = code;
+ #define RC_NORMALIZE if (range < kTopValue) { range <<= 8; code = (code << 8) | ReadByte; }
+ 
+-UInt32 RangeDecoderDecodeDirectBits(CRangeDecoder *rd, int numTotalBits)
++static UInt32 RangeDecoderDecodeDirectBits(CRangeDecoder *rd, int numTotalBits)
+ {
+   RC_INIT_VAR
+   UInt32 result = 0;
+@@ -121,7 +121,7 @@
+   return result;
  }
  
--unsigned char get_byte()
-+static unsigned char get_byte(void)
+-int RangeDecoderBitDecode(CProb *prob, CRangeDecoder *rd)
++static int RangeDecoderBitDecode(CProb *prob, CRangeDecoder *rd)
  {
- 	unsigned char c;
- 	
+   UInt32 bound = (rd->Range >> kNumBitModelTotalBits) * *prob;
+   if (rd->Code < bound)
+@@ -159,7 +159,7 @@
+ 
+ #define RC_GET_BIT(prob, mi) RC_GET_BIT2(prob, mi, ; , ;)               
+ 
+-int RangeDecoderBitTreeDecode(CProb *probs, int numLevels, CRangeDecoder *rd)
++static int RangeDecoderBitTreeDecode(CProb *probs, int numLevels, CRangeDecoder *rd)
+ {
+   int mi = 1;
+   int i;
+@@ -181,7 +181,7 @@
+   return mi - (1 << numLevels);
+ }
+ 
+-int RangeDecoderReverseBitTreeDecode(CProb *probs, int numLevels, CRangeDecoder *rd)
++static int RangeDecoderReverseBitTreeDecode(CProb *probs, int numLevels, CRangeDecoder *rd)
+ {
+   int mi = 1;
+   int i;
+@@ -206,7 +206,7 @@
+   return symbol;
+ }
+ 
+-Byte LzmaLiteralDecode(CProb *probs, CRangeDecoder *rd)
++static Byte LzmaLiteralDecode(CProb *probs, CRangeDecoder *rd)
+ { 
+   int symbol = 1;
+   #ifdef _LZMA_LOC_OPT
+@@ -228,7 +228,7 @@
+   return symbol;
+ }
+ 
+-Byte LzmaLiteralDecodeMatch(CProb *probs, CRangeDecoder *rd, Byte matchByte)
++static Byte LzmaLiteralDecodeMatch(CProb *probs, CRangeDecoder *rd, Byte matchByte)
+ { 
+   int symbol = 1;
+   #ifdef _LZMA_LOC_OPT
+@@ -286,7 +286,7 @@
+ #define LenHigh (LenMid + (kNumPosStatesMax << kLenNumMidBits))
+ #define kNumLenProbs (LenHigh + kLenNumHighSymbols) 
+ 
+-int LzmaLenDecode(CProb *p, CRangeDecoder *rd, int posState)
++static int LzmaLenDecode(CProb *p, CRangeDecoder *rd, int posState)
+ {
+   if(RangeDecoderBitDecode(p + LenChoice, rd) == 0)
+     return RangeDecoderBitTreeDecode(p + LenLow +
 Index: target/linux/image/ar7/src/loader.h
 ===================================================================
 --- target/linux/image/ar7/src/loader.h	(Revision 0)
@@ -6495,7 +7816,7 @@ Index: target/linux/image/ar7/src/uart16550.c
 +}
 Index: target/linux/image/ar7/Makefile
 ===================================================================
---- target/linux/image/ar7/Makefile	(Revision 2576)
+--- target/linux/image/ar7/Makefile	(Revision 2793)
 +++ target/linux/image/ar7/Makefile	(Arbeitskopie)
 @@ -5,7 +5,11 @@
  PKG_BUILD_DIR:=$(BUILD_DIR)/ar7loader
@@ -6509,7 +7830,17 @@ Index: target/linux/image/ar7/Makefile
  KERNEL_ENTRY := 0x${shell nm $(KDIR)/linux-$(KERNEL)*/vmlinux | grep kernel_entry | cut -d' ' -f1}
  OUTPUT_FORMAT := elf32-tradlittlemips
  
-@@ -27,12 +31,18 @@
+@@ -15,6 +19,9 @@
+ 	-mabi=32 -march=mips32 -Wa,-32 -Wa,-march=mips32 -Wa,-mips32 -Wa,--trap \
+ 	-DLOADADDR=$(LOADADDR)
+ 
++ifeq ($(BR2_LINUX_2_4_SINUS154),y)
++CFLAGS += -DNO_FIRMWARE
++endif
+ 
+ $(PKG_BUILD_DIR):
+ 	mkdir -p $(PKG_BUILD_DIR)
+@@ -27,12 +34,26 @@
  	sed -e 's/@@OUTPUT_FORMAT@@/$(OUTPUT_FORMAT)/' \
  	    -e 's/@@LOADADDR@@/$(LOADADDR)/' <$< >$@
  
@@ -6522,23 +7853,30 @@ Index: target/linux/image/ar7/Makefile
  $(PKG_BUILD_DIR)/loader.o: src/loader.c
  	$(TARGET_CC) $(CFLAGS) -c -o $@ $<
  
++ifeq ($(BR2_LINUX_2_4_SINUS154),y)
 +$(PKG_BUILD_DIR)/uart16550.o: src/uart16550.c
 +	$(TARGET_CC) $(CFLAGS) -c -o $@ $<
++endif
++
++loader_objects := $(PKG_BUILD_DIR)/entry.o $(PKG_BUILD_DIR)/loader.o
++loader_objects += $(PKG_BUILD_DIR)/LzmaDecode.o
++ifeq ($(BR2_LINUX_2_4_SINUS154),y)
++loader_objects += $(PKG_BUILD_DIR)/uart16550.o
++endif
 +
  $(STAGING_DIR)/bin/srec2bin: src/srec2bin.c
  	$(HOSTCC) -o $@ $<
  
-@@ -42,7 +52,9 @@
+@@ -42,19 +63,22 @@
  $(KDIR)/vmlinux.bin: $(KDIR)/vmlinux.lzma compile
  	$(TARGET_CROSS)ld -T $(PKG_BUILD_DIR)/zimage.script -r -b binary $< -o $(KDIR)/zimage.o
  	$(TARGET_CROSS)ld -static -G 0 --defsym kernel_entry=$(KERNEL_ENTRY) -T $(PKG_BUILD_DIR)/ld.script \
-+		$(PKG_BUILD_DIR)/entry.o \
- 		$(PKG_BUILD_DIR)/loader.o \
-+		$(PKG_BUILD_DIR)/uart16550.o \
- 		$(PKG_BUILD_DIR)/LzmaDecode.o \
+-		$(PKG_BUILD_DIR)/loader.o \
+-		$(PKG_BUILD_DIR)/LzmaDecode.o \
++		$(loader_objects) \
  		$(KDIR)/zimage.o \
  		-o $(KDIR)/loader
-@@ -50,11 +62,15 @@
+ 	$(TARGET_CROSS)objcopy -O srec $(KDIR)/loader $(KDIR)/ram_zimage.sre
  	$(STAGING_DIR)/bin/srec2bin $(KDIR)/ram_zimage.sre $@
  	
  $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel.bin: $(KDIR)/vmlinux.bin 
@@ -6554,7 +7892,7 @@ Index: target/linux/image/ar7/Makefile
  ifeq ($(FS),jffs2-8MB)
  ALIGN:=bs=131072 conv=sync
  endif
-@@ -74,12 +90,14 @@
+@@ -74,12 +98,14 @@
  install: $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-$(FS)-$(1).bin
  endef
  
@@ -6569,13 +7907,12 @@ Index: target/linux/image/ar7/Makefile
  
  ifeq ($(IB),)
  clean:
-@@ -87,14 +105,50 @@
+@@ -87,14 +113,49 @@
  	rm -f $(BIN_DIR)/openwrt-$(BOARD)*
  
  prepare: $(PKG_BUILD_DIR) $(PKG_BUILD_DIR)/zimage.script $(PKG_BUILD_DIR)/ld.script
 -compile: prepare $(PKG_BUILD_DIR)/loader.o $(PKG_BUILD_DIR)/LzmaDecode.o $(STAGING_DIR)/bin/srec2bin
-+compile: prepare $(PKG_BUILD_DIR)/loader.o $(PKG_BUILD_DIR)/LzmaDecode.o $(PKG_BUILD_DIR)/uart16550.o $(STAGING_DIR)/bin/srec2bin
-+compile: $(PKG_BUILD_DIR)/entry.o
++compile: prepare $(loader_objects) $(STAGING_DIR)/bin/srec2bin
  else
  clean:
  prepare:
@@ -6624,7 +7961,7 @@ Index: target/linux/image/ar7/Makefile
  	cp -fpR $(KDIR)/vmlinux.bin $(IB_DIR)/build_$(ARCH)/linux-$(KERNEL)-$(BOARD)/
 Index: target/linux/Config.in
 ===================================================================
---- target/linux/Config.in	(Revision 2576)
+--- target/linux/Config.in	(Revision 2793)
 +++ target/linux/Config.in	(Arbeitskopie)
 @@ -3,7 +3,7 @@
  	
@@ -6633,9 +7970,9 @@ Index: target/linux/Config.in
 -	default y
 +	# default y
  	depends BR2_mipsel
+ 	select BR2_LINUX_PCMCIA_SUPPORT
  	help
- 	  Build firmware images for Broadcom based routers
-@@ -15,14 +15,14 @@
+@@ -16,14 +16,14 @@
  
  config BR2_LINUX_2_4_AR7
  	bool "Support for TI AR7 based devices [2.4]"
@@ -6650,29 +7987,39 @@ Index: target/linux/Config.in
 -	default n
 +	# default n
  	depends BR2_i386
+ 	select BR2_LINUX_PCMCIA_SUPPORT
  	help
- 	  Build firmware images for x86 based boards
-@@ -30,7 +30,7 @@
+@@ -32,7 +32,7 @@
  
  config BR2_LINUX_2_6_BRCM
  	bool "Support for Broadcom based routers [2.6]"
 -	default n
 +	# default n
  	depends BR2_mipsel
+ 	select BR2_LINUX_PCMCIA_SUPPORT
  	help
- 	  Build firmware images for Broadcom based routers
-@@ -38,14 +38,50 @@
+@@ -41,7 +41,7 @@
  
  config BR2_LINUX_2_6_X86
  	bool "Support for x86 boards [2.6]"
 -	default n
 +	# default n
  	depends BR2_i386
+ 	select BR2_LINUX_PCMCIA_SUPPORT
  	help
- 	  Build firmware images for x86 based boards
- 	  (e.g. Soekris net4521 and net4801, PC Engines WRAP...)
+@@ -50,7 +50,7 @@
  
- endchoice
+ config BR2_LINUX_2_4_AR531X
+ 	bool "Support for Atheros ar531x based APs"
+-	default n
++	# default n
+ 	depends BR2_mips
+ 	help
+ 	  Build firmware images for Atheros ar531x based boards
+@@ -65,6 +65,43 @@
+ 	depends BR2_LINUX_2_4_X86 || BR2_LINUX_2_4_BRCM || BR2_LINUX_2_6_X86 || BR2_LINUX_2_6_BRCM
+ 
+ 
 +
 +choice
 +	prompt "Device selection"
@@ -6682,7 +8029,7 @@ Index: target/linux/Config.in
 +		depends BR2_LINUX_2_4_AR7
 +		help
 +		  Build firmware images for AG1B, WA22, WAG2, WA21, WA32
- 	
++	
 +	config BR2_LINUX_2_4_SINUS154
 +		bool "Support for Sinus 154 boards"
 +		depends BR2_LINUX_2_4_AR7
@@ -6713,20 +8060,18 @@ Index: target/linux/Config.in
  comment "Device specific modules"
  
  config BR2_PACKAGE_KMOD_BRCM_ET
-Index: Config.in
+Index: package/Config.in
 ===================================================================
---- Config.in	(Revision 2576)
-+++ Config.in	(Arbeitskopie)
-@@ -14,7 +14,8 @@
- 	default y
- 
- choice
--	default BR2_mipsel
-+	prompt "Architecture"
-+	# default BR2_mipsel
- 	help
- 	  Stuff
- 
+--- package/Config.in	(Revision 2793)
++++ package/Config.in	(Arbeitskopie)
+@@ -131,6 +131,7 @@
+ source "package/srelay/Config.in"
+ source "package/tmsnc/Config.in"
+ source "package/tcpdump/Config.in"
++#source "package/tiap/Config.in"
+ source "package/tinc/Config.in"
+ source "package/tor/Config.in"
+ source "package/ttcp/Config.in"
 Index: package/base-files/default/www/index.html
 ===================================================================
 --- package/base-files/default/www/index.html	(Revision 0)
@@ -6790,7 +8135,7 @@ Name: svn:executable
 
 Index: package/base-files/default/etc/init.d/S40network
 ===================================================================
---- package/base-files/default/etc/init.d/S40network	(Revision 2576)
+--- package/base-files/default/etc/init.d/S40network	(Revision 2793)
 +++ package/base-files/default/etc/init.d/S40network	(Arbeitskopie)
 @@ -3,10 +3,10 @@
  [ "$FAILSAFE" != "true" -a -e /etc/config/network ] && . /etc/config/network
@@ -6809,7 +8154,7 @@ Index: package/base-files/default/etc/init.d/S40network
        eval "set $(echo $route | sed 's/:/ /g')"
 Index: package/base-files/default/etc/init.d/rcS
 ===================================================================
---- package/base-files/default/etc/init.d/rcS	(Revision 2576)
+--- package/base-files/default/etc/init.d/rcS	(Revision 2793)
 +++ package/base-files/default/etc/init.d/rcS	(Arbeitskopie)
 @@ -1,9 +1,15 @@
  #!/bin/sh
@@ -6851,7 +8196,7 @@ Index: package/base-files/default/etc/fstab
 +tmpfs		/tmp		tmpfs	defaults,nosuid,nodev,mode=1777,size=50%	0 0
 Index: package/base-files/default/etc/profile
 ===================================================================
---- package/base-files/default/etc/profile	(Revision 2576)
+--- package/base-files/default/etc/profile	(Revision 2793)
 +++ package/base-files/default/etc/profile	(Arbeitskopie)
 @@ -8,5 +8,6 @@
  alias vim=vi
@@ -6908,3 +8253,28 @@ ___________________________________________________________________
 Name: svn:executable
    + *
 
+Index: package/Makefile
+===================================================================
+--- package/Makefile	(Revision 2793)
++++ package/Makefile	(Arbeitskopie)
+@@ -206,6 +206,7 @@
+ package-$(BR2_PACKAGE_SSMTP) += ssmtp
+ package-$(BR2_PACKAGE_SRELAY) += srelay
+ package-$(BR2_PACKAGE_STRACE) += strace
++#package-$(BR2_PACKAGE_KMOD_TIAP) += tiap
+ package-$(BR2_PACKAGE_TCPDUMP) += tcpdump
+ package-$(BR2_PACKAGE_TINC) += tinc
+ package-$(BR2_PACKAGE_TOR) += tor
+Index: package/busybox/config/Config.in
+===================================================================
+--- package/busybox/config/Config.in	(Revision 2793)
++++ package/busybox/config/Config.in	(Arbeitskopie)
+@@ -12,7 +12,7 @@
+ 
+ choice
+ 	prompt "Buffer allocation policy"
+-	default BUSYBOX_CONFIG_FEATURE_BUFFERS_GO_ON_STACK
++	# default BUSYBOX_CONFIG_FEATURE_BUFFERS_GO_ON_STACK
+ 	help
+ 	  There are 3 ways BusyBox can handle buffer allocations:
+ 	  - Use malloc. This costs code size for the call to xmalloc.
