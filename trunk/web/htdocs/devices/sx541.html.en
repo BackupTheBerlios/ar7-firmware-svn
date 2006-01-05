@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>AR7 Firmware (Siemens SX541)</title>
+	<meta http-equiv="Content-Type" content="text/html">
+	<meta name="author" content="Stefan Weil">
+	<link rel=stylesheet type="text/css" href="../ar7.css" />
+</head>
+
+<body>
+<a href="http://developer.berlios.de">
+<img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS Logo"></a>
+<a href="sx541.html.de">deutsch</a> <a href="sx541.html.en">english</a>
+
+<h2>Linux Firmware for Siemens SX541</h2>
+
+Sorry, there is no english translation of the german original text.<p>
+
+If you are willing to contribute translations (for any language),
+you are welcome.
+
+<h2>Linux Boot Protocol</h2>
+
+Boot of Linux (OpenWrt) with SX541.
+
+<pre>
+Do you want to execute the uploaded code? (Y/n)
+Jump to address 0x94200000 ...
+Launching kernel decompressor.
+Kernel decompressor was successful ... launching kernel.
+setup.c:129
+argc = 16384
+argv = 0x00000010
+envp = 0x80004000
+prom_vec = 0x942003bc
+
+LINUX started...
+CPU revision is: 00018448
+Primary instruction cache 16kB, physically tagged, 4-way, linesize 16 bytes.
+Primary data cache 16kB, 4-way, linesize 16 bytes.
+Linux version 2.4.32 (stefan@heipc81849) (gcc version 3.4.4) #1 So Jan 1
+15:47:32 CET 2006
+Determined physical RAM map:
+memory: 00000000 @ 14000000 (ROM data)
+memory: 01000000 @ 14000000 (usable)
+max_low_pfn = 0x00015000
+On node 0 totalpages: 4096
+zone(0): 4096 pages.
+zone(1): 0 pages.
+zone(2): 0 pages.
+start = 0x14000000, end = 0x13ffffff, maxmem = 0x20000000
+start = 0x14000000, end = 0x14ffffff, maxmem = 0x20000000
+Kernel command line: root=/dev/nfs rw nfsroot=/nfsroot,nolock
+ip=192.168.2.1:192.168.2.2::255.255.255.0:sinus:eth0:off debug
+console=ttyS0,115200 init=/etc/preinit.sinus154 noinitrd
+set_except_vector: using long jump via k0 to reach 940051e0
+the pacing pre-scalar has been set as 600.
+set_except_vector: using long jump via k0 to reach 941459c0
+Using 75.000 MHz high precision timer.
+Calibrating delay loop... 149.91 BogoMIPS
+Memory: 14388k/16384k available (1442k kernel code, 1996k reserved, 96k
+data, 80k init, 0k highmem)
+Dentry cache hash table entries: 2048 (order: 2, 16384 bytes)
+Inode cache hash table entries: 1024 (order: 1, 8192 bytes)
+Mount cache hash table entries: 512 (order: 0, 4096 bytes)
+Buffer cache hash table entries: 1024 (order: 0, 4096 bytes)
+Page-cache hash table entries: 4096 (order: 2, 16384 bytes)
+Checking for 'wait' instruction...  available.
+POSIX conformance testing by UNIFIX
+Linux NET4.0 for Linux 2.4
+Based upon Swansea University Computer Society NET3.039
+Initializing RT netlink socket
+Starting kswapd
+devfs: v1.12c (20020818) Richard Gooch (rgooch@atnf.csiro.au)
+devfs: boot_options: 0x1
+Squashfs 2.2 (released 2005/07/03) (C) 2002-2004, 2005 Phillip Lougher
+pty: 256 Unix98 ptys configured
+Serial driver version 5.05c (2001-07-08) with no serial options enabled
+ttyS00 at 0xa8610e00 (irq = 15) is a 16550A
+ttyS01 at 0xa8610f00 (irq = 16) is a 16550A
+irq.c:172 startup_avalanche_irq(29)
+VLYNQ 1 : init failed
+ar7_wdt: last system reset initiated by watchdog
+ar7_wdt: disabling watchdog timer
+ar7_wdt: timer margin 59 seconds (prescale 65535, change 57180, freq
+62500000)
+psp_config_build.c:130 detected cpmac_phy = 0
+Using the MAC with internal PHY
+Cpmac driver is allocating buffer memory at init time.
+Using the MAC with internal PHY
+avalanche_led_register(cpmac,0)
+Cpmac driver Disable TX complete interrupt setting threshold to 20.
+avalanche_led_action(cpmac,0)
+Initializing Cryptographic API
+NET4: Linux TCP/IP 1.0 for NET4.0
+IP Protocols: ICMP, UDP, TCP, IGMP
+IP: routing cache hash table of 512 buckets, 4Kbytes
+TCP: Hash tables configured (established 1024 bind 2048)
+irq.c:172 startup_avalanche_irq(27)
+IP-Config: Complete:
+     device=eth0, addr=192.168.2.1, mask=255.255.255.0, gw=255.255.255.255,
+    host=sinus, domain=, nis-domain=(none),
+    bootserver=192.168.2.2, rootserver=192.168.2.2, rootpath=
+ip_conntrack version 2.1 (5953 buckets, 5953 max) - 360 bytes per conntrack
+Unable to handle kernel paging request at virtual address 00000c00, epc ==
+9417bb28, ra == 9417ba5c
+Oops in fault.c::do_page_fault, line 206:
+$0 : 00000000 10008400 c0000000 00000000 00000001 941c0000 94197b80 94197e50
+$8 : 94190000 941a2d20 94190000 941a0000 00000f86 10008401 00000000 00000001
+$16: 941c0000 941c0000 00010f00 00000000 00000001 00000001 00000000 00000000
+$24: ba2e8ba3 941a46f4                   94ff4000 94ff5f68 00800000 9417ba5c
+Hi : 00000000
+Lo : 00000006
+epc   : 9417bb28    Not tainted
+Status: 10008403
+Cause : 10800008
+PrId  : 00018448
+Process swapper (pid: 1, stackpage=94ff4000)
+Stack:    00000000 000001f2 000007df 00001741 00000000 00000000 00000000
+00000000 94117a8c 00000000 00000001 00000001 00000000 00000000 9417f20c
+94000870 9417f190 941a46f4 ffffffff 00000000 94000834 94002650 00800000
+94012140 10008403 00000001 9405c080 00000000 10800020 94002640 00000000
+00000000 00000000 00000000 00000000 00000000 00000000 00000000
+Call Trace:   [<94117a8c>] [<94000870>] [<94000834>] [<94002650>]
+[<94012140>]
+[<9405c080>] [<94002640>]
+
+Code: 000418c0  24840001  00621021 <ac420000> 8e0225a4  00621821  ac630004
+8ca22594  0905eec5
+Kernel panic: Attempted to kill init!
+</pre>
+
+</body>
+</html>
