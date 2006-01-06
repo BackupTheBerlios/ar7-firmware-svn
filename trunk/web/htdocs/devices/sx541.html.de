@@ -83,7 +83,7 @@ LINUX started...
 CPU revision is: 00018448
 Primary instruction cache 16kB, physically tagged, 4-way, linesize 16 bytes.
 Primary data cache 16kB, 4-way, linesize 16 bytes.
-Linux version 2.4.32 (stefan@heipc81849) (gcc version 3.4.4) #1 So Jan 1
+Linux version 2.4.32 (stefan@linux) (gcc version 3.4.4) #1 So Jan 1
 15:47:32 CET 2006
 Determined physical RAM map:
 memory: 00000000 @ 14000000 (ROM data)
@@ -174,6 +174,8 @@ Code: 000418c0  24840001  00621021 <ac420000> 8e0225a4  00621821  ac630004
 8ca22594  0905eec5
 Kernel panic: Attempted to kill init!
 </pre>
+
+Der Absturz erfolgt kurz vor Ende der Kernelfunktion ip_conntrack_init.
 
 </body>
 </html>
