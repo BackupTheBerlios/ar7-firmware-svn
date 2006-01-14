@@ -2,7 +2,7 @@ Index: .config
 ===================================================================
 --- .config	(Revision 0)
 +++ .config	(Revision 0)
-@@ -0,0 +1,1122 @@
+@@ -0,0 +1,1130 @@
 +#
 +# Automatically generated make config: don't edit
 +#
@@ -13,6 +13,22 @@ Index: .config
 +BR2_WGET="wget --passive-ftp -nd"
 +# BR2_TAR_VERBOSITY is not set
 +BR2_JLEVEL=1
++# BR2_LINUX_2_4_AR531X is not set
++# BR2_LINUX_2_6_ARUBA is not set
++# BR2_LINUX_2_4_BRCM is not set
++# BR2_LINUX_2_6_BRCM is not set
++BR2_LINUX_2_4_AR7=y
++# BR2_LINUX_2_4_X86 is not set
++# BR2_LINUX_2_6_X86 is not set
++# BR2_LINUX_2_4_WAX is not set
++# BR2_LINUX_2_4_GIGASET is not set
++BR2_LINUX_2_4_SINUS154=y
++
++#
++# Device variants
++#
++BR2_LINUX_2_4_SINUS154_DSL_BASIC_SE=y
++# BR2_LINUX_2_4_SINUS154_DSL_BASIC_3 is not set
 +# BR2_UCLIBC_VERSION_SNAPSHOT is not set
 +BR2_BINUTILS_VERSION="2.16.1"
 +BR2_GCC_VERSION="3.4.4"
@@ -373,6 +389,7 @@ Index: .config
 +# BUSYBOX_CONFIG_IPTUNNEL is not set
 +# BUSYBOX_CONFIG_NAMEIF is not set
 +BUSYBOX_CONFIG_NC=y
++BUSYBOX_CONFIG_NETMSG=y
 +BUSYBOX_CONFIG_NETSTAT=y
 +BUSYBOX_CONFIG_NSLOOKUP=y
 +BUSYBOX_CONFIG_PING=y
@@ -520,6 +537,11 @@ Index: .config
 +#
 +# Applications
 +#
++
++#
++# collectd.......................... Lightweight system statistics collection daemon
++#
++# BR2_PACKAGE_COLLECTD is not set
 +# BR2_PACKAGE_DECO is not set
 +# BR2_PACKAGE_GPSD is not set
 +# BR2_PACKAGE_HASERL is not set
@@ -694,6 +716,7 @@ Index: .config
 +# BR2_PACKAGE_LIBNETSNMP is not set
 +# BR2_PACKAGE_SNMPD is not set
 +# BR2_PACKAGE_SNMPD_STATIC is not set
++# BR2_PACKAGE_NETPERF is not set
 +# BR2_PACKAGE_NETSTAT_NAT is not set
 +# BR2_PACKAGE_NFS_SERVER is not set
 +# BR2_PACKAGE_NMAP is not set
@@ -721,6 +744,7 @@ Index: .config
 +# BR2_PACKAGE_OPENVPN is not set
 +# BR2_PACKAGE_P910ND is not set
 +# BR2_PACKAGE_PARPROUTED is not set
++# BR2_PACKAGE_PIPACS is not set
 +
 +#
 +# pmacct............................ IPv4/IPv6 accounting and aggregation tools
@@ -747,10 +771,6 @@ Index: .config
 +# BR2_PACKAGE_CHAT is not set
 +# BR2_PACKAGE_PPPDUMP is not set
 +# BR2_PACKAGE_PPPSTATS is not set
-+# BR2_PACKAGE_PPPOE_CLIENT is not set
-+# BR2_PACKAGE_PPPOE_RELAY is not set
-+# BR2_PACKAGE_PPPOE_SERVER is not set
-+# BR2_PACKAGE_PPPOE_SNIFF is not set
 +# BR2_PACKAGE_PPTP is not set
 +# BR2_PACKAGE_PPTPD is not set
 +# BR2_PACKAGE_PTUNNEL is not set
@@ -763,6 +783,10 @@ Index: .config
 +# BR2_PACKAGE_RARPD is not set
 +# BR2_PACKAGE_REAIM is not set
 +# BR2_PACKAGE_ROBOCFG is not set
++# BR2_PACKAGE_PPPOE_CLIENT is not set
++# BR2_PACKAGE_PPPOE_RELAY is not set
++# BR2_PACKAGE_PPPOE_SERVER is not set
++# BR2_PACKAGE_PPPOE_SNIFF is not set
 +# BR2_PACKAGE_RRS is not set
 +# BR2_PACKAGE_RRS_NOSSL is not set
 +# BR2_PACKAGE_RSYNC is not set
@@ -795,7 +819,6 @@ Index: .config
 +# BR2_PACKAGE_SRELAY is not set
 +# BR2_PACKAGE_TMSNC is not set
 +BR2_PACKAGE_TCPDUMP=m
-+# BR2_PACKAGE_KMOD_TIAP is not set
 +# BR2_PACKAGE_TINC is not set
 +# BR2_PACKAGE_TOR is not set
 +# BR2_PACKAGE_TTCP is not set
@@ -825,6 +848,7 @@ Index: .config
 +# BR2_PACKAGE_WONDERSHAPER is not set
 +BR2_PACKAGE_WPA_SUPPLICANT=m
 +# BR2_PACKAGE_WPUT is not set
++# BR2_PACKAGE_WX200D is not set
 +# BR2_PACKAGE_XINETD is not set
 +# BR2_PACKAGE_XSUPPLICANT is not set
 +
@@ -864,6 +888,7 @@ Index: .config
 +# BR2_PACKAGE_LIBEXPAT is not set
 +# BR2_PACKAGE_LIBFLAC is not set
 +# BR2_PACKAGE_LIBFREETYPE is not set
++# BR2_PACKAGE_LIBGCC is not set
 +# BR2_PACKAGE_LIBGCRYPT is not set
 +# BR2_PACKAGE_LIBGD is not set
 +# BR2_PACKAGE_LIBGDBM is not set
@@ -930,6 +955,8 @@ Index: .config
 +#
 +# Serial communications & terminal emulation
 +#
++# BR2_PACKAGE_HEYU is not set
++# BR2_PACKAGE_LRZSZ is not set
 +# BR2_PACKAGE_MICROCOM is not set
 +# BR2_PACKAGE_PICOCOM is not set
 +# BR2_PACKAGE_SERDISPLIB is not set
@@ -941,10 +968,16 @@ Index: .config
 +# BR2_PACKAGE_BC is not set
 +# BR2_PACKAGE_DC is not set
 +# BR2_PACKAGE_GDBSERVER is not set
-+# BR2_PACKAGE_MADWIFI_TOOLS is not set
++
++#
++# madwifi........................... Utilities for the Atheros Wifi driver
++#
++# BR2_PACKAGE_MADWIFI_TOOLS_BASE is not set
++# BR2_PACKAGE_MADWIFI_TOOLS_STATS is not set
 +# BR2_PACKAGE_LSUSB is not set
 +# BR2_PACKAGE_STRACE is not set
 +# BR2_PACKAGE_UDEV is not set
++# BR2_PACKAGE_WATCHDOG is not set
 +
 +#
 +# FileSystems related
@@ -997,25 +1030,11 @@ Index: .config
 +#
 +# Kernel Configuration / Device Support
 +#
-+# BR2_LINUX_2_4_BRCM is not set
-+BR2_LINUX_2_4_AR7=y
-+# BR2_LINUX_2_4_X86 is not set
-+# BR2_LINUX_2_6_BRCM is not set
-+# BR2_LINUX_2_6_X86 is not set
-+# BR2_LINUX_2_4_AR531X is not set
-+# BR2_LINUX_2_4_WAX is not set
-+BR2_LINUX_2_4_SINUS154=y
-+
-+#
-+# Device variants
-+#
-+BR2_LINUX_2_4_SINUS154_DSL_BASIC_SE=y
-+# BR2_LINUX_2_4_SINUS154_DSL_BASIC_3 is not set
 +
 +#
 +# Device specific modules
 +#
-+BR2_PACKAGE_KMOD_CPMAC=y
++# BR2_PACKAGE_KMOD_CPMAC is not set
 +BR2_PACKAGE_KMOD_SANGAM_ATM_A=m
 +BR2_PACKAGE_KMOD_SANGAM_ATM_B=m
 +
@@ -1029,6 +1048,7 @@ Index: .config
 +BR2_PACKAGE_KMOD_MPPE=m
 +BR2_PACKAGE_KMOD_PPPOATM=m
 +BR2_PACKAGE_KMOD_PPPOE=y
++# BR2_PACKAGE_KMOD_RING is not set
 +BR2_PACKAGE_KMOD_SCHED=m
 +BR2_PACKAGE_KMOD_TUN=m
 +
@@ -1052,7 +1072,6 @@ Index: .config
 +#
 +# Block devices support
 +#
-+# BR2_PACKAGE_KMOD_IDE is not set
 +BR2_PACKAGE_KMOD_LOOP=m
 +BR2_PACKAGE_KMOD_NBD=m
 +
@@ -1075,7 +1094,6 @@ Index: .config
 +#
 +# Multimedia devices support
 +#
-+# BR2_PACKAGE_KMOD_PWC is not set
 +# BR2_PACKAGE_KMOD_SOUNDCORE is not set
 +# BR2_PACKAGE_KMOD_VIDEODEV is not set
 +
@@ -1087,14 +1105,6 @@ Index: .config
 +#
 +# Network devices support
 +#
-+# BR2_PACKAGE_KMOD_NET_3C59X is not set
-+# BR2_PACKAGE_KMOD_NET_8139TOO is not set
-+# BR2_PACKAGE_KMOD_NET_AIRO is not set
-+# BR2_PACKAGE_KMOD_NET_E100 is not set
-+# BR2_PACKAGE_KMOD_NET_B44 is not set
-+# BR2_PACKAGE_KMOD_NET_HERMES is not set
-+# BR2_PACKAGE_KMOD_NET_NATSEMI is not set
-+# BR2_PACKAGE_KMOD_NET_PRISM54 is not set
 +
 +#
 +# PCMCIA/CardBus support
@@ -1111,49 +1121,646 @@ Index: .config
 +# BR2_PACKAGE_KMOD_AX25 is not set
 +# BR2_PACKAGE_KMOD_BLUETOOTH is not set
 +# BR2_PACKAGE_KMOD_LP is not set
++# BR2_PACKAGE_KMOD_SOFTDOG is not set
 +
 +#
 +# Additional kernel modules
 +#
-+BR2_PACKAGE_KMOD_DIAG=y
 +# BR2_PACKAGE_KMOD_FUSE is not set
-+# BR2_PACKAGE_KMOD_HOSTAP is not set
-+# BR2_PACKAGE_KMOD_IEEE80211_DSCAPE is not set
-+BR2_PACKAGE_KMOD_MADWIFI=m
++# BR2_PACKAGE_KMOD_MADWIFI is not set
 +# BR2_PACKAGE_KMOD_MINI_FO is not set
 +# BR2_PACKAGE_KMOD_OPENSWAN is not set
 +# BR2_PACKAGE_KMOD_SHFS is not set
 +# BR2_PACKAGE_KMOD_SPCA5XX is not set
 +# BR2_PACKAGE_KMOD_SWITCH is not set
-Index: target/linux/linux-2.4/ar7.mk
+Index: target/linux/image/ar7/src/gzip.h
 ===================================================================
---- target/linux/linux-2.4/ar7.mk	(Revision 2793)
-+++ target/linux/linux-2.4/ar7.mk	(Arbeitskopie)
-@@ -28,15 +28,18 @@
- drivers-clean:
- 	rm -rf $(BUILD_DIR)/$(ATM_FIRMWARE_DIR)
+--- target/linux/image/ar7/src/gzip.h	(Revision 2984)
++++ target/linux/image/ar7/src/gzip.h	(Arbeitskopie)
+@@ -14,25 +14,12 @@
+ typedef unsigned long  ulg;
  
-+#$(eval $(call KMOD_template,DIAG,diag,\
-+#	$(MODULES_DIR)/kernel/drivers/net/diag/diag.o \
-+#))
  
- $(eval $(call KMOD_template,SANGAM_ATM_A,sangam-atm-annex-a,\
--	$(MODULES_DIR)/kernel/drivers/atm/tiatm.o \
-+	$(MODULES_DIR)/kernel/drivers/atm/sangam_atm/tiatm.o \
- ,CONFIG_MIPS_SANGAM_ATM,kmod-atm,60,tiatm, \
- 	cp $(BUILD_DIR)/$(ATM_FIRMWARE_DIR)/ar0700xx_a.bin $$(I_SANGAM_ATM_A)/lib/modules/ar0700xx.bin \
- ))
+-static char *output_data;
+-static ulg output_ptr;
+-
+ #ifndef NULL
+ #define NULL 0
+ #endif
  
- $(eval $(call KMOD_template,SANGAM_ATM_B,sangam-atm-annex-b,\
--	$(MODULES_DIR)/kernel/drivers/atm/tiatm.o \
-+	$(MODULES_DIR)/kernel/drivers/atm/sangam_atm/tiatm.o \
- ,CONFIG_MIPS_SANGAM_ATM,kmod-atm,60,tiatm, \
- 	cp $(BUILD_DIR)/$(ATM_FIRMWARE_DIR)/ar0700xx_b.bin $$(I_SANGAM_ATM_B)/lib/modules/ar0700xx.bin \
- ))
-Index: target/linux/linux-2.4/config/ar7
+ #define NOMEMCPY                /* Does routine memcpy exist? */
+ 
+-//bvb static uch *inbuf;		/* input buffer */
+-static uch *window;
+-
+-//bvb static uch outwin[WSIZE];
+-
+-//bvb static unsigned insize;		/* valid bytes in inbuf */
+-static unsigned inptr;		/* index of next byte to process in inbuf */
+-
+-static unsigned outcnt;		/* bytes in output buffer */
+-
+ /* gzip flag byte */
+ #define ASCII_FLAG   0x01 /* bit 0 set: file probably ascii text */
+ #define CONTINUATION 0x02 /* bit 1 set: continuation of multi-part gzip file */
+@@ -46,6 +33,3 @@
+ #define BMAX 16         /* maximum bit length of any code (16 for explode) */
+ #define N_MAX 288       /* maximum number of codes in any set */
+ 
+-static char *input_data;
+-
+-static void *freememstart;
+Index: target/linux/image/ar7/src/uart16550.h
 ===================================================================
---- target/linux/linux-2.4/config/ar7	(Revision 2793)
-+++ target/linux/linux-2.4/config/ar7	(Arbeitskopie)
+--- target/linux/image/ar7/src/uart16550.h	(Revision 0)
++++ target/linux/image/ar7/src/uart16550.h	(Revision 0)
+@@ -0,0 +1,48 @@
++/*
++ * Copyright (C) 2001 MontaVista Software Inc.
++ * Author: Jun Sun, jsun@mvista.com or jsun@junsun.net
++ *
++ * This program is free software; you can redistribute  it and/or modify it
++ * under  the terms of  the GNU General  Public License as published by the
++ * Free Software Foundation;  either version 2 of the  License, or (at your
++ * option) any later version.
++ *
++ */
++
++#ifndef _uart16550_h_
++#define _uart16550_h_
++
++typedef         unsigned char uint8;
++typedef         unsigned int  uint32;
++
++#define         UART16550_BAUD_2400             2400
++#define         UART16550_BAUD_4800             4800
++#define         UART16550_BAUD_9600             9600
++#define         UART16550_BAUD_19200            19200
++#define         UART16550_BAUD_38400            38400
++#define         UART16550_BAUD_57600            57600
++#define         UART16550_BAUD_115200           115200
++
++#define         UART16550_PARITY_NONE           0
++#define         UART16550_PARITY_ODD            0x08
++#define         UART16550_PARITY_EVEN           0x18
++#define         UART16550_PARITY_MARK           0x28
++#define         UART16550_PARITY_SPACE          0x38
++
++#define         UART16550_DATA_5BIT             0x0
++#define         UART16550_DATA_6BIT             0x1
++#define         UART16550_DATA_7BIT             0x2
++#define         UART16550_DATA_8BIT             0x3
++
++#define         UART16550_STOP_1BIT             0x0
++#define         UART16550_STOP_2BIT             0x4
++
++void Uart16550Init(uint32 baud, uint8 data, uint8 parity, uint8 stop);
++
++/* blocking call */
++uint8 Uart16550GetPoll(void);
++
++void Uart16550Put(uint8 byte);
++void Uart16550Puts(const char *string);
++
++#endif
+Index: target/linux/image/ar7/src/entry.c
+===================================================================
+--- target/linux/image/ar7/src/entry.c	(Revision 0)
++++ target/linux/image/ar7/src/entry.c	(Revision 0)
+@@ -0,0 +1,18 @@
++#include "loader.h"
++
++#if defined(CONFIG_MIPS_SINUS154)
++static const char *Argv[] = {
++	"xxx",
++	0
++};
++#endif
++
++// tikernelunzip is the entry point and must be the only function here!
++int tikernelunzip(int argc, const char *argv[], const char *arge[])
++{
++#if defined(CONFIG_MIPS_SINUS154)
++	argc = 1;
++	argv = Argv;
++#endif
++	return tikernelunzip2(argc, argv, arge);
++}
+Index: target/linux/image/ar7/src/ld.script.in
+===================================================================
+--- target/linux/image/ar7/src/ld.script.in	(Revision 2984)
++++ target/linux/image/ar7/src/ld.script.in	(Arbeitskopie)
+@@ -5,7 +5,7 @@
+ {
+ 
+ 	/* Allocate memory space on top of kernel bss space */
+-	. = 0x94200000;
++	. = 0x94300000;
+ 	.text :
+ 	{
+ 		*(.text)
+Index: target/linux/image/ar7/src/loader.c
+===================================================================
+--- target/linux/image/ar7/src/loader.c	(Revision 2984)
++++ target/linux/image/ar7/src/loader.c	(Arbeitskopie)
+@@ -15,24 +15,46 @@
+ #include <linux/config.h>
+ #include "gzip.h"
+ #include "LzmaDecode.h"
++#include "loader.h"
++#if defined(NO_FIRMWARE)
++#include "uart16550.h"
++#endif
+ 
+ /* Function prototypes */
+-unsigned char get_byte(void);
+-int tikernelunzip(int,char *[], char *[]);
+ static int tidecompress(uch *, uch *);
++#if defined(DEBUG)
++static void print_i(int i);
++#endif
++static void print_s(const char *ptr);
++#define printf(s) print_s(s)
+ 
+-void kernel_entry(int, char *[], char *[]);
+-void (*ke)(int, char *[], char *[]); /* Gen reference to kernel function */
+-void (*prnt)(unsigned int, char *);		/* Gen reference to Yamon print function */
+-void printf(char *ptr);			/* Generate our own printf */
++extern void kernel_entry(int, char *[], char *[]);
++extern unsigned int workspace;
++extern unsigned char kernelimage[], kernelimage_end[];
+ 
+-int tikernelunzip(int argc, char *argv[], char *arge[])
++static unsigned char *input_data;
++
++static inline unsigned char get_byte(void)
+ {
+-	extern unsigned int _ftext;
+-	extern uch kernelimage[];
++	unsigned char c;
++	
++	c = *input_data;
++	input_data++;
++
++	return c;
++}
++
++int tikernelunzip2(int argc, const char *argv[], const char *arge[])
++{
+ 	uch *in, *out;
+ 	int status;
+ 
++#if defined(DEBUG)
++	printf("argc = "); print_i(argc); printf("\n");
++	printf("argv = "); print_i((int)argv); printf("\n");
++	printf("arge = "); print_i((int)arge); printf("\n");
++#endif
++	
+ 	printf("Launching kernel decompressor.\n");
+ 
+ 	out = (unsigned char *) LOADADDR;
+@@ -41,11 +63,11 @@
+ 	status = tidecompress(in, out);
+ 
+ 	if (status == 0) {
++		/* Gen reference to kernel function */
++		void (*ke)(int, const char *[], const char *[]) =
++			(void(*)(int, const char *[], const char*[]))kernel_entry;
+ 		printf("Kernel decompressor was successful ... launching kernel.\n");
+-
+-		ke = ( void(*)(int, char *[],char*[]))kernel_entry;
+ 		(*ke)(argc,argv,arge);
+-
+ 		return (0);
+ 	} else {
+ 		printf("Error in decompression.\n");
+@@ -53,9 +75,9 @@
+ 	}
+ }
+ 
+-#if 0
+-char hex[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+-void print_i(int i)
++#if defined(DEBUG)
++static const char hex[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
++static void print_i(int i)
+ {
+ 	int j;
+ 	char buf[11];
+@@ -63,7 +85,7 @@
+ 	buf[0] = '0';
+ 	buf[1] = 'x';
+ 	buf[10] = 0;
+-	
++
+ 	for (j = 0; j < 8; j++)
+ 	{
+ 		buf[2 + 7 - j] = hex[i & 0xf];
+@@ -74,10 +96,8 @@
+ }
+ #endif
+ 
+-int tidecompress(uch *indata, uch *outdata)
++static int tidecompress(uch *indata, uch *outdata)
+ {
+-	extern unsigned int workspace;
+-	extern unsigned char kernelimage[], kernelimage_end[];
+ 	unsigned int i;  /* temp value */
+ 	unsigned int lc; /* literal context bits */
+ 	unsigned int lp; /* literal pos state bits */
+@@ -87,8 +107,6 @@
+ 	unsigned int insize = kernelimage_end - kernelimage;
+ 	int status;
+ 	
+-	output_ptr = 0;
+-	output_data = outdata;
+ 	input_data = indata;
+ 
+ 	/* lzma args */
+@@ -114,27 +132,25 @@
+ 	wsize = (LZMA_BASE_SIZE + (LZMA_LIT_SIZE << (lc + lp))) * sizeof(CProb);
+ 
+ 	if ((status = LzmaDecode((unsigned char *) &workspace, wsize, lc, lp, pb,
+-		indata + 13, insize - 13, (unsigned char *) output_data, osize, &i)) == LZMA_RESULT_OK)
++		indata + 13, insize - 13, outdata, osize, &i)) == LZMA_RESULT_OK)
+ 			return 0;
+ 
+ 	return status;
+ }
+ 
+-
+-void printf(char *ptr)
++static void print_s(const char *ptr)
+ {
++#if defined(NO_FIRMWARE)
++	while (*ptr) {
++		if (*ptr == '\n') {
++			Uart16550Put('\r');
++		}
++		Uart16550Put(*ptr);
++		ptr++;
++	}
++#else
+ 	unsigned int *tempptr = (unsigned int  *)0x90000534;
+ 	prnt = ( void (*)(unsigned int, char *)) *tempptr;
+ 	(*prnt)(0,ptr);
++#endif
+ }
+-
+-unsigned char get_byte()
+-{
+-	unsigned char c;
+-	
+-	c = *input_data;
+-	input_data++;
+-
+-	return c;
+-}
+-
+Index: target/linux/image/ar7/src/LzmaDecode.c
+===================================================================
+--- target/linux/image/ar7/src/LzmaDecode.c	(Revision 2984)
++++ target/linux/image/ar7/src/LzmaDecode.c	(Arbeitskopie)
+@@ -45,7 +45,7 @@
+   int ExtraBytes;
+ } CRangeDecoder;
+ 
+-Byte RangeDecoderReadByte(CRangeDecoder *rd)
++static Byte RangeDecoderReadByte(CRangeDecoder *rd)
+ {
+   if (rd->Buffer == rd->BufferLim)
+   {
+@@ -66,7 +66,7 @@
+ /* #define ReadByte (*rd->Buffer++) */
+ #define ReadByte (RangeDecoderReadByte(rd))
+ 
+-void RangeDecoderInit(CRangeDecoder *rd,
++static void RangeDecoderInit(CRangeDecoder *rd,
+   #ifdef _LZMA_IN_CB
+     ILzmaInCallback *inCallback
+   #else
+@@ -93,7 +93,7 @@
+ #define RC_FLUSH_VAR rd->Range = range; rd->Code = code;
+ #define RC_NORMALIZE if (range < kTopValue) { range <<= 8; code = (code << 8) | ReadByte; }
+ 
+-UInt32 RangeDecoderDecodeDirectBits(CRangeDecoder *rd, int numTotalBits)
++static UInt32 RangeDecoderDecodeDirectBits(CRangeDecoder *rd, int numTotalBits)
+ {
+   RC_INIT_VAR
+   UInt32 result = 0;
+@@ -121,7 +121,7 @@
+   return result;
+ }
+ 
+-int RangeDecoderBitDecode(CProb *prob, CRangeDecoder *rd)
++static int RangeDecoderBitDecode(CProb *prob, CRangeDecoder *rd)
+ {
+   UInt32 bound = (rd->Range >> kNumBitModelTotalBits) * *prob;
+   if (rd->Code < bound)
+@@ -159,7 +159,7 @@
+ 
+ #define RC_GET_BIT(prob, mi) RC_GET_BIT2(prob, mi, ; , ;)               
+ 
+-int RangeDecoderBitTreeDecode(CProb *probs, int numLevels, CRangeDecoder *rd)
++static int RangeDecoderBitTreeDecode(CProb *probs, int numLevels, CRangeDecoder *rd)
+ {
+   int mi = 1;
+   int i;
+@@ -181,7 +181,7 @@
+   return mi - (1 << numLevels);
+ }
+ 
+-int RangeDecoderReverseBitTreeDecode(CProb *probs, int numLevels, CRangeDecoder *rd)
++static int RangeDecoderReverseBitTreeDecode(CProb *probs, int numLevels, CRangeDecoder *rd)
+ {
+   int mi = 1;
+   int i;
+@@ -206,7 +206,7 @@
+   return symbol;
+ }
+ 
+-Byte LzmaLiteralDecode(CProb *probs, CRangeDecoder *rd)
++static Byte LzmaLiteralDecode(CProb *probs, CRangeDecoder *rd)
+ { 
+   int symbol = 1;
+   #ifdef _LZMA_LOC_OPT
+@@ -228,7 +228,7 @@
+   return symbol;
+ }
+ 
+-Byte LzmaLiteralDecodeMatch(CProb *probs, CRangeDecoder *rd, Byte matchByte)
++static Byte LzmaLiteralDecodeMatch(CProb *probs, CRangeDecoder *rd, Byte matchByte)
+ { 
+   int symbol = 1;
+   #ifdef _LZMA_LOC_OPT
+@@ -286,7 +286,7 @@
+ #define LenHigh (LenMid + (kNumPosStatesMax << kLenNumMidBits))
+ #define kNumLenProbs (LenHigh + kLenNumHighSymbols) 
+ 
+-int LzmaLenDecode(CProb *p, CRangeDecoder *rd, int posState)
++static int LzmaLenDecode(CProb *p, CRangeDecoder *rd, int posState)
+ {
+   if(RangeDecoderBitDecode(p + LenChoice, rd) == 0)
+     return RangeDecoderBitTreeDecode(p + LenLow +
+Index: target/linux/image/ar7/src/loader.h
+===================================================================
+--- target/linux/image/ar7/src/loader.h	(Revision 0)
++++ target/linux/image/ar7/src/loader.h	(Revision 0)
+@@ -0,0 +1,4 @@
++// tikernelunzip is the entry point (first function) of the boot loader.
++int tikernelunzip(int argc, const char *argv[], const char *arge[]);
++
++int tikernelunzip2(int argc, const char *argv[], const char *arge[]);
+Index: target/linux/image/ar7/src/uart16550.c
+===================================================================
+--- target/linux/image/ar7/src/uart16550.c	(Revision 0)
++++ target/linux/image/ar7/src/uart16550.c	(Revision 0)
+@@ -0,0 +1,96 @@
++/*
++ * Copyright (C) 2001 MontaVista Software Inc.
++ * Author: Jun Sun, jsun@mvista.com or jsun@junsun.net
++ *
++ * This program is free software; you can redistribute  it and/or modify it
++ * under  the terms of  the GNU General  Public License as published by the
++ * Free Software Foundation;  either version 2 of the  License, or (at your
++ * option) any later version.
++ *
++ */
++
++
++#include "uart16550.h"
++
++/* === CONFIG === */
++
++#define         BASE                   	0xa8610E00
++#define         MAX_BAUD                1152000
++#define		REG_OFFSET		4
++
++/* === END OF CONFIG === */
++
++/* register offset */
++#define         OFS_RCV_BUFFER          (0*REG_OFFSET)
++#define         OFS_TRANS_HOLD          (0*REG_OFFSET)
++#define         OFS_SEND_BUFFER         (0*REG_OFFSET)
++#define         OFS_INTR_ENABLE         (1*REG_OFFSET)
++#define         OFS_INTR_ID             (2*REG_OFFSET)
++#define         OFS_DATA_FORMAT         (3*REG_OFFSET)
++#define         OFS_LINE_CONTROL        (3*REG_OFFSET)
++#define         OFS_MODEM_CONTROL       (4*REG_OFFSET)
++#define         OFS_RS232_OUTPUT        (4*REG_OFFSET)
++#define         OFS_LINE_STATUS         (5*REG_OFFSET)
++#define         OFS_MODEM_STATUS        (6*REG_OFFSET)
++#define         OFS_RS232_INPUT         (6*REG_OFFSET)
++#define         OFS_SCRATCH_PAD         (7*REG_OFFSET)
++
++#define         OFS_DIVISOR_LSB         (0*REG_OFFSET)
++#define         OFS_DIVISOR_MSB         (1*REG_OFFSET)
++
++
++/* memory-mapped read/write of the port */
++#define         UART16550_READ(y)    (*((volatile uint8*)(BASE + y)))
++#define         UART16550_WRITE(y, z)  ((*((volatile uint8*)(BASE + y))) = z)
++
++#define DEBUG_LED (*(unsigned short*)0xb7ffffc0)
++#define OutputLED(x)  (DEBUG_LED = x)
++
++void Uart16550Init(uint32 baud, uint8 data, uint8 parity, uint8 stop)
++{
++    /* disable interrupts */
++    UART16550_WRITE(OFS_INTR_ENABLE, 0);
++
++    /* set up baud rate */
++    { 
++        uint32 divisor;
++       
++        /* set DIAB bit */
++        UART16550_WRITE(OFS_LINE_CONTROL, 0x80);
++        
++        /* set divisor */
++        divisor = MAX_BAUD / baud;
++        UART16550_WRITE(OFS_DIVISOR_LSB, divisor & 0xff);
++        UART16550_WRITE(OFS_DIVISOR_MSB, (divisor & 0xff00)>>8);
++
++        /* clear DIAB bit */
++        UART16550_WRITE(OFS_LINE_CONTROL, 0x0);
++    }
++
++    /* set data format */
++    UART16550_WRITE(OFS_DATA_FORMAT, data | parity | stop);
++}
++
++uint8 Uart16550GetPoll()
++{
++    while((UART16550_READ(OFS_LINE_STATUS) & 0x1) == 0);
++    return UART16550_READ(OFS_RCV_BUFFER);
++}
++
++
++void Uart16550Put(uint8 byte)
++{
++    while ((UART16550_READ(OFS_LINE_STATUS) &0x20) == 0);
++    UART16550_WRITE(OFS_SEND_BUFFER, byte);
++}
++
++void Uart16550Puts(const char *string)
++{
++	while (*string) {
++		if (*string == '\n') {
++			Uart16550Put('\r');
++		}
++		Uart16550Put(*string);
++		string++;
++	}
++}
+Index: target/linux/image/ar7/Makefile
+===================================================================
+--- target/linux/image/ar7/Makefile	(Revision 2984)
++++ target/linux/image/ar7/Makefile	(Arbeitskopie)
+@@ -5,7 +5,11 @@
+ PKG_BUILD_DIR:=$(BUILD_DIR)/ar7loader
+ 
+ ifeq ($(IB),)
++ifeq ($(BR2_LINUX_2_4_SINUS154),y)
++LOADADDR := 0x94000000
++else
+ LOADADDR := 0x94020000
++endif
+ KERNEL_ENTRY := 0x${shell nm $(KDIR)/linux-$(KERNEL)*/vmlinux | grep kernel_entry | cut -d' ' -f1}
+ OUTPUT_FORMAT := elf32-tradlittlemips
+ 
+@@ -15,6 +19,9 @@
+ 	-mabi=32 -march=mips32 -Wa,-32 -Wa,-march=mips32 -Wa,-mips32 -Wa,--trap \
+ 	-DLOADADDR=$(LOADADDR)
+ 
++ifeq ($(BR2_LINUX_2_4_SINUS154),y)
++CFLAGS += -DNO_FIRMWARE
++endif
+ 
+ $(PKG_BUILD_DIR):
+ 	mkdir -p $(PKG_BUILD_DIR)
+@@ -27,12 +34,26 @@
+ 	sed -e 's/@@OUTPUT_FORMAT@@/$(OUTPUT_FORMAT)/' \
+ 	    -e 's/@@LOADADDR@@/$(LOADADDR)/' <$< >$@
+ 
++$(PKG_BUILD_DIR)/entry.o: src/entry.c
++	$(TARGET_CC) $(CFLAGS) -c -o $@ $<
++
+ $(PKG_BUILD_DIR)/LzmaDecode.o: src/LzmaDecode.c
+ 	$(TARGET_CC) $(CFLAGS) -c -o $@ $<
+ 
+ $(PKG_BUILD_DIR)/loader.o: src/loader.c
+ 	$(TARGET_CC) $(CFLAGS) -c -o $@ $<
+ 
++ifeq ($(BR2_LINUX_2_4_SINUS154),y)
++$(PKG_BUILD_DIR)/uart16550.o: src/uart16550.c
++	$(TARGET_CC) $(CFLAGS) -c -o $@ $<
++endif
++
++loader_objects := $(PKG_BUILD_DIR)/entry.o $(PKG_BUILD_DIR)/loader.o
++loader_objects += $(PKG_BUILD_DIR)/LzmaDecode.o
++ifeq ($(BR2_LINUX_2_4_SINUS154),y)
++loader_objects += $(PKG_BUILD_DIR)/uart16550.o
++endif
++
+ $(STAGING_DIR)/bin/srec2bin: src/srec2bin.c
+ 	$(HOSTCC) -o $@ $<
+ 
+@@ -42,19 +63,22 @@
+ $(KDIR)/vmlinux.bin: $(KDIR)/vmlinux.lzma compile
+ 	$(TARGET_CROSS)ld -T $(PKG_BUILD_DIR)/zimage.script -r -b binary $< -o $(KDIR)/zimage.o
+ 	$(TARGET_CROSS)ld -static -G 0 --defsym kernel_entry=$(KERNEL_ENTRY) -T $(PKG_BUILD_DIR)/ld.script \
+-		$(PKG_BUILD_DIR)/loader.o \
+-		$(PKG_BUILD_DIR)/LzmaDecode.o \
++		$(loader_objects) \
+ 		$(KDIR)/zimage.o \
+ 		-o $(KDIR)/loader
+ 	$(TARGET_CROSS)objcopy -O srec $(KDIR)/loader $(KDIR)/ram_zimage.sre
+ 	$(STAGING_DIR)/bin/srec2bin $(KDIR)/ram_zimage.sre $@
+ 	
+ $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel.bin: $(KDIR)/vmlinux.bin 
++$(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel.raw: $(KDIR)/vmlinux.bin
+ endif
+ 
+ $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel.bin:
+ 	cp $(KDIR)/vmlinux.bin $@
+ 
++$(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel.raw:
++	$(TARGET_CROSS)objcopy -O binary $(KDIR)/loader $@
++
+ ifeq ($(FS),jffs2-8MB)
+ ALIGN:=bs=131072 conv=sync
+ endif
+@@ -74,12 +98,14 @@
+ install: $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-$(FS)-$(1).bin
+ endef
+ 
++ifeq ($(BR2_LINUX_2_4_WAX),y)
+ $(eval $(call pattern_template,AG1B))
+ $(eval $(call pattern_template,WA22))
+ $(eval $(call pattern_template,WAG2))
+ $(eval $(call pattern_template,WA21))
+ $(eval $(call pattern_template,WA31,-b))
+ $(eval $(call pattern_template,WA32,-b))
++endif
+ 
+ ifeq ($(IB),)
+ clean:
+@@ -87,14 +113,49 @@
+ 	rm -f $(BIN_DIR)/openwrt-$(BOARD)*
+ 
+ prepare: $(PKG_BUILD_DIR) $(PKG_BUILD_DIR)/zimage.script $(PKG_BUILD_DIR)/ld.script
+-compile: prepare $(PKG_BUILD_DIR)/loader.o $(PKG_BUILD_DIR)/LzmaDecode.o $(STAGING_DIR)/bin/srec2bin
++compile: prepare $(loader_objects) $(STAGING_DIR)/bin/srec2bin
+ else
+ clean:
+ prepare:
+ compile:
+ endif
+ 
+-install: $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel.bin $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-$(FS).bin
++ifeq ($(BR2_LINUX_2_4_WAX),y)
++install: $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel.bin
++endif
++ifeq ($(BR2_LINUX_$(subst .,_,$(KERNEL))_SINUS154),y)
++install: $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel.raw
++endif
++
++define sinus_template
++# kernel image
++$(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel-$(1).bin: $(KDIR)/vmlinux
++	rm -f /tmp/soho.???
++	ln -s $(KDIR)/vmlinux /tmp/soho.bin
++	zip -9Xv /tmp/soho.zip -j /tmp/soho.bin
++	mkfirm -o $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel-$(1).bin -m $(2) /tmp/soho.zip
++install: $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel-$(1).bin
++# filesystem image
++$(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-squashfs-$(1).bin: $(KDIR)/root.squashfs
++	rm -f /tmp/pfs.???
++	#echo "PFS/0.9" | cat - /dev/zero | dd of=/tmp/pfs.img bs=65536 count=1
++	cat $(TOPDIR)/PFS.IMG /dev/zero | dd of=/tmp/pfs.img bs=65536 count=1
++	zip -9Xv /tmp/pfstmp.zip -j /tmp/pfs.img
++	cat /tmp/pfstmp.zip /dev/zero | dd of=/tmp/pfs.zip bs=65536 count=1
++	cat $(KDIR)/root.squashfs >>/tmp/pfs.zip
++	mkfirm -o $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-squashfs-$(1).bin -m $(2) /tmp/pfs.zip
++install: $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-squashfs-$(1).bin
++endef
++
++ifeq ($(BR2_LINUX_$(subst .,_,$(KERNEL))_SINUS154_DSL_BASIC_SE),y)
++$(eval $(call sinus_template,SINUS154_DSL_BASIC_SE,BRN154BAS))
++endif
++ifeq ($(BR2_LINUX_$(subst .,_,$(KERNEL))_SINUS154_DSL_BASIC_3),y)
++$(eval $(call sinus_template,SINUS154_DSL_BASIC_3,BRNDTBAS3))
++endif
++
++install: $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-$(FS).bin
++
+ install-ib:
+ 	mkdir -p $(IB_DIR)/build_$(ARCH)/linux-$(KERNEL)-$(BOARD)
+ 	cp -fpR $(KDIR)/vmlinux.bin $(IB_DIR)/build_$(ARCH)/linux-$(KERNEL)-$(BOARD)/
+Index: target/linux/ar7-2.4/config
+===================================================================
+--- target/linux/ar7-2.4/config	(Revision 2984)
++++ target/linux/ar7-2.4/config	(Arbeitskopie)
 @@ -77,6 +77,7 @@
  # CONFIG_SGI_IP22 is not set
  # CONFIG_SGI_IP27 is not set
@@ -1241,7 +1848,7 @@ Index: target/linux/linux-2.4/config/ar7
  CONFIG_NET_IPIP=m
  CONFIG_NET_IPGRE=m
  # CONFIG_NET_IPGRE_BROADCAST is not set
-@@ -533,83 +539,9 @@
+@@ -536,83 +542,9 @@
  #
  # SCSI support
  #
@@ -1326,7 +1933,7 @@ Index: target/linux/linux-2.4/config/ar7
  # Fusion MPT device support
  #
  # CONFIG_FUSION is not set
-@@ -639,7 +571,7 @@
+@@ -642,7 +574,7 @@
  # Ethernet (10 or 100Mbit)
  #
  CONFIG_NET_ETHERNET=y
@@ -1335,7 +1942,7 @@ Index: target/linux/linux-2.4/config/ar7
  CONFIG_MIPS_CPMAC_INIT_BUF_MALLOC=y
  CONFIG_MIPS_CPMAC_PORTS=1
  CONFIG_AVALANCHE_CPMAC_AUTO=y
-@@ -701,7 +633,7 @@
+@@ -704,7 +636,7 @@
  # Prism54 PCI/PCMCIA GT/Duette Driver - 802.11(a/b/g)
  #
  # CONFIG_PRISM54 is not set
@@ -1344,7 +1951,16 @@ Index: target/linux/linux-2.4/config/ar7
  
  #
  # Token Ring devices
-@@ -834,33 +766,34 @@
+@@ -802,7 +734,7 @@
+ CONFIG_WATCHDOG=y
+ CONFIG_WATCHDOG_NOWAYOUT=y
+ CONFIG_AR7_WDT=y
+-CONFIG_SOFT_WATCHDOG=m 
++# CONFIG_SOFT_WATCHDOG is not set
+ # CONFIG_SCx200 is not set
+ # CONFIG_SCx200_GPIO is not set
+ # CONFIG_AMD_PM768 is not set
+@@ -837,33 +769,34 @@
  # CONFIG_ADFS_FS_RW is not set
  # CONFIG_AFFS_FS is not set
  # CONFIG_HFS_FS is not set
@@ -1390,7 +2006,7 @@ Index: target/linux/linux-2.4/config/ar7
  # CONFIG_ZISOFS is not set
  # CONFIG_JFS_FS is not set
  # CONFIG_JFS_DEBUG is not set
-@@ -878,13 +811,13 @@
+@@ -881,13 +814,13 @@
  # CONFIG_QNX4FS_FS is not set
  # CONFIG_QNX4FS_RW is not set
  # CONFIG_ROMFS_FS is not set
@@ -1406,7 +2022,7 @@ Index: target/linux/linux-2.4/config/ar7
  # CONFIG_XFS_QUOTA is not set
  # CONFIG_XFS_RT is not set
  # CONFIG_XFS_TRACE is not set
-@@ -895,15 +828,15 @@
+@@ -898,15 +831,15 @@
  #
  # CONFIG_CODA_FS is not set
  # CONFIG_INTERMEZZO_FS is not set
@@ -1426,7 +2042,7 @@ Index: target/linux/linux-2.4/config/ar7
  CONFIG_LOCKD_V4=y
  CONFIG_CIFS=m
  # CONFIG_CIFS_STATS is not set
-@@ -923,22 +856,8 @@
+@@ -926,22 +859,8 @@
  #
  # Partition Types
  #
@@ -1450,7 +2066,7 @@ Index: target/linux/linux-2.4/config/ar7
  # CONFIG_SMB_NLS is not set
  CONFIG_NLS=y
  
-@@ -1007,38 +926,16 @@
+@@ -1010,38 +929,16 @@
  #
  # Bluetooth support
  #
@@ -1494,17 +2110,17 @@ Index: target/linux/linux-2.4/config/ar7
  CONFIG_MAGIC_SYSRQ=y
  # CONFIG_MIPS_UNCACHED is not set
  CONFIG_LOG_BUF_SHIFT=0
-@@ -1075,5 +972,5 @@
+@@ -1078,5 +975,5 @@
  #
  # CONFIG_CRC32 is not set
  CONFIG_ZLIB_INFLATE=y
 -CONFIG_ZLIB_DEFLATE=y
 +CONFIG_ZLIB_DEFLATE=m
  # CONFIG_FW_LOADER is not set
-Index: target/linux/linux-2.4/patches/ar7/000-ar7_support.patch
+Index: target/linux/ar7-2.4/patches/000-ar7_support.patch
 ===================================================================
---- target/linux/linux-2.4/patches/ar7/000-ar7_support.patch	(Revision 2793)
-+++ target/linux/linux-2.4/patches/ar7/000-ar7_support.patch	(Arbeitskopie)
+--- target/linux/ar7-2.4/patches/000-ar7_support.patch	(Revision 2984)
++++ target/linux/ar7-2.4/patches/000-ar7_support.patch	(Arbeitskopie)
 @@ -1959,7 +1959,7 @@
  +		int line;
  +		argptr += strlen("kgdb=ttyS");
@@ -1514,10 +2130,658 @@ Index: target/linux/linux-2.4/patches/ar7/000-ar7_support.patch
  +					"falling back to /dev/ttyS1\n", *argptr);
  +		line = *argptr == '0' ? 0 : 1;
  +		printk("KGDB: Using serial line /dev/ttyS%d for session\n",
-Index: target/linux/linux-2.4/patches/ar7/020-pretty.patch
+@@ -4122,7 +4122,7 @@
+ +#include <linux/module.h>
+ +#include <asm/ar7/sangam.h>  
+ +#include <asm/ar7/avalanche_misc.h>  
+-+#include <asm/ar7/vlynq.h>  
+++#include <asm/ar7/vlynq_hal.h>  
+ +   
+ +#define SYS_VLYNQ_LOCAL_INTERRUPT_VECTOR	30 	/* MSB - 1 bit */
+ +#define SYS_VLYNQ_REMOTE_INTERRUPT_VECTOR	31 	/* MSB bit */
+@@ -4315,7 +4315,7 @@
+ +#include <linux/capability.h>
+ +#include <asm/ar7/avalanche_intc.h>
+ +#include <asm/ar7/sangam.h>
+-+#include <asm/ar7/vlynq.h>
+++#include <asm/ar7/vlynq_hal.h>
+ +
+ +
+ +#define    TI_VLYNQ_VERSION                 "0.2"
+@@ -4572,7 +4572,7 @@
+ +
+ +#include <linux/stddef.h>
+ +#include <linux/types.h>
+-+#include <asm/ar7/vlynq.h>
+++#include <asm/ar7/vlynq_hal.h>
+ +
+ +/**** Local Function prototypes *******/
+ +static int vlynqInterruptInit(VLYNQ_DEV *pdev);
+@@ -8125,620 +8125,6 @@
+ +__u32 tnetd73xx_get_revision(void);
+ +
+ +#endif /* __TNETD73XX_MISC_H__ */
+-diff -urN linux.old/include/asm-mips/ar7/vlynq.h linux.dev/include/asm-mips/ar7/vlynq.h
+---- linux.old/include/asm-mips/ar7/vlynq.h	1970-01-01 01:00:00.000000000 +0100
+-+++ linux.dev/include/asm-mips/ar7/vlynq.h	2005-11-10 01:10:46.095590250 +0100
+-@@ -0,0 +1,610 @@
+-+/***************************************************************************
+-+**+----------------------------------------------------------------------+**
+-+**|                                ****                                  |**
+-+**|                                ****                                  |**
+-+**|                                ******o***                            |**
+-+**|                          ********_///_****                           |**
+-+**|                           ***** /_//_/ ****                          |**
+-+**|                            ** ** (__/ ****                           |**
+-+**|                                *********                             |**
+-+**|                                 ****                                 |**
+-+**|                                  ***                                 |**
+-+**|                                                                      |**
+-+**|     Copyright (c) 2003 Texas Instruments Incorporated                |**
+-+**|                        ALL RIGHTS RESERVED                           |**
+-+**|                                                                      |**
+-+**| Permission is hereby granted to licensees of Texas Instruments       |**
+-+**| Incorporated (TI) products to use this computer program for the sole |**
+-+**| purpose of implementing a licensee product based on TI products.     |**
+-+**| No other rights to reproduce, use, or disseminate this computer      |**
+-+**| program, whether in part or in whole, are granted.                   |**
+-+**|                                                                      |**
+-+**| TI makes no representation or warranties with respect to the         |**
+-+**| performance of this computer program, and specifically disclaims     |**
+-+**| any responsibility for any damages, special or consequential,        |**
+-+**| connected with the use of this program.                              |**
+-+**|                                                                      |**
+-+**+----------------------------------------------------------------------+**
+-+***************************************************************************/
+-+
+-+/*********************************************************************************
+-+ *  ------------------------------------------------------------------------------
+-+ *   Module      : vlynq_hal.h
+-+ *   Description :
+-+ *   This header file provides the set of functions exported by the 
+-+ *   VLYNQ HAL. This file is included from the SOC specific VLYNQ driver wrapper.
+-+ *  ------------------------------------------------------------------------------
+-+ *********************************************************************************/
+-+
+-+#ifndef _VLYNQ_HAL_H_
+-+#define _VLYNQ_HAL_H_
+-+
+-+/* Enable/Disable debug feature */
+-+#undef VLYNQ_DEBUG 
+-+
+-+#ifdef VLYNQ_DEBUG  /* This needs to be OS abstracted - for testing use vxworks/linux calls */
+-+#define debugPrint(format,args...)    
+-+#else 
+-+#define debugPrint(format,args...)  
+-+#endif
+-+
+-+ /* number of VLYNQ memory regions supported */
+-+#define VLYNQ_MAX_MEMORY_REGIONS 0x04
+-+  
+-+ /* Max.number of external interrupt inputs supported by VLYNQ module */
+-+#define VLYNQ_IVR_MAXIVR         0x08
+-+
+-+#define VLYNQ_CLK_DIV_MAX  0x08
+-+#define VLYNQ_CLK_DIV_MIN  0x01
+-+
+-+
+-+/*** the total number of entries allocated for ICB would be
+-+ * 32(for 32 bits in IntPending register) + VLYNQ_IVR_CHAIN_SLOTS*/
+-+#define VLYNQ_IVR_CHAIN_SLOTS 10
+-+
+-+
+-+/* Error defines */
+-+#define VLYNQ_SUCCESS               0
+-+
+-+#define VLYNQ_ERRCODE_BASE          0 /* Chosen by system */
+-+#define VLYNQ_INVALID_ARG          -(VLYNQ_ERRCODE_BASE+1)
+-+#define VLYNQ_INVALID_DRV_STATE    -(VLYNQ_ERRCODE_BASE+2)
+-+#define VLYNQ_INT_CONFIG_ERR       -(VLYNQ_ERRCODE_BASE+3)
+-+#define VLYNQ_LINK_DOWN            -(VLYNQ_ERRCODE_BASE+4)
+-+#define VLYNQ_MEMALLOC_FAIL        -(VLYNQ_ERRCODE_BASE+5)
+-+#define VLYNQ_ISR_NON_EXISTENT     -(VLYNQ_ERRCODE_BASE+6)
+-+#define VLYNQ_INTVEC_MAP_NOT_FOUND -(VLYNQ_ERRCODE_BASE+7)
+-+
+-+/* Vlynq Defines and Macros */
+-+
+-+#define VLYNQ_NUM_INT_BITS              32 /* 32 bit interrupt staus register */
+-+
+-+/* Base address of module */
+-+#define VLYNQ_BASE                      (pdev->module_base)
+-+
+-+#define VLYNQ_REMOTE_REGS_OFFSET        0x0080
+-+
+-+#define VLYNQ_REV_OFFSET                0x0000
+-+#define VLYNQ_CTRL_OFFSET               0x0004
+-+#define VLYNQ_STATUS_OFFSET             0x0008
+-+#define VLYNQ_INT_STAT_OFFSET           0x0010
+-+#define VLYNQ_INT_PEND_OFFSET           0x0014
+-+#define VLYNQ_INT_PTR_OFFSET            0x0018
+-+#define VLYNQ_TXMAP_OFFSET              0x001c
+-+
+-+#define VLYNQ_RX0MAP_SIZE_REG_OFFSET    0x0020
+-+#define VLYNQ_RX0MAP_OFFSET_REG_OFFSET  0x0024
+-+
+-+#define VLYNQ_CHIP_VER_OFFSET           0x0040
+-+#define VLYNQ_IVR_REGS_OFFSET           0x0060
+-+
+-+#define VLYNQ_INT_PENDING_REG_PTR       0x14
+-+#define VLYNQ_R_INT_PENDING_REG_PTR     VLYNQ_REMOTE_REGS_OFFSET + 0x14
+-+
+-+#define VLYNQ_REV_REG       *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_REV_OFFSET))
+-+#define VLYNQ_CTRL_REG      *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_CTRL_OFFSET))
+-+#define VLYNQ_STATUS_REG    *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_STATUS_OFFSET))
+-+#define VLYNQ_INT_STAT_REG  *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_INT_STAT_OFFSET))
+-+#define VLYNQ_INT_PEND_REG  *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_INT_PEND_OFFSET))
+-+#define VLYNQ_INT_PTR_REG   *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_INT_PTR_OFFSET))
+-+#define VLYNQ_TXMAP_REG     *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_TXMAP_OFFSET))
+-+
+-+/** map takes on values between 1 to VLYNQ_MAX_MEMORY_REGIONS **/
+-+#define VLYNQ_RXMAP_SIZE_REG(map) \
+-+    *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_RX0MAP_SIZE_REG_OFFSET+( (map-1)<<3)))
+-+    
+-+/** map takes on values between 1 to VLYNQ_MAX_MEMORY_REGIONS **/
+-+#define VLYNQ_RXMAP_OFFSET_REG(map) \
+-+    *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_RX0MAP_OFFSET_REG_OFFSET+( (map-1)<<3)))
+-+
+-+#define VLYNQ_CHIP_VER_REG  *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_CHIP_VER_OFFSET))
+-+
+-+/* 0 =< ivr <= 31; currently ivr < VLYNQ_IVR_MAXIVR=8) */
+-+#define VLYNQ_IVR_OFFSET(ivr)  \
+-+    (VLYNQ_BASE + VLYNQ_IVR_REGS_OFFSET +((((unsigned)(ivr)) & 31) & ~3) )
+-+
+-+#define VLYNQ_IVR_03TO00_REG  *((volatile unsigned int*) (VLYNQ_IVR_OFFSET(0)) )
+-+#define VLYNQ_IVR_07TO04_REG  *((volatile unsigned int*) (VLYNQ_IVR_OFFSET(4)) )
+-+/*** Can be extended for 11TO08...31TO28 when all 31 are supported**/
+-+
+-+#define VLYNQ_IVR_INTEN(ivr)    (((unsigned int)(0x80)) << ((((unsigned)(ivr)) % 4) * 8))
+-+#define VLYNQ_IVR_INTTYPE(ivr)  (((unsigned int)(0x40)) << ((((unsigned)(ivr)) % 4) * 8))
+-+#define VLYNQ_IVR_INTPOL(ivr)   (((unsigned int)(0x20)) << ((((unsigned)(ivr)) % 4) * 8))
+-+#define VLYNQ_IVR_INTVEC(ivr)   (((unsigned int)(0x1F)) << ((((unsigned)(ivr)) % 4) * 8))
+-+#define VLYNQ_IVR_INTALL(ivr)   (((unsigned int)(0xFF)) << ((((unsigned)(ivr)) % 4) * 8))
+-+
+-+
+-+
+-+/*********************************
+-+ * Remote VLYNQ register set     *
+-+ *********************************/
+-+
+-+#define VLYNQ_R_REV_OFFSET              0x0080
+-+#define VLYNQ_R_CTRL_OFFSET             0x0084
+-+#define VLYNQ_R_STATUS_OFFSET           0x0088
+-+#define VLYNQ_R_INT_STAT_OFFSET         0x0090
+-+#define VLYNQ_R_INT_PEND_OFFSET         0x0094
+-+#define VLYNQ_R_INT_PTR_OFFSET          0x0098
+-+#define VLYNQ_R_TXMAP_OFFSET            0x009c
+-+
+-+#define VLYNQ_R_RX0MAP_SIZE_REG_OFFSET  0x00A0
+-+#define VLYNQ_R_RX0MAP_OFFSET_REG_OFFSET 0x00A4
+-+
+-+#define VLYNQ_R_CHIP_VER_OFFSET         0x00C0
+-+#define VLYNQ_R_IVR_REGS_OFFSET         0x00E0
+-+
+-+#define VLYNQ_R_REV_REG       *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_REV_OFFSET)) 
+-+#define VLYNQ_R_CTRL_REG      *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_CTRL_OFFSET))
+-+#define VLYNQ_R_STATUS_REG    *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_STATUS_OFFSET))
+-+#define VLYNQ_R_INT_STAT_REG  *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_INT_STAT_OFFSET))
+-+#define VLYNQ_R_INT_PEND_REG  *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_INT_PEND_OFFSET))
+-+#define VLYNQ_R_INT_PTR_REG   *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_INT_PTR_OFFSET))
+-+#define VLYNQ_R_TXMAP_REG     *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_TXMAP_OFFSET))
+-+
+-+/** map takes on values between 1 to VLYNQ_MAX_MEMORY_REGIONS **/
+-+#define VLYNQ_R_RXMAP_SIZE_REG(map) \
+-+    *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_RX0MAP_SIZE_REG_OFFSET + ((map-1)<<3)))
+-+    
+-+/** map takes on values between 1 to VLYNQ_MAX_MEMORY_REGIONS **/
+-+#define VLYNQ_R_RXMAP_OFFSET_REG(map) \
+-+    *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_RX0MAP_OFFSET_REG_OFFSET + ((map-1)<<3)))
+-+
+-+#define VLYNQ_R_CHIP_VER_REG  *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_CHIP_VER_OFFSET)
+-+
+-+#define VLYNQ_R_IVR_OFFSET(ivr)  \
+-+    (VLYNQ_BASE + VLYNQ_R_IVR_REGS_OFFSET +((((unsigned)(ivr)) & 31) & ~3))
+-+ 
+-+
+-+/*** Can be extended for 11TO08...31TO28 when all 31 are supported**/
+-+#define VLYNQ_R_IVR_03TO00_REG  *((volatile unsigned int*) (VLYNQ_R_IVR_OFFSET(0)) )
+-+#define VLYNQ_R_IVR_07TO04_REG  *((volatile unsigned int*) (VLYNQ_R_IVR_OFFSET(4)) )
+-+
+-+
+-+/****End of remote register set definition******/
+-+
+-+
+-+/*** Masks for individual register fields ***/
+-+
+-+#define VLYNQ_MODULE_ID_MASK        0xffff0000
+-+#define VLYNQ_MAJOR_REV_MASK        0x0000ff00
+-+#define VLYNQ_MINOR_REV_MASK        0x000000ff
+-+
+-+    
+-+#define VLYNQ_CTL_ILOOP_MASK        0x00000002
+-+#define VLYNQ_CTL_INT2CFG_MASK      0x00000080
+-+#define VLYNQ_CTL_INTVEC_MASK       0x00001f00
+-+#define VLYNQ_CTL_INTEN_MASK        0x00002000
+-+#define VLYNQ_CTL_INTLOCAL_MASK     0x00004000
+-+#define VLYNQ_CTL_CLKDIR_MASK       0x00008000
+-+#define VLYNQ_CTL_CLKDIV_MASK       0x00070000
+-+#define VLYNQ_CTL_MODE_MASK         0x00e00000
+-+
+-+
+-+#define VLYNQ_STS_LINK_MASK         0x00000001  /* Link is active */
+-+#define VLYNQ_STS_MPEND_MASK        0x00000002  /* Pending master requests */
+-+#define VLYNQ_STS_SPEND_MASK        0x00000004  /* Pending slave requests */
+-+#define VLYNQ_STS_NFEMPTY0_MASK     0x00000008  /* Master data FIFO not empty */
+-+#define VLYNQ_STS_NFEMPTY1_MASK     0x00000010  /* Master command FIFO not empty */
+-+#define VLYNQ_STS_NFEMPTY2_MASK     0x00000020  /* Slave data FIFO not empty */
+-+#define VLYNQ_STS_NFEMPTY3_MASK     0x00000040  /* Slave command FIFO not empty */
+-+#define VLYNQ_STS_LERROR_MASK       0x00000080  /* Local error, w/c */
+-+#define VLYNQ_STS_RERROR_MASK       0x00000100  /* remote error w/c */
+-+#define VLYNQ_STS_OFLOW_MASK        0x00000200
+-+#define VLYNQ_STS_IFLOW_MASK        0x00000400
+-+#define VLYNQ_STS_MODESUP_MASK      0x00E00000  /* Highest mode supported */
+-+#define VLYNQ_STS_SWIDTH_MASK       0x07000000  /* Used for reading the width of VLYNQ bus */
+-+#define VLYNQ_STS_DEBUG_MASK        0xE0000000 
+-+
+-+#define VLYNQ_CTL_INTVEC_SHIFT      0x08
+-+#define VLYNQ_CTL_INTEN_SHIFT       0x0D
+-+#define VLYNQ_CTL_INT2CFG_SHIFT     0x07
+-+#define VLYNQ_CTL_INTLOCAL_SHIFT    0x0E
+-+
+-+#define VLYNQ_CTL_INTFIELDS_CLEAR_MASK  0x7F80
+-+
+-+#define VLYNQ_CHIPVER_DEVREV_MASK   0xffff0000
+-+#define VLYNQ_CHIPVER_DEVID_MASK    0x0000ffff
+-+
+-+#define VLYNQ_IVR_INTEN_MASK        0x80
+-+#define VLYNQ_IVR_INTTYPE_MASK      0x40
+-+#define VLYNQ_IVR_INTPOL_MASK       0x20
+-+
+-+
+-+/**** Helper macros ****/
+-+
+-+#define VLYNQ_RESETCB(arg) \
+-+   if( pdev->reset_cb != NULL)   \
+-+   {                             \
+-+      (pdev->reset_cb)(pdev, (arg));  \
+-+   }
+-+    
+-+#define VLYNQ_STATUS_FLD_WIDTH(sts) (((sts) & VLYNQ_STS_SWIDTH_MASK) >> 24 )
+-+#define VLYNQ_CTL_INTVEC(x)         (((x) & 31) << 8 )
+-+
+-+#define VLYNQ_INRANGE(x,hi,lo)      (((x) <= (hi)) && ((x) >= (lo)))
+-+#define VLYNQ_OUTRANGE(x,hi,lo)     (((x) > (hi)) || ((x) < (lo)))
+-+
+-+#define VLYNQ_ALIGN4(x)             (x)=(x)&(~3)   
+-+
+-+
+-+/*************************************
+-+ *             Enums                 *
+-+ *************************************/
+-+
+-+/* Initialization options define what operations are
+-+ * undertaken during vlynq module initialization */
+-+typedef enum
+-+{
+-+    /* Init host local memory regions.This allows
+-+     * local host access remote memory regions */
+-+    VLYNQ_INIT_LOCAL_MEM_REGIONS = 0x01,
+-+    /* Init host remote memory regions.This allows
+-+     * remote device access local memory regions */
+-+    VLYNQ_INIT_REMOTE_MEM_REGIONS =0x02,
+-+    /* Init local interrupt config*/
+-+    VLYNQ_INIT_LOCAL_INTERRUPTS   =0x04,
+-+    /* Init remote interrupt config*/
+-+    VLYNQ_INIT_REMOTE_INTERRUPTS  =0x08,
+-+    /* Check link during initialization*/
+-+    VLYNQ_INIT_CHECK_LINK         =0x10,
+-+    /* configure clock during init */
+-+    VLYNQ_INIT_CONFIG_CLOCK       =0x20,
+-+    /* Clear errors during init */    
+-+    VLYNQ_INIT_CLEAR_ERRORS       =0x40,
+-+    /* All options */
+-+    VLYNQ_INIT_PERFORM_ALL        =0x7F
+-+}VLYNQ_INIT_OPTIONS;
+-+
+-+
+-+/* VLYNQ_DEV_TYPE identifies local or remote device */
+-+typedef enum
+-+{
+-+    VLYNQ_LOCAL_DVC  = 0,           /* vlynq local device (SOC's vlynq module) */
+-+    VLYNQ_REMOTE_DVC = 1            /* vlynq remote device (remote vlynq module) */
+-+}VLYNQ_DEV_TYPE;
+-+
+-+
+-+/* VLYNQ_CLK_SOURCE identifies the vlynq module clock source */
+-+typedef enum
+-+{
+-+    VLYNQ_CLK_SOURCE_NONE   = 0,    /* do not initialize clock generator*/
+-+    VLYNQ_CLK_SOURCE_LOCAL  = 1,    /* clock is generated by local machine  */
+-+    VLYNQ_CLK_SOURCE_REMOTE = 2     /* clock is generated by remote machine */
+-+}VLYNQ_CLK_SOURCE;
+-+
+-+
+-+/* VLYNQ_DRV_STATE indicates the current driver state */
+-+typedef enum
+-+{
+-+    VLYNQ_DRV_STATE_UNINIT = 0,     /* driver is uninitialized  */
+-+    VLYNQ_DRV_STATE_ININIT = 1,     /* VLYNQ is being initialized */
+-+    VLYNQ_DRV_STATE_RUN    = 2,     /* VLYNQ is running properly  */
+-+    VLYNQ_DRV_STATE_HOLD   = 3,     /* driver stopped temporarily */
+-+    VLYNQ_DRV_STATE_ERROR  = 4      /* driver stopped on unrecoverable error */
+-+}VLYNQ_DRV_STATE;
+-+
+-+
+-+/* VLYNQ_BUS_WIDTH identifies the vlynq module bus width */
+-+typedef enum
+-+{
+-+   VLYNQ_BUS_WIDTH_3 =  3,
+-+   VLYNQ_BUS_WIDTH_5 =  5,
+-+   VLYNQ_BUS_WIDTH_7 =  7,
+-+   VLYNQ_BUS_WIDTH_9 =  9
+-+}VLYNQ_BUS_WIDTH;
+-+
+-+
+-+/* VLYNQ_LOCAL_INT_CONFIG indicates whether the local vlynq 
+-+ * interrupts are processed by the host or passed on to the 
+-+ * remote device.
+-+ */
+-+typedef enum
+-+{
+-+    VLYNQ_INT_REMOTE = 0,   /* Interrupt packets sent to remote, intlocal=0 */
+-+    VLYNQ_INT_LOCAL  = 1    /* Interrupts are handled locally, intlocal=1 */
+-+}VLYNQ_LOCAL_INT_CONFIG;        
+-+
+-+
+-+/* VLYNQ_REMOTE_INT_CONFIG indicates whether the remote 
+-+ * interrupts are to be handled by the SOC system ISR 
+-+ * or via the vlynq root ISR
+-+ */
+-+typedef enum 
+-+{
+-+    VLYNQ_INT_ROOT_ISR   = 0,   /* remote ints handled via vlynq root ISR */
+-+    VLYNQ_INT_SYSTEM_ISR = 1    /* remote ints handled via system ISR */
+-+}VLYNQ_REMOTE_INT_CONFIG;
+-+
+-+
+-+/* VLYNQ_INTR_POLARITY - vlynq interrupt polarity setting */
+-+typedef enum
+-+{
+-+    VLYNQ_INTR_ACTIVE_HIGH = 0,
+-+    VLYNQ_INTR_ACTIVE_LOW  = 1
+-+}VLYNQ_INTR_POLARITY;
+-+
+-+
+-+/* VLYNQ_INTR_TYPE  - vlynq interrupt type */
+-+typedef enum
+-+{
+-+    VLYNQ_INTR_LEVEL  = 0,
+-+    VLYNQ_INTR_PULSED = 1
+-+}VLYNQ_INTR_TYPE;
+-+
+-+
+-+/* VLYNQ_RESET_MODE - vlynq reset mode */
+-+typedef enum
+-+{
+-+   VLYNQ_RESET_ASSERT,      /* hold device in reset state */
+-+   VLYNQ_RESET_DEASSERT,    /* release device from reset state */
+-+   VLYNQ_RESET_INITFAIL,    /* handle the device in case driver initialization fails */
+-+   VLYNQ_RESET_LINKESTABLISH,  /* handle the device in case driver established link */
+-+   VLYNQ_RESET_INITFAIL2,   /* Driver initialization failed but VLYNQ link exist. */
+-+   VLYNQ_RESET_INITOK       /* Driver initialization finished OK. */
+-+}VLYNQ_RESET_MODE;
+-+ 
+-+
+-+
+-+/*************************************
+-+ *             Typedefs              *
+-+ *************************************/
+-+
+-+struct VLYNQ_DEV_t; /*forward declaration*/
+-+
+-+/*--------Function Pointers defintions -----------*/
+-+
+-+/* prototype for interrupt handler definition */
+-+typedef void (*VLYNQ_INTR_CNTRL_ISR)(void *arg1,void *arg2,void *arg3);
+-+
+-+typedef void 
+-+(*VLYNQ_RESET_REMOTE)(struct VLYNQ_DEV_t *pDev, VLYNQ_RESET_MODE mode);
+-+
+-+typedef void 
+-+(*VLYNQ_REPORT_CB)( struct VLYNQ_DEV_t *pDev,   /* This VLYNQ */
+-+                    VLYNQ_DEV_TYPE  aSrcDvc,    /* Event Cause -local/remote? */
+-+                    unsigned int  dwStatRegVal);      /* Value of the relevant status register */
+-+
+-+
+-+/*-------Structure Definitions------------*/
+-+
+-+typedef struct VLYNQ_MEMORY_MAP_t
+-+{
+-+    unsigned int Txmap;
+-+    unsigned int RxOffset[VLYNQ_MAX_MEMORY_REGIONS];
+-+    unsigned int RxSize[VLYNQ_MAX_MEMORY_REGIONS];
+-+}VLYNQ_MEMORY_MAP;
+-+
+-+
+-+/**VLYNQ_INTERRUPT_CNTRL - defines the vlynq module interrupt
+-+ * settings in vlynq Control register  */ 
+-+typedef struct VLYNQ_INTERRUPT_CNTRL_t
+-+{
+-+    /* vlynq interrupts handled by host or remote - maps to 
+-+     * intLocal bit in vlynq control register */
+-+    VLYNQ_LOCAL_INT_CONFIG intLocal;
+-+
+-+    /* remote interrupts handled by vlynq isr or host system
+-+     * interrupt controller - maps to the int2Cfg in vlynq 
+-+     * control register */
+-+    VLYNQ_REMOTE_INT_CONFIG intRemote;
+-+    
+-+    /* bit in pending/set register used for module interrupts*/
+-+    unsigned int map_vector;
+-+    
+-+    /* used only if remote interrupts are to be handled by system ISR*/    
+-+    unsigned int intr_ptr;
+-+
+-+}VLYNQ_INTERRUPT_CNTRL;
+-+
+-+
+-+/* VLYNQ_INTR_CNTRL_ICB - defines the Interrupt control block which hold
+-+ * the interrupt dispatch table. The vlynq_root_isr() indexes into this 
+-+ * table to identify the ISR to be invoked
+-+ */
+-+typedef struct VLYNQ_INTR_CNTRL_ICB_t
+-+{
+-+    VLYNQ_INTR_CNTRL_ISR            isr;    /* Clear errors during initialization */
+-+    void                            *arg1 ; /* Arg 1 for the ISR */
+-+    void                            *arg2 ; /* Arg 2 for the ISR */
+-+    void                            *arg3 ; /* Arg 3 for the ISR */
+-+    unsigned int  isrCount; /* number of ISR invocations so far */
+-+    struct VLYNQ_INTR_CNTRL_ICB_t   *next;
+-+}VLYNQ_INTR_CNTRL_ICB;
+-+
+-+/* overlay of vlynq register set */
+-+typedef struct VLYNQ_REG_SET_t
+-+{
+-+    unsigned int revision; /*offset : 0x00 */
+-+    unsigned int control;  /* 0x04*/
+-+    unsigned int status;   /* 0x08*/
+-+    unsigned int pad1;     /* 0x0c*/
+-+    unsigned int intStatus;   /*0x10*/
+-+    unsigned int intPending;  /*0x14*/
+-+    unsigned int intPtr;      /*0x18*/
+-+    unsigned int txMap;       /*0x1C*/ 
+-+    unsigned int rxSize1;     /*0x20*/
+-+    unsigned int rxOffset1;   /*0x24*/
+-+    unsigned int rxSize2;     /*0x28*/
+-+    unsigned int rxOffset2;   /*0x2C*/
+-+    unsigned int rxSize3;     /*0x30*/
+-+    unsigned int rxOffset3;   /*0x34*/
+-+    unsigned int rxSize4;     /*0x38*/
+-+    unsigned int rxOffset4;   /*0x3C*/
+-+    unsigned int chipVersion; /*0x40*/
+-+    unsigned int pad2[8];
+-+    unsigned int ivr30;       /*0x60*/
+-+    unsigned int ivr74;       /*0x64*/
+-+    unsigned int pad3[7];
+-+}VLYNQ_REG_SET;
+-+    
+-+
+-+typedef struct VLYNQ_DEV_t
+-+{
+-+    /** module index:1,2,3... used for debugging purposes */
+-+    unsigned int dev_idx; 
+-+    
+-+    /*VLYNQ module base address */
+-+    unsigned int module_base;
+-+   
+-+    /* clock source selection */
+-+    VLYNQ_CLK_SOURCE clk_source;
+-+   
+-+    /* Clock Divider.Val=1 to 8. VLYNQ_clk = VBUSCLK/clk_div */
+-+    unsigned int  clk_div;
+-+   
+-+    /* State of the VLYNQ driver, set to VLYNQ_DRV_STATE_UNINIT, when initializing */
+-+    VLYNQ_DRV_STATE state;
+-+   
+-+    /* Valid VLYNQ bus width, filled by driver  */
+-+    VLYNQ_BUS_WIDTH width;
+-+   
+-+    /* local memory mapping   */
+-+    VLYNQ_MEMORY_MAP local_mem;
+-+   
+-+    /* remote memory mapping   */
+-+    VLYNQ_MEMORY_MAP remote_mem;
+-+   
+-+    /* Local module interrupt params */
+-+    VLYNQ_INTERRUPT_CNTRL  local_irq;
+-+   
+-+    /* remote module interrupt params */
+-+    VLYNQ_INTERRUPT_CNTRL  remote_irq;
+-+
+-+    /*** ICB related fields **/
+-+   
+-+    /* Sizeof of ICB = VLYNQ_NUM_INT_BITS(for 32 bits in IntPending) + 
+-+     * expansion slots for shared interrupts*/
+-+    VLYNQ_INTR_CNTRL_ICB  pIntrCB[VLYNQ_NUM_INT_BITS + VLYNQ_IVR_CHAIN_SLOTS];
+-+    VLYNQ_INTR_CNTRL_ICB  *freelist;
+-+   
+-+   /* table holding mapping between intVector and the bit position the interrupt
+-+    * is mapped to(mapVector)*/
+-+    char vector_map[32];
+-+   
+-+    /* user callback for vlynq events, NULL if unused */
+-+    VLYNQ_REPORT_CB        report_cb;    
+-+    
+-+   /* user callback for resetting/realeasing remote device */
+-+    VLYNQ_RESET_REMOTE     reset_cb;
+-+
+-+    /*** Handles provided for direct access to register set if need be
+-+     * Must be intialized to point to appropriate address during 
+-+     * vlynq_init */
+-+    volatile VLYNQ_REG_SET * local;
+-+    volatile VLYNQ_REG_SET * remote;
+-+
+-+    unsigned int  intCount; /* number of interrupts generated so far */
+-+    unsigned int  isrCount; /* number of ISR invocations so far */
+-+}VLYNQ_DEV;
+-+
+-+
+-+typedef struct VLYNQ_ISR_ARGS_t
+-+{
+-+    int irq;
+-+    void * arg;
+-+    void * regset;
+-+}VLYNQ_ISR_ARGS;
+-+
+-+
+-+/****************************************
+-+ *        Function Prototypes           *
+-+ * API exported by generic vlynq driver *
+-+ ****************************************/
+-+/* Initialization function */ 
+-+int vlynq_init( VLYNQ_DEV *pdev, VLYNQ_INIT_OPTIONS options);
+-+
+-+/* Check vlynq link */
+-+unsigned int vlynq_link_check( VLYNQ_DEV * pdev);
+-+
+-+/* Set interrupt vector in local or remote device */
+-+int vlynq_interrupt_vector_set( VLYNQ_DEV *pdev, 
+-+                                         unsigned int int_vector,
+-+                                         unsigned int map_vector, 
+-+                                         VLYNQ_DEV_TYPE dev,
+-+                                         VLYNQ_INTR_POLARITY pol,
+-+                                         VLYNQ_INTR_TYPE type);
+-+
+-+
+-+int vlynq_interrupt_vector_cntl( VLYNQ_DEV *pdev,
+-+                                          unsigned int int_vector,
+-+                                          VLYNQ_DEV_TYPE dev,
+-+                                          unsigned int enable);
+-+
+-+unsigned int vlynq_interrupt_get_count( VLYNQ_DEV *pdev,
+-+                                         unsigned int map_vector);
+-+
+-+int vlynq_install_isr( VLYNQ_DEV *pdev,
+-+                                unsigned int map_vector,
+-+                                VLYNQ_INTR_CNTRL_ISR isr,
+-+                                void *arg1, void *arg2, void *arg3);
+-+
+-+int vlynq_uninstall_isr( VLYNQ_DEV *pdev,
+-+                                  unsigned int map_vector,
+-+                                  void *arg1, void *arg2, void *arg3);
+-+
+-+
+-+void vlynq_root_isr(void *arg);
+-+
+-+void vlynq_delay(unsigned int clktime);
+-+
+-+/* The following functions, provide better granularity in setting
+-+ * interrupt parameters. (for better support of linux INT Controller)
+-+ * Note: The interrupt source is identified by "map_vector"- the bit 
+-+ * position in interrupt status register*/
+-+
+-+int vlynq_interrupt_vector_map(VLYNQ_DEV * pdev,
+-+                                        VLYNQ_DEV_TYPE dev,
+-+                                        unsigned int int_vector,
+-+                                        unsigned int map_vector);
+-+
+-+int vlynq_interrupt_set_polarity(VLYNQ_DEV * pdev,
+-+                                          VLYNQ_DEV_TYPE dev,
+-+                                          unsigned int map_vector,
+-+                                          VLYNQ_INTR_POLARITY pol);
+-+
+-+int vlynq_interrupt_get_polarity( VLYNQ_DEV *pdev ,
+-+                                           VLYNQ_DEV_TYPE dev_type,
+-+                                           unsigned int map_vector);
+-+
+-+int vlynq_interrupt_set_type(VLYNQ_DEV * pdev,
+-+                                      VLYNQ_DEV_TYPE dev,
+-+                                      unsigned int map_vector,
+-+                                      VLYNQ_INTR_TYPE type);
+-+
+-+int vlynq_interrupt_get_type( VLYNQ_DEV *pdev, 
+-+                                       VLYNQ_DEV_TYPE dev_type,
+-+                                       unsigned int map_vector);
+-+
+-+int vlynq_interrupt_enable(VLYNQ_DEV* pdev,
+-+                                    VLYNQ_DEV_TYPE dev,
+-+                                    unsigned int map_vector);
+-+
+-+int vlynq_interrupt_disable(VLYNQ_DEV * pdev,
+-+                                     VLYNQ_DEV_TYPE dev,
+-+                                     unsigned int map_vector);
+-+                 
+-+
+-+              
+-+        
+-+
+-+#endif /* _VLYNQ_HAL_H_ */
+ diff -urN linux.old/include/asm-mips/ar7/vlynq_hal.h linux.dev/include/asm-mips/ar7/vlynq_hal.h
+ --- linux.old/include/asm-mips/ar7/vlynq_hal.h	1970-01-01 01:00:00.000000000 +0100
+ +++ linux.dev/include/asm-mips/ar7/vlynq_hal.h	2005-11-10 01:10:46.095590250 +0100
+Index: target/linux/ar7-2.4/patches/020-pretty.patch
 ===================================================================
---- target/linux/linux-2.4/patches/ar7/020-pretty.patch	(Revision 0)
-+++ target/linux/linux-2.4/patches/ar7/020-pretty.patch	(Revision 0)
+--- target/linux/ar7-2.4/patches/020-pretty.patch	(Revision 0)
++++ target/linux/ar7-2.4/patches/020-pretty.patch	(Revision 0)
 @@ -0,0 +1,41 @@
 +diff -urN linux-2.4.30/drivers/net/avalanche_cpmac/cpmac_reg.h linux-2.4.30.new/drivers/net/avalanche_cpmac/cpmac_reg.h
 +--- linux-2.4.30/drivers/net/avalanche_cpmac/cpmac_reg.h	2005-11-12 23:17:10.000000000 +0100
@@ -1560,10 +2824,10 @@ Index: target/linux/linux-2.4/patches/ar7/020-pretty.patch
 + 	return ret;
 + 
 + err_free_hash:
-Index: target/linux/linux-2.4/patches/ar7/021-debug.patch
+Index: target/linux/ar7-2.4/patches/021-debug.patch
 ===================================================================
---- target/linux/linux-2.4/patches/ar7/021-debug.patch	(Revision 0)
-+++ target/linux/linux-2.4/patches/ar7/021-debug.patch	(Revision 0)
+--- target/linux/ar7-2.4/patches/021-debug.patch	(Revision 0)
++++ target/linux/ar7-2.4/patches/021-debug.patch	(Revision 0)
 @@ -0,0 +1,127 @@
 +diff -urN linux-2.4.30/drivers/char/avalanche_vlynq/vlynq_hal.c linux-2.4.30.new/drivers/char/avalanche_vlynq/vlynq_hal.c
 +--- linux-2.4.30/drivers/char/avalanche_vlynq/vlynq_hal.c	2005-11-12 23:17:09.000000000 +0100
@@ -1692,11 +2956,11 @@ Index: target/linux/linux-2.4/patches/ar7/021-debug.patch
 + 	return ent;
 + }
 + 
-Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
+Index: target/linux/ar7-2.4/patches/011-sinus.patch
 ===================================================================
---- target/linux/linux-2.4/patches/ar7/011-sinus.patch	(Revision 0)
-+++ target/linux/linux-2.4/patches/ar7/011-sinus.patch	(Revision 0)
-@@ -0,0 +1,5651 @@
+--- target/linux/ar7-2.4/patches/011-sinus.patch	(Revision 0)
++++ target/linux/ar7-2.4/patches/011-sinus.patch	(Revision 0)
+@@ -0,0 +1,5037 @@
 +diff -urN linux-2.4.32/arch/mips/ar7/cmdline.c linux-2.4.32.new/arch/mips/ar7/cmdline.c
 +--- linux-2.4.32/arch/mips/ar7/cmdline.c	2005-12-29 11:23:32.000000000 +0100
 ++++ linux-2.4.32.new/arch/mips/ar7/cmdline.c	2005-12-27 21:44:16.000000000 +0100
@@ -5596,7 +6860,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + #include <linux/module.h>
 + #include <asm/ar7/sangam.h>  
 + #include <asm/ar7/avalanche_misc.h>  
-+-#include <asm/ar7/vlynq.h>  
++-#include <asm/ar7/vlynq_hal.h>  
 ++#include <asm/ar7/vlynq_hal.h>  
 +    
 ++#include "vlynq_drv.h"
@@ -5695,7 +6959,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + #include <linux/capability.h>
 + #include <asm/ar7/avalanche_intc.h>
 + #include <asm/ar7/sangam.h>
-+-#include <asm/ar7/vlynq.h>
++-#include <asm/ar7/vlynq_hal.h>
 ++#include <asm/ar7/vlynq_hal.h>
 + 
 ++#include "vlynq_drv.h"
@@ -5704,7 +6968,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 
 +-/* debug on ? */
 +-#define VLYNQ_DEBUG 
-++/* debug on? Macro is set in vlynq.h. */
+++/* debug on? Macro is set in vlynq_hal.h. */
 ++/* #define VLYNQ_DEBUG */
 + 
 + /* Macro for debug and error printf's */
@@ -5835,7 +7099,7 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 
 + #include <linux/stddef.h>
 + #include <linux/types.h>
-+-#include <asm/ar7/vlynq.h>
++-#include <asm/ar7/vlynq_hal.h>
 ++#include <linux/kernel_stat.h> /* kstat */
 ++#include <asm/ar7/vlynq_hal.h>
 + 
@@ -6671,620 +7935,6 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + /*****************************************************************************
 +  * Reset Control Module
 +  *****************************************************************************/
-+diff -urN linux-2.4.32/include/asm-mips/ar7/vlynq.h linux-2.4.32.new/include/asm-mips/ar7/vlynq.h
-+--- linux-2.4.32/include/asm-mips/ar7/vlynq.h	2005-12-29 11:23:32.000000000 +0100
-++++ linux-2.4.32.new/include/asm-mips/ar7/vlynq.h	1970-01-01 01:00:00.000000000 +0100
-+@@ -1,610 +0,0 @@
-+-/***************************************************************************
-+-**+----------------------------------------------------------------------+**
-+-**|                                ****                                  |**
-+-**|                                ****                                  |**
-+-**|                                ******o***                            |**
-+-**|                          ********_///_****                           |**
-+-**|                           ***** /_//_/ ****                          |**
-+-**|                            ** ** (__/ ****                           |**
-+-**|                                *********                             |**
-+-**|                                 ****                                 |**
-+-**|                                  ***                                 |**
-+-**|                                                                      |**
-+-**|     Copyright (c) 2003 Texas Instruments Incorporated                |**
-+-**|                        ALL RIGHTS RESERVED                           |**
-+-**|                                                                      |**
-+-**| Permission is hereby granted to licensees of Texas Instruments       |**
-+-**| Incorporated (TI) products to use this computer program for the sole |**
-+-**| purpose of implementing a licensee product based on TI products.     |**
-+-**| No other rights to reproduce, use, or disseminate this computer      |**
-+-**| program, whether in part or in whole, are granted.                   |**
-+-**|                                                                      |**
-+-**| TI makes no representation or warranties with respect to the         |**
-+-**| performance of this computer program, and specifically disclaims     |**
-+-**| any responsibility for any damages, special or consequential,        |**
-+-**| connected with the use of this program.                              |**
-+-**|                                                                      |**
-+-**+----------------------------------------------------------------------+**
-+-***************************************************************************/
-+-
-+-/*********************************************************************************
-+- *  ------------------------------------------------------------------------------
-+- *   Module      : vlynq_hal.h
-+- *   Description :
-+- *   This header file provides the set of functions exported by the 
-+- *   VLYNQ HAL. This file is included from the SOC specific VLYNQ driver wrapper.
-+- *  ------------------------------------------------------------------------------
-+- *********************************************************************************/
-+-
-+-#ifndef _VLYNQ_HAL_H_
-+-#define _VLYNQ_HAL_H_
-+-
-+-/* Enable/Disable debug feature */
-+-#undef VLYNQ_DEBUG 
-+-
-+-#ifdef VLYNQ_DEBUG  /* This needs to be OS abstracted - for testing use vxworks/linux calls */
-+-#define debugPrint(format,args...)    
-+-#else 
-+-#define debugPrint(format,args...)  
-+-#endif
-+-
-+- /* number of VLYNQ memory regions supported */
-+-#define VLYNQ_MAX_MEMORY_REGIONS 0x04
-+-  
-+- /* Max.number of external interrupt inputs supported by VLYNQ module */
-+-#define VLYNQ_IVR_MAXIVR         0x08
-+-
-+-#define VLYNQ_CLK_DIV_MAX  0x08
-+-#define VLYNQ_CLK_DIV_MIN  0x01
-+-
-+-
-+-/*** the total number of entries allocated for ICB would be
-+- * 32(for 32 bits in IntPending register) + VLYNQ_IVR_CHAIN_SLOTS*/
-+-#define VLYNQ_IVR_CHAIN_SLOTS 10
-+-
-+-
-+-/* Error defines */
-+-#define VLYNQ_SUCCESS               0
-+-
-+-#define VLYNQ_ERRCODE_BASE          0 /* Chosen by system */
-+-#define VLYNQ_INVALID_ARG          -(VLYNQ_ERRCODE_BASE+1)
-+-#define VLYNQ_INVALID_DRV_STATE    -(VLYNQ_ERRCODE_BASE+2)
-+-#define VLYNQ_INT_CONFIG_ERR       -(VLYNQ_ERRCODE_BASE+3)
-+-#define VLYNQ_LINK_DOWN            -(VLYNQ_ERRCODE_BASE+4)
-+-#define VLYNQ_MEMALLOC_FAIL        -(VLYNQ_ERRCODE_BASE+5)
-+-#define VLYNQ_ISR_NON_EXISTENT     -(VLYNQ_ERRCODE_BASE+6)
-+-#define VLYNQ_INTVEC_MAP_NOT_FOUND -(VLYNQ_ERRCODE_BASE+7)
-+-
-+-/* Vlynq Defines and Macros */
-+-
-+-#define VLYNQ_NUM_INT_BITS              32 /* 32 bit interrupt staus register */
-+-
-+-/* Base address of module */
-+-#define VLYNQ_BASE                      (pdev->module_base)
-+-
-+-#define VLYNQ_REMOTE_REGS_OFFSET        0x0080
-+-
-+-#define VLYNQ_REV_OFFSET                0x0000
-+-#define VLYNQ_CTRL_OFFSET               0x0004
-+-#define VLYNQ_STATUS_OFFSET             0x0008
-+-#define VLYNQ_INT_STAT_OFFSET           0x0010
-+-#define VLYNQ_INT_PEND_OFFSET           0x0014
-+-#define VLYNQ_INT_PTR_OFFSET            0x0018
-+-#define VLYNQ_TXMAP_OFFSET              0x001c
-+-
-+-#define VLYNQ_RX0MAP_SIZE_REG_OFFSET    0x0020
-+-#define VLYNQ_RX0MAP_OFFSET_REG_OFFSET  0x0024
-+-
-+-#define VLYNQ_CHIP_VER_OFFSET           0x0040
-+-#define VLYNQ_IVR_REGS_OFFSET           0x0060
-+-
-+-#define VLYNQ_INT_PENDING_REG_PTR       0x14
-+-#define VLYNQ_R_INT_PENDING_REG_PTR     VLYNQ_REMOTE_REGS_OFFSET + 0x14
-+-
-+-#define VLYNQ_REV_REG       *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_REV_OFFSET))
-+-#define VLYNQ_CTRL_REG      *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_CTRL_OFFSET))
-+-#define VLYNQ_STATUS_REG    *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_STATUS_OFFSET))
-+-#define VLYNQ_INT_STAT_REG  *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_INT_STAT_OFFSET))
-+-#define VLYNQ_INT_PEND_REG  *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_INT_PEND_OFFSET))
-+-#define VLYNQ_INT_PTR_REG   *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_INT_PTR_OFFSET))
-+-#define VLYNQ_TXMAP_REG     *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_TXMAP_OFFSET))
-+-
-+-/** map takes on values between 1 to VLYNQ_MAX_MEMORY_REGIONS **/
-+-#define VLYNQ_RXMAP_SIZE_REG(map) \
-+-    *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_RX0MAP_SIZE_REG_OFFSET+( (map-1)<<3)))
-+-    
-+-/** map takes on values between 1 to VLYNQ_MAX_MEMORY_REGIONS **/
-+-#define VLYNQ_RXMAP_OFFSET_REG(map) \
-+-    *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_RX0MAP_OFFSET_REG_OFFSET+( (map-1)<<3)))
-+-
-+-#define VLYNQ_CHIP_VER_REG  *((volatile unsigned int *)(VLYNQ_BASE+VLYNQ_CHIP_VER_OFFSET))
-+-
-+-/* 0 =< ivr <= 31; currently ivr < VLYNQ_IVR_MAXIVR=8) */
-+-#define VLYNQ_IVR_OFFSET(ivr)  \
-+-    (VLYNQ_BASE + VLYNQ_IVR_REGS_OFFSET +((((unsigned)(ivr)) & 31) & ~3) )
-+-
-+-#define VLYNQ_IVR_03TO00_REG  *((volatile unsigned int*) (VLYNQ_IVR_OFFSET(0)) )
-+-#define VLYNQ_IVR_07TO04_REG  *((volatile unsigned int*) (VLYNQ_IVR_OFFSET(4)) )
-+-/*** Can be extended for 11TO08...31TO28 when all 31 are supported**/
-+-
-+-#define VLYNQ_IVR_INTEN(ivr)    (((unsigned int)(0x80)) << ((((unsigned)(ivr)) % 4) * 8))
-+-#define VLYNQ_IVR_INTTYPE(ivr)  (((unsigned int)(0x40)) << ((((unsigned)(ivr)) % 4) * 8))
-+-#define VLYNQ_IVR_INTPOL(ivr)   (((unsigned int)(0x20)) << ((((unsigned)(ivr)) % 4) * 8))
-+-#define VLYNQ_IVR_INTVEC(ivr)   (((unsigned int)(0x1F)) << ((((unsigned)(ivr)) % 4) * 8))
-+-#define VLYNQ_IVR_INTALL(ivr)   (((unsigned int)(0xFF)) << ((((unsigned)(ivr)) % 4) * 8))
-+-
-+-
-+-
-+-/*********************************
-+- * Remote VLYNQ register set     *
-+- *********************************/
-+-
-+-#define VLYNQ_R_REV_OFFSET              0x0080
-+-#define VLYNQ_R_CTRL_OFFSET             0x0084
-+-#define VLYNQ_R_STATUS_OFFSET           0x0088
-+-#define VLYNQ_R_INT_STAT_OFFSET         0x0090
-+-#define VLYNQ_R_INT_PEND_OFFSET         0x0094
-+-#define VLYNQ_R_INT_PTR_OFFSET          0x0098
-+-#define VLYNQ_R_TXMAP_OFFSET            0x009c
-+-
-+-#define VLYNQ_R_RX0MAP_SIZE_REG_OFFSET  0x00A0
-+-#define VLYNQ_R_RX0MAP_OFFSET_REG_OFFSET 0x00A4
-+-
-+-#define VLYNQ_R_CHIP_VER_OFFSET         0x00C0
-+-#define VLYNQ_R_IVR_REGS_OFFSET         0x00E0
-+-
-+-#define VLYNQ_R_REV_REG       *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_REV_OFFSET)) 
-+-#define VLYNQ_R_CTRL_REG      *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_CTRL_OFFSET))
-+-#define VLYNQ_R_STATUS_REG    *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_STATUS_OFFSET))
-+-#define VLYNQ_R_INT_STAT_REG  *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_INT_STAT_OFFSET))
-+-#define VLYNQ_R_INT_PEND_REG  *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_INT_PEND_OFFSET))
-+-#define VLYNQ_R_INT_PTR_REG   *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_INT_PTR_OFFSET))
-+-#define VLYNQ_R_TXMAP_REG     *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_TXMAP_OFFSET))
-+-
-+-/** map takes on values between 1 to VLYNQ_MAX_MEMORY_REGIONS **/
-+-#define VLYNQ_R_RXMAP_SIZE_REG(map) \
-+-    *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_RX0MAP_SIZE_REG_OFFSET + ((map-1)<<3)))
-+-    
-+-/** map takes on values between 1 to VLYNQ_MAX_MEMORY_REGIONS **/
-+-#define VLYNQ_R_RXMAP_OFFSET_REG(map) \
-+-    *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_RX0MAP_OFFSET_REG_OFFSET + ((map-1)<<3)))
-+-
-+-#define VLYNQ_R_CHIP_VER_REG  *((volatile unsigned int *)(VLYNQ_BASE + VLYNQ_R_CHIP_VER_OFFSET)
-+-
-+-#define VLYNQ_R_IVR_OFFSET(ivr)  \
-+-    (VLYNQ_BASE + VLYNQ_R_IVR_REGS_OFFSET +((((unsigned)(ivr)) & 31) & ~3))
-+- 
-+-
-+-/*** Can be extended for 11TO08...31TO28 when all 31 are supported**/
-+-#define VLYNQ_R_IVR_03TO00_REG  *((volatile unsigned int*) (VLYNQ_R_IVR_OFFSET(0)) )
-+-#define VLYNQ_R_IVR_07TO04_REG  *((volatile unsigned int*) (VLYNQ_R_IVR_OFFSET(4)) )
-+-
-+-
-+-/****End of remote register set definition******/
-+-
-+-
-+-/*** Masks for individual register fields ***/
-+-
-+-#define VLYNQ_MODULE_ID_MASK        0xffff0000
-+-#define VLYNQ_MAJOR_REV_MASK        0x0000ff00
-+-#define VLYNQ_MINOR_REV_MASK        0x000000ff
-+-
-+-    
-+-#define VLYNQ_CTL_ILOOP_MASK        0x00000002
-+-#define VLYNQ_CTL_INT2CFG_MASK      0x00000080
-+-#define VLYNQ_CTL_INTVEC_MASK       0x00001f00
-+-#define VLYNQ_CTL_INTEN_MASK        0x00002000
-+-#define VLYNQ_CTL_INTLOCAL_MASK     0x00004000
-+-#define VLYNQ_CTL_CLKDIR_MASK       0x00008000
-+-#define VLYNQ_CTL_CLKDIV_MASK       0x00070000
-+-#define VLYNQ_CTL_MODE_MASK         0x00e00000
-+-
-+-
-+-#define VLYNQ_STS_LINK_MASK         0x00000001  /* Link is active */
-+-#define VLYNQ_STS_MPEND_MASK        0x00000002  /* Pending master requests */
-+-#define VLYNQ_STS_SPEND_MASK        0x00000004  /* Pending slave requests */
-+-#define VLYNQ_STS_NFEMPTY0_MASK     0x00000008  /* Master data FIFO not empty */
-+-#define VLYNQ_STS_NFEMPTY1_MASK     0x00000010  /* Master command FIFO not empty */
-+-#define VLYNQ_STS_NFEMPTY2_MASK     0x00000020  /* Slave data FIFO not empty */
-+-#define VLYNQ_STS_NFEMPTY3_MASK     0x00000040  /* Slave command FIFO not empty */
-+-#define VLYNQ_STS_LERROR_MASK       0x00000080  /* Local error, w/c */
-+-#define VLYNQ_STS_RERROR_MASK       0x00000100  /* remote error w/c */
-+-#define VLYNQ_STS_OFLOW_MASK        0x00000200
-+-#define VLYNQ_STS_IFLOW_MASK        0x00000400
-+-#define VLYNQ_STS_MODESUP_MASK      0x00E00000  /* Highest mode supported */
-+-#define VLYNQ_STS_SWIDTH_MASK       0x07000000  /* Used for reading the width of VLYNQ bus */
-+-#define VLYNQ_STS_DEBUG_MASK        0xE0000000 
-+-
-+-#define VLYNQ_CTL_INTVEC_SHIFT      0x08
-+-#define VLYNQ_CTL_INTEN_SHIFT       0x0D
-+-#define VLYNQ_CTL_INT2CFG_SHIFT     0x07
-+-#define VLYNQ_CTL_INTLOCAL_SHIFT    0x0E
-+-
-+-#define VLYNQ_CTL_INTFIELDS_CLEAR_MASK  0x7F80
-+-
-+-#define VLYNQ_CHIPVER_DEVREV_MASK   0xffff0000
-+-#define VLYNQ_CHIPVER_DEVID_MASK    0x0000ffff
-+-
-+-#define VLYNQ_IVR_INTEN_MASK        0x80
-+-#define VLYNQ_IVR_INTTYPE_MASK      0x40
-+-#define VLYNQ_IVR_INTPOL_MASK       0x20
-+-
-+-
-+-/**** Helper macros ****/
-+-
-+-#define VLYNQ_RESETCB(arg) \
-+-   if( pdev->reset_cb != NULL)   \
-+-   {                             \
-+-      (pdev->reset_cb)(pdev, (arg));  \
-+-   }
-+-    
-+-#define VLYNQ_STATUS_FLD_WIDTH(sts) (((sts) & VLYNQ_STS_SWIDTH_MASK) >> 24 )
-+-#define VLYNQ_CTL_INTVEC(x)         (((x) & 31) << 8 )
-+-
-+-#define VLYNQ_INRANGE(x,hi,lo)      (((x) <= (hi)) && ((x) >= (lo)))
-+-#define VLYNQ_OUTRANGE(x,hi,lo)     (((x) > (hi)) || ((x) < (lo)))
-+-
-+-#define VLYNQ_ALIGN4(x)             (x)=(x)&(~3)   
-+-
-+-
-+-/*************************************
-+- *             Enums                 *
-+- *************************************/
-+-
-+-/* Initialization options define what operations are
-+- * undertaken during vlynq module initialization */
-+-typedef enum
-+-{
-+-    /* Init host local memory regions.This allows
-+-     * local host access remote memory regions */
-+-    VLYNQ_INIT_LOCAL_MEM_REGIONS = 0x01,
-+-    /* Init host remote memory regions.This allows
-+-     * remote device access local memory regions */
-+-    VLYNQ_INIT_REMOTE_MEM_REGIONS =0x02,
-+-    /* Init local interrupt config*/
-+-    VLYNQ_INIT_LOCAL_INTERRUPTS   =0x04,
-+-    /* Init remote interrupt config*/
-+-    VLYNQ_INIT_REMOTE_INTERRUPTS  =0x08,
-+-    /* Check link during initialization*/
-+-    VLYNQ_INIT_CHECK_LINK         =0x10,
-+-    /* configure clock during init */
-+-    VLYNQ_INIT_CONFIG_CLOCK       =0x20,
-+-    /* Clear errors during init */    
-+-    VLYNQ_INIT_CLEAR_ERRORS       =0x40,
-+-    /* All options */
-+-    VLYNQ_INIT_PERFORM_ALL        =0x7F
-+-}VLYNQ_INIT_OPTIONS;
-+-
-+-
-+-/* VLYNQ_DEV_TYPE identifies local or remote device */
-+-typedef enum
-+-{
-+-    VLYNQ_LOCAL_DVC  = 0,           /* vlynq local device (SOC's vlynq module) */
-+-    VLYNQ_REMOTE_DVC = 1            /* vlynq remote device (remote vlynq module) */
-+-}VLYNQ_DEV_TYPE;
-+-
-+-
-+-/* VLYNQ_CLK_SOURCE identifies the vlynq module clock source */
-+-typedef enum
-+-{
-+-    VLYNQ_CLK_SOURCE_NONE   = 0,    /* do not initialize clock generator*/
-+-    VLYNQ_CLK_SOURCE_LOCAL  = 1,    /* clock is generated by local machine  */
-+-    VLYNQ_CLK_SOURCE_REMOTE = 2     /* clock is generated by remote machine */
-+-}VLYNQ_CLK_SOURCE;
-+-
-+-
-+-/* VLYNQ_DRV_STATE indicates the current driver state */
-+-typedef enum
-+-{
-+-    VLYNQ_DRV_STATE_UNINIT = 0,     /* driver is uninitialized  */
-+-    VLYNQ_DRV_STATE_ININIT = 1,     /* VLYNQ is being initialized */
-+-    VLYNQ_DRV_STATE_RUN    = 2,     /* VLYNQ is running properly  */
-+-    VLYNQ_DRV_STATE_HOLD   = 3,     /* driver stopped temporarily */
-+-    VLYNQ_DRV_STATE_ERROR  = 4      /* driver stopped on unrecoverable error */
-+-}VLYNQ_DRV_STATE;
-+-
-+-
-+-/* VLYNQ_BUS_WIDTH identifies the vlynq module bus width */
-+-typedef enum
-+-{
-+-   VLYNQ_BUS_WIDTH_3 =  3,
-+-   VLYNQ_BUS_WIDTH_5 =  5,
-+-   VLYNQ_BUS_WIDTH_7 =  7,
-+-   VLYNQ_BUS_WIDTH_9 =  9
-+-}VLYNQ_BUS_WIDTH;
-+-
-+-
-+-/* VLYNQ_LOCAL_INT_CONFIG indicates whether the local vlynq 
-+- * interrupts are processed by the host or passed on to the 
-+- * remote device.
-+- */
-+-typedef enum
-+-{
-+-    VLYNQ_INT_REMOTE = 0,   /* Interrupt packets sent to remote, intlocal=0 */
-+-    VLYNQ_INT_LOCAL  = 1    /* Interrupts are handled locally, intlocal=1 */
-+-}VLYNQ_LOCAL_INT_CONFIG;        
-+-
-+-
-+-/* VLYNQ_REMOTE_INT_CONFIG indicates whether the remote 
-+- * interrupts are to be handled by the SOC system ISR 
-+- * or via the vlynq root ISR
-+- */
-+-typedef enum 
-+-{
-+-    VLYNQ_INT_ROOT_ISR   = 0,   /* remote ints handled via vlynq root ISR */
-+-    VLYNQ_INT_SYSTEM_ISR = 1    /* remote ints handled via system ISR */
-+-}VLYNQ_REMOTE_INT_CONFIG;
-+-
-+-
-+-/* VLYNQ_INTR_POLARITY - vlynq interrupt polarity setting */
-+-typedef enum
-+-{
-+-    VLYNQ_INTR_ACTIVE_HIGH = 0,
-+-    VLYNQ_INTR_ACTIVE_LOW  = 1
-+-}VLYNQ_INTR_POLARITY;
-+-
-+-
-+-/* VLYNQ_INTR_TYPE  - vlynq interrupt type */
-+-typedef enum
-+-{
-+-    VLYNQ_INTR_LEVEL  = 0,
-+-    VLYNQ_INTR_PULSED = 1
-+-}VLYNQ_INTR_TYPE;
-+-
-+-
-+-/* VLYNQ_RESET_MODE - vlynq reset mode */
-+-typedef enum
-+-{
-+-   VLYNQ_RESET_ASSERT,      /* hold device in reset state */
-+-   VLYNQ_RESET_DEASSERT,    /* release device from reset state */
-+-   VLYNQ_RESET_INITFAIL,    /* handle the device in case driver initialization fails */
-+-   VLYNQ_RESET_LINKESTABLISH,  /* handle the device in case driver established link */
-+-   VLYNQ_RESET_INITFAIL2,   /* Driver initialization failed but VLYNQ link exist. */
-+-   VLYNQ_RESET_INITOK       /* Driver initialization finished OK. */
-+-}VLYNQ_RESET_MODE;
-+- 
-+-
-+-
-+-/*************************************
-+- *             Typedefs              *
-+- *************************************/
-+-
-+-struct VLYNQ_DEV_t; /*forward declaration*/
-+-
-+-/*--------Function Pointers defintions -----------*/
-+-
-+-/* prototype for interrupt handler definition */
-+-typedef void (*VLYNQ_INTR_CNTRL_ISR)(void *arg1,void *arg2,void *arg3);
-+-
-+-typedef void 
-+-(*VLYNQ_RESET_REMOTE)(struct VLYNQ_DEV_t *pDev, VLYNQ_RESET_MODE mode);
-+-
-+-typedef void 
-+-(*VLYNQ_REPORT_CB)( struct VLYNQ_DEV_t *pDev,   /* This VLYNQ */
-+-                    VLYNQ_DEV_TYPE  aSrcDvc,    /* Event Cause -local/remote? */
-+-                    unsigned int  dwStatRegVal);      /* Value of the relevant status register */
-+-
-+-
-+-/*-------Structure Definitions------------*/
-+-
-+-typedef struct VLYNQ_MEMORY_MAP_t
-+-{
-+-    unsigned int Txmap;
-+-    unsigned int RxOffset[VLYNQ_MAX_MEMORY_REGIONS];
-+-    unsigned int RxSize[VLYNQ_MAX_MEMORY_REGIONS];
-+-}VLYNQ_MEMORY_MAP;
-+-
-+-
-+-/**VLYNQ_INTERRUPT_CNTRL - defines the vlynq module interrupt
-+- * settings in vlynq Control register  */ 
-+-typedef struct VLYNQ_INTERRUPT_CNTRL_t
-+-{
-+-    /* vlynq interrupts handled by host or remote - maps to 
-+-     * intLocal bit in vlynq control register */
-+-    VLYNQ_LOCAL_INT_CONFIG intLocal;
-+-
-+-    /* remote interrupts handled by vlynq isr or host system
-+-     * interrupt controller - maps to the int2Cfg in vlynq 
-+-     * control register */
-+-    VLYNQ_REMOTE_INT_CONFIG intRemote;
-+-    
-+-    /* bit in pending/set register used for module interrupts*/
-+-    unsigned int map_vector;
-+-    
-+-    /* used only if remote interrupts are to be handled by system ISR*/    
-+-    unsigned int intr_ptr;
-+-
-+-}VLYNQ_INTERRUPT_CNTRL;
-+-
-+-
-+-/* VLYNQ_INTR_CNTRL_ICB - defines the Interrupt control block which hold
-+- * the interrupt dispatch table. The vlynq_root_isr() indexes into this 
-+- * table to identify the ISR to be invoked
-+- */
-+-typedef struct VLYNQ_INTR_CNTRL_ICB_t
-+-{
-+-    VLYNQ_INTR_CNTRL_ISR            isr;    /* Clear errors during initialization */
-+-    void                            *arg1 ; /* Arg 1 for the ISR */
-+-    void                            *arg2 ; /* Arg 2 for the ISR */
-+-    void                            *arg3 ; /* Arg 3 for the ISR */
-+-    unsigned int  isrCount; /* number of ISR invocations so far */
-+-    struct VLYNQ_INTR_CNTRL_ICB_t   *next;
-+-}VLYNQ_INTR_CNTRL_ICB;
-+-
-+-/* overlay of vlynq register set */
-+-typedef struct VLYNQ_REG_SET_t
-+-{
-+-    unsigned int revision; /*offset : 0x00 */
-+-    unsigned int control;  /* 0x04*/
-+-    unsigned int status;   /* 0x08*/
-+-    unsigned int pad1;     /* 0x0c*/
-+-    unsigned int intStatus;   /*0x10*/
-+-    unsigned int intPending;  /*0x14*/
-+-    unsigned int intPtr;      /*0x18*/
-+-    unsigned int txMap;       /*0x1C*/ 
-+-    unsigned int rxSize1;     /*0x20*/
-+-    unsigned int rxOffset1;   /*0x24*/
-+-    unsigned int rxSize2;     /*0x28*/
-+-    unsigned int rxOffset2;   /*0x2C*/
-+-    unsigned int rxSize3;     /*0x30*/
-+-    unsigned int rxOffset3;   /*0x34*/
-+-    unsigned int rxSize4;     /*0x38*/
-+-    unsigned int rxOffset4;   /*0x3C*/
-+-    unsigned int chipVersion; /*0x40*/
-+-    unsigned int pad2[8];
-+-    unsigned int ivr30;       /*0x60*/
-+-    unsigned int ivr74;       /*0x64*/
-+-    unsigned int pad3[7];
-+-}VLYNQ_REG_SET;
-+-    
-+-
-+-typedef struct VLYNQ_DEV_t
-+-{
-+-    /** module index:1,2,3... used for debugging purposes */
-+-    unsigned int dev_idx; 
-+-    
-+-    /*VLYNQ module base address */
-+-    unsigned int module_base;
-+-   
-+-    /* clock source selection */
-+-    VLYNQ_CLK_SOURCE clk_source;
-+-   
-+-    /* Clock Divider.Val=1 to 8. VLYNQ_clk = VBUSCLK/clk_div */
-+-    unsigned int  clk_div;
-+-   
-+-    /* State of the VLYNQ driver, set to VLYNQ_DRV_STATE_UNINIT, when initializing */
-+-    VLYNQ_DRV_STATE state;
-+-   
-+-    /* Valid VLYNQ bus width, filled by driver  */
-+-    VLYNQ_BUS_WIDTH width;
-+-   
-+-    /* local memory mapping   */
-+-    VLYNQ_MEMORY_MAP local_mem;
-+-   
-+-    /* remote memory mapping   */
-+-    VLYNQ_MEMORY_MAP remote_mem;
-+-   
-+-    /* Local module interrupt params */
-+-    VLYNQ_INTERRUPT_CNTRL  local_irq;
-+-   
-+-    /* remote module interrupt params */
-+-    VLYNQ_INTERRUPT_CNTRL  remote_irq;
-+-
-+-    /*** ICB related fields **/
-+-   
-+-    /* Sizeof of ICB = VLYNQ_NUM_INT_BITS(for 32 bits in IntPending) + 
-+-     * expansion slots for shared interrupts*/
-+-    VLYNQ_INTR_CNTRL_ICB  pIntrCB[VLYNQ_NUM_INT_BITS + VLYNQ_IVR_CHAIN_SLOTS];
-+-    VLYNQ_INTR_CNTRL_ICB  *freelist;
-+-   
-+-   /* table holding mapping between intVector and the bit position the interrupt
-+-    * is mapped to(mapVector)*/
-+-    char vector_map[32];
-+-   
-+-    /* user callback for vlynq events, NULL if unused */
-+-    VLYNQ_REPORT_CB        report_cb;    
-+-    
-+-   /* user callback for resetting/realeasing remote device */
-+-    VLYNQ_RESET_REMOTE     reset_cb;
-+-
-+-    /*** Handles provided for direct access to register set if need be
-+-     * Must be intialized to point to appropriate address during 
-+-     * vlynq_init */
-+-    volatile VLYNQ_REG_SET * local;
-+-    volatile VLYNQ_REG_SET * remote;
-+-
-+-    unsigned int  intCount; /* number of interrupts generated so far */
-+-    unsigned int  isrCount; /* number of ISR invocations so far */
-+-}VLYNQ_DEV;
-+-
-+-
-+-typedef struct VLYNQ_ISR_ARGS_t
-+-{
-+-    int irq;
-+-    void * arg;
-+-    void * regset;
-+-}VLYNQ_ISR_ARGS;
-+-
-+-
-+-/****************************************
-+- *        Function Prototypes           *
-+- * API exported by generic vlynq driver *
-+- ****************************************/
-+-/* Initialization function */ 
-+-int vlynq_init( VLYNQ_DEV *pdev, VLYNQ_INIT_OPTIONS options);
-+-
-+-/* Check vlynq link */
-+-unsigned int vlynq_link_check( VLYNQ_DEV * pdev);
-+-
-+-/* Set interrupt vector in local or remote device */
-+-int vlynq_interrupt_vector_set( VLYNQ_DEV *pdev, 
-+-                                         unsigned int int_vector,
-+-                                         unsigned int map_vector, 
-+-                                         VLYNQ_DEV_TYPE dev,
-+-                                         VLYNQ_INTR_POLARITY pol,
-+-                                         VLYNQ_INTR_TYPE type);
-+-
-+-
-+-int vlynq_interrupt_vector_cntl( VLYNQ_DEV *pdev,
-+-                                          unsigned int int_vector,
-+-                                          VLYNQ_DEV_TYPE dev,
-+-                                          unsigned int enable);
-+-
-+-unsigned int vlynq_interrupt_get_count( VLYNQ_DEV *pdev,
-+-                                         unsigned int map_vector);
-+-
-+-int vlynq_install_isr( VLYNQ_DEV *pdev,
-+-                                unsigned int map_vector,
-+-                                VLYNQ_INTR_CNTRL_ISR isr,
-+-                                void *arg1, void *arg2, void *arg3);
-+-
-+-int vlynq_uninstall_isr( VLYNQ_DEV *pdev,
-+-                                  unsigned int map_vector,
-+-                                  void *arg1, void *arg2, void *arg3);
-+-
-+-
-+-void vlynq_root_isr(void *arg);
-+-
-+-void vlynq_delay(unsigned int clktime);
-+-
-+-/* The following functions, provide better granularity in setting
-+- * interrupt parameters. (for better support of linux INT Controller)
-+- * Note: The interrupt source is identified by "map_vector"- the bit 
-+- * position in interrupt status register*/
-+-
-+-int vlynq_interrupt_vector_map(VLYNQ_DEV * pdev,
-+-                                        VLYNQ_DEV_TYPE dev,
-+-                                        unsigned int int_vector,
-+-                                        unsigned int map_vector);
-+-
-+-int vlynq_interrupt_set_polarity(VLYNQ_DEV * pdev,
-+-                                          VLYNQ_DEV_TYPE dev,
-+-                                          unsigned int map_vector,
-+-                                          VLYNQ_INTR_POLARITY pol);
-+-
-+-int vlynq_interrupt_get_polarity( VLYNQ_DEV *pdev ,
-+-                                           VLYNQ_DEV_TYPE dev_type,
-+-                                           unsigned int map_vector);
-+-
-+-int vlynq_interrupt_set_type(VLYNQ_DEV * pdev,
-+-                                      VLYNQ_DEV_TYPE dev,
-+-                                      unsigned int map_vector,
-+-                                      VLYNQ_INTR_TYPE type);
-+-
-+-int vlynq_interrupt_get_type( VLYNQ_DEV *pdev, 
-+-                                       VLYNQ_DEV_TYPE dev_type,
-+-                                       unsigned int map_vector);
-+-
-+-int vlynq_interrupt_enable(VLYNQ_DEV* pdev,
-+-                                    VLYNQ_DEV_TYPE dev,
-+-                                    unsigned int map_vector);
-+-
-+-int vlynq_interrupt_disable(VLYNQ_DEV * pdev,
-+-                                     VLYNQ_DEV_TYPE dev,
-+-                                     unsigned int map_vector);
-+-                 
-+-
-+-              
-+-        
-+-
-+-#endif /* _VLYNQ_HAL_H_ */
 +diff -urN linux-2.4.32/include/asm-mips/ar7/vlynq_hal.h linux-2.4.32.new/include/asm-mips/ar7/vlynq_hal.h
 +--- linux-2.4.32/include/asm-mips/ar7/vlynq_hal.h	2005-12-29 11:23:32.000000000 +0100
 ++++ linux-2.4.32.new/include/asm-mips/ar7/vlynq_hal.h	2005-12-27 21:44:16.000000000 +0100
@@ -7348,679 +7998,43 @@ Index: target/linux/linux-2.4/patches/ar7/011-sinus.patch
 + 		return -E2BIG;
 + 	}
 + #endif	/* WE_STRICT_WRITE */
-Index: target/linux/image/ar7/src/gzip.h
+Index: target/linux/ar7-2.4/Makefile
 ===================================================================
---- target/linux/image/ar7/src/gzip.h	(Revision 2793)
-+++ target/linux/image/ar7/src/gzip.h	(Arbeitskopie)
-@@ -14,25 +14,12 @@
- typedef unsigned long  ulg;
+--- target/linux/ar7-2.4/Makefile	(Revision 2984)
++++ target/linux/ar7-2.4/Makefile	(Arbeitskopie)
+@@ -11,13 +11,13 @@
+ ATM_FIRMWARE_DIR=sangam-atm-firmware-$(ATM_FIRMWARE_VERSION)
  
+ $(eval $(call KMOD_template,SANGAM_ATM_A,sangam-atm-annex-a,\
+-	$(MODULES_DIR)/kernel/drivers/atm/tiatm.o \
++	$(MODULES_DIR)/kernel/drivers/atm/sangam_atm/tiatm.o \
+ ,CONFIG_MIPS_SANGAM_ATM,kmod-atm,60,tiatm, \
+ 	cp $(BUILD_DIR)/$(ATM_FIRMWARE_DIR)/ar0700xx_a.bin $$(I_SANGAM_ATM_A)/lib/modules/ar0700xx.bin \
+ ))
  
--static char *output_data;
--static ulg output_ptr;
--
- #ifndef NULL
- #define NULL 0
- #endif
- 
- #define NOMEMCPY                /* Does routine memcpy exist? */
- 
--//bvb static uch *inbuf;		/* input buffer */
--static uch *window;
--
--//bvb static uch outwin[WSIZE];
--
--//bvb static unsigned insize;		/* valid bytes in inbuf */
--static unsigned inptr;		/* index of next byte to process in inbuf */
--
--static unsigned outcnt;		/* bytes in output buffer */
--
- /* gzip flag byte */
- #define ASCII_FLAG   0x01 /* bit 0 set: file probably ascii text */
- #define CONTINUATION 0x02 /* bit 1 set: continuation of multi-part gzip file */
-@@ -46,6 +33,3 @@
- #define BMAX 16         /* maximum bit length of any code (16 for explode) */
- #define N_MAX 288       /* maximum number of codes in any set */
- 
--static char *input_data;
--
--static void *freememstart;
-Index: target/linux/image/ar7/src/uart16550.h
+ $(eval $(call KMOD_template,SANGAM_ATM_B,sangam-atm-annex-b,\
+-	$(MODULES_DIR)/kernel/drivers/atm/tiatm.o \
++	$(MODULES_DIR)/kernel/drivers/atm/sangam_atm/tiatm.o \
+ ,CONFIG_MIPS_SANGAM_ATM,kmod-atm,60,tiatm, \
+ 	cp $(BUILD_DIR)/$(ATM_FIRMWARE_DIR)/ar0700xx_b.bin $$(I_SANGAM_ATM_B)/lib/modules/ar0700xx.bin \
+ ))
+Index: target/Config.in
 ===================================================================
---- target/linux/image/ar7/src/uart16550.h	(Revision 0)
-+++ target/linux/image/ar7/src/uart16550.h	(Revision 0)
-@@ -0,0 +1,48 @@
-+/*
-+ * Copyright (C) 2001 MontaVista Software Inc.
-+ * Author: Jun Sun, jsun@mvista.com or jsun@junsun.net
-+ *
-+ * This program is free software; you can redistribute  it and/or modify it
-+ * under  the terms of  the GNU General  Public License as published by the
-+ * Free Software Foundation;  either version 2 of the  License, or (at your
-+ * option) any later version.
-+ *
-+ */
-+
-+#ifndef _uart16550_h_
-+#define _uart16550_h_
-+
-+typedef         unsigned char uint8;
-+typedef         unsigned int  uint32;
-+
-+#define         UART16550_BAUD_2400             2400
-+#define         UART16550_BAUD_4800             4800
-+#define         UART16550_BAUD_9600             9600
-+#define         UART16550_BAUD_19200            19200
-+#define         UART16550_BAUD_38400            38400
-+#define         UART16550_BAUD_57600            57600
-+#define         UART16550_BAUD_115200           115200
-+
-+#define         UART16550_PARITY_NONE           0
-+#define         UART16550_PARITY_ODD            0x08
-+#define         UART16550_PARITY_EVEN           0x18
-+#define         UART16550_PARITY_MARK           0x28
-+#define         UART16550_PARITY_SPACE          0x38
-+
-+#define         UART16550_DATA_5BIT             0x0
-+#define         UART16550_DATA_6BIT             0x1
-+#define         UART16550_DATA_7BIT             0x2
-+#define         UART16550_DATA_8BIT             0x3
-+
-+#define         UART16550_STOP_1BIT             0x0
-+#define         UART16550_STOP_2BIT             0x4
-+
-+void Uart16550Init(uint32 baud, uint8 data, uint8 parity, uint8 stop);
-+
-+/* blocking call */
-+uint8 Uart16550GetPoll(void);
-+
-+void Uart16550Put(uint8 byte);
-+void Uart16550Puts(const char *string);
-+
-+#endif
-Index: target/linux/image/ar7/src/entry.c
-===================================================================
---- target/linux/image/ar7/src/entry.c	(Revision 0)
-+++ target/linux/image/ar7/src/entry.c	(Revision 0)
-@@ -0,0 +1,18 @@
-+#include "loader.h"
-+
-+#if defined(CONFIG_MIPS_SINUS154)
-+static const char *Argv[] = {
-+	"xxx",
-+	0
-+};
-+#endif
-+
-+// tikernelunzip is the entry point and must be the only function here!
-+int tikernelunzip(int argc, const char *argv[], const char *arge[])
-+{
-+#if defined(CONFIG_MIPS_SINUS154)
-+	argc = 1;
-+	argv = Argv;
-+#endif
-+	return tikernelunzip2(argc, argv, arge);
-+}
-Index: target/linux/image/ar7/src/loader.c
-===================================================================
---- target/linux/image/ar7/src/loader.c	(Revision 2793)
-+++ target/linux/image/ar7/src/loader.c	(Arbeitskopie)
-@@ -15,24 +15,46 @@
- #include <linux/config.h>
- #include "gzip.h"
- #include "LzmaDecode.h"
-+#include "loader.h"
-+#if defined(NO_FIRMWARE)
-+#include "uart16550.h"
-+#endif
- 
- /* Function prototypes */
--unsigned char get_byte(void);
--int tikernelunzip(int,char *[], char *[]);
- static int tidecompress(uch *, uch *);
-+#if defined(DEBUG)
-+static void print_i(int i);
-+#endif
-+static void print_s(const char *ptr);
-+#define printf(s) print_s(s)
- 
--void kernel_entry(int, char *[], char *[]);
--void (*ke)(int, char *[], char *[]); /* Gen reference to kernel function */
--void (*prnt)(unsigned int, char *);		/* Gen reference to Yamon print function */
--void printf(char *ptr);			/* Generate our own printf */
-+extern void kernel_entry(int, char *[], char *[]);
-+extern unsigned int workspace;
-+extern unsigned char kernelimage[], kernelimage_end[];
- 
--int tikernelunzip(int argc, char *argv[], char *arge[])
-+static unsigned char *input_data;
-+
-+static inline unsigned char get_byte(void)
- {
--	extern unsigned int _ftext;
--	extern uch kernelimage[];
-+	unsigned char c;
-+	
-+	c = *input_data;
-+	input_data++;
-+
-+	return c;
-+}
-+
-+int tikernelunzip2(int argc, const char *argv[], const char *arge[])
-+{
- 	uch *in, *out;
- 	int status;
- 
-+#if defined(DEBUG)
-+	printf("argc = "); print_i(argc); printf("\n");
-+	printf("argv = "); print_i((int)argv); printf("\n");
-+	printf("arge = "); print_i((int)arge); printf("\n");
-+#endif
-+	
- 	printf("Launching kernel decompressor.\n");
- 
- 	out = (unsigned char *) LOADADDR;
-@@ -41,11 +63,11 @@
- 	status = tidecompress(in, out);
- 
- 	if (status == 0) {
-+		/* Gen reference to kernel function */
-+		void (*ke)(int, const char *[], const char *[]) =
-+			(void(*)(int, const char *[], const char*[]))kernel_entry;
- 		printf("Kernel decompressor was successful ... launching kernel.\n");
--
--		ke = ( void(*)(int, char *[],char*[]))kernel_entry;
- 		(*ke)(argc,argv,arge);
--
- 		return (0);
- 	} else {
- 		printf("Error in decompression.\n");
-@@ -53,9 +75,9 @@
- 	}
- }
- 
--#if 0
--char hex[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
--void print_i(int i)
-+#if defined(DEBUG)
-+static const char hex[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
-+static void print_i(int i)
- {
- 	int j;
- 	char buf[11];
-@@ -63,7 +85,7 @@
- 	buf[0] = '0';
- 	buf[1] = 'x';
- 	buf[10] = 0;
--	
-+
- 	for (j = 0; j < 8; j++)
- 	{
- 		buf[2 + 7 - j] = hex[i & 0xf];
-@@ -74,10 +96,8 @@
- }
- #endif
- 
--int tidecompress(uch *indata, uch *outdata)
-+static int tidecompress(uch *indata, uch *outdata)
- {
--	extern unsigned int workspace;
--	extern unsigned char kernelimage[], kernelimage_end[];
- 	unsigned int i;  /* temp value */
- 	unsigned int lc; /* literal context bits */
- 	unsigned int lp; /* literal pos state bits */
-@@ -87,8 +107,6 @@
- 	unsigned int insize = kernelimage_end - kernelimage;
- 	int status;
- 	
--	output_ptr = 0;
--	output_data = outdata;
- 	input_data = indata;
- 
- 	/* lzma args */
-@@ -114,27 +132,25 @@
- 	wsize = (LZMA_BASE_SIZE + (LZMA_LIT_SIZE << (lc + lp))) * sizeof(CProb);
- 
- 	if ((status = LzmaDecode((unsigned char *) &workspace, wsize, lc, lp, pb,
--		indata + 13, insize - 13, (unsigned char *) output_data, osize, &i)) == LZMA_RESULT_OK)
-+		indata + 13, insize - 13, outdata, osize, &i)) == LZMA_RESULT_OK)
- 			return 0;
- 
- 	return status;
- }
- 
--
--void printf(char *ptr)
-+static void print_s(const char *ptr)
- {
-+#if defined(NO_FIRMWARE)
-+	while (*ptr) {
-+		if (*ptr == '\n') {
-+			Uart16550Put('\r');
-+		}
-+		Uart16550Put(*ptr);
-+		ptr++;
-+	}
-+#else
- 	unsigned int *tempptr = (unsigned int  *)0x90000534;
- 	prnt = ( void (*)(unsigned int, char *)) *tempptr;
- 	(*prnt)(0,ptr);
-+#endif
- }
--
--unsigned char get_byte()
--{
--	unsigned char c;
--	
--	c = *input_data;
--	input_data++;
--
--	return c;
--}
--
-Index: target/linux/image/ar7/src/LzmaDecode.c
-===================================================================
---- target/linux/image/ar7/src/LzmaDecode.c	(Revision 2793)
-+++ target/linux/image/ar7/src/LzmaDecode.c	(Arbeitskopie)
-@@ -45,7 +45,7 @@
-   int ExtraBytes;
- } CRangeDecoder;
- 
--Byte RangeDecoderReadByte(CRangeDecoder *rd)
-+static Byte RangeDecoderReadByte(CRangeDecoder *rd)
- {
-   if (rd->Buffer == rd->BufferLim)
-   {
-@@ -66,7 +66,7 @@
- /* #define ReadByte (*rd->Buffer++) */
- #define ReadByte (RangeDecoderReadByte(rd))
- 
--void RangeDecoderInit(CRangeDecoder *rd,
-+static void RangeDecoderInit(CRangeDecoder *rd,
-   #ifdef _LZMA_IN_CB
-     ILzmaInCallback *inCallback
-   #else
-@@ -93,7 +93,7 @@
- #define RC_FLUSH_VAR rd->Range = range; rd->Code = code;
- #define RC_NORMALIZE if (range < kTopValue) { range <<= 8; code = (code << 8) | ReadByte; }
- 
--UInt32 RangeDecoderDecodeDirectBits(CRangeDecoder *rd, int numTotalBits)
-+static UInt32 RangeDecoderDecodeDirectBits(CRangeDecoder *rd, int numTotalBits)
- {
-   RC_INIT_VAR
-   UInt32 result = 0;
-@@ -121,7 +121,7 @@
-   return result;
- }
- 
--int RangeDecoderBitDecode(CProb *prob, CRangeDecoder *rd)
-+static int RangeDecoderBitDecode(CProb *prob, CRangeDecoder *rd)
- {
-   UInt32 bound = (rd->Range >> kNumBitModelTotalBits) * *prob;
-   if (rd->Code < bound)
-@@ -159,7 +159,7 @@
- 
- #define RC_GET_BIT(prob, mi) RC_GET_BIT2(prob, mi, ; , ;)               
- 
--int RangeDecoderBitTreeDecode(CProb *probs, int numLevels, CRangeDecoder *rd)
-+static int RangeDecoderBitTreeDecode(CProb *probs, int numLevels, CRangeDecoder *rd)
- {
-   int mi = 1;
-   int i;
-@@ -181,7 +181,7 @@
-   return mi - (1 << numLevels);
- }
- 
--int RangeDecoderReverseBitTreeDecode(CProb *probs, int numLevels, CRangeDecoder *rd)
-+static int RangeDecoderReverseBitTreeDecode(CProb *probs, int numLevels, CRangeDecoder *rd)
- {
-   int mi = 1;
-   int i;
-@@ -206,7 +206,7 @@
-   return symbol;
- }
- 
--Byte LzmaLiteralDecode(CProb *probs, CRangeDecoder *rd)
-+static Byte LzmaLiteralDecode(CProb *probs, CRangeDecoder *rd)
- { 
-   int symbol = 1;
-   #ifdef _LZMA_LOC_OPT
-@@ -228,7 +228,7 @@
-   return symbol;
- }
- 
--Byte LzmaLiteralDecodeMatch(CProb *probs, CRangeDecoder *rd, Byte matchByte)
-+static Byte LzmaLiteralDecodeMatch(CProb *probs, CRangeDecoder *rd, Byte matchByte)
- { 
-   int symbol = 1;
-   #ifdef _LZMA_LOC_OPT
-@@ -286,7 +286,7 @@
- #define LenHigh (LenMid + (kNumPosStatesMax << kLenNumMidBits))
- #define kNumLenProbs (LenHigh + kLenNumHighSymbols) 
- 
--int LzmaLenDecode(CProb *p, CRangeDecoder *rd, int posState)
-+static int LzmaLenDecode(CProb *p, CRangeDecoder *rd, int posState)
- {
-   if(RangeDecoderBitDecode(p + LenChoice, rd) == 0)
-     return RangeDecoderBitTreeDecode(p + LenLow +
-Index: target/linux/image/ar7/src/loader.h
-===================================================================
---- target/linux/image/ar7/src/loader.h	(Revision 0)
-+++ target/linux/image/ar7/src/loader.h	(Revision 0)
-@@ -0,0 +1,4 @@
-+// tikernelunzip is the entry point (first function) of the boot loader.
-+int tikernelunzip(int argc, const char *argv[], const char *arge[]);
-+
-+int tikernelunzip2(int argc, const char *argv[], const char *arge[]);
-Index: target/linux/image/ar7/src/uart16550.c
-===================================================================
---- target/linux/image/ar7/src/uart16550.c	(Revision 0)
-+++ target/linux/image/ar7/src/uart16550.c	(Revision 0)
-@@ -0,0 +1,96 @@
-+/*
-+ * Copyright (C) 2001 MontaVista Software Inc.
-+ * Author: Jun Sun, jsun@mvista.com or jsun@junsun.net
-+ *
-+ * This program is free software; you can redistribute  it and/or modify it
-+ * under  the terms of  the GNU General  Public License as published by the
-+ * Free Software Foundation;  either version 2 of the  License, or (at your
-+ * option) any later version.
-+ *
-+ */
-+
-+
-+#include "uart16550.h"
-+
-+/* === CONFIG === */
-+
-+#define         BASE                   	0xa8610E00
-+#define         MAX_BAUD                1152000
-+#define		REG_OFFSET		4
-+
-+/* === END OF CONFIG === */
-+
-+/* register offset */
-+#define         OFS_RCV_BUFFER          (0*REG_OFFSET)
-+#define         OFS_TRANS_HOLD          (0*REG_OFFSET)
-+#define         OFS_SEND_BUFFER         (0*REG_OFFSET)
-+#define         OFS_INTR_ENABLE         (1*REG_OFFSET)
-+#define         OFS_INTR_ID             (2*REG_OFFSET)
-+#define         OFS_DATA_FORMAT         (3*REG_OFFSET)
-+#define         OFS_LINE_CONTROL        (3*REG_OFFSET)
-+#define         OFS_MODEM_CONTROL       (4*REG_OFFSET)
-+#define         OFS_RS232_OUTPUT        (4*REG_OFFSET)
-+#define         OFS_LINE_STATUS         (5*REG_OFFSET)
-+#define         OFS_MODEM_STATUS        (6*REG_OFFSET)
-+#define         OFS_RS232_INPUT         (6*REG_OFFSET)
-+#define         OFS_SCRATCH_PAD         (7*REG_OFFSET)
-+
-+#define         OFS_DIVISOR_LSB         (0*REG_OFFSET)
-+#define         OFS_DIVISOR_MSB         (1*REG_OFFSET)
-+
-+
-+/* memory-mapped read/write of the port */
-+#define         UART16550_READ(y)    (*((volatile uint8*)(BASE + y)))
-+#define         UART16550_WRITE(y, z)  ((*((volatile uint8*)(BASE + y))) = z)
-+
-+#define DEBUG_LED (*(unsigned short*)0xb7ffffc0)
-+#define OutputLED(x)  (DEBUG_LED = x)
-+
-+void Uart16550Init(uint32 baud, uint8 data, uint8 parity, uint8 stop)
-+{
-+    /* disable interrupts */
-+    UART16550_WRITE(OFS_INTR_ENABLE, 0);
-+
-+    /* set up baud rate */
-+    { 
-+        uint32 divisor;
-+       
-+        /* set DIAB bit */
-+        UART16550_WRITE(OFS_LINE_CONTROL, 0x80);
-+        
-+        /* set divisor */
-+        divisor = MAX_BAUD / baud;
-+        UART16550_WRITE(OFS_DIVISOR_LSB, divisor & 0xff);
-+        UART16550_WRITE(OFS_DIVISOR_MSB, (divisor & 0xff00)>>8);
-+
-+        /* clear DIAB bit */
-+        UART16550_WRITE(OFS_LINE_CONTROL, 0x0);
-+    }
-+
-+    /* set data format */
-+    UART16550_WRITE(OFS_DATA_FORMAT, data | parity | stop);
-+}
-+
-+uint8 Uart16550GetPoll()
-+{
-+    while((UART16550_READ(OFS_LINE_STATUS) & 0x1) == 0);
-+    return UART16550_READ(OFS_RCV_BUFFER);
-+}
-+
-+
-+void Uart16550Put(uint8 byte)
-+{
-+    while ((UART16550_READ(OFS_LINE_STATUS) &0x20) == 0);
-+    UART16550_WRITE(OFS_SEND_BUFFER, byte);
-+}
-+
-+void Uart16550Puts(const char *string)
-+{
-+	while (*string) {
-+		if (*string == '\n') {
-+			Uart16550Put('\r');
-+		}
-+		Uart16550Put(*string);
-+		string++;
-+	}
-+}
-Index: target/linux/image/ar7/Makefile
-===================================================================
---- target/linux/image/ar7/Makefile	(Revision 2793)
-+++ target/linux/image/ar7/Makefile	(Arbeitskopie)
-@@ -5,7 +5,11 @@
- PKG_BUILD_DIR:=$(BUILD_DIR)/ar7loader
- 
- ifeq ($(IB),)
-+ifeq ($(BR2_LINUX_2_4_SINUS154),y)
-+LOADADDR := 0x94000000
-+else
- LOADADDR := 0x94020000
-+endif
- KERNEL_ENTRY := 0x${shell nm $(KDIR)/linux-$(KERNEL)*/vmlinux | grep kernel_entry | cut -d' ' -f1}
- OUTPUT_FORMAT := elf32-tradlittlemips
- 
-@@ -15,6 +19,9 @@
- 	-mabi=32 -march=mips32 -Wa,-32 -Wa,-march=mips32 -Wa,-mips32 -Wa,--trap \
- 	-DLOADADDR=$(LOADADDR)
- 
-+ifeq ($(BR2_LINUX_2_4_SINUS154),y)
-+CFLAGS += -DNO_FIRMWARE
-+endif
- 
- $(PKG_BUILD_DIR):
- 	mkdir -p $(PKG_BUILD_DIR)
-@@ -27,12 +34,26 @@
- 	sed -e 's/@@OUTPUT_FORMAT@@/$(OUTPUT_FORMAT)/' \
- 	    -e 's/@@LOADADDR@@/$(LOADADDR)/' <$< >$@
- 
-+$(PKG_BUILD_DIR)/entry.o: src/entry.c
-+	$(TARGET_CC) $(CFLAGS) -c -o $@ $<
-+
- $(PKG_BUILD_DIR)/LzmaDecode.o: src/LzmaDecode.c
- 	$(TARGET_CC) $(CFLAGS) -c -o $@ $<
- 
- $(PKG_BUILD_DIR)/loader.o: src/loader.c
- 	$(TARGET_CC) $(CFLAGS) -c -o $@ $<
- 
-+ifeq ($(BR2_LINUX_2_4_SINUS154),y)
-+$(PKG_BUILD_DIR)/uart16550.o: src/uart16550.c
-+	$(TARGET_CC) $(CFLAGS) -c -o $@ $<
-+endif
-+
-+loader_objects := $(PKG_BUILD_DIR)/entry.o $(PKG_BUILD_DIR)/loader.o
-+loader_objects += $(PKG_BUILD_DIR)/LzmaDecode.o
-+ifeq ($(BR2_LINUX_2_4_SINUS154),y)
-+loader_objects += $(PKG_BUILD_DIR)/uart16550.o
-+endif
-+
- $(STAGING_DIR)/bin/srec2bin: src/srec2bin.c
- 	$(HOSTCC) -o $@ $<
- 
-@@ -42,19 +63,22 @@
- $(KDIR)/vmlinux.bin: $(KDIR)/vmlinux.lzma compile
- 	$(TARGET_CROSS)ld -T $(PKG_BUILD_DIR)/zimage.script -r -b binary $< -o $(KDIR)/zimage.o
- 	$(TARGET_CROSS)ld -static -G 0 --defsym kernel_entry=$(KERNEL_ENTRY) -T $(PKG_BUILD_DIR)/ld.script \
--		$(PKG_BUILD_DIR)/loader.o \
--		$(PKG_BUILD_DIR)/LzmaDecode.o \
-+		$(loader_objects) \
- 		$(KDIR)/zimage.o \
- 		-o $(KDIR)/loader
- 	$(TARGET_CROSS)objcopy -O srec $(KDIR)/loader $(KDIR)/ram_zimage.sre
- 	$(STAGING_DIR)/bin/srec2bin $(KDIR)/ram_zimage.sre $@
- 	
- $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel.bin: $(KDIR)/vmlinux.bin 
-+$(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel.raw: $(KDIR)/vmlinux.bin
- endif
- 
- $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel.bin:
- 	cp $(KDIR)/vmlinux.bin $@
- 
-+$(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel.raw:
-+	$(TARGET_CROSS)objcopy -O binary $(KDIR)/loader $@
-+
- ifeq ($(FS),jffs2-8MB)
- ALIGN:=bs=131072 conv=sync
- endif
-@@ -74,12 +98,14 @@
- install: $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-$(FS)-$(1).bin
- endef
- 
-+ifeq ($(BR2_LINUX_2_4_WAX),y)
- $(eval $(call pattern_template,AG1B))
- $(eval $(call pattern_template,WA22))
- $(eval $(call pattern_template,WAG2))
- $(eval $(call pattern_template,WA21))
- $(eval $(call pattern_template,WA31,-b))
- $(eval $(call pattern_template,WA32,-b))
-+endif
- 
- ifeq ($(IB),)
- clean:
-@@ -87,14 +113,49 @@
- 	rm -f $(BIN_DIR)/openwrt-$(BOARD)*
- 
- prepare: $(PKG_BUILD_DIR) $(PKG_BUILD_DIR)/zimage.script $(PKG_BUILD_DIR)/ld.script
--compile: prepare $(PKG_BUILD_DIR)/loader.o $(PKG_BUILD_DIR)/LzmaDecode.o $(STAGING_DIR)/bin/srec2bin
-+compile: prepare $(loader_objects) $(STAGING_DIR)/bin/srec2bin
- else
- clean:
- prepare:
- compile:
- endif
- 
--install: $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel.bin $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-$(FS).bin
-+ifeq ($(BR2_LINUX_2_4_WAX),y)
-+install: $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel.bin
-+endif
-+ifeq ($(BR2_LINUX_$(subst .,_,$(KERNEL))_SINUS154),y)
-+install: $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel.raw
-+endif
-+
-+define sinus_template
-+# kernel image
-+$(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel-$(1).bin: $(KDIR)/vmlinux
-+	rm -f /tmp/soho.???
-+	ln -s $(KDIR)/vmlinux /tmp/soho.bin
-+	zip -9Xv /tmp/soho.zip -j /tmp/soho.bin
-+	mkfirm -o $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel-$(1).bin -m $(2) /tmp/soho.zip
-+install: $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-kernel-$(1).bin
-+# filesystem image
-+$(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-squashfs-$(1).bin: $(KDIR)/root.squashfs
-+	rm -f /tmp/pfs.???
-+	#echo "PFS/0.9" | cat - /dev/zero | dd of=/tmp/pfs.img bs=65536 count=1
-+	cat $(TOPDIR)/PFS.IMG /dev/zero | dd of=/tmp/pfs.img bs=65536 count=1
-+	zip -9Xv /tmp/pfstmp.zip -j /tmp/pfs.img
-+	cat /tmp/pfstmp.zip /dev/zero | dd of=/tmp/pfs.zip bs=65536 count=1
-+	cat $(KDIR)/root.squashfs >>/tmp/pfs.zip
-+	mkfirm -o $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-squashfs-$(1).bin -m $(2) /tmp/pfs.zip
-+install: $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-squashfs-$(1).bin
-+endef
-+
-+ifeq ($(BR2_LINUX_$(subst .,_,$(KERNEL))_SINUS154_DSL_BASIC_SE),y)
-+$(eval $(call sinus_template,SINUS154_DSL_BASIC_SE,BRN154BAS))
-+endif
-+ifeq ($(BR2_LINUX_$(subst .,_,$(KERNEL))_SINUS154_DSL_BASIC_3),y)
-+$(eval $(call sinus_template,SINUS154_DSL_BASIC_3,BRNDTBAS3))
-+endif
-+
-+install: $(BIN_DIR)/openwrt-$(BOARD)-$(KERNEL)-$(FS).bin
-+
- install-ib:
- 	mkdir -p $(IB_DIR)/build_$(ARCH)/linux-$(KERNEL)-$(BOARD)
- 	cp -fpR $(KDIR)/vmlinux.bin $(IB_DIR)/build_$(ARCH)/linux-$(KERNEL)-$(BOARD)/
-Index: target/linux/Config.in
-===================================================================
---- target/linux/Config.in	(Revision 2793)
-+++ target/linux/Config.in	(Arbeitskopie)
-@@ -3,7 +3,7 @@
- 	
- config BR2_LINUX_2_4_BRCM
- 	bool "Support for Broadcom based routers [2.4]"
--	default y
-+	# default y
- 	depends BR2_mipsel
- 	select BR2_LINUX_PCMCIA_SUPPORT
+--- target/Config.in	(Revision 2984)
++++ target/Config.in	(Arbeitskopie)
+@@ -39,7 +39,7 @@
+ 	bool "TI AR7 [2.4]"
+ 	select BR2_mipsel
  	help
-@@ -16,14 +16,14 @@
- 
- config BR2_LINUX_2_4_AR7
- 	bool "Support for TI AR7 based devices [2.4]"
--	default n
-+	# default n
- 	depends BR2_mipsel
- 	help
- 	  Build firmware images for TI AR7 based routers (w.g. Linksys WAG54G v2)
+-	  Build firmware images for TI AR7 based routers (w.g. Linksys WAG54G v2)
++	  Build firmware images for TI AR7 based routers (e.g. Linksys WAG54G v2)
  
  config BR2_LINUX_2_4_X86
- 	bool "Support for x86 boards [2.4]"
--	default n
-+	# default n
- 	depends BR2_i386
- 	select BR2_LINUX_PCMCIA_SUPPORT
- 	help
-@@ -32,7 +32,7 @@
+ 	bool "x86 [2.4]"
+@@ -59,6 +59,57 @@
  
- config BR2_LINUX_2_6_BRCM
- 	bool "Support for Broadcom based routers [2.6]"
--	default n
-+	# default n
- 	depends BR2_mipsel
- 	select BR2_LINUX_PCMCIA_SUPPORT
- 	help
-@@ -41,7 +41,7 @@
+ endchoice
  
- config BR2_LINUX_2_6_X86
- 	bool "Support for x86 boards [2.6]"
--	default n
-+	# default n
- 	depends BR2_i386
- 	select BR2_LINUX_PCMCIA_SUPPORT
- 	help
-@@ -50,7 +50,7 @@
- 
- config BR2_LINUX_2_4_AR531X
- 	bool "Support for Atheros ar531x based APs"
--	default n
-+	# default n
- 	depends BR2_mips
- 	help
- 	  Build firmware images for Atheros ar531x based boards
-@@ -65,6 +65,43 @@
- 	depends BR2_LINUX_2_4_X86 || BR2_LINUX_2_4_BRCM || BR2_LINUX_2_6_X86 || BR2_LINUX_2_6_BRCM
- 
- 
-+
 +choice
 +	prompt "Device selection"
 +
@@ -8028,50 +8042,65 @@ Index: target/linux/Config.in
 +		bool "Support for Linksys boards"
 +		depends BR2_LINUX_2_4_AR7
 +		help
-+		  Build firmware images for AG1B, WA22, WAG2, WA21, WA32
-+	
++		  Build firmware images for Linksys AG1B, WA22, WAG2, WA21, WA32
++
++	config BR2_LINUX_2_4_GIGASET
++		bool "Support for Siemens Gigaset boards"
++		depends BR2_LINUX_2_4_AR7
++		help
++		  Build firmware images for Siemens AR7 based boards
++
 +	config BR2_LINUX_2_4_SINUS154
-+		bool "Support for Sinus 154 boards"
++		bool "Support for T-Com Sinus 154 boards"
 +		depends BR2_LINUX_2_4_AR7
 +		#select BUSYBOX_CONFIG_CMP
 +		#select BUSYBOX_CONFIG_OD
 +		#select BUSYBOX_CONFIG_RX
 +		help
-+		  Build firmware images for Sinus 154 DSL Basic SE and Sinus 154 DSL Basic 3
++		  Build firmware images for T-Com AR7 based boards
 +	
 +endchoice
 +
-+comment "Device variants"
++menu "Device variants"
 +
 +	config BR2_LINUX_2_4_SINUS154_DSL_BASIC_SE
 +		bool "Support for Sinus 154 DSL Basic SE"
 +		default y
 +		depends BR2_LINUX_2_4_SINUS154
 +		help
-+		  Build firmware image for Sinus 154 DSL Basic SE
++		  Build firmware image for T-Com Sinus 154 DSL Basic SE
 +	
 +	config BR2_LINUX_2_4_SINUS154_DSL_BASIC_3
 +		bool "Support for Sinus 154 DSL Basic 3"
 +		default n
 +		depends BR2_LINUX_2_4_SINUS154
 +		help
-+		  Build firmware image for Sinus 154 DSL Basic 3
-+	
- comment "Device specific modules"
- 
- config BR2_PACKAGE_KMOD_BRCM_ET
-Index: package/Config.in
++		  Build firmware image for T-Com Sinus 154 DSL Basic 3
++
++	config BR2_LINUX_2_4_SX541
++		bool "Support for Siemens Gigaset SX541"
++		default n
++		depends BR2_LINUX_2_4_GIGASET
++		help
++		  Build firmware image for Siemens Gigaset SX541
++
++endmenu
++
+ config BR2_LINUX_PCMCIA_SUPPORT
+ 	bool
+ 	default n
+Index: package/hostapd/Config.in
 ===================================================================
---- package/Config.in	(Revision 2793)
-+++ package/Config.in	(Arbeitskopie)
-@@ -131,6 +131,7 @@
- source "package/srelay/Config.in"
- source "package/tmsnc/Config.in"
- source "package/tcpdump/Config.in"
-+#source "package/tiap/Config.in"
- source "package/tinc/Config.in"
- source "package/tor/Config.in"
- source "package/ttcp/Config.in"
+--- package/hostapd/Config.in	(Revision 2984)
++++ package/hostapd/Config.in	(Arbeitskopie)
+@@ -2,7 +2,6 @@
+ 	prompt "hostapd........................... An IEEE 802.11 AP, IEEE 802.1x/WPA/WPA2/EAP/RADIUS Authenticator"
+ 	tristate
+ 	default m if CONFIG_DEVEL
+-	select BR2_PACKAGE_KMOD_MADWIFI
+ 	select BR2_PACKAGE_LIBOPENSSL
+ 	help
+ 	  hostapd is a user space daemon for access point and 
 Index: package/base-files/default/www/index.html
 ===================================================================
 --- package/base-files/default/www/index.html	(Revision 0)
@@ -8135,7 +8164,7 @@ Name: svn:executable
 
 Index: package/base-files/default/etc/init.d/S40network
 ===================================================================
---- package/base-files/default/etc/init.d/S40network	(Revision 2793)
+--- package/base-files/default/etc/init.d/S40network	(Revision 2984)
 +++ package/base-files/default/etc/init.d/S40network	(Arbeitskopie)
 @@ -3,10 +3,10 @@
  [ "$FAILSAFE" != "true" -a -e /etc/config/network ] && . /etc/config/network
@@ -8154,7 +8183,7 @@ Index: package/base-files/default/etc/init.d/S40network
        eval "set $(echo $route | sed 's/:/ /g')"
 Index: package/base-files/default/etc/init.d/rcS
 ===================================================================
---- package/base-files/default/etc/init.d/rcS	(Revision 2793)
+--- package/base-files/default/etc/init.d/rcS	(Revision 2984)
 +++ package/base-files/default/etc/init.d/rcS	(Arbeitskopie)
 @@ -1,9 +1,15 @@
  #!/bin/sh
@@ -8196,7 +8225,7 @@ Index: package/base-files/default/etc/fstab
 +tmpfs		/tmp		tmpfs	defaults,nosuid,nodev,mode=1777,size=50%	0 0
 Index: package/base-files/default/etc/profile
 ===================================================================
---- package/base-files/default/etc/profile	(Revision 2793)
+--- package/base-files/default/etc/profile	(Revision 2984)
 +++ package/base-files/default/etc/profile	(Arbeitskopie)
 @@ -8,5 +8,6 @@
  alias vim=vi
@@ -8253,28 +8282,3 @@ ___________________________________________________________________
 Name: svn:executable
    + *
 
-Index: package/Makefile
-===================================================================
---- package/Makefile	(Revision 2793)
-+++ package/Makefile	(Arbeitskopie)
-@@ -206,6 +206,7 @@
- package-$(BR2_PACKAGE_SSMTP) += ssmtp
- package-$(BR2_PACKAGE_SRELAY) += srelay
- package-$(BR2_PACKAGE_STRACE) += strace
-+#package-$(BR2_PACKAGE_KMOD_TIAP) += tiap
- package-$(BR2_PACKAGE_TCPDUMP) += tcpdump
- package-$(BR2_PACKAGE_TINC) += tinc
- package-$(BR2_PACKAGE_TOR) += tor
-Index: package/busybox/config/Config.in
-===================================================================
---- package/busybox/config/Config.in	(Revision 2793)
-+++ package/busybox/config/Config.in	(Arbeitskopie)
-@@ -12,7 +12,7 @@
- 
- choice
- 	prompt "Buffer allocation policy"
--	default BUSYBOX_CONFIG_FEATURE_BUFFERS_GO_ON_STACK
-+	# default BUSYBOX_CONFIG_FEATURE_BUFFERS_GO_ON_STACK
- 	help
- 	  There are 3 ways BusyBox can handle buffer allocations:
- 	  - Use malloc. This costs code size for the call to xmalloc.
