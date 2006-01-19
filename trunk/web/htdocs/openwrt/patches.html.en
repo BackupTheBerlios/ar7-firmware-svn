@@ -11,7 +11,76 @@
 <a href="http://developer.berlios.de">
 <img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS Logo"></a>
 
-<h2>OpenWrt Patches for Sinus 154 DSL Basic SE</h2>
+<h2>OpenWrt Patches for Sinus 154 DSL Basic SE and other routers with BRN bootloader</h2>
+
+<h3>Patch Overview</h3>
+
+<pre>
+package/busybox/patches/400-cmdedit.patch
+	This patch saves some bytes of code and fixes tab completion
+	for the shell (..<tab> works now like in bash).
+
+linux-2.4.32/arch/mips/ar7/gdb_hook.c
+	New file, needed for kernel debugging (kgdb) which is still not working.
+
+linux-2.4.32/arch/mips/ar7/init.c
+	Command line and ADAM2 emulation.
+
+linux-2.4.32/arch/mips/ar7/irq-vlynq.c
+linux-2.4.32/arch/mips/ar7/Makefile
+linux-2.4.32/arch/mips/ar7/setup.c
+	New file and patch for vlynq interrupt 80 (needed for TI WLAN).
+
+linux-2.4.32/drivers/char/avalanche_vlynq/vlynq_hal.c
+	Count vlynq interrupts (needed for display in /proc/interrupts).
+
+linux-2.4.32/arch/mips/ar7/irq.c
+	Additional code for vlynq.
+
+linux-2.4.32/arch/mips/ar7/misc.c
+	Changed avalanche_reset_ctrl for vlynq.
+
+linux-2.4.32/net/core/wireless.c
+	Improved SIOCGIWPRIV ioctl (still not working).
+
+linux-2.4.32/arch/mips/config-shared.in
+	Added code for Sinus 154.
+
+linux-2.4.32/arch/mips/kernel/head.S
+	Added jump instruction at address 0x94000000.
+
+linux-2.4.32/arch/mips/kernel/setup.c
+	Check kernel parameters (argc) for valid values.
+
+linux-2.4.32/arch/mips/Makefile
+	Changed LOADADDR to 0x94000000 for Sinus 154.
+
+linux-2.4.32/drivers/atm/Makefile
+linux-2.4.32/drivers/atm/sangam_atm/Makefile
+	Cleaned, moved parts to subdirectory sangam_atm. Needs fix for different annex!!!
+
+linux-2.4.32/drivers/atm/sangam_atm/tn7dsl.c
+	Add more information to debug message.
+
+linux-2.4.32/drivers/char/avalanche_led/gpio.c
+	Cleaned code and formatting, create missing directory in /proc.
+
+linux-2.4.32/drivers/char/avalanche_led/led.h
+	New file with external declarations.
+
+linux-2.4.32/drivers/char/avalanche_led/leds.c
+	Added code for LED calls in cpmac and wifi drivers.
+
+linux-2.4.32/drivers/mtd/maps/Config.in
+	Sinus 154 only has 2 MiB flash (should be replaced by autoconfiguration).
+
+linux-2.4.32/drivers/mtd/maps/sinus154-flash.c
+	Flash map for Sinus 154.
+
+linux-2.4.32/drivers/net/wireless/Config.in
+	Wireless not only works with PCI and USB, but also with VLYNQ.
+
+</pre>
 
 <h3>New Files</h3>
 
