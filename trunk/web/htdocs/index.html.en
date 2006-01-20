@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<table class=page>
+<table class=page summary="page">
 <tr class=titlebar>
 <td>
 <a href="http://developer.berlios.de">
@@ -16,11 +16,12 @@
 </td>
 <td>
 <a href="index.html.de">deutsch</a> <a href="index.html.en">english</a>
+</td>
 </tr>
 
 <tr>
 <td class=menu>
-<table class=menu>
+<table class=menu summary="menu">
 <tr><th><a href="http://developer.berlios.de/projects/ar7-firmware/">AR7-Firmware</a></th></tr>
 <tr><td><a href="index.html.de">Overview</a></td></tr>
 <tr><td><a href="doc/loader.html.de">Bootloader</a></td></tr>
@@ -82,7 +83,7 @@ See <a href="openwrt/index.html.en">OpenWrt port</a> for details.
 
 <h3>Devices</h3>
 
-<table>
+<table summary="devices">
 <tr><th>Device</th><th>CPU</th><th>Flash</th><th>RAM</th></tr>
 <tr><td>Sinus 154 DSL Basic SE</td><td>Texas Instruments TNETD7300 (Sangam)</td><td>2 MiB</td><td>16 MiB</td></tr>
 <tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7300 (Sangam)</td><td>2 MiB</td><td>16 MiB (?)</td></tr>
@@ -96,12 +97,12 @@ Wiki web page</a>).
 
 <h3>Serial Port</h3>
 
-Sinus 154 has a builtin serial connector. You must open the case to get access to it.
+<p>Sinus 154 has a builtin serial connector. You must open the case to get access to it.
 Parameters are 115000 bps 8N1. The serial port uses 3,3 V signal level, so it
 needs a converter to connect to a standard RS232 port. I use the MAX232CPE,
-here are the connections:<p>
+here are the connections:</p>
 
-<table>
+<table summary="serial port">
 <tr><th>Sinus 154</th><th>Usage</th><th>MAX232CPE</th></tr>
 <tr><td>10</td><td>3,3 V</td><td>16</td></tr>
 <tr><td>9</td><td>GND</td><td>15</td></tr>
@@ -109,16 +110,17 @@ here are the connections:<p>
 <tr><td>3</td><td>in</td><td>12</td></tr>
 </table>
 
-<table>
-<listing>
-Sinus 154 connector (on PCB)
-
+<table summary="serial port">
+<tr><th>Sinus 154 connector (on PCB)</th></tr>
+<tr><td>
+<pre>
   9   5 3 1   |
   x x x x x   |
   x x x x x   |
  10       2   |
 --------------+
-</listing>
+</pre>
+</td></tr>
 </table>
 
 See
@@ -137,7 +139,7 @@ Both Sinus devices use a mini PCI card with a TNETW1130 chip.
 
 <h3>Memory Table</h3>
 
-<table>
+<table summary="memory map">
 <tr><th>Start address</th><th>end address</th><th>contents</th></tr>
 <tr><td>0x80000000</td><td>0x80000fff</td><td>internal RAM 4 KiB</td></tr>
 <tr><td>0x80001000</td><td>0x8fffffff</td><td>?</td></tr>
@@ -154,7 +156,7 @@ Both Sinus devices use a mini PCI card with a TNETW1130 chip.
 
 <h3>Flash Memory Usage (2 MiB)</h3>
 
-<table>
+<table summary="flash memory map">
 <tr><th>Index</th><th>Inhalt</th><th>Adresse</th><th>Gr&ouml;sse</th></tr>
 <tr><td>[0] </td><td>Boot            </td><td>0xB0000000     </td><td>128K</td></tr>
 <tr><td>[1] </td><td>Configuration   </td><td>0xB0020000     </td><td>128K</td></tr>
@@ -169,8 +171,8 @@ Both Sinus devices use a mini PCI card with a TNETW1130 chip.
 
 <h3>Bootloader</h3>
 
-All devices use a bootloader made by Broad Net Technology, INC.
-The bootloader allows operation via serial port.<p>
+<p>All devices use a bootloader made by Broad Net Technology, INC.
+The bootloader allows operation via serial port.</p>
 
 <h4>Debug Menu</h4>
 

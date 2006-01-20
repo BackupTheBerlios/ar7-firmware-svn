@@ -4,12 +4,34 @@
 	<title>OpenWrt Patches for Sinus 154 DSL Basic SE</title>
 	<meta http-equiv="Content-Type" content="text/html">
 	<meta name="author" content="Stefan Weil">
-	<link rel=stylesheet type="text/css" href="/ar7.css" />
+	<link rel=stylesheet type="text/css" href="../ar7.css" />
 </head>
 
 <body>
+<table class=page summary="page">
+<tr class=titlebar>
+<td>
 <a href="http://developer.berlios.de">
-<img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS Logo"></a>
+<img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS"></a>
+</td>
+<td>
+<!-- <a href="index.html.de">deutsch</a> <a href="index.html.en">english</a> -->
+</td>
+</tr>
+
+<tr>
+<td class=menu>
+<table class=menu summary="menu">
+<tr><th><a href="http://developer.berlios.de/projects/ar7-firmware/">AR7-Firmware</a></th></tr>
+<tr><td><a href="../index">Overview</a></td></tr>
+<tr><td><a href="../doc/loader">Bootloader</a></td></tr>
+<tr><td><a href="../openwrt/index">OpenWrt</a></td></tr>
+<tr><td><a href="../devices">Router</a></td></tr>
+<tr><td><a href="../tools">Tools</a></td></tr>
+</table>
+</td>
+
+<td class=page>
 
 <h2>OpenWrt Patches for Sinus 154 DSL Basic SE and other routers with BRN bootloader</h2>
 
@@ -18,7 +40,7 @@
 <pre>
 package/busybox/patches/400-cmdedit.patch
 	This patch saves some bytes of code and fixes tab completion
-	for the shell (..<tab> works now like in bash).
+	for the shell (..&lt;tab%gt; works now like in bash).
 
 linux-2.4.32/arch/mips/ar7/gdb_hook.c
 	New file, needed for kernel debugging (kgdb) which is still not working.
@@ -163,6 +185,9 @@ changes for busybox (added cmp, od, rx).<p>
 
 The IP address was changed to the default for Sinus 154, 192.168.2.1.
 
+</td>
+</tr>
+</table>
 </body>
 </html>
 

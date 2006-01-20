@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<table class=page>
+<table class=page summary="page">
 <tr class=titlebar>
 <td>
 <a href="http://developer.berlios.de">
@@ -16,11 +16,12 @@
 </td>
 <td>
 <a href="index.html.de">deutsch</a> <a href="index.html.en">english</a>
+</td>
 </tr>
 
 <tr>
 <td class=menu>
-<table class=menu>
+<table class=menu summary="menu">
 <tr><th><a href="http://developer.berlios.de/projects/ar7-firmware/">AR7-Firmware</a></th></tr>
 <tr><td><a href="../index">Overview</a></td></tr>
 <tr><td><a href="../doc/loader">Bootloader</a></td></tr>
@@ -34,8 +35,8 @@
 
 <h2>OpenWrt Port to Sinus 154 DSL Basic SE</h2>
 
-The new firmware for Sinus 154 DSL Basic SE is based on the
-<a href="http://openwrt.org/AR7Port">AR7 port of OpenWrt</a>.<p>
+<p>The new firmware for Sinus 154 DSL Basic SE is based on the
+<a href="http://openwrt.org/AR7Port">AR7 port of OpenWrt</a>.</p>
 
 <h2>Important Hints</h2>
 

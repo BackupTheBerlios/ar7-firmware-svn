@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<table class=page>
+<table class=page summary="page">
 <tr class=titlebar>
 <td>
 <a href="http://developer.berlios.de">
@@ -20,7 +20,7 @@
 
 <tr>
 <td class=menu>
-<table class=menu>
+<table class=menu summary="menu">
 <tr><th><a href="http://developer.berlios.de/projects/ar7-firmware/">AR7-Firmware</a></th></tr>
 <tr><td><a href="../index">Übersicht</a></td></tr>
 <tr><td><a href="../doc/loader">Bootloader</a></td></tr>
@@ -34,14 +34,14 @@
 
 <h2>Die OpenWrt Portierung f&uuml;r Sinus 154 DSL Basic SE</h2>
 
-Die Portierung f&uuml;r Sinus 154 DSL Basic SE basiert auf den
+<p>Die Portierung f&uuml;r Sinus 154 DSL Basic SE basiert auf den
 <a href="http://openwrt.org/AR7Port">OpenWrt-Erweiterungen</a>
-f&uuml;r die AR7-Prozessorfamilie.<p>
+f&uuml;r die AR7-Prozessorfamilie.</p>
 
-Die Erfahrungen des Projektes k&ouml;nnen sicher auf verwandte Ger&auml;te
+<p>Die Erfahrungen des Projektes k&ouml;nnen sicher auf verwandte Ger&auml;te
 der Sinus 154 Familie und auch weitere anderer Hersteller angewendet werden,
 insbesondere wenn diese den gleichen Bootloader
-von Broad Net Technology verwenden.<p>
+von Broad Net Technology verwenden.</p>
 
 <h2>Wichtige Hinweise</h2>
 

@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<table class=page>
+<table class=page summary="page">
 <tr class=titlebar>
 <td>
 <a href="http://developer.berlios.de">
@@ -20,7 +20,7 @@
 
 <tr>
 <td class=menu>
-<table class=menu>
+<table class=menu summary="menu">
 <tr><th><a href="http://developer.berlios.de/projects/ar7-firmware/">AR7-Firmware</a></th></tr>
 <tr><td><a href="index.html.de">Übersicht</a></td></tr>
 <tr><td><a href="doc/loader.html.de">Bootloader</a></td></tr>
@@ -106,7 +106,7 @@ weitgehend auf andere Open Source Projekte zur&uuml;ckgreifen.
 
 <h3>Ger&auml;te&uuml;bersicht</h3>
 
-<table>
+<table summary="devices">
 <tr><th>Ger&auml;t</th><th>Prozessor</th><th>Flash</th><th>RAM</th></tr>
 <tr><td>Sinus 154 DSL Basic SE</td><td>Texas Instruments TNETD7300 (Sangam)</td><td>2 MiB</td><td>16 MiB</td></tr>
 <tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7300 (Sangam)</td><td>2 MiB</td><td>16 MiB</td></tr>
@@ -121,7 +121,7 @@ Wiki-Webseite</a>). Deren Firmware ist aber nicht direkt verwendbar.
 
 <h3>Serielle Schnittstelle</h3>
 
-Alle Ger&auml;te haben eine serielle Schnittstelle, die aber nur im Ger&auml;t
+<p>Alle Ger&auml;te haben eine serielle Schnittstelle, die aber nur im Ger&auml;t
 zug&auml;nglich ist. Schnittstellenparameter 115000 bps 8N1. F&uuml;r den
 Anschluss an PCs wird ein Pegelkonverter von 3,3 V auf RS232 ben&ouml;tigt.
 Ich verwende einen MAX232CPE, der bei jedem der grossen Elektronikversender
@@ -129,9 +129,9 @@ erh&auml;ltlich ist. Meine Kosten lagen bei rund 12 EUR.
 Eine <a href="http://www.wehavemorefun.de/fritzbox/Serielle_Konsole">alternative
 L&ouml;sung</a> unter Verwendung eines Handykabels hat bei mir nicht
 funktioniert - andere Anwender waren damit aber schon erfolgreich.
-Hier sind die notwendigen Verbindungen:<p>
+Hier sind die notwendigen Verbindungen:</p>
 
-<table>
+<table summary="serial port">
 <tr><th>Sinus 154</th><th>Belegung</th><th>MAX232CPE</th></tr>
 <tr><td>10</td><td>3,3 V</td><td>16</td></tr>
 <tr><td>9</td><td>GND</td><td>15</td></tr>
@@ -139,7 +139,7 @@ Hier sind die notwendigen Verbindungen:<p>
 <tr><td>3</td><td>in</td><td>12</td></tr>
 </table>
 
-<listing>
+<pre>
 Sinus 154 Steckerleiste (im Ger&auml;t)
 
   9   5 3 1   |
@@ -147,7 +147,7 @@ Sinus 154 Steckerleiste (im Ger&auml;t)
   x x x x x   |
  10       2   |
 --------------+
-</listing>
+</pre>
 
 Hinweise zur Beschaltung des MAX232CPE findet man beispielsweise unter
 <a href="http://hri.sourceforge.net/tools/">http://hri.sourceforge.net/tools/</a>
@@ -184,27 +184,27 @@ einen USB-Anschluss herausgef&uuml;hrt!
 
 <h3>WLAN</h3>
 
-Jedes Ger&auml;t hat eine Mini-PCI-Karte mit TNETW1130 von Texas Instruments
+<p>Jedes Ger&auml;t hat eine Mini-PCI-Karte mit TNETW1130 von Texas Instruments
 f&uuml;r WLAN eingebaut.
 Diesen Baustein findet man auch unter der Bezeichnung ACX111.
-Die Ansteuerung erfolgt &uuml;ber einen seriellen Bus (VLYNQ).<p>
+Die Ansteuerung erfolgt &uuml;ber einen seriellen Bus (VLYNQ).</p>
 
-Neben den Standards IEEE 802.11b und IEEE 802.11g beherrscht der TNETW1130
+<p>Neben den Standards IEEE 802.11b und IEEE 802.11g beherrscht der TNETW1130
 eine Betriebsart mit der Herstellerbezeichnung 802.11g++, mit der ein
-um 35 % h&oouml;herer Nettodurchsatz erreicht wird.
-Die Firmware von TCOM kennt diese Betriebsart allerdings nicht.<p>
+um 35 % h&ouml;herer Nettodurchsatz erreicht wird.
+Die Firmware von TCOM kennt diese Betriebsart allerdings nicht.</p>
 
-Es gibt Treiber f&uuml;r die Betriebssysteme VxWorks und Linux
+<p>Es gibt Treiber f&uuml;r die Betriebssysteme VxWorks und Linux
 vom Hersteller 
 - leider ist der Programmcode aber nicht allgemein zug&auml;nglich.
-N&auml;heres findet man bei http://www.linux-mips.org/wiki/AR7.<p>
+N&auml;heres findet man bei http://www.linux-mips.org/wiki/AR7.</p>
 
-Im Open-Source-Bereich findet man das Projekt http://acx100.sourceforge.net/,
+<p>Im Open-Source-Bereich findet man das Projekt http://acx100.sourceforge.net/,
 das mit seinem Linux-Treiber f&uuml;r ACX100 auch den ACX111
 zumindest teilweise unterst&uuml;tzt. Das Projekt kennt zur Zeit
-allerdings nur die Bussysteme PCI und USB, nicht aber VLYNQ.<p>
+allerdings nur die Bussysteme PCI und USB, nicht aber VLYNQ.</p>
 
-<table>
+<table summary="wlan">
 <tr><th>Feature</th><th>TCOM</th><th>TI</th><th>ACX100</th></tr>
 <tr><td>Source Code</td><td>no</td><td>closed</td><td>open</td></tr>
 <tr><td>802.11g++</td><td>no</td><td>yes</td><td>no</td></tr>
@@ -218,7 +218,7 @@ allerdings nur die Bussysteme PCI und USB, nicht aber VLYNQ.<p>
 
 <h3>Speicherbelegung</h3>
 
-<table>
+<table summary="memory map">
 <tr><th>Startadresse</th><th>Endadresse</th><th>Inhalt</th></tr>
 <tr><td>0x80000000</td><td>0x80000fff</td><td>interner RAM 4 KiB</td></tr>
 <tr><td>0x80001000</td><td>0x8fffffff</td><td>?</td></tr>
@@ -235,7 +235,7 @@ allerdings nur die Bussysteme PCI und USB, nicht aber VLYNQ.<p>
 
 <h3>Aufteilung Flash Memory (2 MiB)</h3>
 
-<table>
+<table summary="flash memory map">
 <tr><th>Index</th><th>Inhalt</th><th>Adresse</th><th>Gr&ouml;sse</th></tr>
 <tr><td>[0] </td><td>Boot            </td><td>0xB0000000     </td><td>128K</td></tr>
 <tr><td>[1] </td><td>Configuration   </td><td>0xB0020000     </td><td>128K</td></tr>
@@ -250,13 +250,13 @@ allerdings nur die Bussysteme PCI und USB, nicht aber VLYNQ.<p>
 
 <h3>Bootloader</h3>
 
-Alle Ger&auml;te verwenden einen Bootloader der Firma Broad Net Technology, INC.
-Dieser ist normalerweise nur &uuml;ber die serielle Schnittstelle bedienbar.<p>
+<p>Alle Ger&auml;te verwenden einen Bootloader der Firma Broad Net Technology, INC.
+Dieser ist normalerweise nur &uuml;ber die serielle Schnittstelle bedienbar.</p>
 
-Durch Dr&uuml;cken einer beliebigen Taste unmittelbar nach dem Einschalten
+<p>Durch Dr&uuml;cken einer beliebigen Taste unmittelbar nach dem Einschalten
 unterbricht man den normalen Bootvorgang und kommt in ein Debugmen&uuml;,
 das wiederum durch Dr&uuml;cken von Taste "!" um Administratorbefehle erweitert
-wird.<p>
+wird.</p>
 
 <pre>
 [U] Upload to Flash
@@ -358,13 +358,13 @@ Eine ausf&uuml;hrliche Dokumentation steht in
 <h2>Links</h2>
 
 <a href="http://www.openwrt.org/">OpenWrt</a>
-Open Source Softwarepakete und Linux-Kernel f&uuml;r diverse Router<p>
+<p>Open Source Softwarepakete und Linux-Kernel f&uuml;r diverse Router</p>
 
 <a href="http://www.linux-mips.org/">Linux MIPS</a>
-Linux-Kernel f&uuml;r MIPS-basierte Systeme, sehr gute Dokumentation<p>
+<p>Linux-Kernel f&uuml;r MIPS-basierte Systeme, sehr gute Dokumentation</p>
 
 <a href="http://www.wehavemorefun.de/fritzbox/">AVM Fritz!Box</a>
-Linux-Kernel f&uuml;r MIPS-basierte Systeme, sehr gute Dokumentation<p>
+<p>Linux-Kernel f&uuml;r MIPS-basierte Systeme, sehr gute Dokumentation</p>
 
 </td>
 </tr>

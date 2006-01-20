@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<table class=page>
+<table class=page summary="page">
 <tr class=titlebar>
 <td>
 <a href="http://developer.berlios.de">
@@ -20,7 +20,7 @@
 
 <tr>
 <td class=menu>
-<table class=menu>
+<table class=menu summary="menu">
 <tr><th><a href="http://developer.berlios.de/projects/ar7-firmware/">AR7-Firmware</a></th></tr>
 <tr><td><a href="../index">Overview</a></td></tr>
 <tr><td><a href="../doc/loader">Bootloader</a></td></tr>

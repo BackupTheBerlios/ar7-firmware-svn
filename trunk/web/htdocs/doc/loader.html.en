@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<table class=page>
+<table class=page summary="page">
 <tr class=titlebar>
 <td>
 <a href="http://developer.berlios.de">
@@ -16,12 +16,12 @@
 </td>
 <td>
 <a href="loader.html.de">deutsch</a> <a href="loader.html.en">english</a>
-
+</td>
 </tr>
 
 <tr>
 <td class=menu>
-<table class=menu>
+<table class=menu summary="menu">
 <tr><th><a href="http://developer.berlios.de/projects/ar7-firmware/">AR7-Firmware</a></th></tr>
 <tr><td><a href="../index">Overview</a></td></tr>
 <tr><td><a href="loader">Bootloader</a></td></tr>
@@ -43,20 +43,20 @@ devices of other manufacturers.
 
 <h3>File Format of Firmware Images</h3>
 
-Firmware images are a collection of zipped files.<p>
+<p>Firmware images are a collection of zipped files.</p>
 
-Most vendor firmware images contain 2 zipped files:
+<p>Most vendor firmware images contain 2 zipped files:
 the zipped filesystem (pfs.img) with all pages for the web interface,
-and a zipped program file (soho.bin).<p>
+and a zipped program file (soho.bin).</p>
 
-Firmware update via web interface uses these combined firmware images.<p>
+<p>Firmware update via web interface uses these combined firmware images.</p>
 
-The bootloader can also read firmware images with a single zipped file
-and use them for separate updates of program or filesystem.<p>
+<p>The bootloader can also read firmware images with a single zipped file
+and use them for separate updates of program or filesystem.</p>
 
-My enhanced version of the tool <a href="/tools/mkfirm.c">mkfirm</a>
+<p>My enhanced version of the tool <a href="/tools/mkfirm.c">mkfirm</a>
 creates all sorts of firmware images and also contains some
-informationen on the file format.<p>
+informationen on the file format.</p>
 
 <h3>Firmware Image of Emergency Kernel</h3>
 
@@ -157,7 +157,7 @@ You will get three new files in the openwrt/bin directory:
 linux.bin (firmware in standard format, unusable because too large),
 linux-firmware.bin (kernel part) and linux-userinterface.bin (filesystem part).
 
-<listing>
+<pre>
 #!/bin/sh
 tmpdir=/tmp/openwrt.tmp
 openwrt=~/src/openwrt
@@ -178,7 +178,7 @@ mkfirm -o linux.bin -m $magic pfs.zip soho.zip
 mkfirm -o linux-firmware.bin -m $magic soho.zip
 mkfirm -o linux-userinterface.bin -m $magic pfs.zip
 ln -f linux*.bin $openwrt/bin
-</listing>
+</pre>
 
 <h3>Optimisation of flash usage</h3>
 

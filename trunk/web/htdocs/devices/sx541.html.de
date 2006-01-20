@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<table class=page>
+<table class=page summary="page">
 <tr class=titlebar>
 <td>
 <a href="http://developer.berlios.de">
@@ -16,11 +16,12 @@
 </td>
 <td>
 <a href="sx541.html.de">deutsch</a> <a href="sx541.html.en">english</a>
+</td>
 </tr>
 
 <tr>
 <td class=menu>
-<table class=menu>
+<table class=menu summary="menu">
 <tr><th><a href="http://developer.berlios.de/projects/ar7-firmware/">AR7-Firmware</a></th></tr>
 <tr><td><a href="../index">Übersicht</a></td></tr>
 <tr><td><a href="../doc/loader">Bootloader</a></td></tr>
@@ -57,7 +58,7 @@ daher unbedingt zu vermeiden!
 
 <h3>Aufteilung Flash Memory (2 MiB)</h3>
 
-<table>
+<table summary="flash memory map">
 <tr><th>Index</th><th>Inhalt</th><th>Adresse</th><th>Gr&ouml;sse</th></tr>
 <tr><td>[0] </td><td>Boot            </td><td>0xB0000000     </td><td>128 KiB</td></tr>
 <tr><td>[1] </td><td>Configuration   </td><td>0xB0020000     </td><td>128 KiB</td></tr>
@@ -186,11 +187,11 @@ Stack:    00000000 000001f2 000007df 00001741 00000000 00000000 00000000
 94000870 9417f190 941a46f4 ffffffff 00000000 94000834 94002650 00800000
 94012140 10008403 00000001 9405c080 00000000 10800020 94002640 00000000
 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-Call Trace:   [<94117a8c>] [<94000870>] [<94000834>] [<94002650>]
-[<94012140>]
-[<9405c080>] [<94002640>]
+Call Trace:   [&lt;94117a8c&gt;] [&lt;94000870&gt;] [&lt;94000834&gt;] [&lt;94002650&gt;]
+[&lt;94012140&gt;]
+[&lt;9405c080&gt;] [&lt;94002640&gt;]
 
-Code: 000418c0  24840001  00621021 <ac420000> 8e0225a4  00621821  ac630004
+Code: 000418c0  24840001  00621021 &lt;ac420000&gt; 8e0225a4  00621821  ac630004
 8ca22594  0905eec5
 Kernel panic: Attempted to kill init!
 </pre>
