@@ -8,9 +8,29 @@
 </head>
 
 <body>
+<table class=page>
+<tr class=titlebar>
+<td>
 <a href="http://developer.berlios.de">
-<img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS Logo"></a>
+<img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS"></a>
+</td>
+<td>
 <a href="index.html.de">deutsch</a> <a href="index.html.en">english</a>
+</tr>
+
+<tr>
+<td class=menu>
+<table class=menu>
+<tr><th><a href="http://developer.berlios.de/projects/ar7-firmware/">AR7-Firmware</a></th></tr>
+<tr><td><a href="index.html.de">Übersicht</a></td></tr>
+<tr><td><a href="doc/loader.html.de">Bootloader</a></td></tr>
+<tr><td><a href="openwrt/index.html.de">OpenWrt</a></td></tr>
+<tr><td><a href="devices">Router</a></td></tr>
+<tr><td><a href="tools">Werkzeuge</a></td></tr>
+</table>
+</td>
+
+<td class=page>
 
 <h2>Firmware f&uuml;r Sinus 154 DSL Basic SE und Sinus 154 DSL Basic 3</h2>
 
@@ -346,5 +366,8 @@ Linux-Kernel f&uuml;r MIPS-basierte Systeme, sehr gute Dokumentation<p>
 <a href="http://www.wehavemorefun.de/fritzbox/">AVM Fritz!Box</a>
 Linux-Kernel f&uuml;r MIPS-basierte Systeme, sehr gute Dokumentation<p>
 
+</td>
+</tr>
+</table>
 </body>
 </html>

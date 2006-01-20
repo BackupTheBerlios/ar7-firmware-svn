@@ -8,11 +8,32 @@
 </head>
 
 <body>
+<table class=page>
+<tr class=titlebar>
+<td>
 <a href="http://developer.berlios.de">
 <img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS Logo"></a>
+</td>
+<td>
 <a href="loader.html.de">deutsch</a> <a href="loader.html.en">english</a>
 
-<h2>Bootloader for Sinus 154 DSL Basic SE and Sinus 154 DSL Basic 3</h2>
+</tr>
+
+<tr>
+<td class=menu>
+<table class=menu>
+<tr><th><a href="http://developer.berlios.de/projects/ar7-firmware/">AR7-Firmware</a></th></tr>
+<tr><td><a href="../index">Overview</a></td></tr>
+<tr><td><a href="loader">Bootloader</a></td></tr>
+<tr><td><a href="../openwrt/index">OpenWrt</a></td></tr>
+<tr><td><a href="../devices">Router</a></td></tr>
+<tr><td><a href="../tools">Tools</a></td></tr>
+</table>
+</td>
+
+<td class=page>
+
+<h1>Bootloader for Sinus 154 DSL Basic SE and Sinus 154 DSL Basic 3</h1>
 
 This document describes the file format of boot images for the
 bootloader from Broad Net Technology, Inc.<p>
@@ -158,5 +179,29 @@ mkfirm -o linux-firmware.bin -m $magic soho.zip
 mkfirm -o linux-userinterface.bin -m $magic pfs.zip
 ln -f linux*.bin $openwrt/bin
 </listing>
+
+<h3>Optimisation of flash usage</h3>
+
+<pre>
+Single compression
+
+Zipped kernel code in flash (832 KiB) decompressed to 0x94000000 and started from there.
+
+Double compression
+
+Zipped code with LZMA compressed kernel code and loader decompressed to 
+0x94000000 and started from there.
+
+Loader moves code to 0x94200000 and decompresses it to 0x94000000.
+Then it starts it from 0x94000000.
+
+Note: uncompressed kernel must be less than 2 MiB.
+Current kernel is 1640 KiB uncompressed, 680 KiB zipped, 500 KiB LZMA + zipped.
+Current squashfs is 652 KiB.
+</pre>
+
+</td>
+</tr>
+</table>
 </body>
 </html>

@@ -1,29 +1,55 @@
 /* $Id: ar7.css,v 1.1 2005/09/01 19:54:55 stefan Exp stefan $ */
 
+/* standard tables (in text) */
+
 table {
   border-width: 1;
   empty-cells: show;
   font-family: Times;
 }
 
-/* Tabellenüberschrift allgemein */
 th {
-  background-color: blue;
   padding-left: 0;
   vertical-align: bottom;
 }
 
-th.variant {
-  background-color: white;
-  text-decoration: none;
-}
-th.variantgui {
-  background-color: magenta;
-  text-decoration: none;
+td {
+  vertical-align: top;
 }
 
-td {
+/* Tabellenüberschrift allgemein */
+
+table.page {
+  border-width: 1;
+}
+
+/* title bar */
+
+tr.titlebar td {
+  vertical-align: middle;
+}
+
+/* menu table */
+
+table.menu td {
   text-align: left;
+  font-family: Helvetica;
+  font-size: 95%;
+}
+
+table.menu th {
+  background-color: yellow;
+  font-family: Helvetica;
+  font-size: 100%;
+}
+
+table.menu tr {
+  background-color: yellow;
+}
+
+td.normal {
+  text-align: left;
+  text-decoration: none;
   vertical-align: top;
   white-space: nowrap;
   height: 100%;
@@ -31,43 +57,38 @@ td {
   padding-right: 0;
 }
 
-td.number {
-  text-align: right;
-  background-color: white;
-}
-
-td.group {
-  text-align: left;
-  background-color: white;
-}
-
 /* Einstellungen für Bildschirmausgabe */
 @media screen {
+	table.menu {
+	  background-color: yellow;
+	}
+
+	table.menu td {
+	  background-color: yellow;
+	}
+
+	td.menu {
+	  background-color: yellow;
+	}
+
   td {
     background-color: lightblue;
+  }
+
+  td.page {
+    background-color: white;
+  }
+
+  th {
+    background-color: blue;
   }
 }
 
 /* Einstellungen für Ausgabe auf Drucker */
 @media print {
-  td.pass {
-    color: green;
-  }
-  td.fail {
-    color: red;
-  }
-  td.unres {
-    color: blue;
-  }
   td.untst, td.ignore {
     color: gray;
     font-weight: lighter;
-  }
-  td.err, td.exec, td.syntx {
-    color: orange
-  }
-  td.require_all {
-    color: green;
   }
   td.require_missing {
     color: blue;
@@ -80,15 +101,10 @@ td.testcase {
   white-space: nowrap;
 }
 
-td.testid {
-  text-align: right;
-  background-color: white;
-}
-
 
 /* Rand-Einstellungen*/
 
-td.testcase, td.group, td.testid, td.number {
+td.testcase {
   padding-left: 2px;
   padding-right: 2px;
 }
@@ -100,11 +116,27 @@ a {
 /*  active color: #5275BF; */
 }
 
+h1, h2, h3, h4, h5 {
+  font-family: Helvetica;
+}
+
+h1 {
+  font-size: 100%;
+}
+
+h2 {
+  font-size: 95%;
+}
+
+h3 {
+  font-size: 90%;
+}
+
 hr {
   width: 80%
 }
 
-pre {
+pre.unknown {
   background-color: #F7F7F7;
   font-family: Courier new;
   font-size: 12;
