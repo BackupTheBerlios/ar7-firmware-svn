@@ -115,7 +115,7 @@ static const device_t device[] = {
 	{"BRNDTBAS3", "Sinus 154 DSL Basic 3", 832 * KiB, 896 * KiB},
 	{"BRN154DSL", "Sinus 154 DSL", 0 * KiB, 0 * KiB},
 	{"BRN154KOM", "Sinus 154 DSL Komfort", 0 * KiB, 0 * KiB},
-	{0}
+	{"", 0}
 };
 
 /* buffer must be large enough to contain pfs + soho + signature */
@@ -135,7 +135,7 @@ static void usage(void)
 	for (dev = device; ; dev++) {
 		const char *magic = dev->magic;
 		const char *description = dev->description;
-		if (magic == 0) break;
+		if (*magic == 0) break;
 		fprintf(stderr, "\t%-10s%s\n", magic, description);
 	}
 	fprintf(stderr, "<zipfile>:   zipped file with code or user interface\n");
@@ -218,7 +218,7 @@ int main(int argc, char *argv[])
 	soho_file = argv[optind++];
 
 	for (dev = device; ; dev++) {
-		if (dev->magic == 0) {
+		if (*dev->magic == 0) {
 			usage();
 			exit(2);
 		}
