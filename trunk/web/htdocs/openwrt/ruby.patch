@@ -1,0 +1,142 @@
+Index: package/Config.in
+===================================================================
+--- package/Config.in	(Revision 3294)
++++ package/Config.in	(Arbeitskopie)
+@@ -31,6 +31,7 @@
+ source "package/php4/Config.in"
+ source "package/php5/Config.in"
+ source "package/psybnc/Config.in"
++source "package/ruby/Config.in"
+ menu "sablevm........................... A Java Virtual Machine (JVM) implementation"
+ source "package/sablevm/Config.in"
+ source "package/sablevm-classpath/Config.in"
+Index: package/Makefile
+===================================================================
+--- package/Makefile	(Revision 3294)
++++ package/Makefile	(Arbeitskopie)
+@@ -194,6 +194,7 @@
+ package-$(BR2_COMPILE_RRDTOOL1) += rrdtool1
+ package-$(BR2_COMPILE_RRS) += rrs
+ package-$(BR2_PACKAGE_RSYNC) += rsync
++package-$(BR2_PACKAGE_RUBY) += ruby
+ package-$(BR2_PACKAGE_SABLEVM) += sablevm
+ package-$(BR2_COMPILE_SABLEVM_CLASSPATH) += sablevm-classpath
+ package-$(BR2_COMPILE_SAMBA) += samba
+Index: package/ruby/patches/01-ruby-cross.patch
+===================================================================
+--- package/ruby/patches/01-ruby-cross.patch	(Revision 0)
++++ package/ruby/patches/01-ruby-cross.patch	(Revision 0)
+@@ -0,0 +1,23 @@
++diff -urN ruby-1.8.4/configure ruby-1.8.4patched/configure
++--- ruby-1.8.4/configure	2005-12-24 13:36:33.000000000 +0100
+++++ ruby-1.8.4patched/configure	2006-02-28 13:50:57.000000000 +0100
++@@ -9308,6 +9308,8 @@
++   enable_pthread=no
++ fi;
++ 
+++ac_cv_func_setpgrp_void=yes
+++
++ case "$target_os" in
++ nextstep*)	;;
++ openstep*)	;;
++diff -urN ruby-1.8.4/gc.c ruby-1.8.4patched/gc.c
++--- ruby-1.8.4/gc.c	2005-12-16 05:58:51.000000000 +0100
+++++ ruby-1.8.4patched/gc.c	2006-03-01 22:48:23.000000000 +0100
++@@ -363,6 +363,7 @@
++     if (himem < pend) himem = pend;
++     heaps_used++;
++     heap_slots *= 1.8;
+++    if (heap_slots <= 0) heap_slots = HEAP_MIN_SLOTS;
++ 
++     while (p < pend) {
++ 	p->as.free.flags = 0;
+Index: package/ruby/ipkg/ruby.control
+===================================================================
+--- package/ruby/ipkg/ruby.control	(Revision 0)
++++ package/ruby/ipkg/ruby.control	(Revision 0)
+@@ -0,0 +1,11 @@
++Package: ruby
++Priority: optional
++Section: misc
++Description: Ruby scripting language
++ Ruby is the interpreted scripting language for quick and easy
++ object-oriented programming.
++ .
++ It has many features to process text files
++ and to do system management tasks (as in Perl).
++ .
++ It is simple, straight-forward, extensible, and portable.
+Index: package/ruby/Config.in
+===================================================================
+--- package/ruby/Config.in	(Revision 0)
++++ package/ruby/Config.in	(Revision 0)
+@@ -0,0 +1,12 @@
++config BR2_PACKAGE_RUBY
++	prompt "ruby.............................. Interpreted scripting language"
++	tristate
++	default m if CONFIG_DEVEL
++	help
++	  Ruby is the interpreted scripting language for quick and easy
++	  object-oriented programming. It has many features to process text files
++	  and to do system management tasks (as in Perl).
++	  It is simple, straight-forward, extensible, and portable.
++
++	  
++	  http://www.ruby-lang.org/
+Index: package/ruby/Makefile
+===================================================================
+--- package/ruby/Makefile	(Revision 0)
++++ package/ruby/Makefile	(Revision 0)
+@@ -0,0 +1,52 @@
++# $Id$
++
++include $(TOPDIR)/rules.mk
++
++PKG_NAME:=ruby
++PKG_VERSION:=1.8.4
++PKG_RELEASE:=1
++PKG_MD5SUM:=bd8c2e593e1fa4b01fd98eaf016329bb
++
++# space separated list or special @SF for sourceforge projects
++PKG_SOURCE_URL:=ftp://ftp.ruby-lang.org/pub/ruby
++PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
++PKG_CAT:=zcat
++
++PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
++PKG_INSTALL_DIR:=$(PKG_BUILD_DIR)/ipkg-install
++
++include $(TOPDIR)/package/rules.mk
++
++$(eval $(call PKG_template,RUBY,$(PKG_NAME),$(PKG_VERSION)-$(PKG_RELEASE),$(ARCH)))
++
++$(PKG_BUILD_DIR)/.configured: $(PKG_BUILD_DIR)/.prepared
++	(cd $(PKG_BUILD_DIR); rm -rf config.{cache,status} ; \
++		$(TARGET_CONFIGURE_OPTS) \
++		CFLAGS="$(TARGET_CFLAGS)" \
++		./configure \
++		  --target=$(GNU_TARGET_NAME) \
++		  --host=$(GNU_TARGET_NAME) \
++		  --build=$(GNU_HOST_NAME) \
++		  --prefix=/usr \
++		  --localstatedir=/var \
++		  --mandir=/usr/share/man \
++		  --enable-shared \
++	);
++	touch $@
++
++$(PKG_BUILD_DIR)/.built:
++	rm -rf $(PKG_INSTALL_DIR)
++	mkdir -p $(PKG_INSTALL_DIR)/usr/bin
++	$(MAKE) -C $(PKG_BUILD_DIR) all
++	touch $@
++
++$(IPKG_RUBY):
++	$(MAKE) -C $(PKG_BUILD_DIR) DESTDIR=$(IDIR_RUBY) install
++	rm $(IDIR_RUBY)/usr/lib/libruby-static.a
++	rm -r $(IDIR_RUBY)/usr/share
++	$(RSTRIP) $(IDIR_RUBY)
++	$(IPKG_BUILD) $(IDIR_RUBY) $(PACKAGE_DIR)
++
++mostlyclean:
++	make -C $(PKG_BUILD_DIR) clean
++	rm $(PKG_BUILD_DIR)/.built
