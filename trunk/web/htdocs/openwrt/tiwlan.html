@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>TI WLAN Driver</title>
+	<meta http-equiv="Content-Type" content="text/html">
+	<meta name="author" content="Stefan Weil">
+	<link rel=stylesheet type="text/css" href="../ar7.css" />
+</head>
+
+<body>
+<table class=page summary="page">
+<tr class=titlebar>
+<td>
+<a href="http://developer.berlios.de">
+<img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS"></a>
+</td>
+<td>
+<!-- <a href="index.html.de">deutsch</a> --> <a href="index.html.en">english</a>
+</td>
+</tr>
+
+<tr>
+<td class=menu>
+<table class=menu summary="menu">
+<tr><th><a href="http://developer.berlios.de/projects/ar7-firmware/">AR7-Firmware</a></th></tr>
+<tr><td><a href="../index">Overview</a></td></tr>
+<tr><td><a href="../doc/loader">Bootloader</a></td></tr>
+<tr><td><a href="../openwrt/index">OpenWrt</a></td></tr>
+<tr><td><a href="../devices">Router</a></td></tr>
+<tr><td><a href="../tools">Tools</a></td></tr>
+</table>
+</td>
+
+<td class=page>
+
+<h1>Using the TI WLAN driver</h1>
+
+<h2>Preparing the code</h2>
+
+<h3>Get the code</h3>
+
+<p>Get AP-DK5.7.0.4.tar.gz from download.openwrt.org and extract this archive.
+You will get more than 900 files with 12 MB.</p>
+
+<p>Make sure that all files and directories are writable for the next actions.</p>
+
+<h3>Remove unneeded files</h3>
+
+<p>First action is reducing the complexity by removing all unneeded files.
+All empty files, binary files and openssl code can be removed.
+<pre>
+find -type f -size 0 | xargs rm -v
+find -name CVS -o -name openssl -o -name WhalTest | xargs rm -rv
+find -name "*.old" -o -name "*.exe" | xargs rm -v
+find -name "vx_net_fixup.*" | xargs rm -v
+find -name ".depend" | xargs rm -v
+rm -rv export src/ddc/hal/obj
+rm -v src/WPA/kos/*.c
+rm -v src/WPA/kos/knet_*.h
+rm -v cfg/Http/Html/htmpages.c
+</pre>
+Openssl results in the largest saving. The TI wlan driver works
+perfectly with openssl from the OpenWrt distribution!
+After this action, only 358 files with 6 MB remain.</p>
+
+<h3>Use uniform coding style</h3>
+
+<p>Next action is to bring all source files into a standard format.
+The original code uses different line endings (LF, CRLF), different
+tab width and different coding styles, so it is difficult to read
+and difficult to maintain.</p>
+
+<p>Linux defines a coding style for kernel modules. We convert all
+files to standard UNIX line endings and use Linux coding style
+for all source files.
+<pre>
+find -type f | xargs recode -f l2/cl..l2
+find -type f -name "*.[ch]" | xargs indent -npro -kr -i8 -ts8 -sob -l80 -ss -ncs
+</pre>
+The indent command will find first bugs in the TI code.
+Fix them or remove the buggy files. They are not needed.
+
+<h2>New files</h2>
+
+<h3>Root Makefile</h2>
+
+<pre>
+# $Id$
+
+.phony: all clean clean_nowpa dep help module
+
+all clean clean_nowpa dep help install module:
+        make -C make KERNELDIR=${HOME}/src/linux-2.4.32 $@
+
+# eof
+</pre>
+
+<p>Fix some files in directory make (Config.make, KRules.make, Makefile,
+Rules.make, URules.make). Remove all lines with openssl, fix cross
+compiler prefix and include path settings.</p>
+
+</td>
+</tr>
+</table>
+</body>
+</html>

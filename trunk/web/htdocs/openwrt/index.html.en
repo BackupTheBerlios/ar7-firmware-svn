@@ -59,7 +59,7 @@ earlier version made in July).
 Obviously, this is caused by the flash size (128 KiB) and the erase block
 size (64 KiB). So there are only 2 blocks available, but JFFS2 needs at
 last 5 blocks!
-<li>WLAN does not work.</li>
+<li><a href="tiwlan">WLAN</a> does not work.</li>
 <li>ADSL might work, but is still untested.</li>
 <li>Flash usage is not optized (kernel and filesystem waste 128 KiB each).</li>
 <li>Kernel debugger (kgdb) is missing.</li>

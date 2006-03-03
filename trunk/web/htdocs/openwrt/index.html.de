@@ -59,7 +59,8 @@ daher unbedingt zu vermeiden!
 Die wichtigsten Punkte stehen zuerst:
 
 <ul>
-<li>WLAN funktioniert in der Betriebsart AP mit dem Treiber von TI,
+<li>WLAN funktioniert in der Betriebsart AP mit dem
+<a href="tiwlan">Treiber von TI</a>,
 aber noch nicht als WLAN Client. Da ich schon einen Access Point in
 Betrieb habe, w&auml;re letzteres f&uuml;r mich sehr wichtig.
 Auch ist unsch&ouml;n, dass die Lizenzbedingungen des Treiber von TI
