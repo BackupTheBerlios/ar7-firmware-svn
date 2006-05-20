@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>AR7-Firmware (Siemens Gigaset SX541)</title>
+	<meta http-equiv="Content-Type" content="text/html">
+	<meta name="author" content="Stefan Weil">
+	<link rel=stylesheet type="text/css" href="../style.css" />
+</head>
+
+<body>
+<div class="menusection">
+<div class="menuheader">
+<a href="http://developer.berlios.de">
+<img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS"></a>
+</div>
+<p><a href="http://developer.berlios.de/projects/ar7-firmware/"><b>AR7-Firmware</b></a></p>
+<p><a href="../index">&Uuml;bersicht</a></p>
+<p><a href="../doc/loader">Bootloader</a></p>
+<p><a href="../openwrt/index">OpenWrt</a></p>
+<p><a href="../devices">Router</a></p>
+<div class="submenu">
+<p><a href="../devices/basic3">Sinus 154 DSL Basic 3</a></p>
+<p><a href="../devices/basicse">Sinus 154 DSL Basic SE</a></p>
+<p><a href="../devices/sx541">Gigaset SX541</a></p>
+</div>
+<p><a href="../tools">Werkzeuge</a></p>
+<object data="../router.svg" width=150 height=100></object>
+</div>
+
+<div class="pagesection">
+<div class="pageheader">
+<a href="basicse.html.de">deutsch</a> <a href="basicse.html.en">english</a>
+</div>
+
+<h1>Linux als Firmware f&uuml;r TCOM Sinus 154 DSL Basic SE und Basic 3</h1>
+
+<h2>Wichtige Hinweise</h2>
+
+<p>Jegliche &Auml;nderungen an Ger&auml;ten,
+die nach hier gemachten Angaben erfolgen, sind auf eigene Gefahr.
+Sie k&ouml;nnen zum Verlust der Garantie f&uuml;hren und
+machen im schlimmsten Fall das Ger&auml;t unbrauchbar.</p>
+
+<p>Insbesondere jede Ver&auml;nderung des Bootloaders (im Flash) ist fatal und
+daher unbedingt zu vermeiden!</p>
+
+<h2>Hardware</h2>
+
+<h3>Serielle Schnittstelle</h3>
+
+<p>Alle Ger&auml;te haben eine serielle Schnittstelle, die aber nur im Ger&auml;t
+zug&auml;nglich ist. Schnittstellenparameter 115000 bps 8N1. F&uuml;r den
+Anschluss an PCs wird ein Pegelkonverter von 3,3 V auf RS232 ben&ouml;tigt.
+Ich verwende einen MAX232CPE, der bei jedem der grossen Elektronikversender
+erh&auml;ltlich ist. Meine Kosten lagen bei rund 12 EUR.
+Eine <a href="http://www.wehavemorefun.de/fritzbox/Serielle_Konsole">alternative
+L&ouml;sung</a> unter Verwendung eines Handykabels hat bei mir nicht
+funktioniert - andere Anwender waren damit aber schon erfolgreich.
+Hier sind die notwendigen Verbindungen:</p>
+
+<table summary="serial port">
+<tr><th>Sinus 154</th><th>Belegung</th><th>MAX232CPE</th></tr>
+<tr><td>10</td><td>3,3 V</td><td>16</td></tr>
+<tr><td>9</td><td>GND</td><td>15</td></tr>
+<tr><td>5</td><td>out</td><td>11</td></tr>
+<tr><td>3</td><td>in</td><td>12</td></tr>
+</table>
+
+<pre>
+Sinus 154 Steckerleiste (im Ger&auml;t)
+
+  9   5 3 1   |
+  x x x x x   |
+  x x x x x   |
+ 10       2   |
+--------------+
+</pre>
+
+Hinweise zur Beschaltung des MAX232CPE findet man beispielsweise unter
+<a href="http://hri.sourceforge.net/tools/">http://hri.sourceforge.net/tools/</a>
+oder auf den Webseiten von Maxim.<p>
+
+&Uuml;ber die serielle Schnittstelle kann die Firmware geladen, bedient und
+diagnostiziert werden.
+Der Bootloader verwendet f&uuml;r bin&auml;re Datentransfers das XModem Protokoll.
+MS Windows Hyperterm funktioniert sofort.
+F&uuml;r Minicom (LINUX) wird ein spezielles
+<a href="tools/sx-at91.c">XModem-Programm</a> ben&ouml;tigt.
+
+
+<h3>Ethernet</h3>
+
+Jedes Ger&auml;t hat eine Ethernetschnittstelle.
+
+<h3>DSL</h3>
+
+Jedes Ger&auml;t hat einen DSL-Anschluss. Die Hardware unterst&uuml;tzt
+ADSL2+ mit bis zu 25 Mbit/s - deutlich mehr, als die Firmware von TCOM
+anbietet.
+
+<h3>USB</h3>
+
+Der AR7-Prozessor unterst&uuml;tzt auch einen USB-Anschluss, der aber
+bei Sinus 154 DSL Basic SE / Basic 3 nicht herausgef&uuml;hrt ist.
+Falls jemand mutig genug ist, kann er versuchen, diesen
+Anschluss zu finden und selbst zu verdrahten - 
+mit dem Risiko, dabei sein Ger&auml;t zu zerst&ouml;ren.<p>
+
+Das noch nicht n&auml;her untersuchte Sinus 154 DSL SE hat &uuml;brigens
+einen USB-Anschluss herausgef&uuml;hrt!
+
+<h3>WLAN</h3>
+
+<p>Jedes Ger&auml;t hat eine Mini-PCI-Karte mit TNETW1130 von Texas Instruments
+f&uuml;r WLAN eingebaut.
+Diesen Baustein findet man auch unter der Bezeichnung ACX111.
+Die Ansteuerung erfolgt &uuml;ber einen seriellen Bus (VLYNQ).</p>
+
+<p>Neben den Standards IEEE 802.11b und IEEE 802.11g beherrscht der TNETW1130
+eine Betriebsart mit der Herstellerbezeichnung 802.11g++, mit der ein
+um 35 % h&ouml;herer Nettodurchsatz erreicht wird.
+Die Firmware von TCOM kennt diese Betriebsart allerdings nicht.</p>
+
+<p>Es gibt Treiber f&uuml;r die Betriebssysteme VxWorks und Linux
+vom Hersteller 
+- leider ist der Programmcode aber nicht allgemein zug&auml;nglich.
+N&auml;heres findet man bei http://www.linux-mips.org/wiki/AR7.</p>
+
+<p>Im Open-Source-Bereich findet man das Projekt http://acx100.sourceforge.net/,
+das mit seinem Linux-Treiber f&uuml;r ACX100 auch den ACX111
+zumindest teilweise unterst&uuml;tzt. Das Projekt kennt zur Zeit
+allerdings nur die Bussysteme PCI und USB, nicht aber VLYNQ.</p>
+
+<table summary="wlan">
+<tr><th>Feature</th><th>TCOM</th><th>TI</th><th>ACX100</th></tr>
+<tr><td>Source Code</td><td>no</td><td>closed</td><td>open</td></tr>
+<tr><td>802.11g++</td><td>no</td><td>yes</td><td>no</td></tr>
+<tr><td>Access Point</td><td>yes</td><td>yes</td><td>(no)</td></tr>
+<tr><td>Client Mode</td><td>no</td><td>no</td><td>yes</td></tr>
+<tr><td>WEP</td><td>yes</td><td>yes</td><td>(yes)</td></tr>
+<tr><td>WPA</td><td>yes</td><td>yes</td><td>no</td></tr>
+<tr><td>VLYNQ</td><td>yes</td><td>yes</td><td>no</td></tr>
+<tr><td>Linux ioctls</td><td>no</td><td>no</td><td>yes</td></tr>
+</table>
+
+<h3>Speicherbelegung</h3>
+
+<table summary="memory map">
+<tr><th>Startadresse</th><th>Endadresse</th><th>Inhalt</th></tr>
+<tr><td>0x80000000</td><td>0x80000fff</td><td>interner RAM 4 KiB</td></tr>
+<tr><td>0x80001000</td><td>0x8fffffff</td><td>?</td></tr>
+<tr><td>0x90000000</td><td>0x90ffffff</td><td>RAM 16 MiB</td></tr>
+<tr><td>0x91000000</td><td>0x95ffffff</td><td>wie 0x90000000?</td></tr>
+<tr><td>0x96000000</td><td>0xafffffff</td><td>?</td></tr>
+<tr><td>0xa8610900</td><td></td><td>GPIO</td></tr>
+<tr><td>0xa8610E00</td><td></td><td>UART</td></tr>
+<tr><td>0xb0000000</td><td>0xb01fffff</td><td>Flash Memory 2 MiB</td></tr>
+<tr><td>0xb0200000</td><td>0xb03fffff</td><td>wie 0xb0000000</td></tr>
+<tr><td>0xb0400000</td><td>0xbfbfffff</td><td>?</td></tr>
+<tr><td>0xbfc00000</td><td>0xbfc00fff</td><td>interner PROM 4 KiB</td></tr>
+</table>
+
+<h3>Aufteilung Flash Memory (2 MiB)</h3>
+
+<table summary="flash memory map">
+<tr><th>Index</th><th>Inhalt</th><th>Adresse</th><th>Gr&ouml;sse</th></tr>
+<tr><td>[0] </td><td>Boot            </td><td>0xB0000000</td><td> 128 KiB</td></tr>
+<tr><td>[1] </td><td>Configuration   </td><td>0xB0020000</td><td> 128 KiB</td></tr>
+<tr><td>[2] </td><td>Web Image       </td><td>0xB0040000</td><td> 832 KiB</td></tr>
+<tr><td>[3] </td><td>Code Image      </td><td>0xB0110000</td><td> 896 KiB</td></tr>
+<tr><td>[4] </td><td>Boot Params     </td><td>0xB01F0000</td><td>  64 KiB</td></tr>
+<tr><td>[5] </td><td>Flash Image     </td><td>0xB0000000</td><td>2048 KiB</td></tr>
+<tr><td>    </td><td>Flashende       </td><td>0xB01FFFFF</td><td></td></tr>
+</table>
+
+</div>
+</body>
+</html>

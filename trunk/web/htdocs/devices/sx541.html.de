@@ -4,34 +4,32 @@
 	<title>AR7-Firmware (Siemens Gigaset SX541)</title>
 	<meta http-equiv="Content-Type" content="text/html">
 	<meta name="author" content="Stefan Weil">
-	<link rel=stylesheet type="text/css" href="../ar7.css" />
+	<link rel=stylesheet type="text/css" href="../style.css" />
 </head>
 
 <body>
-<table class=page summary="page">
-<tr class=titlebar>
-<td>
+<div class="menusection">
+<div class="menuheader">
 <a href="http://developer.berlios.de">
 <img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS"></a>
-</td>
-<td>
+</div>
+<p><a href="http://developer.berlios.de/projects/ar7-firmware/"><b>AR7-Firmware</b></a></p>
+<p><a href="../index">&Uuml;bersicht</a></p>
+<p><a href="../doc/loader">Bootloader</a></p>
+<p><a href="../openwrt/index">OpenWrt</a></p>
+<p><a href="../devices">Router</a></p>
+<div class="submenu">
+<p><a href="basic3">Sinus 154 DSL Basic 3</a></p>
+<p><a href="basicse">Sinus 154 DSL Basic SE</a></p>
+<p><a href="sx541">Gigaset SX541</a></p>
+</div>
+<p><a href="../tools">Werkzeuge</a></p>
+</div>
+
+<div class="pagesection">
+<div class="pageheader">
 <a href="sx541.html.de">deutsch</a> <a href="sx541.html.en">english</a>
-</td>
-</tr>
-
-<tr>
-<td class=menu>
-<table class=menu summary="menu">
-<tr><th><a href="http://developer.berlios.de/projects/ar7-firmware/">AR7-Firmware</a></th></tr>
-<tr><td><a href="../index">Übersicht</a></td></tr>
-<tr><td><a href="../doc/loader">Bootloader</a></td></tr>
-<tr><td><a href="../openwrt/index">OpenWrt</a></td></tr>
-<tr><td><a href="../devices">Router</a></td></tr>
-<tr><td><a href="../tools">Werkzeuge</a></td></tr>
-</table>
-</td>
-
-<td class=page>
+</div>
 
 <h2>Linux als Firmware f&uuml;r Siemens Gigaset SX541</h2>
 
@@ -198,8 +196,6 @@ Kernel panic: Attempted to kill init!
 
 Der Absturz erfolgt kurz vor Ende der Kernelfunktion ip_conntrack_init.
 
-</td>
-</tr>
-</table>
+</div>
 </body>
 </html>
