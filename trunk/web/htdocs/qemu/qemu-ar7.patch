@@ -1,0 +1,852 @@
+? boot
+? config.sh
+? diff-20060329
+? diff-20060408
+? diff-20060410
+? diff-20060411
+? diff-20060413
+? diff-20060418
+? diff.txt
+? log
+? old
+? test-loop.S
+? test-loop.c
+? vmlinux.bin
+? x
+? hw/ar7.c
+? hw/ar7.h
+Index: .cvsignore
+===================================================================
+RCS file: /sources/qemu/qemu/.cvsignore,v
+retrieving revision 1.12
+diff -u -b -B -u -r1.12 .cvsignore
+--- .cvsignore	11 Mar 2006 14:51:13 -0000	1.12
++++ .cvsignore	18 Apr 2006 21:41:23 -0000
+@@ -11,6 +11,8 @@
+ ppc-user
+ qemu-doc.html
+ qemu-tech.html
++qemu-doc.info
++qemu-tech.info
+ qemu.1
+ qemu.pod
+ qemu-img.1
+@@ -22,6 +24,8 @@
+ sparc64-user
+ sparc64-softmmu
+ mips-softmmu
+-mipsel-softmmu
++mipsel-*softmmu
+ mips-user
+ mipsel-user
++.gdbinit
++ChangeLog
+Index: Makefile.target
+===================================================================
+RCS file: /sources/qemu/qemu/Makefile.target,v
+retrieving revision 1.97
+diff -u -b -B -u -r1.97 Makefile.target
+--- Makefile.target	17 Apr 2006 13:57:12 -0000	1.97
++++ Makefile.target	18 Apr 2006 21:41:23 -0000
+@@ -324,7 +324,16 @@
+ DEFINES += -DHAS_AUDIO
+ endif
+ ifeq ($(TARGET_ARCH), mips)
+-VL_OBJS+= mips_r4k.o dma.o vga.o serial.o i8254.o i8259.o
++VL_OBJS += mips_r4k.o dma.o serial.o i8259.o
++ifeq ($(TARGET_VARIANT), ar7)
++VL_OBJS += ar7.o
++endif
++ifdef CONFIG_SDL
++VL_OBJS += vga.o
++endif
++ifneq ($(TARGET_VARIANT), ar7)
++VL_OBJS += i8254.o
++endif
+ #VL_OBJS+= #ide.o pckbd.o fdc.o m48t59.o
+ endif
+ ifeq ($(TARGET_BASE_ARCH), sparc)
+@@ -385,6 +394,8 @@
+ VL_LDFLAGS+=-Wl,-G0 -Wl,-T,$(SRC_PATH)/ia64.ld
+ endif
+ 
++VL_LDFLAGS+=-g
++
+ ifdef CONFIG_WIN32
+ SDL_LIBS := $(filter-out -mwindows, $(SDL_LIBS)) -mconsole
+ endif
+Index: configure
+===================================================================
+RCS file: /sources/qemu/qemu/configure,v
+retrieving revision 1.92
+diff -u -b -B -u -r1.92 configure
+--- configure	17 Apr 2006 13:57:12 -0000	1.92
++++ configure	18 Apr 2006 21:41:24 -0000
+@@ -296,7 +296,7 @@
+ if test -z "$target_list" ; then
+ # these targets are portable
+     if [ "$softmmu" = "yes" ] ; then
+-        target_list="i386-softmmu ppc-softmmu sparc-softmmu x86_64-softmmu mips-softmmu mipsel-softmmu arm-softmmu"
++        target_list="i386-softmmu ppc-softmmu sparc-softmmu x86_64-softmmu mips-softmmu mipsel-softmmu mipsel-ar7-softmmu arm-softmmu"
+     fi
+ # the following are Linux specific
+     if [ "$user" = "yes" ] ; then
+@@ -728,6 +728,11 @@
+   echo "TARGET_ARCH=mips" >> $config_mak
+   echo "#define TARGET_ARCH \"mips\"" >> $config_h
+   echo "#define TARGET_MIPS 1" >> $config_h
++  target_variant=`echo $target | cut -d '-' -f 2`
++  if test "$target_variant" = "ar7" ; then
++    echo "TARGET_VARIANT=ar7" >> $config_mak
++    echo "#define TARGET_AR7 1" >> $config_h
++  fi
+ else
+   echo "Unsupported target CPU"
+   exit 1
+Index: cpu-exec.c
+===================================================================
+RCS file: /sources/qemu/qemu/cpu-exec.c,v
+retrieving revision 1.76
+diff -u -b -B -u -r1.76 cpu-exec.c
+--- cpu-exec.c	25 Mar 2006 19:31:22 -0000	1.76
++++ cpu-exec.c	18 Apr 2006 21:41:24 -0000
+@@ -380,7 +380,7 @@
+                     break;
+                 } else if (env->user_mode_only) {
+                     /* if user mode only, we simulate a fake exception
+-                       which will be hanlded outside the cpu execution
++                       which will be handled outside the cpu execution
+                        loop */
+ #if defined(TARGET_I386)
+                     do_interrupt_user(env->exception_index, 
+Index: exec-all.h
+===================================================================
+RCS file: /sources/qemu/qemu/exec-all.h,v
+retrieving revision 1.46
+diff -u -b -B -u -r1.46 exec-all.h
+--- exec-all.h	25 Mar 2006 19:31:22 -0000	1.46
++++ exec-all.h	18 Apr 2006 21:41:25 -0000
+@@ -152,6 +152,7 @@
+ #endif
+ 
+ #define CODE_GEN_MAX_BLOCKS    (CODE_GEN_BUFFER_SIZE / CODE_GEN_AVG_BLOCK_SIZE)
++//#define CODE_GEN_MAX_BLOCKS	10
+ 
+ #if defined(__powerpc__) 
+ #define USE_DIRECT_JUMP
+Index: exec.c
+===================================================================
+RCS file: /sources/qemu/qemu/exec.c,v
+retrieving revision 1.78
+diff -u -b -B -u -r1.78 exec.c
+--- exec.c	16 Apr 2006 15:14:59 -0000	1.78
++++ exec.c	18 Apr 2006 21:41:26 -0000
+@@ -1515,6 +1514,7 @@
+         if (prot & PAGE_WRITE) {
+             if ((pd & ~TARGET_PAGE_MASK) == IO_MEM_ROM) {
+                 /* ROM: access is ignored (same as unassigned) */
++		printf("write access to ROM at 0x%08x\n", vaddr);
+                 te->addr_write = vaddr | IO_MEM_ROM;
+             } else if ((pd & ~TARGET_PAGE_MASK) == IO_MEM_RAM && 
+                        !cpu_physical_memory_is_dirty(pd)) {
+Index: gdbstub.c
+===================================================================
+RCS file: /sources/qemu/qemu/gdbstub.c,v
+retrieving revision 1.34
+diff -u -b -B -u -r1.34 gdbstub.c
+--- gdbstub.c	5 Dec 2005 19:55:19 -0000	1.34
++++ gdbstub.c	18 Apr 2006 21:41:26 -0000
+@@ -35,7 +35,7 @@
+ #include <netinet/tcp.h>
+ #include <signal.h>
+ 
+-//#define DEBUG_GDB
++#define DEBUG_GDB
+ 
+ enum RSState {
+     RS_IDLE,
+Index: monitor.c
+===================================================================
+RCS file: /sources/qemu/qemu/monitor.c,v
+retrieving revision 1.48
+diff -u -b -B -u -r1.48 monitor.c
+--- monitor.c	12 Apr 2006 21:07:07 -0000	1.48
++++ monitor.c	18 Apr 2006 21:41:27 -0000
+@@ -354,10 +354,12 @@
+     }
+ }
+ 
++#if defined(CONFIG_SDL)
+ static void do_screen_dump(const char *filename)
+ {
+     vga_hw_screen_dump(filename);
+ }
++#endif
+ 
+ static void do_log(const char *items)
+ {
+@@ -1041,8 +1043,10 @@
+       "[-f] device", "eject a removable media (use -f to force it)" },
+     { "change", "BF", do_change,
+       "device filename", "change a removable media" },
++#if defined(CONFIG_SDL)
+     { "screendump", "F", do_screen_dump, 
+       "filename", "save screen into PPM image 'filename'" },
++#endif
+     { "log", "s", do_log,
+       "item1[,...]", "activate logging of the specified items to '/tmp/qemu.log'" }, 
+     { "savevm", "F", do_savevm,
+Index: qemu-binfmt-conf.sh
+===================================================================
+RCS file: /sources/qemu/qemu/qemu-binfmt-conf.sh,v
+retrieving revision 1.4
+diff -u -b -B -u -r1.4 qemu-binfmt-conf.sh
+--- qemu-binfmt-conf.sh	6 Dec 2005 21:43:35 -0000	1.4
++++ qemu-binfmt-conf.sh	18 Apr 2006 21:41:27 -0000
+@@ -1,8 +1,9 @@
+ #!/bin/sh
+-# enable automatic i386/ARM/SPARC/PPC program execution by the kernel
++# enable automatic i386/ARM/MIPS/SPARC/PPC program execution by the kernel
+ 
+ # load the binfmt_misc module
+ /sbin/modprobe binfmt_misc
++mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc
+ 
+ # probe cpu type
+ cpu=`uname -m`
+Index: qemu-doc.texi
+===================================================================
+RCS file: /sources/qemu/qemu/qemu-doc.texi,v
+retrieving revision 1.84
+diff -u -b -B -u -r1.84 qemu-doc.texi
+--- qemu-doc.texi	16 Apr 2006 18:46:12 -0000	1.84
++++ qemu-doc.texi	18 Apr 2006 21:41:28 -0000
+@@ -904,7 +904,7 @@
+ @example
+ > ./qemu.sh 
+ Connected to host network interface: tun0
+-Linux version 2.4.21 (bellard@voyager.localdomain) (gcc version 3.2.2 20030222 (Red Hat Linux 3.2.2-5)) #5 Tue Nov 11 18:18:53 CET 2003
++Linux version 2.4.21 (bellard@@voyager.localdomain) (gcc version 3.2.2 20030222 (Red Hat Linux 3.2.2-5)) #5 Tue Nov 11 18:18:53 CET 2003
+ BIOS-provided physical RAM map:
+  BIOS-e801: 0000000000000000 - 000000000009f000 (usable)
+  BIOS-e801: 0000000000100000 - 0000000002000000 (usable)
+@@ -941,7 +941,7 @@
+ pty: 256 Unix98 ptys configured
+ Serial driver version 5.05c (2001-07-08) with no serial options enabled
+ ttyS00 at 0x03f8 (irq = 4) is a 16450
+-ne.c:v1.10 9/23/94 Donald Becker (becker@scyld.com)
++ne.c:v1.10 9/23/94 Donald Becker (becker@@scyld.com)
+ Last modified Nov 1, 2000 by Paul Gortmaker
+ NE*000 ethercard probe at 0x300: 52 54 00 12 34 56
+ eth0: NE2000 found at 0x300, using IRQ 9.
+@@ -964,7 +964,7 @@
+ VFS: Mounted root (ext2 filesystem).
+ Freeing unused kernel memory: 64k freed
+  
+-Linux version 2.4.21 (bellard@voyager.localdomain) (gcc version 3.2.2 20030222 (Red Hat Linux 3.2.2-5)) #5 Tue Nov 11 18:18:53 CET 2003
++Linux version 2.4.21 (bellard@@voyager.localdomain) (gcc version 3.2.2 20030222 (Red Hat Linux 3.2.2-5)) #5 Tue Nov 11 18:18:53 CET 2003
+  
+ QEMU Linux test distribution (based on Redhat 9)
+  
+Index: translate-all.c
+===================================================================
+RCS file: /sources/qemu/qemu/translate-all.c,v
+retrieving revision 1.14
+diff -u -b -B -u -r1.14 translate-all.c
+--- translate-all.c	5 Dec 2005 19:56:07 -0000	1.14
++++ translate-all.c	18 Apr 2006 21:41:28 -0000
+@@ -303,7 +303,9 @@
+         env->access_type = type;
+     }
+ #elif defined(TARGET_MIPS)
++#if 1 // single stepping does not work with this code
+     env->PC = gen_opc_pc[j];
++#endif
+     env->hflags &= ~MIPS_HFLAG_BMASK;
+     env->hflags |= gen_opc_hflags[j];
+ #endif
+Index: vl.c
+===================================================================
+RCS file: /sources/qemu/qemu/vl.c,v
+retrieving revision 1.171
+diff -u -b -B -u -r1.171 vl.c
+--- vl.c	16 Apr 2006 11:06:58 -0000	1.171
++++ vl.c	18 Apr 2006 21:41:30 -0000
+@@ -3396,7 +3396,9 @@
+ 
+ static void dumb_refresh(DisplayState *ds)
+ {
++#if defined(CONFIG_SDL)
+     vga_hw_update();
++#endif
+ }
+ 
+ void dumb_display_init(DisplayState *ds)
+@@ -5405,11 +5407,13 @@
+ #endif
+     linux_boot = (kernel_filename != NULL);
+         
++#if !defined(TARGET_MIPS) // embedded
+     if (!linux_boot && 
+         hd_filename[0] == '\0' && 
+         (cdrom_index >= 0 && hd_filename[cdrom_index] == '\0') &&
+         fd_filename[0] == '\0')
+         help();
++#endif
+     
+     /* boot to cd by default if no hard disk */
+     if (hd_filename[0] == '\0' && boot_device == 'c') {
+@@ -5652,8 +5656,10 @@
+                   ds, fd_filename, snapshot,
+                   kernel_filename, kernel_cmdline, initrd_filename);
+ 
++#if defined(CONFIG_SDL)
+     gui_timer = qemu_new_timer(rt_clock, gui_update, NULL);
+     qemu_mod_timer(gui_timer, qemu_get_clock(rt_clock));
++#endif
+ 
+ #ifdef CONFIG_GDBSTUB
+     if (use_gdbstub) {
+Index: vl.h
+===================================================================
+RCS file: /sources/qemu/qemu/vl.h,v
+retrieving revision 1.109
+diff -u -b -B -u -r1.109 vl.h
+--- vl.h	12 Apr 2006 21:09:08 -0000	1.109
++++ vl.h	18 Apr 2006 21:41:31 -0000
+@@ -142,6 +142,10 @@
+ /* XXX: make it dynamic */
+ #if defined (TARGET_PPC)
+ #define BIOS_SIZE ((512 + 32) * 1024)
++#elif 0 // embedded 2 MiB
++#define BIOS_SIZE ((2048 + 4) * 1024)
++#elif defined(TARGET_AR7) /* 4 MiB flash + 4 KiB internal ROM */
++#define BIOS_SIZE ((4096 + 4) * 1024)
+ #elif defined(TARGET_MIPS)
+ #define BIOS_SIZE (128 * 1024)
+ #else
+@@ -779,7 +783,7 @@
+ 
+ typedef struct SerialState SerialState;
+ SerialState *serial_init(SetIRQFunc *set_irq, void *opaque,
+-                         int base, int irq, CharDriverState *chr);
++                         int base, int it_shift, int irq, CharDriverState *chr);
+ SerialState *serial_mm_init (SetIRQFunc *set_irq, void *opaque,
+                              target_ulong base, int it_shift,
+                              int irq, CharDriverState *chr);
+Index: hw/mips_r4k.c
+===================================================================
+RCS file: /sources/qemu/qemu/hw/mips_r4k.c,v
+retrieving revision 1.14
+diff -u -b -B -u -r1.14 mips_r4k.c
+--- hw/mips_r4k.c	5 Feb 2006 04:14:41 -0000	1.14
++++ hw/mips_r4k.c	18 Apr 2006 21:41:31 -0000
+@@ -1,12 +1,26 @@
++/*
++ * mips_r4k.c
++ */
++
+ #include "vl.h"
++#if defined(TARGET_AR7)
++# include "hw/ar7.h"	/* ar7_init */
++#endif
+ 
+ #define BIOS_FILENAME "mips_bios.bin"
+-//#define BIOS_FILENAME "system.bin"
++
++#if defined(TARGET_AR7)
++#define KERNEL_LOAD_ADDR 0x94000000
++#define INITRD_LOAD_ADDR 0x94800000
++#else
+ #define KERNEL_LOAD_ADDR 0x80010000
++#define KERNEL_LOAD_ADDR 0x80040000
+ #define INITRD_LOAD_ADDR 0x80800000
++#endif
+ 
+ extern FILE *logfile;
+ 
++#if !defined(TARGET_AR7)
+ static PITState *pit;
+ 
+ static void pic_irq_request(void *opaque, int level)
+@@ -20,8 +34,9 @@
+         cpu_reset_interrupt(env, CPU_INTERRUPT_HARD);
+     }
+ }
++#endif
+ 
+-void cpu_mips_irqctrl_init (void)
++static void cpu_mips_irqctrl_init (void)
+ {
+ }
+ 
+@@ -101,6 +116,7 @@
+     cpu_mips_update_count(env, 1, 0);
+ }
+ 
++#if !defined(TARGET_AR7)
+ static void io_writeb (void *opaque, target_phys_addr_t addr, uint32_t value)
+ {
+ #if 0
+@@ -171,29 +187,50 @@
+     return ret;
+ }
+ 
+-CPUWriteMemoryFunc *io_write[] = {
++static CPUWriteMemoryFunc *io_write[] = {
+     &io_writeb,
+     &io_writew,
+     &io_writel,
+ };
+ 
+-CPUReadMemoryFunc *io_read[] = {
++static CPUReadMemoryFunc *io_read[] = {
+     &io_readb,
+     &io_readw,
+     &io_readl,
+ };
++#endif /* !TARGET_AR7 */
++
++#if defined(TARGET_AR7)
++static int bios_load(const char *filename, unsigned long bios_offset, unsigned long address)
++{
++    char buf[1024];
++    int ret;
++    snprintf(buf, sizeof(buf), "%s/%s", bios_dir, filename);
++    ret = load_image(buf, phys_ram_base + bios_offset);
++    printf("%s: load BIOS '%s' size %d\n", __func__, buf, ret);
++    if (ret > 0) {
++	    cpu_register_physical_memory(address, ret, bios_offset | IO_MEM_ROM);
++    } else {
++	    ret = 0;
++    }
++    return ret;
++}
++#endif
+ 
+ void mips_r4k_init (int ram_size, int vga_ram_size, int boot_device,
+                     DisplayState *ds, const char **fd_filename, int snapshot,
+                     const char *kernel_filename, const char *kernel_cmdline,
+                     const char *initrd_filename)
+ {
++#if !defined(TARGET_AR7)
+     char buf[1024];
+-    target_ulong kernel_base, kernel_size, initrd_base, initrd_size;
++    int ret;
++#endif
+     unsigned long bios_offset;
++#if !defined(TARGET_AR7)
+     int io_memory;
++#endif
+     int linux_boot;
+-    int ret;
+     CPUState *env;
+ 
+     printf("%s: start\n", __func__);
+@@ -203,9 +240,22 @@
+     register_savevm("cpu", 0, 3, cpu_save, cpu_load, env);
+ 
+     /* allocate RAM */
++#if defined(TARGET_AR7)
++    /* 4 KiB internal RAM, 16 MiB external RAM */
++    cpu_register_physical_memory(0, 4 * KiB, IO_MEM_RAM);
++    cpu_register_physical_memory(0x14000000, 16 * MiB, (4 * KiB) | IO_MEM_RAM);
++#else
+     cpu_register_physical_memory(0, ram_size, IO_MEM_RAM);
++#endif
+     bios_offset = ram_size + vga_ram_size;
++#if defined(TARGET_AR7)
++    bios_offset += bios_load("0xb0000000.bin", bios_offset, 0x10000000);
++    bios_offset += bios_load("0xbfc00000.bin", bios_offset, 0x1fc00000);
++    env->PC = 0xBFC00000;
++#else
+     snprintf(buf, sizeof(buf), "%s/%s", bios_dir, BIOS_FILENAME);
++    printf("%s: ram_base = %p, ram_size = 0x%08x, bios_offset = 0x%08lx\n",
++	__func__, phys_ram_base, ram_size, bios_offset);
+     printf("%s: load BIOS '%s' size %d\n", __func__, buf, BIOS_SIZE);
+     ret = load_image(buf, phys_ram_base + bios_offset);
+     if (ret != BIOS_SIZE) {
+@@ -214,17 +264,19 @@
+     }
+     cpu_register_physical_memory((uint32_t)(0x1fc00000),
+                                  BIOS_SIZE, bios_offset | IO_MEM_ROM);
+-#if 0
+     memcpy(phys_ram_base + 0x10000, phys_ram_base + bios_offset, BIOS_SIZE);
+     env->PC = 0x80010004;
+-#else
+-    env->PC = 0xBFC00004;
+ #endif
++
+     if (linux_boot) {
+-        kernel_base = KERNEL_LOAD_ADDR;
+         /* now we can load the kernel */
+-        kernel_size = load_image(kernel_filename,
+-                                phys_ram_base + (kernel_base - 0x80000000));
++#if !defined(TARGET_AR7)
++        target_ulong kernel_size = load_image(kernel_filename,
++                                phys_ram_base + (KERNEL_LOAD_ADDR - 0x80000000));
++#else
++        target_ulong kernel_size = load_image(kernel_filename,
++                                phys_ram_base + 4 * KiB);
++#endif
+         if (kernel_size == (target_ulong) -1) {
+             fprintf(stderr, "qemu: could not load kernel '%s'\n", 
+                     kernel_filename);
+@@ -232,35 +284,39 @@
+         }
+         /* load initrd */
+         if (initrd_filename) {
+-            initrd_base = INITRD_LOAD_ADDR;
+-            initrd_size = load_image(initrd_filename,
++	    // code is buggy (wrong address)!!!
++            target_ulong initrd_base = INITRD_LOAD_ADDR;
++            target_ulong initrd_size = load_image(initrd_filename,
+                                      phys_ram_base + initrd_base);
+             if (initrd_size == (target_ulong) -1) {
+                 fprintf(stderr, "qemu: could not load initial ram disk '%s'\n", 
+                         initrd_filename);
+                 exit(1);
+             }
+-        } else {
+-            initrd_base = 0;
+-            initrd_size = 0;
+         }
+         env->PC = KERNEL_LOAD_ADDR;
++#if !defined(TARGET_AR7)
++	env->PC = 0x8023e040;
++#endif
+ 	/* Store command line.  */
++	// code is buggy (wrong address)!!!
+         strcpy (phys_ram_base + (16 << 20) - 256, kernel_cmdline);
+         /* FIXME: little endian support */
+         *(int *)(phys_ram_base + (16 << 20) - 260) = tswap32 (0x12345678);
+         *(int *)(phys_ram_base + (16 << 20) - 264) = tswap32 (ram_size);
+-    } else {
+-        kernel_base = 0;
+-        kernel_size = 0;
+-        initrd_base = 0;
+-        initrd_size = 0;
+     }
+ 
+     /* Init internal devices */
+     cpu_mips_clock_init(env);
+     cpu_mips_irqctrl_init();
+ 
++#if defined(TARGET_AR7)
++    ar7_init();
++#if defined(CONFIG_SDL)
++    vga_initialize(NULL, ds, phys_ram_base + ram_size, ram_size, 
++                   vga_ram_size, 0, 0);
++#endif
++#else
+     /* Register 64 KB of ISA IO space at 0x14000000 */
+     io_memory = cpu_register_io_memory(0, io_read, io_write, NULL);
+     cpu_register_physical_memory(0x14000000, 0x00010000, io_memory);
+@@ -268,7 +324,7 @@
+ 
+     isa_pic = pic_init(pic_irq_request, env);
+     pit = pit_init(0x40, 0);
+-    serial_init(&pic_set_irq_new, isa_pic, 0x3f8, 4, serial_hds[0]);
++    serial_init(&pic_set_irq_new, isa_pic, 0x3f8, 0, 4, serial_hds[0]);
+     vga_initialize(NULL, ds, phys_ram_base + ram_size, ram_size, 
+                    vga_ram_size, 0, 0);
+ 
+@@ -281,6 +337,7 @@
+             exit (1);
+         }
+     }
++#endif
+ }
+ 
+ QEMUMachine mips_machine = {
+Index: hw/serial.c
+===================================================================
+RCS file: /sources/qemu/qemu/hw/serial.c,v
+retrieving revision 1.12
+diff -u -b -B -u -r1.12 serial.c
+--- hw/serial.c	12 Apr 2006 20:42:42 -0000	1.12
++++ hw/serial.c	18 Apr 2006 21:41:31 -0000
+@@ -101,7 +101,12 @@
+     } else {
+         s->iir = UART_IIR_NO_INT;
+     }
+-    if (s->iir != UART_IIR_NO_INT) {
++    if (s->set_irq == 0) {
++	static uint8_t iir = 255;
++	if (iir != s->iir) {
++	  iir = s->iir;
++	}
++    } else if (s->iir != UART_IIR_NO_INT) {
+         s->set_irq(s->irq_opaque, s->irq, 1);
+     } else {
+         s->set_irq(s->irq_opaque, s->irq, 0);
+@@ -145,6 +150,7 @@
+     SerialState *s = opaque;
+     unsigned char ch;
+     
++    addr >>= s->it_shift;
+     addr &= 7;
+ #ifdef DEBUG_SERIAL
+     printf("serial: write addr=0x%02x val=0x%02x\n", addr, val);
+@@ -212,6 +218,7 @@
+     SerialState *s = opaque;
+     uint32_t ret;
+ 
++    addr >>= s->it_shift;
+     addr &= 7;
+     switch(addr) {
+     default:
+@@ -343,7 +350,7 @@
+ 
+ /* If fd is zero, it means that the serial device uses the console */
+ SerialState *serial_init(SetIRQFunc *set_irq, void *opaque,
+-                         int base, int irq, CharDriverState *chr)
++                         int base, int it_shift, int irq, CharDriverState *chr)
+ {
+     SerialState *s;
+ 
+@@ -355,12 +362,13 @@
+     s->irq = irq;
+     s->lsr = UART_LSR_TEMT | UART_LSR_THRE;
+     s->iir = UART_IIR_NO_INT;
++    s->it_shift = it_shift;
+     s->msr = UART_MSR_DCD | UART_MSR_DSR | UART_MSR_CTS;
+ 
+     register_savevm("serial", base, 1, serial_save, serial_load, s);
+ 
+-    register_ioport_write(base, 8, 1, serial_ioport_write, s);
+-    register_ioport_read(base, 8, 1, serial_ioport_read, s);
++    register_ioport_write(base, 8 << it_shift, 1, serial_ioport_write, s);
++    register_ioport_read(base, 8 << it_shift, 1, serial_ioport_read, s);
+     s->chr = chr;
+     qemu_chr_add_read_handler(chr, serial_can_receive1, serial_receive1, s);
+     qemu_chr_add_event_handler(chr, serial_event);
+Index: slirp/libslirp.h
+===================================================================
+RCS file: /sources/qemu/qemu/slirp/libslirp.h,v
+retrieving revision 1.6
+diff -u -b -B -u -r1.6 libslirp.h
+--- slirp/libslirp.h	16 Apr 2006 11:06:58 -0000	1.6
++++ slirp/libslirp.h	18 Apr 2006 21:41:31 -0000
+@@ -32,7 +32,7 @@
+                    int guest_port);
+ 
+ extern const char *tftp_prefix;
+-extern const char slirp_hostname[33];
++extern char slirp_hostname[33];
+ 
+ #ifdef __cplusplus
+ }
+Index: slirp/slirp.c
+===================================================================
+RCS file: /sources/qemu/qemu/slirp/slirp.c,v
+retrieving revision 1.10
+diff -u -b -B -u -r1.10 slirp.c
+--- slirp/slirp.c	16 Apr 2006 13:02:00 -0000	1.10
++++ slirp/slirp.c	18 Apr 2006 21:41:32 -0000
+@@ -25,7 +25,7 @@
+ /* XXX: suppress those select globals */
+ fd_set *global_readfds, *global_writefds, *global_xfds;
+ 
+-const char slirp_hostname[33];
++char slirp_hostname[33];
+ 
+ #ifdef _WIN32
+ 
+Index: target-mips/helper.c
+===================================================================
+RCS file: /sources/qemu/qemu/target-mips/helper.c,v
+retrieving revision 1.10
+diff -u -b -B -u -r1.10 helper.c
+--- target-mips/helper.c	11 Mar 2006 16:35:30 -0000	1.10
++++ target-mips/helper.c	18 Apr 2006 21:41:32 -0000
+@@ -94,18 +94,27 @@
+ #endif
+         } else {
+             *physical = address;
+-            *prot = PAGE_READ | PAGE_WRITE;
++	    *prot = PAGE_READ;
++	    if (rw) {
++		*prot |= PAGE_WRITE;
++	    }
+         }
+     } else if (address < 0xA0000000UL) {
+         /* kseg0 */
+         /* XXX: check supervisor mode */
+         *physical = address - 0x80000000UL;
+-        *prot = PAGE_READ | PAGE_WRITE;
++        *prot = PAGE_READ;
++	if (rw) {
++		*prot |= PAGE_WRITE;
++	}
+     } else if (address < 0xC0000000UL) {
+         /* kseg1 */
+         /* XXX: check supervisor mode */
+         *physical = address - 0xA0000000UL;
+-        *prot = PAGE_READ | PAGE_WRITE;
++        *prot = PAGE_READ;
++	if (rw) {
++		*prot |= PAGE_WRITE;
++	}
+     } else if (address < 0xE0000000UL) {
+         /* kseg2 */
+ #ifdef MIPS_USES_R4K_TLB
+Index: target-mips/mips-defs.h
+===================================================================
+RCS file: /sources/qemu/qemu/target-mips/mips-defs.h,v
+retrieving revision 1.1
+diff -u -b -B -u -r1.1 mips-defs.h
+--- target-mips/mips-defs.h	2 Jul 2005 14:57:14 -0000	1.1
++++ target-mips/mips-defs.h	18 Apr 2006 21:41:32 -0000
+@@ -6,20 +6,20 @@
+ /* If we want to use host float regs... */
+ //#define USE_HOST_FLOAT_REGS
+ 
+-enum {
+-    MIPS_R4Kc = 0x00018000,
+-    MIPS_R4Kp = 0x00018300,
+-};
++#define MIPS_R4Kc   0x00018000
++#define MIPS_R4Kp   0x00018300
++#define MIPS_R4KEc  0x00018448
+ 
+ /* Emulate MIPS R4Kc for now */
+-#define MIPS_CPU MIPS_R4Kc
++//~ #define MIPS_CPU MIPS_R4Kc
++#define MIPS_CPU MIPS_R4KEc
+ 
+ #if (MIPS_CPU == MIPS_R4Kc)
+ /* 32 bits target */
+ #define TARGET_LONG_BITS 32
+ /* real pages are variable size... */
+ #define TARGET_PAGE_BITS 12
+-/* Uses MIPS R4Kx ehancements to MIPS32 architecture */
++/* Uses MIPS R4Kx enhancements to MIPS32 architecture */
+ #define MIPS_USES_R4K_EXT
+ /* Uses MIPS R4Kc TLB model */
+ #define MIPS_USES_R4K_TLB
+@@ -39,12 +39,39 @@
+  (0x000 << CP0C1_DS) | (0x3 << CP0C1_DL) | (0x01 << CP0C1_DA) | \
+  (0 << CP0C1_PC) | (1 << CP0C1_WR) | (0 << CP0C1_CA) |          \
+  (1 << CP0C1_EP) | (0 << CP0C1_FP))
+-#elif defined (MIPS_CPU == MIPS_R4Kp)
++
++#elif (MIPS_CPU == MIPS_R4KEc)
++/* 32 bits target */
++#define TARGET_LONG_BITS 32
++/* real pages are variable size... */
++#define TARGET_PAGE_BITS 12
++/* Uses MIPS R4Kx enhancements to MIPS32 architecture */
++#define MIPS_USES_R4K_EXT
++/* Uses MIPS R4Kc TLB model */
++#define MIPS_USES_R4K_TLB
++#define MIPS_TLB_NB 16
++/* Have config1, runs in big-endian mode, uses TLB */
++#define MIPS_CONFIG0                                            \
++((1 << CP0C0_M) | (0x000 << CP0C0_K23) | (0x000 << CP0C0_KU) |  \
++ (1 << CP0C0_BE) | (0x001 << CP0C0_MT) | (0x010 << CP0C0_K0))
++/* 16 TLBs, 256 sets Icache, 16 bytes Icache line, 4-way Icache,
++ * 256 sets Dcache, 16 bytes Dcache line, 4-way Dcache,
++ * no performance counters, watch registers present, no code compression,
++ * EJTAG present, no FPU
++ */
++#define MIPS_CONFIG1                                            \
++((15 << CP0C1_MMU) |                                            \
++ (0x002 << CP0C1_IS) | (0x3 << CP0C1_IL) | (0x03 << CP0C1_IA) | \
++ (0x002 << CP0C1_DS) | (0x3 << CP0C1_DL) | (0x03 << CP0C1_DA) | \
++ (0 << CP0C1_PC) | (1 << CP0C1_WR) | (0 << CP0C1_CA) |          \
++ (1 << CP0C1_EP) | (0 << CP0C1_FP))
++
++#elif (MIPS_CPU == MIPS_R4Kp)
+ /* 32 bits target */
+ #define TARGET_LONG_BITS 32
+ /* real pages are variable size... */
+ #define TARGET_PAGE_BITS 12
+-/* Uses MIPS R4Kx ehancements to MIPS32 architecture */
++/* Uses MIPS R4Kx enhancements to MIPS32 architecture */
+ #define MIPS_USES_R4K_EXT
+ /* Uses MIPS R4Km FPM MMU model */
+ #define MIPS_USES_R4K_FPM
+Index: target-mips/op.c
+===================================================================
+RCS file: /sources/qemu/qemu/target-mips/op.c,v
+retrieving revision 1.5
+diff -u -b -B -u -r1.5 op.c
+--- target-mips/op.c	5 Dec 2005 19:59:36 -0000	1.5
++++ target-mips/op.c	18 Apr 2006 21:41:32 -0000
+@@ -206,7 +206,8 @@
+ 
+     tmp = T0;
+     T0 += T1;
+-    if ((T0 >> 31) ^ (T1 >> 31) ^ (tmp >> 31)) {
++    if (((tmp ^ T1 ^ (-1)) & (tmp ^ T0)) >> 31) {
++	/* operands of same sign, result different sign */
+         CALL_FROM_TB1(do_raise_exception_direct, EXCP_OVERFLOW);
+     }
+     RETURN();
+@@ -224,7 +225,8 @@
+ 
+     tmp = T0;
+     T0 = (int32_t)T0 - (int32_t)T1;
+-    if (!((T0 >> 31) ^ (T1 >> 31) ^ (tmp >> 31))) {
++    if (((tmp ^ T1) & (tmp ^ T0)) >> 31) {
++	/* operands of different sign, first operand and result different sign */
+         CALL_FROM_TB1(do_raise_exception_direct, EXCP_OVERFLOW);
+     }
+     RETURN();
+Index: target-mips/translate.c
+===================================================================
+RCS file: /sources/qemu/qemu/target-mips/translate.c,v
+retrieving revision 1.11
+diff -u -b -B -u -r1.11 translate.c
+--- target-mips/translate.c	5 Dec 2005 19:59:36 -0000	1.11
++++ target-mips/translate.c	18 Apr 2006 21:41:33 -0000
+@@ -1180,7 +1180,7 @@
+     const unsigned char *opn = "unk";
+ 
+     if (!(ctx->CP0_Status & (1 << CP0St_CU0)) &&
+-        !(ctx->hflags & MIPS_HFLAG_UM) &&
++        (ctx->hflags & MIPS_HFLAG_UM) &&
+         !(ctx->hflags & MIPS_HFLAG_ERL) &&
+         !(ctx->hflags & MIPS_HFLAG_EXL)) {
+         if (loglevel & CPU_LOG_TB_IN_ASM) {
+@@ -1577,7 +1577,7 @@
+     }
+ }
+ 
+-int gen_intermediate_code_internal (CPUState *env, TranslationBlock *tb,
++static int gen_intermediate_code_internal (CPUState *env, TranslationBlock *tb,
+                                     int search_pc)
+ {
+     DisasContext ctx, *ctxp = &ctx;
+@@ -1587,6 +1587,7 @@
+ 
+     if (search_pc && loglevel)
+ 	fprintf (logfile, "search pc %d\n", search_pc);
++    //~ search_pc = 0; // ???
+ 
+     pc_start = tb->pc;
+     gen_opc_ptr = gen_opc_buf;
+@@ -1647,11 +1648,12 @@
+                 lj++;
+                 while (lj < j)
+                     gen_opc_instr_start[lj++] = 0;
+-            }
++	    // ???
+             gen_opc_pc[lj] = ctx.pc;
+             gen_opc_hflags[lj] = ctx.hflags & MIPS_HFLAG_BMASK;
+             gen_opc_instr_start[lj] = 1;
+         }
++        }
+         ctx.opcode = ldl_code(ctx.pc);
+         decode_opc(&ctx);
+         ctx.pc += 4;
+@@ -1685,7 +1687,7 @@
+         lj++;
+         while (lj <= j)
+             gen_opc_instr_start[lj++] = 0;
+-        tb->size = 0;
++        //~ tb->size = 0;	// ???
+     } else {
+         tb->size = ctx.pc - pc_start;
+     }

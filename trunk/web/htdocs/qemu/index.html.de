@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<title>AR7-Firmware</title>
+	<meta http-equiv="Content-Type" content="text/html">
+	<meta name="description" content="Linux based firmware for AR7 based routers">
+	<meta name="author" content="Stefan Weil">
+	<meta name="keywords" content="Linux, firmware, router, AR7, GPL,
+		Sinus 154, SX541">
+	<link rel=stylesheet type="text/css" href="../ar7.css" />
+</head>
+
+<body>
+
+<div class="menusection">
+<div class="menuheader">
+<a href="http://developer.berlios.de">
+<img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS"></a>
+</div>
+<p><a href="http://developer.berlios.de/projects/ar7-firmware/"><b>AR7-Firmware</b></a></p>
+<p><a href="../index.html.de">Übersicht</a></p>
+<p><a href="../doc/loader.html.de">Bootloader</a></p>
+<p><a href="../qemu/index.html.de">Emulation</a></p>
+<p><a href="../openwrt/index.html.de">OpenWrt</a></p>
+<p><a href="../devices">Router</a></p>
+<div class="submenu">
+<p><a href="../devices/basic3">Sinus 154 DSL Basic 3</a></p>
+<p><a href="../devices/basicse">Sinus 154 DSL Basic SE</a></p>
+<p><a href="../devices/sx541">Gigaset SX541</a></p>
+</div>
+<p><a href="../tools">Werkzeuge</a></p>
+<object data="router.svg" width=150 height=100></object>
+</div>
+
+<div class="pagesection">
+<div class="pageheader">
+<a href="index.html.de">deutsch</a> <a href="index.html.en">english</a>
+</div>
+
+<h1>Hardware Emulation mit Qemu</h1>
+
+<p>Beim Entwickeln von Software für Geräte wie DSL Router verwenden
+Hersteller normalerweise Hilfsmittel wie In-Circuit-Emulatoren (ICE),
+wenn sie auch die frühe Bootphase beobachten müssen.</p>
+
+<p>Für meinen T-Sinus 154 DSL Basic SE Router hatte ich keine derartigen
+Hilfsmittel. Trotzdem wollte ich herausfinden, warum der Router manche
+Flash-Images akzeptierte, bei anderen aber eine Fehlermeldung brachte.
+Auch für manche unerklärlichen Kernelabstürze suchte ich nach einer
+Alternative, die mir bei der Codeanalyse helfen könnte.</p>
+
+<p>Deshalb experimentierte ich schon früh mit
+<a href="http://fabrice.bellard.free.fr/qemu/">Qemu</a>, einem Software-Emulator,
+der mehrere ganz unterschiedliche Prozessorarchitekturen unterstützt.
+Erste Patchversionen mit Unterstützung für MIPS-Prozessoren gab es bereits
+im April 2005, aber es dauerte ein ganzes Jahr, bis eine weitgehend
+brauchbare Emulation für MIPS im Entwicklungsstand von Qemu integriert
+war. Mit dieser und ein paar Anpassungen gelang mir am 08.02.2006
+erstmals der Start von Router-Applikationen wie Busybox, und am 09.04.2006
+sah ich das erste Mal die Bootmeldungen meines Routers in einer Emulation
+statt im Terminalprogramm an der seriellen Schnittstelle.</p>
+
+<p>Inzwischen startet auch der Linux-Kernel, und erste Tests mit der Firmware
+eines anderen Routers liefen ermutigend. Die Emulation mit Qemu ist also
+so brauchbar, dass auch andere Entwickler davon profitieren können.</p>
+
+<p>Deshalb beschreibe ich hier die Vorgehensweise.</p>
+
+<h2>User Mode Emulation</h2>
+
+<p>In dieser Betriebsart emuliert Qemu ein komplettes Linux-System, so dass
+man direkt MIPS-Anwendungen starten kann.</p>
+
+<p>Beispielsweise kann man busybox so aufrufen:</p>
+
+<pre>
+!!!
+</pre>
+
+<h2>Firmware-Images</h2>
+
+<p>Ein AR7-basiertes System (beispielsweise mein DSL-Router) hat immer
+4 KiB internen ROM-Speicher mit der physikalischen Adresse 0x1fc00000,
+außerdem in der Regel 2 MiB, 4 MiB oder mehr externen Flash-Speicher mit
+der physikalischen Adresse 0x10000000.</p>
+
+<p>Für eine möglichst umfassende Emulation benötigt man beide Speicherbereiche.
+Man kann sie bei einem unter Linux laufenden Router mit dem kleinen
+Programm <a href="memread.c">memread</a> auslesen. memread nutzt dafür
+/dev/mem, das praktisch bei jedem Linux-System vorhanden ist.</p>
+
+<p>memread wird mit einem Crosscompiler für die Zielplattform übersetzt,
+statisch gelinkt, damit es keine Abhängigkeiten von Codebibliotheken hat,
+die auf dem Zielsystem gar nicht vorhanden sind, und dann auf das
+Zielsystem gebracht.</p>
+
+<p>Auf dem Zielsystem können dann die beiden Speicherbereiche wie
+folgt ausgelesen werden (Beispiel für 2 MiB Flash):</p>
+
+<pre>
+./memread 0x1fc00000 4096 >0xbfc00000.bin
+./memread 0x10000000 2097152 >0xb0000000.bin
+</p>
+
+<p>Die beiden so erzeugten Firmware-Images 0xbfc00000.bin und 0xb0000000.bin
+müssen noch vom Zielsystem auf den Host kopiert werden und stehen dann
+für die Emulation zur Verfügung.</p>
+
+<p>Einige Linux-Varianten können übrigens den internen ROM-Speicher nicht
+über /dev/mem lesen. Man erkennt dies daran, dass das Kommando von oben
+eine Datei mit 0 Byte erzeugt. In diesem Fall kann man ein
+Firmware-Image verwenden, das einfach aus einem Sprungbefehl auf den
+Anfang des Flash-Speichers besteht. Ein derartiges Image liegt im
+Downloadbereich. !!!</p>
+
+<p>Ganz ohne Firmware-Images bleibt noch die Möglichkeit, den
+Linux-Kernel direkt mit Qemu zu starten.</p>
+
+<h2></h2>
+
+<h2>Offene Punkte</h2>
+
+<h3>Genauigkeit der Emulation</h3>
+
+<p>Die Emulation einer MIPS-CPU durch Qemu ist nicht perfekt - es kann also
+passieren, dass der emulierte Code sich anders verhält als das Original.
+Derartigen Abweichungen sollte man nachgehen. So konnte ich in zwei Fällen
+kleinere Fehler in Qemu finden und korrigieren.</p>
+
+<h3>Systememulation</h3>
+
+<p>Ein AR7 enthält etliche Komponenten, die bisher noch nicht emuliert werden:
+Ethernet, DSL, USB, Timer, weitere.</p>
+
+<p>Wünschenswert wäre eine Flash-Emulation. Der emulierte Router soll
+also den "Flash-Typ" erkennen und in der Lage sein, das emulierte Flash
+zu beschreiben.</p>
+
+<h1>Andere Emulatoren für MIPS</h1>
+
+<p>Zum Experimentieren mit kleineren Codeabschnitten eignet sich
+<a href="">SPIM</a>. Dieser MIPS-Emulator nimmt direkt Assemblercode als
+Eingabe, eignet sich daher nicht für Binärdaten wie Flash-Images oder
+Kernel-Images.</p>
+
+</div>
+</body>
+</html>
