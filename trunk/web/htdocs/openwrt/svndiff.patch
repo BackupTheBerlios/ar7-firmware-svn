@@ -1246,19 +1246,6 @@ Index: target/linux/image/ar7/src/entry.c
 +#endif
 +	return tikernelunzip2(argc, argv, arge);
 +}
-Index: target/linux/image/ar7/src/ld.script.in
-===================================================================
---- target/linux/image/ar7/src/ld.script.in	(Revision 2984)
-+++ target/linux/image/ar7/src/ld.script.in	(Arbeitskopie)
-@@ -5,7 +5,7 @@
- {
- 
- 	/* Allocate memory space on top of kernel bss space */
--	. = 0x94200000;
-+	. = 0x94300000;
- 	.text :
- 	{
- 		*(.text)
 Index: target/linux/image/ar7/src/loader.c
 ===================================================================
 --- target/linux/image/ar7/src/loader.c	(Revision 2984)
