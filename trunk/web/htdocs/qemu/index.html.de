@@ -7,7 +7,7 @@
 	<meta name="author" content="Stefan Weil">
 	<meta name="keywords" content="Linux, firmware, router, AR7, GPL,
 		Sinus 154, SX541">
-	<link rel=stylesheet type="text/css" href="../ar7.css" />
+	<link rel=stylesheet type="text/css" href="../style.css" />
 </head>
 
 <body>
@@ -29,7 +29,7 @@
 <p><a href="../devices/sx541">Gigaset SX541</a></p>
 </div>
 <p><a href="../tools">Werkzeuge</a></p>
-<object data="router.svg" width=150 height=100></object>
+<object data="../router.svg" width=150 height=100></object>
 </div>
 
 <div class="pagesection">

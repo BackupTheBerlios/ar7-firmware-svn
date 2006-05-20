@@ -1,0 +1,200 @@
+/* $Id: ar7.css,v 1.1 2005/09/01 19:54:55 stefan Exp stefan $ */
+
+body {
+	font-family: sans-serif;
+	padding: 0em;
+}
+
+.menuheader {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 13em;
+	/*
+	height: 32px;
+	vertical-align: top;
+	white-space: nowrap;
+    color: gray;
+    font-weight: lighter;
+	*/
+	padding: 0em;
+	padding-left: 1em;
+	background-color: lightblue;
+}
+
+.menusection {
+	position: absolute;
+    top: 0px;
+    left: 0em;
+	/*
+	*/
+	padding: 1em;
+	padding-top: 2em;
+	width: 11em;
+	background-color: yellow;
+	color: black;
+	font-size: -1
+}
+
+.submenu {
+	font-size: 80%;
+	text-indent: 1em;
+}
+
+.pageheader {
+    position: absolute;
+	top: 0px;
+    left: 0em;
+	right: 0em;
+	height: 32px;
+	padding-left: 1em;
+	background-color: lightblue;
+}
+
+.pagesection {
+    position: absolute;
+    left: 13em;
+	right: 0em;
+    top: 0px;
+	padding: 1em;
+	padding-top: 2em;
+	background-color: white;
+	/*
+    right: 7em;
+	width: 650px;
+	margin-top: 0em;
+	margin-right: 1em;
+	margin-bottom: 1em;
+	margin-left: 13em;
+	float: right;
+	color: black;
+	text-align: right;
+	*/
+}
+
+/* standard tables (in text) */
+
+table {
+  border-width: 1;
+  empty-cells: show;
+}
+
+th {
+  padding-left: 0;
+  vertical-align: bottom;
+}
+
+td {
+  vertical-align: top;
+}
+
+/* Tabellenüberschrift allgemein */
+
+table.page {
+  border-width: 1;
+}
+
+/* title bar */
+
+tr.titlebar td {
+  vertical-align: middle;
+}
+
+/* menu table */
+
+table.menu td {
+  text-align: left;
+  font-size: 95%;
+}
+
+table.menu td.submenu {
+  text-align: right;
+  font-size: 75%;
+}
+
+table.menu th {
+  background-color: yellow;
+  font-size: 100%;
+}
+
+table.menu tr {
+  background-color: yellow;
+}
+
+td.normal {
+  text-align: left;
+  text-decoration: none;
+  vertical-align: top;
+  white-space: nowrap;
+  height: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Einstellungen für Bildschirmausgabe */
+@media screen {
+	body {
+		background-color: yellow;
+	}
+
+	.menu {
+	  background-color: yellow;
+	}
+
+	table.menu td {
+	  background-color: yellow;
+	}
+
+  td {
+    background-color: lightblue;
+  }
+
+  td.page {
+    background-color: white;
+  }
+
+  th {
+    background-color: blue;
+  }
+}
+
+/* Einstellungen für Ausgabe auf Drucker */
+@media print {
+	.menusection {
+		position: absolute;
+		top: 0px;
+		left: 0em;
+		width: 0em;
+	}
+}
+
+/* Rand-Einstellungen*/
+
+a {
+  text-decoration: none;
+  color: #5275BF;
+/*  visited color: #5275BF; */
+/*  active color: #5275BF; */
+}
+
+h1 {
+  font-size: 100%;
+}
+
+h2 {
+  font-size: 95%;
+}
+
+h3 {
+  font-size: 90%;
+}
+
+h4 {
+  font-size: 85%;
+}
+
+hr {
+  width: 80%
+}
+
+/* eof */
