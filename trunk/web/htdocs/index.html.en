@@ -25,9 +25,10 @@
 <tr><th><a href="http://developer.berlios.de/projects/ar7-firmware/">AR7-Firmware</a></th></tr>
 <tr><td><a href="index.html.de">Overview</a></td></tr>
 <tr><td><a href="doc/loader.html.de">Bootloader</a></td></tr>
+<tr><td><a href="qemu/">Emulation</a></td></tr>
 <tr><td><a href="openwrt/index.html.de">OpenWrt</a></td></tr>
-<tr><td><a href="devices">Router</a></td></tr>
-<tr><td><a href="tools">Tools</a></td></tr>
+<tr><td><a href="devices/">Router</a></td></tr>
+<tr><td><a href="tools/">Tools</a></td></tr>
 </table>
 </td>
 
