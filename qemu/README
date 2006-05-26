@@ -1,0 +1,10 @@
+This directory contains a patched version of QEMU:
+
+branches/cvs/qemu - copy of unpatched QEMU
+trunk/qemu        - patched QEMU
+
+QEMU is an emulator for different CPUs.
+This patched version adds support for MIPS32 AR7 system emulation.
+It can be used for software development of AR7 based  routers.
+
+See also http://fabrice.bellard.free.fr/qemu/ (official QEMU homepage).
