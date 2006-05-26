@@ -1,11 +1,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-	<title>AR7-Firmware</title>
+	<title>AR7 Emulation mit QEMU</title>
 	<meta http-equiv="Content-Type" content="text/html">
 	<meta name="description" content="Linux based firmware for AR7 based routers">
 	<meta name="author" content="Stefan Weil">
-	<meta name="keywords" content="Linux, firmware, router, AR7, GPL,
+	<meta name="keywords" content="QEMU, Linux, firmware, router, AR7, GPL,
 		Sinus 154, SX541">
 	<link rel=stylesheet type="text/css" href="../style.css" />
 </head>
@@ -37,7 +37,7 @@
 <a href="index.html.de">deutsch</a> <a href="index.html.en">english</a>
 </div>
 
-<h1>Hardware Emulation mit Qemu</h1>
+<h1>Hardware Emulation mit QEMU</h1>
 
 <p>Beim Entwickeln von Software für Geräte wie DSL Router verwenden
 Hersteller normalerweise Hilfsmittel wie In-Circuit-Emulatoren (ICE),
@@ -50,32 +50,90 @@ Auch für manche unerklärlichen Kernelabstürze suchte ich nach einer
 Alternative, die mir bei der Codeanalyse helfen könnte.</p>
 
 <p>Deshalb experimentierte ich schon früh mit
-<a href="http://fabrice.bellard.free.fr/qemu/">Qemu</a>, einem Software-Emulator,
+<a href="http://fabrice.bellard.free.fr/qemu/">QEMU</a>, einem Software-Emulator,
 der mehrere ganz unterschiedliche Prozessorarchitekturen unterstützt.
 Erste Patchversionen mit Unterstützung für MIPS-Prozessoren gab es bereits
 im April 2005, aber es dauerte ein ganzes Jahr, bis eine weitgehend
-brauchbare Emulation für MIPS im Entwicklungsstand von Qemu integriert
+brauchbare Emulation für MIPS im Entwicklungsstand von QEMU integriert
 war. Mit dieser und ein paar Anpassungen gelang mir am 08.02.2006
 erstmals der Start von Router-Applikationen wie Busybox, und am 09.04.2006
 sah ich das erste Mal die Bootmeldungen meines Routers in einer Emulation
 statt im Terminalprogramm an der seriellen Schnittstelle.</p>
 
-<p>Inzwischen startet auch der Linux-Kernel, und erste Tests mit der Firmware
-eines anderen Routers liefen ermutigend. Die Emulation mit Qemu ist also
-so brauchbar, dass auch andere Entwickler davon profitieren können.</p>
+<p>Inzwischen startet auch der Linux-Kernel: ganz unterschiedliche
+Router booten in der Emulation bis zur Eingabeaufforderung, und anschließend
+kann man in der Shell (busybox) weiter herumprobieren.
+Die Emulation mit QEMU ist also so brauchbar,
+dass auch andere Entwickler davon profitieren können.</p>
 
 <p>Deshalb beschreibe ich hier die Vorgehensweise.</p>
 
+<h2>Aktueller Stand</h2>
+
+<p>Folgende Firmware läuft bis zur Eingabeaufforderung und darüber hinaus:</p>
+
+<ul>
+<li>Linux-Distribution OpenWrt mit Anpassungen für T-Sinus 154 DSL Basic SE,
+optional mit Original-Bootloader von BRN
+<li>Original-Firmware der AVM Fritz!Box Fon WLAN einschließlich Bootloader
+ADAM2
+</ul>
+
+<p>Die Originalfirmware eines Routers darf normalerweise nicht weitergegeben
+werden. Besitzer eines Routers können aber mit einer Sicherungskopie der
+Firmware ihres Routers auch die Emulation betreiben.</p>
+
+<p>Ohne Originalfirmware bleibt noch die Möglichkeit, mit selbsterzeugten
+Linux-Kernels und Filesystem zu experimentieren. Beides kann man auch fertig
+von <a href="http://developer.berlios.de/project/showfiles.php?group_id=3721">
+Berlios</a> laden.</p>
+
+<p>Die gepatchte Version von QEMU ist mit Subversion verwaltet,
+der aktuellste Patchstand ist somit immer unter
+<a href="http://svn.berlios.de/svnroot/repos/ar7-firmware/qemu/">Subversion</a>
+zu finden.</p>
+
+
 <h2>User Mode Emulation</h2>
 
-<p>In dieser Betriebsart emuliert Qemu ein komplettes Linux-System, so dass
-man direkt MIPS-Anwendungen starten kann.</p>
+<p>In dieser Betriebsart emuliert QEMU ein komplettes Linux-System, so dass
+man auf einem normalen PC mit Linux direkt MIPS-Anwendungen starten kann.</p>
 
 <p>Beispielsweise kann man busybox so aufrufen:</p>
 
 <pre>
-!!!
+user@host:~/src/openwrt$ qemu-mipsel -L /nfsroot /nfsroot/bin/busybox sh
+
+BusyBox v1.1.2 (2006.04.24-20:20+0000) Built-in shell (ash)
+Enter 'help' for a list of built-in commands.
+
+~/src/openwrt $ help
+
+Built-in commands:
+-------------------
+        . : alias bg break cd chdir command continue echo eval exec exit
+        export false fg getopts hash help jobs kill let local pwd read
+        readonly return set shift times trap true type ulimit umask unalias
+        unset wait
+
+~/src/openwrt $
 </pre>
+
+<p>Mit -L wird dabei der Pfad auf die Wurzel des MIPS-Filesystems
+angegeben. Er wird benötigt, damit QEMU die Laufzeitbibliotheken für
+MIPS findet.</p>
+
+<h2>Systememulation</h2>
+
+<p>Dabei emuliert QEMU kein spezielles Betriebssystem, sondern die komplette
+Hardware eines Computers - in unserem Fall eines Routers mit AR7.</p>
+
+<p>Auf dieser emulierten Hardware läuft die Originalfirmware
+mit Bootloader und Betriebssystem. Je genauer die Emulation ist, desto
+realitätsgetreuer verhält sich der emulierte Router. Die aktuelle
+Emulation ist schon gut genug, dass der Router vollständig bootet
+und über die (emulierte) serielle Schnittstelle bedient werden kann.</p>
+
 
 <h2>Firmware-Images</h2>
 
@@ -86,55 +144,62 @@ der physikalischen Adresse 0x10000000.</p>
 
 <p>Für eine möglichst umfassende Emulation benötigt man beide Speicherbereiche.
 Man kann sie bei einem unter Linux laufenden Router mit dem kleinen
-Programm <a href="memread.c">memread</a> auslesen. memread nutzt dafür
+Programm <a href="../tools/memread.c">memread</a> auslesen. memread nutzt dafür
 /dev/mem, das praktisch bei jedem Linux-System vorhanden ist.</p>
 
 <p>memread wird mit einem Crosscompiler für die Zielplattform übersetzt,
 statisch gelinkt, damit es keine Abhängigkeiten von Codebibliotheken hat,
 die auf dem Zielsystem gar nicht vorhanden sind, und dann auf das
-Zielsystem gebracht.</p>
+Zielsystem gebracht
+(dafür kann das häufig vorhandene <code>wget</code> verwendet werden).</p>
 
 <p>Auf dem Zielsystem können dann die beiden Speicherbereiche wie
 folgt ausgelesen werden (Beispiel für 2 MiB Flash):</p>
 
 <pre>
-./memread 0x1fc00000 4096 >0xbfc00000.bin
-./memread 0x10000000 2097152 >0xb0000000.bin
-</p>
+./memread 0x1fc00000 4096 >mips_bios.bin
+./memread 0x10000000 2097152 >flashimage.bin
+</pre>
 
-<p>Die beiden so erzeugten Firmware-Images 0xbfc00000.bin und 0xb0000000.bin
-müssen noch vom Zielsystem auf den Host kopiert werden und stehen dann
+<p>Die beiden so erzeugten Firmware-Images mips_bios.bin und flashimage.bin
+müssen noch vom Zielsystem auf den Host kopiert werden (falls vorhanden,
+bietet sich dafür <code>nc</code> an) und stehen dann
 für die Emulation zur Verfügung.</p>
 
 <p>Einige Linux-Varianten können übrigens den internen ROM-Speicher nicht
 über /dev/mem lesen. Man erkennt dies daran, dass das Kommando von oben
 eine Datei mit 0 Byte erzeugt. In diesem Fall kann man ein
 Firmware-Image verwenden, das einfach aus einem Sprungbefehl auf den
-Anfang des Flash-Speichers besteht. Ein derartiges Image liegt im
-Downloadbereich. !!!</p>
+Anfang des Flash-Speichers besteht.</p>
 
 <p>Ganz ohne Firmware-Images bleibt noch die Möglichkeit, den
-Linux-Kernel direkt mit Qemu zu starten.</p>
+Linux-Kernel direkt mit QEMU zu starten.</p>
 
-<h2></h2>
+<h2>QEMU als Debugwerkzeug</h2>
+
+<p>QEMU emuliert kein Cache-Memory, weil das zu Geschwindigkeitseinbußen
+führen würde. In seltenen Fällen verhält sich die Emulation dadurch
+anders als die Originalhardware. Insbesondere kann es passieren, dass
+ein Kernel mit Emulation wunderbar läuft, wegen fehlerhafter
+Cache-Einstellungen aber mit der Originalhardware abstürzt!</p>
 
 <h2>Offene Punkte</h2>
 
 <h3>Genauigkeit der Emulation</h3>
 
-<p>Die Emulation einer MIPS-CPU durch Qemu ist nicht perfekt - es kann also
+<p>Die Emulation einer MIPS-CPU durch QEMU ist nicht perfekt - es kann also
 passieren, dass der emulierte Code sich anders verhält als das Original.
 Derartigen Abweichungen sollte man nachgehen. So konnte ich in zwei Fällen
-kleinere Fehler in Qemu finden und korrigieren.</p>
-
-<h3>Systememulation</h3>
+kleinere Fehler in QEMU finden und korrigieren.</p>
 
 <p>Ein AR7 enthält etliche Komponenten, die bisher noch nicht emuliert werden:
 Ethernet, DSL, USB, Timer, weitere.</p>
 
 <p>Wünschenswert wäre eine Flash-Emulation. Der emulierte Router soll
 also den "Flash-Typ" erkennen und in der Lage sein, das emulierte Flash
-zu beschreiben.</p>
+zu beschreiben. Bisher wird der Flash nur soweit emuliert, dass Linux
+ihn erkennt. Das genügt für die meisten Anwendungsfälle, in denen der
+Flashspeicher nur gelesen wird.</p>
 
 <h1>Andere Emulatoren für MIPS</h1>
 
