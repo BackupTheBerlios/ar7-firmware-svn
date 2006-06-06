@@ -26,8 +26,8 @@
 <tr><td><a href="../index">Overview</a></td></tr>
 <tr><td><a href="loader">Bootloader</a></td></tr>
 <tr><td><a href="../openwrt/index">OpenWrt</a></td></tr>
-<tr><td><a href="../devices">Router</a></td></tr>
-<tr><td><a href="../tools">Tools</a></td></tr>
+<tr><td><a href="../devices/">Router</a></td></tr>
+<tr><td><a href="../tools/">Tools</a></td></tr>
 </table>
 </td>
 

@@ -22,13 +22,13 @@
 <p><a href="../doc/loader.html.de">Bootloader</a></p>
 <p><a href="../qemu/index.html.de">Emulation</a></p>
 <p><a href="../openwrt/index.html.de">OpenWrt</a></p>
-<p><a href="../devices">Router</a></p>
+<p><a href="../devices/">Router</a></p>
 <div class="submenu">
 <p><a href="../devices/basic3">Sinus 154 DSL Basic 3</a></p>
 <p><a href="../devices/basicse">Sinus 154 DSL Basic SE</a></p>
 <p><a href="../devices/sx541">Gigaset SX541</a></p>
 </div>
-<p><a href="../tools">Werkzeuge</a></p>
+<p><a href="../tools/">Werkzeuge</a></p>
 <object data="../router.svg" width=150 height=100></object>
 </div>
 
