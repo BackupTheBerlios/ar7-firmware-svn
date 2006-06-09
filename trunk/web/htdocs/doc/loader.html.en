@@ -4,6 +4,7 @@
 	<title>Bootloader Documentation</title>
 	<meta http-equiv="Content-Type" content="text/html">
 	<meta name="author" content="Stefan Weil">
+	<meta encoding="iso8859-1">
 	<link rel=stylesheet type="text/css" href="../ar7.css" />
 </head>
 
@@ -119,25 +120,47 @@ uploads using the xmodem protocol. Use separate firmware files for
 the kernel program (code image) and filesystem (web image)
 as for the emergency kernel.
 
-<h3>Requirements for firmware files</h3>
+<h3>Requirements for firmware in flash and firmware files</h3>
 
-The bootloader does not accept every firmware file. It checks these
-conditions during firmware update and/or when booting:
+<p>Firmware files must match several criteria to be accepted by the bootloader for
+booting or by one of the three methods for flashing.</p>
+
+<p>The bootloader checks both the code (kernel) and the web (filesystem)
+partitions in the flash memory:</p>
+
 <ul>
-<li>The zipped kernel file must contain a file named soho.bin (?).
-<li>The zipped filesystem must contain a file named pfs.img (?, not checker during boot).
-<li>You cannot use ordinary files in place of the zip file.
+<li>string 'PK' at offset 0
+<li>value 3 at offset 2
+<li>value 4 at offset 3
+<li>bit0 == 0 at offset 7
+<li>value 8 at offset 8
+<li>length of data at (end - 12)
+<li>value 0x12345678 (little endian) at (end - 8)
+<li>CRC-32 of data at (end - 4)
+</ul>
+
+<p>A similar format is used for firmware files. They may contain
+the kernel and the filesystem ("runtime") or just one of them.</p>
+
+<p>Check for flashing:</p>
+
+<ul>
+<li>The zipped kernel file must contain a file named soho.bin (checked by emergency kernel).
+<li>The zipped filesystem must contain a file named pfs.img (checked by emergency kernel).
 <li>The zipped file must be smaller than the flash partition it belongs to.
 Because the last flash sector is used for a checksum, this sector (typically
 64 KiB) is also unavailable for the zipped file.
-<li>The zipped files must not be too small!
 </ul>
-This results in the following firmware layout for Sinus 154 DSL Basic SE and
-other devices with the same flash partition sizes:
+
+<p>This results in the following firmware layout for Sinus 154 DSL Basic SE and
+other devices with the same flash partition sizes:</p>
+
 <ul>
 <li>Partition 3 (code image) has 896 KiB. Only (896 - 64) KiB = 832 KiB
-can be used for the zipped program code. My zipped Linux kernel needs 773 KiB,
-so there is some room left for more drivers.
+can be used for the program code. I use a small zipped loader followed by a kernel
+which is LZMA compressed. Earlier images used a zipped Linux kernel which
+needs 773 KiB, so the new layout allows much larger kernels.
+
 <li>Partition 2 (web image) has 832 KiB. Only (832 - 64) KiB = 768 KiB
 can be used for the zipped filesystem. But how can Linux use a zipped
 filesystem? I use a trick and split the partition in two parts:
@@ -146,16 +169,17 @@ rest (768 - 64) KiB = 704 KiB
 used for squashfs. My squashfs uses 625 KiB. I had to strip down the
 OpenWrt default filesystem because it was too big.
 </ul>
-With this layout, you can flash kernel and filesystem, and the bootloader will
+
+<p>With this layout, you can flash kernel and filesystem, and the bootloader will
 automatically boot Linux.
 We might improve flash usage later,
-but for the moment this satisfies the first needs.<p>
+but for the moment this satisfies the first needs.</p>
 
-Here is an example how you get firmware images from OpenWrt.
+<p>Here is an example how you get firmware images from OpenWrt.
 It is still a dirty hack, because you need an original pfs.img.
 You will get three new files in the openwrt/bin directory:
 linux.bin (firmware in standard format, unusable because too large),
-linux-firmware.bin (kernel part) and linux-userinterface.bin (filesystem part).
+linux-firmware.bin (kernel part) and linux-userinterface.bin (filesystem part).</p>
 
 <pre>
 #!/bin/sh
@@ -192,10 +216,10 @@ Double compression
 Zipped code with LZMA compressed kernel code and loader decompressed to 
 0x94000000 and started from there.
 
-Loader moves code to 0x94200000 and decompresses it to 0x94000000.
+Loader moves code to 0x94300000 and decompresses it to 0x94000000.
 Then it starts it from 0x94000000.
 
-Note: uncompressed kernel must be less than 2 MiB.
+Note: uncompressed kernel must be less than 3 MiB.
 Current kernel is 1640 KiB uncompressed, 680 KiB zipped, 500 KiB LZMA + zipped.
 Current squashfs is 652 KiB.
 </pre>

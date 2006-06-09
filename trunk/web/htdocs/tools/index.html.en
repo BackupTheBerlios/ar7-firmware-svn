@@ -4,33 +4,33 @@
 	<title>Tools for Linux based routers</title>
 	<meta http-equiv="Content-Type" content="text/html">
 	<meta name="author" content="Stefan Weil">
-	<link rel=stylesheet type="text/css" href="../ar7.css" />
+	<link rel=stylesheet type="text/css" href="../style.css" />
 </head>
 
 <body>
-<table class=page summary="page">
-<tr class=titlebar>
-<td>
+<div class="menusection">
+<div class="menuheader">
 <a href="http://developer.berlios.de">
 <img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS"></a>
-</td>
-<td>
+</div>
+<p><a href="http://developer.berlios.de/projects/ar7-firmware/"><b>AR7-Firmware</b></a></p>
+<p><a href="../index">Overview</a></p>
+<p><a href="../doc/loader">Bootloader</a></p>
+<p><a href="../openwrt/index">OpenWrt</a></p>
+<p><a href="../devices/">Router</a></p>
+<div class="submenu">
+<p><a href="../devices/basic3">Sinus 154 DSL Basic 3</a></p>
+<p><a href="../devices/basicse">Sinus 154 DSL Basic SE</a></p>
+<p><a href="../devices/sx541">Gigaset SX541</a></p>
+</div>
+<p><a href="../tools/">Tools</a></p>
+<object data="../router.svg" width=150 height=100></object>
+</div>
+
+<div class="pagesection">
+<div class="pageheader">
 <a href="index.html.de">deutsch</a> <a href="index.html.en">english</a>
-</tr>
-
-<tr>
-<td class=menu>
-<table class=menu summary="menu">
-<tr><th><a href="http://developer.berlios.de/projects/ar7-firmware/">AR7-Firmware</a></th></tr>
-<tr><td><a href="../index">Overview</a></td></tr>
-<tr><td><a href="../doc/loader">Bootloader</a></td></tr>
-<tr><td><a href="../openwrt/index">OpenWrt</a></td></tr>
-<tr><td><a href="../devices/">Router</a></td></tr>
-<tr><td><a href="../tools/">Tools</a></td></tr>
-</table>
-</td>
-
-<td class=page>
+</div>
 
 <h1>Tools for Linux based routers</h1>
 
@@ -54,8 +54,6 @@ So I looked for another Xmodem program and found sx-at91 which
 works perfectly with my routers.
 Compile <a href="sx-at91.c">sx-at91.c</a> and use it with minicom.
 
-</td>
-</tr>
-</table>
+</div>
 </body>
 </html>

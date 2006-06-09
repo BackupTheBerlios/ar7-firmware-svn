@@ -4,37 +4,40 @@
 	<title>AR7 Firmware</title>
 	<meta http-equiv="Content-Type" content="text/html">
 	<meta name="author" content="Stefan Weil">
-	<link rel=stylesheet type="text/css" href="ar7.css" />
+	<link rel=stylesheet type="text/css" href="style.css" />
 </head>
 
 <body>
-<table class=page summary="page">
-<tr class=titlebar>
-<td>
+<div class="menusection">
+<div class="menuheader">
 <a href="http://developer.berlios.de">
 <img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS"></a>
-</td>
-<td>
+</div>
+<p><a href="http://developer.berlios.de/projects/ar7-firmware/"><b>AR7-Firmware</b></a></p>
+<p><a href="index.html.en">Overview</a></p>
+<p><a href="doc/loader.html.en">Bootloader</a></p>
+<p><a href="qemu/index.html.en">Emulation</a></p>
+<p><a href="openwrt/index.html.en">OpenWrt</a></p>
+<p><a href="devices/">Router</a></p>
+<div class="submenu">
+<p><a href="devices/basic3">Sinus 154 DSL Basic 3</a></p>
+<p><a href="devices/basicse">Sinus 154 DSL Basic SE</a></p>
+<p><a href="devices/sx541">Gigaset SX541</a></p>
+</div>
+<p><a href="tools/">Tools</a></p>
+<!--
+<object data="menu" type="text/html" width=300 height=300></object>
+-->
+<object data="router.svg" width=150 height=100></object>
+</div>
+
+<div class="pagesection">
+<div class="pageheader">
 <a href="index.html.de">deutsch</a> <a href="index.html.en">english</a>
-</td>
-</tr>
+</div>
 
-<tr>
-<td class=menu>
-<table class=menu summary="menu">
-<tr><th><a href="http://developer.berlios.de/projects/ar7-firmware/">AR7-Firmware</a></th></tr>
-<tr><td><a href="index.html.de">Overview</a></td></tr>
-<tr><td><a href="doc/loader.html.de">Bootloader</a></td></tr>
-<tr><td><a href="qemu/">Emulation</a></td></tr>
-<tr><td><a href="openwrt/index.html.de">OpenWrt</a></td></tr>
-<tr><td><a href="devices/">Router</a></td></tr>
-<tr><td><a href="tools/">Tools</a></td></tr>
-</table>
-</td>
 
-<td class=page>
-
-<h2>Firmware for Sinus 154 DSL Basic SE and Sinus 154 DSL Basic 3</h2>
+<h1>Firmware for Sinus 154 DSL Basic SE and Sinus 154 DSL Basic 3</h1>
 
 The project's goal is to develop an open source firmware for
 the router device Sinus 154 DSL Basic SE (and the Sinus 154 DSL Basic 3,
@@ -63,7 +66,7 @@ information at the
 <a href="http://developer.berlios.de/projects/ar7-firmware/">
 project's web site</a> on BerliOS.
 
-<h2>Important Hints</h2>
+<h1>Important Hints</h1>
 
 Any change of the original firmware is at your own risk.
 In the worst case, wrong usage or bad firmware will make your
@@ -72,7 +75,7 @@ device unusable.<p>
 Especially changes of the bootloader (in flash memory) are fatal
 and must be avoided!
 
-<h2>Project Status(2005-09-16)</h2>
+<h1>Project Status(2005-09-16)</h1>
 
 Currently, on power on a Linux kernel boots from flash memory and uses the
 filesystem (squashfs) from flash. Serial console is available very fast.
@@ -80,9 +83,9 @@ Telnet login on IP address 192.168.2.1 is possible 35 s after power on.<p>
 
 See <a href="openwrt/index.html.en">OpenWrt port</a> for details.
 
-<h2>Hardware</h2>
+<h1>Hardware</h1>
 
-<h3>Devices</h3>
+<h2>Devices</h2>
 
 <table summary="devices">
 <tr><th>Device</th><th>CPU</th><th>Flash</th><th>RAM</th></tr>
@@ -96,7 +99,7 @@ There are several other devices with very similar hardware,
 for example from AVM (see <a href="http://www.wehavemorefun.de/fritzbox/">
 Wiki web page</a>).
 
-<h3>Serial Port</h3>
+<h2>Serial Port</h2>
 
 <p>Sinus 154 has a builtin serial connector. You must open the case to get access to it.
 Parameters are 115000 bps 8N1. The serial port uses 3,3 V signal level, so it
@@ -134,11 +137,11 @@ This bootloader uses the xmodem protocol for binary transfers.
 It works well with MS Windows Hyperterm.
 For LINUX minicom, you will need a special <a href="tools/sx-at91.c">xmodem program</a>.
 
-<h3>WLAN</h3>
+<h2>WLAN</h2>
 
 Both Sinus devices use a mini PCI card with a TNETW1130 chip.
 
-<h3>Memory Table</h3>
+<h2>Memory Table</h2>
 
 <table summary="memory map">
 <tr><th>Start address</th><th>end address</th><th>contents</th></tr>
@@ -155,7 +158,7 @@ Both Sinus devices use a mini PCI card with a TNETW1130 chip.
 <tr><td>0xbfc00000</td><td>0xbfc00fff</td><td>internal PROM 4 KiB</td></tr>
 </table>
 
-<h3>Flash Memory Usage (2 MiB)</h3>
+<h2>Flash Memory Usage (2 MiB)</h2>
 
 <table summary="flash memory map">
 <tr><th>Index</th><th>Inhalt</th><th>Adresse</th><th>Gr&ouml;sse</th></tr>
@@ -168,14 +171,14 @@ Both Sinus devices use a mini PCI card with a TNETW1130 chip.
 <tr><td>    </td><td>Flashende       </td><td>0xB01FFFFF</td><td></td></tr>
 </table>
 
-<h2>Firmware Components</h2>
+<h1>Firmware Components</h1>
 
-<h3>Bootloader</h3>
+<h2>Bootloader</h2>
 
 <p>All devices use a bootloader made by Broad Net Technology, INC.
 The bootloader allows operation via serial port.</p>
 
-<h4>Debug Menu</h4>
+<h3>Debug Menu</h3>
 
 By pressing any key immediately after power on,
 the normal boot sequence will stop and the bootloader enters a debug menu.
@@ -201,7 +204,7 @@ additional commands.<p>
 Administrator mode allows firmware uploads, program uploads to memory and
 running programs from memory.
 
-<h4>Emergency Kernel</h4>
+<h3>Emergency Kernel</h3>
 
 The bootloader also contains an emergency kernel. Use this kernel to repair
 a damaged firmware (this will be possible as long as you do not destroy the
@@ -212,7 +215,7 @@ until the operation LED starts to blink.<p>
 The kernel starts a DHCP server and a web server. Using URL
 http://192.168.2.1/, new firmware can be loaded into the flash memory.
 
-<h3>File Format for Firmware Images</h3>
+<h2>File Format for Firmware Images</h2>
 
 Use the program <a href="tools/mkfirm.c">mkfirm</a> to create
 firmware images. See the source code for more information on the
@@ -227,8 +230,6 @@ kernel and filesystem which load without any problem.<p>
 See also
 <a href="doc/loader.html.en">loader.html.en</a> for more information.
 
-</td>
-</tr>
-</table>
+</div>
 </body>
 </html>

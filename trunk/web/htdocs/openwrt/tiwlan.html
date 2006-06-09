@@ -54,14 +54,14 @@ find -name CVS -o -name openssl -o -name WhalTest | xargs rm -rv
 find -name "*.old" -o -name "*.exe" | xargs rm -v
 find -name "vx_net_fixup.*" | xargs rm -v
 find -name ".depend" | xargs rm -v
-rm -rv export src/ddc/hal/obj
+rm -rv export src/ddc/hal/obj src/WPA/Test
 rm -v src/WPA/kos/*.c
 rm -v src/WPA/kos/knet_*.h
 rm -v cfg/Http/Html/htmpages.c
 </pre>
 Openssl results in the largest saving. The TI wlan driver works
 perfectly with openssl from the OpenWrt distribution!
-After this action, only 358 files with 6 MB remain.</p>
+After this action, less than 280 files with less than 5 MB remain.</p>
 
 <h3>Use uniform coding style</h3>
 
