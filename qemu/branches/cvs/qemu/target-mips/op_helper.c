@@ -219,10 +219,6 @@ void do_mfc0 (int reg, int sel)
         T0 = env->CP0_Status;
         if (env->hflags & MIPS_HFLAG_UM)
             T0 |= (1 << CP0St_UM);
-        if (env->hflags & MIPS_HFLAG_ERL)
-            T0 |= (1 << CP0St_ERL);
-        if (env->hflags & MIPS_HFLAG_EXL)
-            T0 |= (1 << CP0St_EXL);
         rn = "Status";
         break;
     case 13:
@@ -528,6 +524,47 @@ void do_mtc0 (int reg, int sel)
 #endif
     return;
 }
+
+#ifdef MIPS_USES_FPU
+#include "softfloat.h"
+
+void fpu_handle_exception(void)
+{
+#ifdef CONFIG_SOFTFLOAT
+    int flags = get_float_exception_flags(&env->fp_status);
+    unsigned int cpuflags = 0, enable, cause = 0;
+
+    enable = GET_FP_ENABLE(env->fcr31);
+
+    /* determine current flags */   
+    if (flags & float_flag_invalid) {
+        cpuflags |= FP_INVALID;
+        cause |= FP_INVALID & enable;
+    }
+    if (flags & float_flag_divbyzero) {
+        cpuflags |= FP_DIV0;    
+        cause |= FP_DIV0 & enable;
+    }
+    if (flags & float_flag_overflow) {
+        cpuflags |= FP_OVERFLOW;    
+        cause |= FP_OVERFLOW & enable;
+    }
+    if (flags & float_flag_underflow) {
+        cpuflags |= FP_UNDERFLOW;   
+        cause |= FP_UNDERFLOW & enable;
+    }
+    if (flags & float_flag_inexact) {
+        cpuflags |= FP_INEXACT; 
+        cause |= FP_INEXACT & enable;
+    }
+    SET_FP_FLAGS(env->fcr31, cpuflags);
+    SET_FP_CAUSE(env->fcr31, cause);
+#else
+    SET_FP_FLAGS(env->fcr31, 0);
+    SET_FP_CAUSE(env->fcr31, 0);
+#endif
+}
+#endif /* MIPS_USES_FPU */
 
 /* TLB management */
 #if defined(MIPS_USES_R4K_TLB)
