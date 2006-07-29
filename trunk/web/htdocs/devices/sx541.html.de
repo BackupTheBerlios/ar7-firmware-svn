@@ -1,10 +1,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-	<title>AR7-Firmware (Siemens Gigaset SX541)</title>
-	<meta http-equiv="Content-Type" content="text/html">
-	<meta name="author" content="Stefan Weil">
-	<link rel=stylesheet type="text/css" href="../style.css" />
+  <title>AR7-Firmware (Siemens Gigaset SX541)</title>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  <meta name="author" content="Stefan Weil">
+  <meta name="keywords" content="Siemens Gigaset SX541">
+  <link rel=stylesheet type="text/css" href="../style.css" />
 </head>
 
 <body>
@@ -21,6 +22,7 @@
 <div class="submenu">
 <p><a href="basic3">Sinus 154 DSL Basic 3</a></p>
 <p><a href="basicse">Sinus 154 DSL Basic SE</a></p>
+<p><a href="sinus154dslse">Sinus 154 DSL SE</a></p>
 <p><a href="sx541">Gigaset SX541</a></p>
 </div>
 <p><a href="../tools/">Werkzeuge</a></p>

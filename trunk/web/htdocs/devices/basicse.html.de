@@ -1,10 +1,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-	<title>AR7-Firmware (Siemens Gigaset SX541)</title>
-	<meta http-equiv="Content-Type" content="text/html">
-	<meta name="author" content="Stefan Weil">
-	<link rel=stylesheet type="text/css" href="../style.css" />
+  <title>AR7-Firmware (Sinus 154 DSL SE, Sinus 154 DSL Basic SE, Sinus 154 DSL Basic 3)</title>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  <meta name="author" content="Stefan Weil">
+  <meta name="keywords" content="Sinus 154 DSL SE, Sinus 154 DSL Basic SE, Sinus 154 DSL Basic 3">
+  <link rel=stylesheet type="text/css" href="../style.css" />
 </head>
 
 <body>
@@ -14,13 +15,14 @@
 <img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS"></a>
 </div>
 <p><a href="http://developer.berlios.de/projects/ar7-firmware/"><b>AR7-Firmware</b></a></p>
-<p><a href="../index">&Uuml;bersicht</a></p>
+<p><a href="../index">Übersicht</a></p>
 <p><a href="../doc/loader">Bootloader</a></p>
 <p><a href="../openwrt/index">OpenWrt</a></p>
 <p><a href="../devices/">Router</a></p>
 <div class="submenu">
 <p><a href="../devices/basic3">Sinus 154 DSL Basic 3</a></p>
 <p><a href="../devices/basicse">Sinus 154 DSL Basic SE</a></p>
+<p><a href="../devices/sinus154dslse">Sinus 154 DSL SE</a></p>
 <p><a href="../devices/sx541">Gigaset SX541</a></p>
 </div>
 <p><a href="../tools/">Werkzeuge</a></p>
@@ -32,29 +34,29 @@
 <a href="basicse.html.de">deutsch</a> <a href="basicse.html.en">english</a>
 </div>
 
-<h1>Linux als Firmware f&uuml;r TCOM Sinus 154 DSL Basic SE und Basic 3</h1>
+<h1>Linux als Firmware für TCOM Sinus 154 DSL SE, Sinus 154 DSL Basic SE und Basic 3</h1>
 
 <h2>Wichtige Hinweise</h2>
 
-<p>Jegliche &Auml;nderungen an Ger&auml;ten,
+<p>Jegliche Änderungen an Geräten,
 die nach hier gemachten Angaben erfolgen, sind auf eigene Gefahr.
-Sie k&ouml;nnen zum Verlust der Garantie f&uuml;hren und
-machen im schlimmsten Fall das Ger&auml;t unbrauchbar.</p>
+Sie können zum Verlust der Garantie führen und
+machen im schlimmsten Fall das Gerät unbrauchbar.</p>
 
-<p>Insbesondere jede Ver&auml;nderung des Bootloaders (im Flash) ist fatal und
+<p>Insbesondere jede Veränderung des Bootloaders (im Flash) ist fatal und
 daher unbedingt zu vermeiden!</p>
 
 <h2>Hardware</h2>
 
 <h3>Serielle Schnittstelle</h3>
 
-<p>Alle Ger&auml;te haben eine serielle Schnittstelle, die aber nur im Ger&auml;t
-zug&auml;nglich ist. Schnittstellenparameter 115000 bps 8N1. F&uuml;r den
-Anschluss an PCs wird ein Pegelkonverter von 3,3 V auf RS232 ben&ouml;tigt.
+<p>Alle Geräte haben eine serielle Schnittstelle, die aber nur im Gerät
+zugänglich ist. Schnittstellenparameter 115000 bps 8N1. Für den
+Anschluss an PCs wird ein Pegelkonverter von 3,3 V auf RS232 benötigt.
 Ich verwende einen MAX232CPE, der bei jedem der grossen Elektronikversender
-erh&auml;ltlich ist. Meine Kosten lagen bei rund 12 EUR.
+erhältlich ist. Meine Kosten lagen bei rund 12 EUR.
 Eine <a href="http://www.wehavemorefun.de/fritzbox/Serielle_Konsole">alternative
-L&ouml;sung</a> unter Verwendung eines Handykabels hat bei mir nicht
+Lösung</a> unter Verwendung eines Handykabels hat bei mir nicht
 funktioniert - andere Anwender waren damit aber schon erfolgreich.
 Hier sind die notwendigen Verbindungen:</p>
 
@@ -67,7 +69,7 @@ Hier sind die notwendigen Verbindungen:</p>
 </table>
 
 <pre>
-Sinus 154 Steckerleiste (im Ger&auml;t)
+Sinus 154 Steckerleiste (im Gerät)
 
   9   5 3 1   |
   x x x x x   |
@@ -80,55 +82,58 @@ Hinweise zur Beschaltung des MAX232CPE findet man beispielsweise unter
 <a href="http://hri.sourceforge.net/tools/">http://hri.sourceforge.net/tools/</a>
 oder auf den Webseiten von Maxim.<p>
 
-&Uuml;ber die serielle Schnittstelle kann die Firmware geladen, bedient und
+Über die serielle Schnittstelle kann die Firmware geladen, bedient und
 diagnostiziert werden.
-Der Bootloader verwendet f&uuml;r bin&auml;re Datentransfers das XModem Protokoll.
+Der Bootloader verwendet für binäre Datentransfers das XModem Protokoll.
 MS Windows Hyperterm funktioniert sofort.
-F&uuml;r Minicom (LINUX) wird ein spezielles
-<a href="tools/sx-at91.c">XModem-Programm</a> ben&ouml;tigt.
+Für Minicom (LINUX) wird ein spezielles
+<a href="tools/sx-at91.c">XModem-Programm</a> benötigt.
 
 
 <h3>Ethernet</h3>
 
-Jedes Ger&auml;t hat eine Ethernetschnittstelle.
+Jedes Gerät hat eine Ethernetschnittstelle.
+Das Sinus 154 DSL SE bietet sogar einen Switch mit 4 Ethernetschnittstellen.
 
 <h3>DSL</h3>
 
-Jedes Ger&auml;t hat einen DSL-Anschluss. Die Hardware unterst&uuml;tzt
-ADSL2+ mit bis zu 25 Mbit/s - deutlich mehr, als die Firmware von TCOM
-anbietet.
+<p>Jedes Gerät hat einen DSL-Anschluss.
+Die Hardware unterstützt ADSL2+ mit bis zu 25 Mbit/s -
+deutlich mehr, als die Firmware von TCOM anbietet.
+Leider gibt es für Linux noch keine allgemein verfügbaren Treiber dafür.</p>
 
 <h3>USB</h3>
 
-Der AR7-Prozessor unterst&uuml;tzt auch einen USB-Anschluss, der aber
-bei Sinus 154 DSL Basic SE / Basic 3 nicht herausgef&uuml;hrt ist.
+<p>Der AR7-Prozessor unterstützt auch einen USB-Anschluss, der aber
+bei Sinus 154 DSL Basic SE / Basic 3 nicht herausgeführt ist.
 Falls jemand mutig genug ist, kann er versuchen, diesen
 Anschluss zu finden und selbst zu verdrahten - 
-mit dem Risiko, dabei sein Ger&auml;t zu zerst&ouml;ren.<p>
+mit dem Risiko, dabei sein Gerät zu zerstören.</p>
 
-Das noch nicht n&auml;her untersuchte Sinus 154 DSL SE hat &uuml;brigens
-einen USB-Anschluss herausgef&uuml;hrt!
+<p>Das Sinus 154 DSL SE hat einen vollwertigen USB-1.0-Anschluss herausgeführt!</p>
 
 <h3>WLAN</h3>
 
-<p>Jedes Ger&auml;t hat eine Mini-PCI-Karte mit TNETW1130 von Texas Instruments
-f&uuml;r WLAN eingebaut.
+<p>Jedes Gerät hat eine Mini-PCI-Karte mit TNETW1130 von Texas Instruments
+für WLAN eingebaut.
 Diesen Baustein findet man auch unter der Bezeichnung ACX111.
-Die Ansteuerung erfolgt &uuml;ber einen seriellen Bus (VLYNQ).</p>
+Die Ansteuerung erfolgt über einen seriellen Bus (VLYNQ).</p>
+Beim Sinus 154 Basic 3 ist die Mini-PCI-Karte auf der Hauptplatine integriert,
+also nicht austauschbar.
 
 <p>Neben den Standards IEEE 802.11b und IEEE 802.11g beherrscht der TNETW1130
 eine Betriebsart mit der Herstellerbezeichnung 802.11g++, mit der ein
-um 35 % h&ouml;herer Nettodurchsatz erreicht wird.
+um 35 % höherer Nettodurchsatz erreicht wird.
 Die Firmware von TCOM kennt diese Betriebsart allerdings nicht.</p>
 
-<p>Es gibt Treiber f&uuml;r die Betriebssysteme VxWorks und Linux
+<p>Es gibt Treiber für die Betriebssysteme VxWorks und Linux
 vom Hersteller 
-- leider ist der Programmcode aber nicht allgemein zug&auml;nglich.
-N&auml;heres findet man bei http://www.linux-mips.org/wiki/AR7.</p>
+- leider ist der Programmcode aber nicht allgemein zugänglich.
+Näheres findet man bei http://www.linux-mips.org/wiki/AR7.</p>
 
 <p>Im Open-Source-Bereich findet man das Projekt http://acx100.sourceforge.net/,
-das mit seinem Linux-Treiber f&uuml;r ACX100 auch den ACX111
-zumindest teilweise unterst&uuml;tzt. Das Projekt kennt zur Zeit
+das mit seinem Linux-Treiber für ACX100 auch den ACX111
+zumindest teilweise unterstützt. Das Projekt kennt zur Zeit
 allerdings nur die Bussysteme PCI und USB, nicht aber VLYNQ.</p>
 
 <table summary="wlan">
@@ -162,12 +167,29 @@ allerdings nur die Bussysteme PCI und USB, nicht aber VLYNQ.</p>
 
 <h3>Aufteilung Flash Memory (2 MiB)</h3>
 
-<table summary="flash memory map">
-<tr><th>Index</th><th>Inhalt</th><th>Adresse</th><th>Gr&ouml;sse</th></tr>
+<h4>Flash Memory Sinus 154 DSL Basic SE, Sinus 154 DSL Basic 3</h4>
+
+<table summary="flash memory map Sinus 154 DSL Basic SE, Sinus 154 DSL Basic 3">
+<tr><th>Index</th><th>Inhalt</th><th>Adresse</th><th>Grösse</th></tr>
 <tr><td>[0] </td><td>Boot            </td><td>0xB0000000</td><td> 128 KiB</td></tr>
 <tr><td>[1] </td><td>Configuration   </td><td>0xB0020000</td><td> 128 KiB</td></tr>
 <tr><td>[2] </td><td>Web Image       </td><td>0xB0040000</td><td> 832 KiB</td></tr>
 <tr><td>[3] </td><td>Code Image      </td><td>0xB0110000</td><td> 896 KiB</td></tr>
+<tr><td>[4] </td><td>Boot Params     </td><td>0xB01F0000</td><td>  64 KiB</td></tr>
+<tr><td>[5] </td><td>Flash Image     </td><td>0xB0000000</td><td>2048 KiB</td></tr>
+<tr><td>    </td><td>Flashende       </td><td>0xB01FFFFF</td><td></td></tr>
+</table>
+
+<h4>Flash Memory Sinus 154 DSL SE</h4>
+
+<p>Der Codebereich ist bei diesem Gerät größer, der Webbereich dafür kleiner.</p>
+
+<table summary="flash memory map Sinus 154 DSL SE">
+<tr><th>Index</th><th>Inhalt</th><th>Adresse</th><th>Grösse</th></tr>
+<tr><td>[0] </td><td>Boot            </td><td>0xB0000000</td><td> 128 KiB</td></tr>
+<tr><td>[1] </td><td>Configuration   </td><td>0xB0020000</td><td> 128 KiB</td></tr>
+<tr><td>[2] </td><td>Web Image       </td><td>0xB0040000</td><td> 704 KiB</td></tr>
+<tr><td>[3] </td><td>Code Image      </td><td>0xB00F0000</td><td>1024 KiB</td></tr>
 <tr><td>[4] </td><td>Boot Params     </td><td>0xB01F0000</td><td>  64 KiB</td></tr>
 <tr><td>[5] </td><td>Flash Image     </td><td>0xB0000000</td><td>2048 KiB</td></tr>
 <tr><td>    </td><td>Flashende       </td><td>0xB01FFFFF</td><td></td></tr>
