@@ -175,6 +175,14 @@ Anfang des Flash-Speichers besteht.</p>
 <p>Ganz ohne Firmware-Images bleibt noch die Möglichkeit, den
 Linux-Kernel direkt mit QEMU zu starten.</p>
 
+<h3>Auslesen des Flashs</h3>
+
+<pre>
+./memread.mips 0x10000000 4194304 >mem
+mount mem /usr/www/all/index.html -o bind
+umount /usr/www/all/index.html
+</pre>
+
 <h2>QEMU als Debugwerkzeug</h2>
 
 <p>QEMU emuliert kein Cache-Memory, weil das zu Geschwindigkeitseinbußen
