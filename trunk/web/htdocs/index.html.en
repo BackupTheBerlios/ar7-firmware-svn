@@ -89,8 +89,9 @@ See <a href="openwrt/index.html.en">OpenWrt port</a> for details.
 
 <table summary="devices">
 <tr><th>Device</th><th>CPU</th><th>Flash</th><th>RAM</th></tr>
+<tr><td>Sinus 154 DSL SE</td><td>Texas Instruments TNETD7300 (Sangam)</td><td>2 MiB</td><td>16 MiB (?)</td></tr>
 <tr><td>Sinus 154 DSL Basic SE</td><td>Texas Instruments TNETD7300 (Sangam)</td><td>2 MiB</td><td>16 MiB</td></tr>
-<tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7300 (Sangam)</td><td>2 MiB</td><td>16 MiB (?)</td></tr>
+<tr><td>Sinus 154 DSL Basic 3</td><td>Texas Instruments TNETD7300 (Sangam)</td><td>2 MiB</td><td>16 MiB</td></tr>
 </table>
 
 <p>
@@ -98,78 +99,6 @@ See <a href="openwrt/index.html.en">OpenWrt port</a> for details.
 There are several other devices with very similar hardware,
 for example from AVM (see <a href="http://www.wehavemorefun.de/fritzbox/">
 Wiki web page</a>).
-
-<h2>Serial Port</h2>
-
-<p>Sinus 154 has a builtin serial connector. You must open the case to get access to it.
-Parameters are 115000 bps 8N1. The serial port uses 3,3 V signal level, so it
-needs a converter to connect to a standard RS232 port. I use the MAX232CPE,
-here are the connections:</p>
-
-<table summary="serial port">
-<tr><th>Sinus 154</th><th>Usage</th><th>MAX232CPE</th></tr>
-<tr><td>10</td><td>3,3 V</td><td>16</td></tr>
-<tr><td>9</td><td>GND</td><td>15</td></tr>
-<tr><td>5</td><td>out</td><td>11</td></tr>
-<tr><td>3</td><td>in</td><td>12</td></tr>
-</table>
-
-<table summary="serial port">
-<tr><th>Sinus 154 connector (on PCB)</th></tr>
-<tr><td>
-<pre>
-  9   5 3 1   |
-  x x x x x   |
-  x x x x x   |
- 10       2   |
---------------+
-</pre>
-</td></tr>
-</table>
-
-See
-<a href="http://hri.sourceforge.net/tools/">http://hri.sourceforge.net/tools/</a>
-or the Maxim web pages for wiring details.<p>
-
-The serial port allows firmware uploads, operation and diagnostics using
-the builtin bootloader.
-This bootloader uses the xmodem protocol for binary transfers.
-It works well with MS Windows Hyperterm.
-For LINUX minicom, you will need a special <a href="tools/sx-at91.c">xmodem program</a>.
-
-<h2>WLAN</h2>
-
-Both Sinus devices use a mini PCI card with a TNETW1130 chip.
-
-<h2>Memory Table</h2>
-
-<table summary="memory map">
-<tr><th>Start address</th><th>end address</th><th>contents</th></tr>
-<tr><td>0x80000000</td><td>0x80000fff</td><td>internal RAM 4 KiB</td></tr>
-<tr><td>0x80001000</td><td>0x8fffffff</td><td>?</td></tr>
-<tr><td>0x90000000</td><td>0x90ffffff</td><td>RAM 16 MiB</td></tr>
-<tr><td>0x91000000</td><td>0x95ffffff</td><td>like 0x90000000?</td></tr>
-<tr><td>0x96000000</td><td>0xafffffff</td><td>?</td></tr>
-<tr><td>0xa8610900</td><td></td><td>GPIO</td></tr>
-<tr><td>0xa8610E00</td><td></td><td>UART</td></tr>
-<tr><td>0xb0000000</td><td>0xb01fffff</td><td>Flash Memory 2 MiB</td></tr>
-<tr><td>0xb0200000</td><td>0xb03fffff</td><td>like 0xb0000000</td></tr>
-<tr><td>0xb0400000</td><td>0xbfbfffff</td><td>?</td></tr>
-<tr><td>0xbfc00000</td><td>0xbfc00fff</td><td>internal PROM 4 KiB</td></tr>
-</table>
-
-<h2>Flash Memory Usage (2 MiB)</h2>
-
-<table summary="flash memory map">
-<tr><th>Index</th><th>Inhalt</th><th>Adresse</th><th>Gr&ouml;sse</th></tr>
-<tr><td>[0] </td><td>Boot            </td><td>0xB0000000     </td><td>128K</td></tr>
-<tr><td>[1] </td><td>Configuration   </td><td>0xB0020000     </td><td>128K</td></tr>
-<tr><td>[2] </td><td>Web Image       </td><td>0xB0040000     </td><td>832K</td></tr>
-<tr><td>[3] </td><td>Code Image      </td><td>0xB0110000     </td><td>896K</td></tr>
-<tr><td>[4] </td><td>Boot Params     </td><td>0xB01F0000      </td><td>64K</td></tr>
-<tr><td>[5] </td><td>Flash Image     </td><td>0xB0000000    </td><td>2048K</td></tr>
-<tr><td>    </td><td>Flashende       </td><td>0xB01FFFFF</td><td></td></tr>
-</table>
 
 <h1>Firmware Components</h1>
 
