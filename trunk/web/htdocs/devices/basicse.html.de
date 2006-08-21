@@ -87,7 +87,7 @@ diagnostiziert werden.
 Der Bootloader verwendet für binäre Datentransfers das XModem Protokoll.
 MS Windows Hyperterm funktioniert sofort.
 Für Minicom (LINUX) wird ein spezielles
-<a href="tools/sx-at91.c">XModem-Programm</a> benötigt.
+<a href="../tools/sx-at91.c">XModem-Programm</a> benötigt.
 
 
 <h3>Ethernet</h3>

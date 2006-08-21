@@ -84,7 +84,7 @@ The serial port allows firmware uploads, operation and diagnostics using
 the builtin bootloader.
 This bootloader uses the xmodem protocol for binary transfers.
 It works well with MS Windows Hyperterm.
-For LINUX minicom, you will need a special <a href="tools/sx-at91.c">xmodem program</a>.
+For LINUX minicom, you will need a special <a href="../tools/sx-at91.c">xmodem program</a>.
 
 <h2>WLAN</h2>
 
