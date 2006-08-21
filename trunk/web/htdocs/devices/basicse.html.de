@@ -53,7 +53,7 @@ daher unbedingt zu vermeiden!</p>
 <p>Alle Geräte haben eine serielle Schnittstelle, die aber nur im Gerät
 zugänglich ist. Schnittstellenparameter 115000 bps 8N1. Für den
 Anschluss an PCs wird ein Pegelkonverter von 3,3 V auf RS232 benötigt.
-Ich verwende einen MAX232CPE, der bei jedem der grossen Elektronikversender
+Ich verwende einen MAX3232CPE, der bei jedem der grossen Elektronikversender
 erhältlich ist. Meine Kosten lagen bei rund 12 EUR.
 Eine <a href="http://www.wehavemorefun.de/fritzbox/Serielle_Konsole">alternative
 Lösung</a> unter Verwendung eines Handykabels hat bei mir nicht
@@ -61,7 +61,7 @@ funktioniert - andere Anwender waren damit aber schon erfolgreich.
 Hier sind die notwendigen Verbindungen:</p>
 
 <table summary="serial port">
-<tr><th>Sinus 154</th><th>Belegung</th><th>MAX232CPE</th></tr>
+<tr><th>Sinus 154</th><th>Belegung</th><th>MAX3232CPE</th></tr>
 <tr><td>10</td><td>3,3 V</td><td>16</td></tr>
 <tr><td>9</td><td>GND</td><td>15</td></tr>
 <tr><td>5</td><td>out</td><td>11</td></tr>
@@ -78,7 +78,7 @@ Sinus 154 Steckerleiste (im Gerät)
 --------------+
 </pre>
 
-Hinweise zur Beschaltung des MAX232CPE findet man beispielsweise unter
+Hinweise zur Beschaltung des MAX3232CPE findet man beispielsweise unter
 <a href="http://hri.sourceforge.net/tools/">http://hri.sourceforge.net/tools/</a>
 oder auf den Webseiten von Maxim.<p>
 
@@ -93,7 +93,8 @@ Für Minicom (LINUX) wird ein spezielles
 <h3>Ethernet</h3>
 
 Jedes Gerät hat eine Ethernetschnittstelle.
-Das Sinus 154 DSL SE bietet sogar einen Switch mit 4 Ethernetschnittstellen.
+Das Sinus 154 DSL SE bietet sogar einen Switch (Infineon ADM6996L)
+mit 4 Ethernetschnittstellen.
 
 <h3>DSL</h3>
 
@@ -110,7 +111,8 @@ Falls jemand mutig genug ist, kann er versuchen, diesen
 Anschluss zu finden und selbst zu verdrahten - 
 mit dem Risiko, dabei sein Gerät zu zerstören.</p>
 
-<p>Das Sinus 154 DSL SE hat einen vollwertigen USB-1.0-Anschluss herausgeführt!</p>
+<p>Das Sinus 154 DSL SE hat einen vollwertigen USB-1.0-Anschluss
+(über VLYNQ TO USB BRIDGE TI TNETV115PAP (52A60HT)) herausgeführt!</p>
 
 <h3>WLAN</h3>
 

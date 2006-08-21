@@ -52,11 +52,11 @@ and must be avoided!
 
 <p>Sinus 154 has a builtin serial connector. You must open the case to get access to it.
 Parameters are 115000 bps 8N1. The serial port uses 3,3 V signal level, so it
-needs a converter to connect to a standard RS232 port. I use the MAX232CPE,
+needs a converter to connect to a standard RS232 port. I use the MAX3232CPE,
 here are the connections:</p>
 
 <table summary="serial port">
-<tr><th>Sinus 154</th><th>Usage</th><th>MAX232CPE</th></tr>
+<tr><th>Sinus 154</th><th>Usage</th><th>MAX3232CPE</th></tr>
 <tr><td>10</td><td>3,3 V</td><td>16</td></tr>
 <tr><td>9</td><td>GND</td><td>15</td></tr>
 <tr><td>5</td><td>out</td><td>11</td></tr>
