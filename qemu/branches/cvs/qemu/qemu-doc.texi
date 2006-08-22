@@ -559,8 +559,8 @@ localhost 5555
 The TCP Net Console has two modes of operation.  It can send the serial
 I/O to a location or wait for a connection from a location.  By default
 the TCP Net Console is sent to @var{host} at the @var{port}.  If you use
-the @var{,server} option QEMU will wait for a client socket application
-to connect to the port before continuing, unless the @code{,nowait}
+the @var{server} option QEMU will wait for a client socket application
+to connect to the port before continuing, unless the @code{nowait}
 option was specified. If @var{host} is omitted, 0.0.0.0 is assumed. Only
 one TCP connection at a time is accepted. You can use @code{telnet} to
 connect to the corresponding character device.
@@ -1011,7 +1011,7 @@ disk image filename provided you have enough proviledge to access
 it. For example, use @file{/dev/cdrom} to access to the CDROM or
 @file{/dev/fd0} for the floppy.
 
-@table
+@table @code
 @item CD
 You can specify a CDROM device even if no CDROM is loaded. QEMU has
 specific code to detect CDROM insertion or removal. CDROM ejection by
@@ -1198,7 +1198,7 @@ monitor (@pxref{pcsys_keys}).
 QEMU emulates a PCI UHCI USB controller. You can virtually plug
 virtual USB devices or real host USB devices (experimental, works only
 on Linux hosts).  Qemu will automatically create and connect virtual USB hubs
-as neccessary to connect multiple USB devices.
+as necessary to connect multiple USB devices.
 
 @menu
 * usb_devices::
@@ -1387,7 +1387,7 @@ correctly instructs QEMU to shutdown at the appropriate moment.
 
 See @ref{sec_invocation} about the help of the option @option{-smb}.
 
-@subsubsection Windows XP security problems
+@subsubsection Windows XP security problem
 
 Some releases of Windows XP install correctly but give a security
 error when booting:
@@ -1395,10 +1395,12 @@ error when booting:
 A problem is preventing Windows from accurately checking the
 license for this computer. Error code: 0x800703e6.
 @end example
-The only known workaround is to boot in Safe mode
-without networking support. 
 
-Future QEMU releases are likely to correct this bug.
+The workaround is to install a service pack for XP after a boot in safe
+mode. Then reboot, and the problem should go away. Since there is no
+network while in safe mode, its recommended to download the full
+installation of SP1 or SP2 and transfer that via an ISO or using the
+vvfat block device ("-hdb fat:directory_which_holds_the_SP").
 
 @subsection MS-DOS and FreeDOS
 
