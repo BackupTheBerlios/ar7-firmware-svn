@@ -243,6 +243,39 @@ int cpu_mips_handle_mmu_fault (CPUState *env, target_ulong address, int rw,
     return ret;
 }
 
+/* NOTE: must be called outside the CPU execute loop */
+void cpu_reset(CPUState *env)
+{
+#ifdef MIPS_USES_R4K_TLB
+    env->CP0_random = MIPS_TLB_NB - 1;
+#endif
+    env->CP0_Wired = 0;
+    env->CP0_Config0 = MIPS_CONFIG0;
+#if defined (MIPS_CONFIG1)
+    env->CP0_Config1 = MIPS_CONFIG1;
+#endif
+#if defined (MIPS_CONFIG2)
+    env->CP0_Config2 = MIPS_CONFIG2;
+#endif
+#if defined (MIPS_CONFIG3)
+    env->CP0_Config3 = MIPS_CONFIG3;
+#endif
+    env->CP0_WatchLo = 0;
+    env->CP0_Status = (1 << CP0St_CU0) | (1 << CP0St_BEV);
+    if (env->hflags & MIPS_HFLAG_BMASK) {
+        /* If the exception was raised from a delay slot,
+         * come back to the jump
+         */
+        env->CP0_ErrorEPC = env->PC - 4;
+        env->hflags &= ~MIPS_HFLAG_BMASK;
+    } else {
+        env->CP0_ErrorEPC = env->PC;
+    }
+    env->hflags |= MIPS_HFLAG_ERL;
+    env->CP0_Status |= (1 << CP0St_ERL);
+    env->PC = 0xBFC00000;
+}
+
 void do_interrupt (CPUState *env)
 {
     target_ulong pc, offset;
@@ -294,26 +327,11 @@ void do_interrupt (CPUState *env)
     enter_debug_mode:
         env->hflags |= MIPS_HFLAG_DM;
         /* EJTAG probe trap enable is not implemented... */
-        pc = 0xBFC00480;
+        env->PC = 0xBFC00480;
         break;
     case EXCP_RESET:
-#ifdef MIPS_USES_R4K_TLB
-        env->CP0_random = MIPS_TLB_NB - 1;
-#endif
-        env->CP0_Wired = 0;
-        env->CP0_Config0 = MIPS_CONFIG0;
-#if defined (MIPS_CONFIG1)
-        env->CP0_Config1 = MIPS_CONFIG1;
-#endif
-#if defined (MIPS_CONFIG2)
-        env->CP0_Config2 = MIPS_CONFIG2;
-#endif
-#if defined (MIPS_CONFIG3)
-        env->CP0_Config3 = MIPS_CONFIG3;
-#endif
-        env->CP0_WatchLo = 0;
-        env->CP0_Status = (1 << CP0St_CU0) | (1 << CP0St_BEV);
-        goto set_error_EPC;
+        cpu_reset(env);
+        break;
     case EXCP_SRESET:
         env->CP0_Status = (1 << CP0St_CU0) | (1 << CP0St_BEV) |
             (1 << CP0St_SR);
@@ -333,8 +351,8 @@ void do_interrupt (CPUState *env)
             env->CP0_ErrorEPC = env->PC;
         }
         env->hflags |= MIPS_HFLAG_ERL;
-	env->CP0_Status |= (1 << CP0St_ERL);
-        pc = 0xBFC00000;
+        env->CP0_Status |= (1 << CP0St_ERL);
+        env->PC = 0xBFC00000;
         break;
     case EXCP_MCHECK:
         cause = 24;
@@ -397,7 +415,7 @@ void do_interrupt (CPUState *env)
             pc = 0x80000000;
         }
         env->hflags |= MIPS_HFLAG_EXL;
-	env->CP0_Status |= (1 << CP0St_EXL);
+        env->CP0_Status |= (1 << CP0St_EXL);
         pc += offset;
         env->CP0_Cause = (env->CP0_Cause & ~0x7C) | (cause << 2);
         if (env->hflags & MIPS_HFLAG_BMASK) {
@@ -411,6 +429,7 @@ void do_interrupt (CPUState *env)
             env->CP0_EPC = env->PC;
             env->CP0_Cause &= ~0x80000000;
         }
+        env->PC = pc;
         break;
     default:
         if (logfile) {
@@ -420,7 +439,6 @@ void do_interrupt (CPUState *env)
         printf("Invalid MIPS exception %d. Exiting\n", env->exception_index);
         exit(1);
     }
-    env->PC = pc;
     if (logfile && env->exception_index != EXCP_EXT_INTERRUPT) {
         fprintf(logfile, "%s: PC %08x EPC %08x cause %d excp %d\n"
                 "    S %08x C %08x A %08x D %08x\n",

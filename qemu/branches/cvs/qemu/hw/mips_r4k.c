@@ -189,6 +189,12 @@ CPUReadMemoryFunc *io_read[] = {
     &io_readl,
 };
 
+static void main_cpu_reset(void *opaque)
+{
+    CPUState *env = opaque;
+    cpu_reset(env);
+}
+
 void mips_r4k_init (int ram_size, int vga_ram_size, int boot_device,
                     DisplayState *ds, const char **fd_filename, int snapshot,
                     const char *kernel_filename, const char *kernel_cmdline,
@@ -204,6 +210,7 @@ void mips_r4k_init (int ram_size, int vga_ram_size, int boot_device,
 
     env = cpu_init();
     register_savevm("cpu", 0, 3, cpu_save, cpu_load, env);
+    qemu_register_reset(main_cpu_reset, env);
 
     /* allocate RAM */
     cpu_register_physical_memory(0, ram_size, IO_MEM_RAM);
