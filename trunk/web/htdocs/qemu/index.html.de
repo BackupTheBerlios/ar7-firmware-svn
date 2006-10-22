@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>AR7 Emulation mit QEMU</title>
-	<meta http-equiv="Content-Type" content="text/html">
+        <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 	<meta name="description" content="Linux based firmware for AR7 based routers">
 	<meta name="author" content="Stefan Weil">
 	<meta name="keywords" content="QEMU, Linux, firmware, router, AR7, GPL,
@@ -181,6 +181,58 @@ Linux-Kernel direkt mit QEMU zu starten.</p>
 ./memread.mips 0x10000000 4194304 >mem
 mount mem /usr/www/all/index.html -o bind
 umount /usr/www/all/index.html
+</pre>
+
+<h3>Auslesen des Flashs mit Hilfe des Bootloaders</h3>
+
+<p>Diese Methode verwendet den Bootloader und benötigt dafür eine serielle
+Verbindung zum Router. Vorteil ist, dass damit auf jeden Fall alle
+Flashbereiche gelesen werden können. Nachteil ist, dass das Auslesen
+lange dauert und umständlich ist.</p>
+
+<p>Vorgehensweise:</p>
+
+<ul>
+<li>Router mit Terminalprogramm an der seriellen Schnittstelle starten.
+<li>Bootvorgang durch Drücken einer Taste (any key) unterbrechen.
+<li>Taste '!' drücken (Wechsel in Administrator-Mode).
+<li>Taste 'r' drücken (Speicher auslesen).
+<li>Startadresse, Datenlänge und Anzahl Daten wählen.
+<li>Dump wird ausgegeben. Die Ausgabe läßt man sinnvollerweise vom
+    Terminalprogramm in eine Datei mitschreiben.
+</ul>
+
+<p>Beispiel: Auslesen Boot-ROM (4 KiB ab 0x1fc00000 = Kerneladresse 0xbfc00000)</p>
+
+<pre>
+[DSL Basic 3 Boot]:r
+
+Enter the Start Address to Read....0xbfc00000
+Data Length is (1) 4 Bytes (2) 2 Bytes (3) 1 Byte... [Taste 1 drücken]
+Enter the Count to Read....(Maximun 10000)1024
+
+----------------------------------------------------------
+ Address   00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+----------------------------------------------------------
+0xBFC00000 
+</pre>
+
+<p>Die mitgeschriebene Datei des Dumps kann anschließend ins Binärformat
+konvertiert werden, beispielsweise mit dem Ruby-Skript
+<a href="../tools/dump2bin.rb">dump2bin.rb</a>:</p>
+
+<pre>
+dump2bin.rb minicom.cap >flashimage.bin
+</pre>
+
+<p>Beispiel: Auslesen Flash (2 MiB ab 0x10000000 = Kerneladresse 0xb0000000)</p>
+
+<pre>
+[DSL Basic 3 Boot]:r
+
+Enter the Start Address to Read....0xb0000000
+Data Length is (1) 4 Bytes (2) 2 Bytes (3) 1 Byte... [Taste 1 drücken]
+Enter the Count to Read....(Maximun 10000)524288
 </pre>
 
 <h2>QEMU als Debugwerkzeug</h2>
