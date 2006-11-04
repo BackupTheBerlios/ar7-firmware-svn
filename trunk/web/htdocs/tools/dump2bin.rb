@@ -21,6 +21,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 This program reads hex dumps produced with the bootloader of
 DSL routers like Sinus 154 DSL SE and converts them into binary data.
 
+It can also read and convert hex dumps written by the ADAM2 bootloader
+which is used by other DSL routers like AVM FritzBox.
+
 Usage: dump2bin.rb minicom.cap >flashimage.bin
 
 =end
@@ -36,28 +39,52 @@ mem = Hash.new
 $stderr.puts("dump2bin reading...")
 
 File.open(filename) { |f|
-	f.each { |line|
-		if line[0..1] == '0x'
-			addr, data = line.split(' ', 2)
-			data = data.split
-			if data.size != 16
-				$stderr.puts("Zeile ignoriert: #{line}")
-				next
-			end
-			row = ''
-			data.each { |byte|
-				row << byte.hex.chr
-			}
-			if row.size != 16
-				$stderr.puts("Zeile ignoriert: #{line}")
-				next
-			end
-			if mem[addr] && (mem[addr] != row)
-				$stderr.puts("Zeile doppelt: #{line}")
-			end
-			mem[addr] = row
-		end
-	}
+    f.each { |line|
+        if line[0..1] == '0x'
+            addr, data = line.split(' ', 2)
+            data = data.split
+            if data.size == 4
+                # 4 longwords (ADAM2 dump format).
+                row = ''
+                data.each { |lword|
+                    value = lword.hex
+                    row << (value & 0xff).chr
+                    value >>= 8
+                    row << (value & 0xff).chr
+                    value >>= 8
+                    row << (value & 0xff).chr
+                    value >>= 8
+                    row << (value & 0xff).chr
+                    value >>= 8
+                }
+                if row.size != 16
+                    $stderr.puts("Zeile ignoriert: #{line}")
+                    next
+                end
+                if mem[addr] && (mem[addr] != row)
+                    $stderr.puts("Zeile doppelt: #{line}")
+                end
+                mem[addr] = row
+            elsif data.size == 16
+                # 16 bytes (broadnet dump format).
+                row = ''
+                data.each { |byte|
+                    row << byte.hex.chr
+                }
+                if row.size != 16
+                    $stderr.puts("Zeile ignoriert: #{line}")
+                    next
+                end
+                if mem[addr] && (mem[addr] != row)
+                    $stderr.puts("Zeile doppelt: #{line}")
+                end
+                mem[addr] = row
+            else
+                $stderr.puts("Zeile ignoriert: #{line}")
+                next
+            end
+        end
+    }
 }
 
 $stderr.puts("dump2bin sorting...")
