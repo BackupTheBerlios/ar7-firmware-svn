@@ -1,10 +1,20 @@
-This directory contains a patched version of QEMU:
+This directory contains an inofficial patched version of QEMU.
+Maintainer is Stefan Weil.
 
-branches/cvs/qemu - copy of unpatched QEMU
+branches/head     - copy of unpatched QEMU
 trunk/qemu        - patched QEMU
 
-QEMU is an emulator for different CPUs.
-This patched version adds support for MIPS32 AR7 system emulation.
-It can be used for software development of AR7 based  routers.
+QEMU is an emulator for many different CPUs.
 
-See also http://fabrice.bellard.free.fr/qemu/ (official QEMU homepage).
+This patched version adds support for MIPS32 AR7 system emulation.
+It can be used for software development of AR7 based routers.
+
+Some extensions (improved flash memory support) are not AR7 specific.
+
+Other extensions (new ethernet cards, eeprom memory support) are
+not AR7 related at all.
+
+Links:
+
+http://fabrice.bellard.free.fr/qemu/ (official QEMU homepage)
+http://ar7-firmware.berlios.de/qemu/ (AR7 related information)
