@@ -29,6 +29,7 @@
 <p><a href="devices/sx541">Gigaset SX541</a></p>
 </div>
 <p><a href="tools/">Werkzeuge</a></p>
+<p><a href="wiki/">Wiki</a></p>
 </div>
 
 <div class="pagesection">
@@ -58,11 +59,11 @@ Ein Beispiel f&uuml;r kompatible Hardware sind das Sinus 154 DSL SE
 (das zusätzliche Ethernetanschlüsse und einen USB-Anschluß bietet)
 und das <a href="devices/sx541">Siemens Gigaset SX541</a>.
 Besitzer solcher Hardware sind willkommen und k&ouml;nnen sich im
-Wiki-Bereich des Projektes eintragen oder an die auf der Projektseite
+<a href=wiki/>Wiki-Bereich</a> des Projektes eintragen oder an die auf der Projektseite
 angegebene Kontaktadresse wenden.</p>
 
-<p>Den Wiki-Bereich findet man ebenso wie das Entwickler- und Anwender-Forum
-und weitere Information &uuml;ber die
+<p>Das Entwickler- und Anwender-Forum
+und weitere Information befindet sich auf der
 <a href="http://developer.berlios.de/projects/ar7-firmware/">Projektseite</a>
 auf BerliOS.</p>
 
