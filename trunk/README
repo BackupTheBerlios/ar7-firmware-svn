@@ -1,0 +1,13 @@
+Anonymous SVN Access via SVN
+
+The QEMU SVN repository can be checked out through
+anonymous (svnserve) SVN with the following instruction set:
+
+svn checkout svn://svn.berlios.de/ar7-firmware/qemu/trunk
+
+Anonymous SVN Access via HTTP
+
+The QEMU SVN repository can be checked out through
+anonymous HTTP with the following instruction set:
+
+svn checkout http://svn.berlios.de/svnroot/repos/ar7-firmware/qemu/trunk
