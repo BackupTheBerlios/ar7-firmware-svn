@@ -58,7 +58,7 @@ static CharDriverState *monitor_hd;
 static int hide_banner;
 
 static term_cmd_t term_cmds[];
-static const term_cmd_t info_cmds[];
+static term_cmd_t info_cmds[];
 
 static char term_outbuf[1024];
 static int term_outbuf_index;
@@ -163,9 +163,9 @@ static int compare_cmd(const char *name, const char *list)
     return 0;
 }
 
-static void help_cmd1(const term_cmd_t *cmds, const char *prefix, const char *name)
+static void help_cmd1(term_cmd_t *cmds, const char *prefix, const char *name)
 {
-    const term_cmd_t *cmd;
+    term_cmd_t *cmd;
 
     for(cmd = cmds; cmd->name != NULL; cmd++) {
         if (!name || !strcmp(name, cmd->name))
@@ -211,7 +211,7 @@ static void do_commit(const char *device)
 
 static void do_info(const char *item)
 {
-    const term_cmd_t *cmd;
+    term_cmd_t *cmd;
 
     if (!item)
         goto help;
@@ -1256,7 +1256,7 @@ static term_cmd_t term_cmds[] = {
     { NULL, NULL, }, 
 };
 
-static const term_cmd_t info_cmds[] = {
+static term_cmd_t info_cmds[] = {
     { "version", "", do_info_version,
       "", "show the version of qemu" },
     { "network", "", do_info_network,
@@ -2336,7 +2336,7 @@ void readline_find_completion(const char *cmdline)
     char *args[MAX_ARGS];
     int nb_args, i, len;
     const char *ptype, *str;
-    const term_cmd_t *cmd;
+    term_cmd_t *cmd;
     const KeyDef *key;
 
     parse_cmdline(cmdline, &nb_args, args);
