@@ -1133,6 +1133,8 @@ int ioport_get_a20(void);
 extern QEMUMachine prep_machine;
 extern QEMUMachine core99_machine;
 extern QEMUMachine heathrow_machine;
+extern QEMUMachine ref405ep_machine;
+extern QEMUMachine taihu_machine;
 
 /* mips_r4k.c */
 extern QEMUMachine mips_machine;
@@ -1459,6 +1461,8 @@ int sh7750_register_io_device(struct SH7750State *s,
 int tc58128_init(struct SH7750State *s, char *zone1, char *zone2);
 
 /* NOR flash devices */
+#define MAX_PFLASH 4
+extern BlockDriverState *pflash_table[MAX_PFLASH];
 typedef struct pflash_t pflash_t;
 
 pflash_t *pflash_register (target_ulong base, ram_addr_t off,
