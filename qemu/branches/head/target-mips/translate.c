@@ -5069,7 +5069,7 @@ static void decode_opc (CPUState *env, DisasContext *ctx)
                 break;
             }
         } else {
-            generate_exception_err(ctx, EXCP_CpU, 3);
+            generate_exception_err(ctx, EXCP_CpU, 1);
         }
         break;
 
