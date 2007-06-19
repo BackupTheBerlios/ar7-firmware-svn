@@ -32,7 +32,7 @@
 
 //#define MIPS_DEBUG_DISAS
 //#define MIPS_DEBUG_SIGN_EXTENSIONS
-//#define MIPS_SINGLE_STEP
+#define MIPS_SINGLE_STEP
 
 #ifdef USE_DIRECT_JUMP
 #define TBPARAM(x)
