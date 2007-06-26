@@ -1,3 +1,17 @@
+2007-06-26 10:35  ths
+
+	* target-i386/: exec.h, helper.c, op.c, translate.c: DR6 single
+	  step exception status bit, by Juergen Keil.
+
+2007-06-25 21:56  blueswir1
+
+	* hw/: slavio_serial.c, sun4m.c, tcx.c:  Rename variables and
+	  rearrange code to please gcc -Wshadow checks
+
+2007-06-25 21:52  blueswir1
+
+	* target-sparc/translate.c:  Drop unused parameters
+
 2007-06-25 19:34  ths
 
 	* target-mips/: helper.c, op.c: MIPS64 improvements, based on a
