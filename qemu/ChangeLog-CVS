@@ -1,3 +1,104 @@
+2007-07-02 17:03  balrog
+
+	* vl.c: Retry interrupted open() calls (proposed by Yigael
+	  Felishman).  Linux open(2) doesn't list EINTR, but FreeBSD's
+	  open(2) does.
+
+2007-07-02 16:06  balrog
+
+	* dyngen.h, exec-all.h: Remove unaligned accesses in
+	  ia64_apply_fixes().  Make sure that the static variables are not
+	  optimized away in GOTO_TB. (patch by Andreas Schwab)
+
+2007-07-02 15:38  balrog
+
+	* hw/eepro100.c: E100 savevm/loadvm support, patch by Jason Wessel.
+
+2007-07-02 15:31  balrog
+
+	* vl.c: Fix qemu_can_send_packet(), makes DHCP with multiple nics
+	  work - patch by Jason Wessel.
+
+2007-07-02 15:20  balrog
+
+	* vl.c: gdb stub support and loadvm should work together, patch by
+	  Jason Wessel
+
+2007-07-01 20:21  pbrook
+
+	* exec.c: Fix bogus fopen mode.
+
+2007-06-30 19:32  pbrook
+
+	* Makefile.target, vl.h, hw/integratorcp.c, hw/pl031.c,
+	  hw/realview.c, hw/versatilepb.c: ARM PL031 RTC emulation.
+
+2007-06-30 16:07  pbrook
+
+	* hw/pl110.c: PL110 versatile register hack fix (Adam
+	  Lackorzynski).
+
+2007-06-30 15:53  pbrook
+
+	* exec.c, monitor.c: Allow changing log filename.  Close logfile
+	  when logging is disabled.
+
+2007-06-30 01:26  ths
+
+	* vl.c: Sanitize exit codes of help queries, this time for real.
+
+2007-06-28 17:28  blueswir1
+
+	* hw/pcnet.c:  Fix Lance on 32-bit hosts
+
+2007-06-28 17:14  ths
+
+	* vl.c: Limit the use of qemu_chr_open_tty to __linux__ and
+	  __sun__, by Andreas Faerber.
+
+2007-06-28 16:07  ths
+
+	* target-mips/op_helper.c: Simplify round/ceil/floor
+	  implementation, spotted by Fabrice Bellard.
+
+2007-06-28 16:05  ths
+
+	* vl.c: Fix segfault when printing the help text, spotted by Stefan
+	  Weil.
+
+2007-06-28 09:28  blueswir1
+
+	* pc-bios/: README, openbios-sparc32, openbios-sparc64: Update
+	  Sparc32 and Sparc64 OpenBIOS image to SVN revision 157. Changes:
+	  r150: Try to fix system reset for SMP and SS-10 cases r151: Fix
+	  obp_dumb_memalloc r152: Fix mapping more than 2G memory r153: Get
+	  a real memory allocator for Sparc, based on PPC ofmem r154:
+	  Update totavail when memory is allocated by dumb memory allocator
+	  r155: Fix pop_fstr_copy memory leaks - console one prevented
+	  Debian 3.1r1 from installing in console=prom mode - fixing this
+	  also needed the real malloc/free r156: Hack for building on CIFS
+	  directory r157: Allow boot start PC to be different from virtual
+	  location (boot mode)
+
+2007-06-27 21:01  ths
+
+	* target-mips/op_helper.c: Fix computation for ceil, floor and
+	  round instructions.
+
+2007-06-27 13:12  ths
+
+	* linux-user/main.c: Fix environ termination, by Andreas Schwab.
+
+2007-06-26 22:26  ths
+
+	* target-mips/: op_helper.c, translate.c: Implement
+	  recip1/recip2/rsqrt1/rsqrt2.
+
+2007-06-26 22:01  balrog
+
+	* cpu-defs.h, exec.c: Fix writes to pages containing watchpoints
+	  for the RAM not at 0x0 cases.
+
 2007-06-26 10:35  ths
 
 	* target-i386/: exec.h, helper.c, op.c, translate.c: DR6 single
