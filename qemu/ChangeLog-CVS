@@ -1,3 +1,7 @@
+2007-07-03 11:55  blueswir1
+
+	* hw/: iommu.c, tcx.c:	Fix loadvm
+
 2007-07-02 17:03  balrog
 
 	* vl.c: Retry interrupted open() calls (proposed by Yigael
