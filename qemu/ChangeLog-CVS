@@ -1,3 +1,39 @@
+2007-07-07 22:53  blueswir1
+
+	* gdbstub.c, target-sparc/cpu.h, target-sparc/op.c,
+	  target-sparc/op_helper.c:  Report normalised CWP values to
+	  userland and GDB, not internal representation
+
+2007-07-07 22:50  blueswir1
+
+	* target-sparc/: op_mem.h, translate.c:  Use unsigned 32-bit load
+	  for ld/lduw
+
+2007-07-07 22:48  blueswir1
+
+	* target-sparc/: cpu.h, translate.c:  Fix wrong number of
+	  clean/saveable windows, match Linux startup register values
+
+2007-07-07 22:46  blueswir1
+
+	* linux-user/main.c:  Deliver page faults to program
+
+2007-07-07 22:45  blueswir1
+
+	* linux-user/syscall.c:  Page align brk result like real Linux
+
+2007-07-07 22:44  blueswir1
+
+	* target-sparc/cpu.h:  Fix Sparc64 page size
+
+2007-07-05 15:23  blueswir1
+
+	* linux-user/elfload.c:  Fix 64 bit ELF file symbol lookup
+
+2007-07-04 22:22  blueswir1
+
+	* target-sparc/translate.c:  Fix Sparc64 movr
+
 2007-07-03 11:55  blueswir1
 
 	* hw/: iommu.c, tcx.c:	Fix loadvm
