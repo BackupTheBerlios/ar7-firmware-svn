@@ -1,3 +1,45 @@
+2007-07-11 21:51  blueswir1
+
+	* hw/sun4u.c:  Sparc64 update
+
+2007-07-11 18:44  ths
+
+	* hw/: gt64xxx.c, mips_malta.c: Impement Galilleo ISD register.
+
+2007-07-11 18:43  blueswir1
+
+	* target-sparc/: op.c, translate.c:  More alignment checks
+
+2007-07-11 12:36  ths
+
+	* target-ppc/: cpu.h, exec.h: Fix PPCEMB for 32bit hosts.
+
+2007-07-11 12:25  ths
+
+	* block-vmdk.c: Silence compiler warnings.
+
+2007-07-11 12:25  ths
+
+	* target-mips/TODO: Update TODO list.
+
+2007-07-11 12:24  ths
+
+	* qemu-doc.texi, qemu-tech.texi: Documentation update for MIPS.
+
+2007-07-08 21:51  blueswir1
+
+	* target-sparc/: cpu.h, op_helper.c:  Fix retry and done ops, trap
+	  handling
+
+2007-07-08 21:48  blueswir1
+
+	* target-sparc/translate.c:  Save state in Sparc64 return op
+
+2007-07-08 12:08  blueswir1
+
+	* linux-user/: syscall.c, syscall_defs.h:  Fix Sparc64 stat system
+	  call
+
 2007-07-07 22:53  blueswir1
 
 	* gdbstub.c, target-sparc/cpu.h, target-sparc/op.c,
