@@ -555,8 +555,15 @@ Use @code{-serial none} to disable all serial ports.
 
 Available character devices are:
 @table @code
-@item vc
-Virtual console
+@item vc[:WxH]
+Virtual console. Optionally, a width and height can be given in pixel with
+@example
+vc:800x600
+@end example
+It is also possible to specify width or height in characters:
+@example
+vc:80Cx24C
+@end example
 @item pty
 [Linux only] Pseudo TTY (a new PTY is automatically allocated)
 @item none
@@ -1157,6 +1164,8 @@ change or eject media.
 @item Hard disks
 Hard disks can be used with the syntax: @file{\\.\PhysicalDriveN}
 where @var{N} is the drive number (0 is the first hard disk).
+@file{/dev/hda} is supported as an alias to the first hard disk
+drive @file{\\.\PhysicalDrive0}.
 
 WARNING: unless you know what you do, it is better to only make
 READ-ONLY accesses to the hard disk otherwise you may corrupt your
@@ -1751,7 +1760,7 @@ The Malta emulation supports the following devices:
 
 @itemize @minus
 @item
-Core board with MIPS 24Kf CPU and Galilleo system controller
+Core board with MIPS 24Kf CPU and Galileo system controller
 @item
 PIIX4 PCI/USB/SMbus controller
 @item

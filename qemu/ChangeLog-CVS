@@ -1,3 +1,81 @@
+2007-07-12 13:32  ths
+
+	* target-ppc/helper.c: Fix crash in set registers in PPC gdb-stub,
+	  by Jason Wessel.
+
+2007-07-12 13:06  ths
+
+	* linux-user/syscall.c: Tkill support, by Stuart Anderson.
+
+2007-07-12 13:02  ths
+
+	* linux-user/signal.c: Sigio fd passing, by Alexander Graf.
+
+2007-07-12 12:59  ths
+
+	* audio/alsaaudio.c, audio/audio.c, audio/audio_int.h, hw/pxa2xx.c,
+	  linux-user/syscall.c: Spelling fix, by Stuart Brady.
+
+2007-07-12 12:05  ths
+
+	* gdbstub.c: Improve handling of gdb's single-step / continue
+	  arguments.
+
+2007-07-12 11:29  ths
+
+	* Makefile.target, configure: Fix configure for cygwin, by Tristan
+	  Gingold.
+
+2007-07-12 11:03  ths
+
+	* qemu-doc.texi, qemu-tech.texi: More documentation bits, from
+	  Stefan Weil.
+
+2007-07-12 02:27  ths
+
+	* configure: Nicer script formatting, by Ben Taylor.
+
+2007-07-12 02:18  ths
+
+	* target-ppc/translate_init.c: Disable dead code.
+
+2007-07-12 01:39  ths
+
+	* configure: Display SDL configuration error, idea by Ben Taylor.
+
+2007-07-12 01:23  ths
+
+	* audio/sdlaudio.c: Ensure signals are properly masked for new SDL
+	  Audio threads, by Andrzej Zaborowski.
+
+2007-07-12 01:14  ths
+
+	* console.c, qemu-doc.texi, vl.c, vl.h: New features for QEMU text
+	  console, by Stefan Weil.
+
+2007-07-12 00:50  ths
+
+	* hw/fdc.c: Spelling fix, by Stefan Weil.
+
+2007-07-12 00:48  ths
+
+	* block-raw.c, dis-asm.h, gdbstub.c, m68k-dis.c, hw/i2c.h,
+	  hw/ide.c, hw/pl011.c, hw/pl181.c, hw/rtl8139.c, hw/usb.c,
+	  linux-user/signal.c, target-i386/cpu.h: Spelling fixes, by Stefan
+	  Weil.
+
+2007-07-12 00:47  ths
+
+	* dyngen.c: Reduce variable shadowing, by Stefan Weil.
+
+2007-07-12 00:45  ths
+
+	* hw/gt64xxx.c: Remove superfluous gt64xxx_pci_mapping calls.
+
+2007-07-11 23:43  ths
+
+	* qemu-doc.texi: Spelling fix, spotted by Stefan Weil.
+
 2007-07-11 21:51  blueswir1
 
 	* hw/sun4u.c:  Sparc64 update
