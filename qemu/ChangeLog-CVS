@@ -1,3 +1,14 @@
+2007-07-15 18:56  ths
+
+	* dyngen.c: Restore OS X build (plus code reformatting).
+
+2007-07-13 20:40  ths
+
+	* qemu-doc.texi: Delete mention of /dev/hda as an alias t o
+	  \\PysicalDrive0. Currently this isn't true, and we probably don't
+	  want to make it true by grabbing namespace which might be used by
+	  cygwin.
+
 2007-07-12 13:32  ths
 
 	* target-ppc/helper.c: Fix crash in set registers in PPC gdb-stub,
