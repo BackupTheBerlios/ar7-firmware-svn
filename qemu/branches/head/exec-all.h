@@ -472,6 +472,20 @@ static inline int testandset (int *p)
 {
     int ret;
 
+#if 1
+    __asm__ __volatile__(
+            ".set push\n"
+            ".set mips2\n"
+            "ll %0,%1\n"
+            ".set noreorder\n"
+            "bnez %0,1f\n"
+            "li %0,0\n" /* branch delay slot */
+            "li %0,1\n"
+            "sc %0,%1\n"
+            "1:\n"
+            ".set pop\n"
+            : "=r" (ret), "=m" (*p));
+#else
     __asm__ __volatile__ (
 	"	.set push		\n"
 	"	.set noat		\n"
@@ -484,6 +498,7 @@ static inline int testandset (int *p)
 	: "=r" (ret), "+R" (*p)
 	:
 	: "memory");
+#endif
 
     return ret;
 }

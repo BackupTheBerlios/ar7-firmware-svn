@@ -1661,6 +1661,30 @@ void gen_code(const char *name, host_ulong offset, host_ulong size,
 #define INSN_RETURN     0x03e00008
 #define INSN_NOP        0x00000000
 
+        uint8_t *p = (void *)(p_end - 8);
+        if (p == p_start) {
+            error("empty code for %s", name);
+        } else if (get32((uint32_t *)(p)) != INSN_RETURN) {
+            error("jr ra expected near the end of %s", name);
+        } else if (get32((uint32_t *)(p + 4)) != INSN_NOP) {
+            error("nop expected at the end of %s", name);
+        } else if ((get32((uint32_t *)(p_start)) >> 16) == 0x3c1c &&
+                  (get32((uint32_t *)(p_start + 4)) >> 16) == 0x279c &&
+                  get32((uint32_t *)(p_start + 8)) == 0x0399e021) {
+            /* Skip prologue
+               lui      gp,nn
+               addiu    gp,gp,nn
+               addu     gp,gp,t9 */
+            p_start += 12;
+            start_offset += 12;
+        }
+        copy_size = p - p_start;
+    }
+#elif (defined(HOST_MIPS) || defined(HOST_MIPS64)) && 0
+    {
+#define INSN_RETURN     0x03e00008
+#define INSN_NOP        0x00000000
+
         uint8_t *p = p_end;
 
         if (p < (p_start + 0x8)) {
@@ -1671,7 +1695,7 @@ void gen_code(const char *name, host_ulong offset, host_ulong size,
             p -= 0x8;
             end_insn1 = get32((uint32_t *)(p + 0x0));
             end_insn2 = get32((uint32_t *)(p + 0x4));
-            if (end_insn1 != INSN_RETURN && end_insn2 != INSN_NOP)
+            if (end_insn1 != INSN_RETURN || end_insn2 != INSN_NOP)
                 error("jr ra not found at end of %s", name);
         }
         copy_size = p - p_start;
@@ -2521,11 +2545,17 @@ void gen_code(const char *name, host_ulong offset, host_ulong size,
 #elif defined(HOST_MIPS) || defined(HOST_MIPS64)
             {
                 for (i = 0, rel = relocs; i < nb_relocs; i++, rel++) {
-		    if (rel->r_offset >= start_offset && rel->r_offset < start_offset + copy_size) {
+                    host_ulong r_offset = rel->r_offset;
+		    if (r_offset >= start_offset && r_offset < start_offset + copy_size) {
                         char relname[256];
                         int type;
                         int addend;
-                        int reloc_offset;
+                        int reloc_offset = r_offset - start_offset;
+#if defined(WORDS_BIGENDIAN)
+                        int reloc_offset_lsb = reloc_offset + 2;
+#else
+                        int reloc_offset_lsb = reloc_offset;
+#endif
 
 			sym_name = strtab + symtab[ELF32_R_SYM(rel->r_info)].st_name;
                         /* the compiler leave some unnecessary references to the code */
@@ -2534,7 +2564,6 @@ void gen_code(const char *name, host_ulong offset, host_ulong size,
                         get_reloc_expr(relname, sizeof(relname), sym_name);
 			type = ELF32_R_TYPE(rel->r_info);
                         addend = get32((uint32_t *)(text + rel->r_offset));
-                        reloc_offset = rel->r_offset - start_offset;
 			switch (type) {
 			case R_MIPS_26:
                             fprintf(outfile, "    /* R_MIPS_26 RELOC, offset 0x%x, name %s */\n",
@@ -2546,26 +2575,14 @@ void gen_code(const char *name, host_ulong offset, host_ulong size,
 				    "   & 0x3fffff);\n",
                                     reloc_offset, addend, addend, relname, reloc_offset);
 			    break;
-			case R_MIPS_HI16:
-                            fprintf(outfile, "    /* R_MIPS_HI16 RELOC, offset 0x%x, name %s */\n",
-				    rel->r_offset, sym_name);
-                            fprintf(outfile,
-				    "    *(uint32_t *)(gen_code_ptr + 0x%x) = "
-				    "((*(uint32_t *)(gen_code_ptr + 0x%x)) "
-				    " & ~0xffff) "
-				    " | (((%s - 0x8000) >> 16) & 0xffff);\n",
-                                    reloc_offset, reloc_offset, relname);
-			    break;
-			case R_MIPS_LO16:
-                            fprintf(outfile, "    /* R_MIPS_LO16 RELOC, offset 0x%x, name %s */\n",
-				    rel->r_offset, sym_name);
-                            fprintf(outfile,
-				    "    *(uint32_t *)(gen_code_ptr + 0x%x) = "
-				    "((*(uint32_t *)(gen_code_ptr + 0x%x)) "
-				    " & ~0xffff) "
-				    " | (%s & 0xffff);\n",
-                                    reloc_offset, reloc_offset, relname);
-			    break;
+                        case R_MIPS_HI16:
+                            fprintf(outfile, "    *(uint16_t *)(gen_code_ptr + %d) = (uint16_t)((uint32_t)(%s) >> 16); // R_MIPS_HI16\n", 
+                                    reloc_offset_lsb, relname);
+                            break;
+                        case R_MIPS_LO16:
+                            fprintf(outfile, "    *(uint16_t *)(gen_code_ptr + %d) = (uint16_t)(%s); // R_MIPS_LO16\n", 
+                                    reloc_offset_lsb, relname);
+                            break;
 			case R_MIPS_PC16:
                             fprintf(outfile, "    /* R_MIPS_PC16 RELOC, offset 0x%x, name %s */\n",
 				    rel->r_offset, sym_name);
@@ -2578,14 +2595,10 @@ void gen_code(const char *name, host_ulong offset, host_ulong size,
 			    break;
 			case R_MIPS_GOT16:
 			case R_MIPS_CALL16:
-                            fprintf(outfile, "    /* R_MIPS_GOT16 RELOC, offset 0x%x, name %s */\n",
+                            /* No need to relocate. */
+                            fprintf(outfile, "    /* R_MIPS_CALL16 / R_MIPS_GOT16 RELOC, offset 0x%x, name %s */\n",
 				    rel->r_offset, sym_name);
-                            fprintf(outfile,
-				    "    *(uint32_t *)(gen_code_ptr + 0x%x) = "
-				    "((*(uint32_t *)(gen_code_ptr + 0x%x)) "
-				    " & ~0xffff) "
-				    " | (((%s - 0x8000) >> 16) & 0xffff);\n",
-                                    reloc_offset, reloc_offset, relname);
+                            fprintf(outfile, "    (void)%s;\n", relname);
 			    break;
 			default:
 			    error("unsupported MIPS relocation (%d)", type);

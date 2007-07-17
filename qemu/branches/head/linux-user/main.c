@@ -44,7 +44,7 @@ const char interp[] __attribute__((section(".interp"))) = "/lib/ld-linux.so.2";
 
 /* for recent libc, we add these dummy symbols which are not declared
    when generating a linked object (bug in ld ?) */
-#if (__GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 3)) && !defined(CONFIG_STATIC)
+#if (__GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 3)) && !defined(CONFIG_STATIC) && 0
 typedef void (*dummy_function_t)(void);
 static void dummy_function(void)
 {
