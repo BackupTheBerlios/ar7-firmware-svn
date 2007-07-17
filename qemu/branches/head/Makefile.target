@@ -30,6 +30,8 @@ endif
 BASE_CFLAGS=
 BASE_LDFLAGS=
 #CFLAGS+=-Werror
+BASE_CFLAGS += -MMD -MP
+BASE_LDFLAGS += -g
 LIBS=
 HELPER_CFLAGS=$(CFLAGS)
 DYNGEN=../dyngen$(EXESUF)
@@ -97,6 +99,8 @@ OP_CFLAGS+=$(call cc-option, -fno-crossjumping, "")
 OP_CFLAGS+=$(call cc-option, -fno-align-labels, "")
 OP_CFLAGS+=$(call cc-option, -fno-align-jumps, "")
 OP_CFLAGS+=$(call cc-option, -fno-align-functions, $(call cc-option, -malign-functions=0, ""))
+
+OP_CFLAGS += -MMD -MP
 
 ifeq ($(ARCH),i386)
 HELPER_CFLAGS+=-fomit-frame-pointer
@@ -181,7 +185,7 @@ BASE_LDFLAGS+=-Wl,-T,$(SRC_PATH)/$(ARCH).ld
 endif
 
 ifeq ($(ARCH),mips)
-OP_CFLAGS+=-mabi=32 -G0 -fno-PIC -mno-abicalls -fomit-frame-pointer -fno-delayed-branch -Wa,-O0
+OP_CFLAGS += -G 0 -fomit-frame-pointer -fno-delayed-branch
 ifeq ($(WORDS_BIGENDIAN),yes)
 BASE_LDFLAGS+=-Wl,-T,$(SRC_PATH)/$(ARCH).ld
 else
@@ -663,6 +667,9 @@ endif
 ifneq ($(wildcard .depend),)
 include .depend
 endif
+
+-include *.d
+-include */*.d
 
 ifeq (1, 0)
 audio.o sdlaudio.o dsoundaudio.o ossaudio.o wavaudio.o noaudio.o \
