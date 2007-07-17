@@ -224,6 +224,16 @@ extern int __op_param3 __hidden;
 #define PARAM1 ({ int _r; asm("" : "=r"(_r) : "0" (&__op_param1)); _r; })
 #define PARAM2 ({ int _r; asm("" : "=r"(_r) : "0" (&__op_param2)); _r; })
 #define PARAM3 ({ int _r; asm("" : "=r"(_r) : "0" (&__op_param3)); _r; })
+#elif defined(__mips__)
+/* On MIPS, parameters to a c expression are passed via the global pointer.
+ * We don't want that. */
+#define PARAMN(index) ({ register int _r; \
+                asm("lui %0,%%hi(__op_param" #index ")\n\t" \
+                        "ori %0,%0,%%lo(__op_param" #index ")" \
+                        : "=r"(_r)); _r; })
+#define PARAM1 PARAMN(1)
+#define PARAM2 PARAMN(2)
+#define PARAM3 PARAMN(3)
 #else
 #if defined(__APPLE__)
 static int __op_param1, __op_param2, __op_param3;
@@ -271,7 +281,10 @@ extern int __op_jmp0, __op_jmp1, __op_jmp2, __op_jmp3;
 #define EXIT_TB() asm volatile ("rts")
 #elif defined(__mips__)
 #define EXIT_TB() asm volatile ("jr $ra")
-#define GOTO_LABEL_PARAM(n) asm volatile (".set noat; la $1, " ASM_NAME(__op_gen_label) #n "; jr $1; .set at")
+#define GOTO_LABEL_PARAM(n) asm volatile (\
+    "lui $2,%hi(" ASM_NAME(__op_gen_label) #n ")\n\t" \
+    "ori $2,$2,%lo(" ASM_NAME(__op_gen_label)#n ")\n\t" \
+    "jr $2")
 #else
 #error unsupported CPU
 #endif
