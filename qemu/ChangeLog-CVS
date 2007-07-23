@@ -1,3 +1,11 @@
+2007-07-23 17:37  ths
+
+	* linux-user/syscall.c: Restore build on older Linux hosts.
+
+2007-07-22 20:16  pbrook
+
+	* target-arm/op.c: Thumb shifter carry flag fixes.
+
 2007-07-20 17:54  ths
 
 	* linux-user/: syscall.c, syscall_defs.h: Fix statfs(64) syscall
