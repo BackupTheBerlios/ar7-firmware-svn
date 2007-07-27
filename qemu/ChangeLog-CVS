@@ -1,3 +1,14 @@
+2007-07-26 22:41  balrog
+
+	* configure: gcc32 may well be a 4.x version for a 32bit target, so
+	  add an additional check, hopefully not too strict.  Probe also
+	  gcc-3.3.6 to make Gentoo users happy.
+
+2007-07-25 18:50  ths
+
+	* hw/usb-ohci.c: Fix memory corruption after OHCI reset, by Ed
+	  Swierk.
+
 2007-07-24 03:07  balrog
 
 	* hw/pxa2xx.c, target-arm/cpu.h: Various reg offset shift typos.
