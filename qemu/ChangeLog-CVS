@@ -1,3 +1,34 @@
+2007-07-30 00:21  balrog
+
+	* target-arm/helper.c: Fix XScale MMU's extended small pages.
+
+2007-07-30 00:11  ths
+
+	* target-mips/translate_init.c: Fix MIPS cache configuration, by
+	  Aurelien Jarno.
+
+2007-07-29 19:57  balrog
+
+	* Makefile.target, cpu-all.h, vl.c, vl.h, hw/omap.c, hw/omap.h,
+	  hw/omap1_clk.c, hw/omap_lcd_template.h, hw/omap_lcdc.c,
+	  hw/palm.c, target-arm/cpu.h, target-arm/helper.c: Basic OMAP310
+	  support.  Basic Palm Tungsten|E machine emulation.
+
+2007-07-29 19:34  balrog
+
+	* hw/spitz.c: Word-reads from spitz NAND controller, patch by
+	  Juergen Lock.
+
+2007-07-28 00:08  balrog
+
+	* vl.c, vl.h, hw/arm_boot.c: Optionally setup old style linux
+	  bootparams for -kernel, by Juergen Lock.
+
+2007-07-27 23:49  balrog
+
+	* hw/pxa2xx.c: Update TNF bit in I2C status register, original
+	  patch by Juergen Lock.
+
 2007-07-26 22:41  balrog
 
 	* configure: gcc32 may well be a 4.x version for a 32bit target, so
