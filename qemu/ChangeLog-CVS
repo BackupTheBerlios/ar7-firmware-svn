@@ -1,3 +1,21 @@
+2007-07-31 03:45  balrog
+
+	* Makefile.target, hw/omap.c, hw/omap.h, hw/omap_mmc.c: Add OMAP
+	  MMC/SD host controller.
+
+2007-07-31 03:43  balrog
+
+	* hw/omap.c: OMAP DMA input signals must be level-triggered.
+
+2007-07-31 03:42  balrog
+
+	* hw/omap.c: Fix OMAP pic handling of simultaneous interrupts.
+
+2007-07-31 01:54  balrog
+
+	* hw/: sd.c, sd.h: Re-add clearing of the APP_CMD flag that somehow
+	  got lost.
+
 2007-07-30 00:21  balrog
 
 	* target-arm/helper.c: Fix XScale MMU's extended small pages.
