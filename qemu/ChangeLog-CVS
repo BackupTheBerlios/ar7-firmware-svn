@@ -1,3 +1,59 @@
+2007-08-01 15:10  ths
+
+	* hw/rtl8139.c: Fix rtl8139 checksum calculation, by Tim Deegan.
+
+2007-08-01 04:41  balrog
+
+	* hw/spitz.c: Move Spitz microdrive from first to second PCMCIA
+	  slot where it belongs.
+
+2007-08-01 04:31  balrog
+
+	* target-arm/: helper.c, translate.c: Special-case iWMMXt register
+	  transfer insns, which are in ARM LDC2/STC2 class.
+
+2007-08-01 02:09  ths
+
+	* configure: Also match s390x.
+
+2007-08-01 01:46  ths
+
+	* dyngen-exec.h, exec-all.h: Fiddly dyngen bits for s390 host
+	  support, by Ulrich Hecht.
+
+2007-08-01 01:44  ths
+
+	* Makefile.target, dis-asm.h, disas.c, s390-dis.c: s390
+	  disassembler support, by Ulrich Hecht.
+
+2007-08-01 01:32  ths
+
+	* hw/acpi.c: Implement ACPI specs 3.0, 4.7.2.5, by Michael
+	  Hanselmann.
+
+2007-08-01 01:28  ths
+
+	* Changelog, Makefile, Makefile.target, block-parallels.c, block.c,
+	  vl.h: Parallels disk image support, by Alex Beregszaszi.
+
+2007-08-01 01:26  ths
+
+	* hw/: cirrus_vga.c, cirrus_vga_rop.h: Cirrus transparent BITBLT
+	  (w/o color expand), by Hitoshi Osada.
+
+2007-08-01 01:12  ths
+
+	* hw/i8259.c: Fix i8259 initialization, by Bernhard Kauer.
+
+2007-08-01 01:09  ths
+
+	* target-i386/helper2.c: Initialize old_exception, by Bernhard
+	  Kauer.
+
+2007-08-01 01:07  ths
+
+	* configure: A variant of move-if-change, by Stefan Weil.
+
 2007-07-31 03:45  balrog
 
 	* Makefile.target, hw/omap.c, hw/omap.h, hw/omap_mmc.c: Add OMAP

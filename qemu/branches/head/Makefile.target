@@ -351,6 +351,9 @@ endif
 ifeq ($(findstring sh4, $(TARGET_ARCH) $(ARCH)),sh4)
 LIBOBJS+=sh4-dis.o
 endif
+ifeq ($(findstring s390, $(TARGET_ARCH) $(ARCH)),s390)
+LIBOBJS+=s390-dis.o
+endif
 
 ifdef CONFIG_GDBSTUB
 OBJS+=gdbstub.o
@@ -371,7 +374,7 @@ VL_OBJS=vl.o osdep.o readline.o monitor.o pci.o console.o loader.o isa_mmio.o
 VL_OBJS+=cutils.o
 VL_OBJS+=host-utils.o
 VL_OBJS+=block.o block-raw.o
-VL_OBJS+=block-cow.o block-qcow.o aes.o block-vmdk.o block-cloop.o block-dmg.o block-bochs.o block-vpc.o block-vvfat.o block-qcow2.o
+VL_OBJS+=block-cow.o block-qcow.o aes.o block-vmdk.o block-cloop.o block-dmg.o block-bochs.o block-vpc.o block-vvfat.o block-qcow2.o block-parallels.o
 VL_OBJS+=irq.o
 ifdef CONFIG_WIN32
 VL_OBJS+=tap-win32.o
