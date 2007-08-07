@@ -1,3 +1,21 @@
+2007-08-06 15:19  pbrook
+
+	* gdbstub.c: Ensure string is properly terminated.
+
+2007-08-05 19:47  blueswir1
+
+	* hw/slavio_intctl.c:  Fix Slavio interrupt controller debugging
+	  output
+
+2007-08-04 12:56  blueswir1
+
+	* hw/m48t59.c:	Use UTC/localtime flag in M48Txx
+
+2007-08-04 12:50  blueswir1
+
+	* cpu-exec.c, hw/slavio_intctl.c, hw/sun4m.c, target-sparc/cpu.h:
+	  Fix Sparc32 interrupt handling
+
 2007-08-01 15:10  ths
 
 	* hw/rtl8139.c: Fix rtl8139 checksum calculation, by Tim Deegan.
