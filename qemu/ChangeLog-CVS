@@ -1,3 +1,33 @@
+2007-08-11 10:16  blueswir1
+
+	* pc-bios/: README, openbios-sparc32, openbios-sparc64: r158: Fix
+	  wrong number of clean/saveable windows r159: Revert previous
+	  patch r160: Fix nvram size, arch_init hack r161: Fix Sparc64 insw
+	  and outsw r162: Fix read only location write attempt r163: Change
+	  virtual address below 4G Map first 16M of RAM Execute a kernel if
+	  loaded by Qemu r164: Make client interface 64 bits wide on
+	  Sparc64 r165: NVRAM support (temporary location) r166: Fix
+	  mapping of a single byte area, fix reset and poweroff r167:
+	  Maximally align allocations r168: Enable all interrupt sources
+	  for NetBSD r169: Fix NetBSD property problems
+
+2007-08-11 09:58  blueswir1
+
+	* hw/esp.c:  Enable Selection command (NetBSD)
+
+2007-08-11 09:54  blueswir1
+
+	* hw/slavio_serial.c:  Generate interrupts and update state even if
+	  output is disabled (OpenBSD)
+
+2007-08-11 09:52  blueswir1
+
+	* hw/iommu.c:  Log invalid accesses (no faults generated yet)
+
+2007-08-11 09:49  blueswir1
+
+	* hw/iommu.c:  Improve iommu debugging, use register names
+
 2007-08-06 15:19  pbrook
 
 	* gdbstub.c: Ensure string is properly terminated.
