@@ -1,3 +1,16 @@
+2007-08-16 21:57  blueswir1
+
+	* hw/sparc32_dma.c:  Remove old leftovers
+
+2007-08-16 21:56  blueswir1
+
+	* vl.h, hw/esp.c, hw/pcnet.c, hw/sparc32_dma.c, hw/sun4m.c:  Use
+	  qemu_irq for a reset signal between DMA and ESP/Lance
+
+2007-08-15 01:39  ths
+
+	* mips-dis.c: MIPS disassembler update.
+
 2007-08-11 10:16  blueswir1
 
 	* pc-bios/: README, openbios-sparc32, openbios-sparc64: r158: Fix
