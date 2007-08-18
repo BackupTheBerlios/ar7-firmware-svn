@@ -1,3 +1,7 @@
+2007-08-18 15:08  ths
+
+	* hw/pcnet.c: Remove obsolete comment.
+
 2007-08-16 21:57  blueswir1
 
 	* hw/sparc32_dma.c:  Remove old leftovers
