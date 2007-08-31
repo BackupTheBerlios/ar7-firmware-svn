@@ -784,11 +784,31 @@ struct QEMUTimer {
 
 struct qemu_alarm_timer {
     char const *name;
+    unsigned int flags;
 
     int (*start)(struct qemu_alarm_timer *t);
     void (*stop)(struct qemu_alarm_timer *t);
+    void (*rearm)(struct qemu_alarm_timer *t);
     void *priv;
 };
+
+#define ALARM_FLAG_DYNTICKS  0x1
+
+static inline int alarm_has_dynticks(struct qemu_alarm_timer *t)
+{
+    return t->flags & ALARM_FLAG_DYNTICKS;
+}
+
+static void qemu_rearm_alarm_timer(struct qemu_alarm_timer *t)
+{
+    if (!alarm_has_dynticks(t))
+        return;
+
+    t->rearm(t);
+}
+
+/* TODO: MIN_TIMER_REARM_US should be optimized */
+#define MIN_TIMER_REARM_US 250
 
 static struct qemu_alarm_timer *alarm_timer;
 
@@ -802,6 +822,7 @@ struct qemu_alarm_win32 {
 
 static int win32_start_timer(struct qemu_alarm_timer *t);
 static void win32_stop_timer(struct qemu_alarm_timer *t);
+static void win32_rearm_timer(struct qemu_alarm_timer *t);
 
 #else
 
@@ -810,30 +831,104 @@ static void unix_stop_timer(struct qemu_alarm_timer *t);
 
 #ifdef __linux__
 
+static int dynticks_start_timer(struct qemu_alarm_timer *t);
+static void dynticks_stop_timer(struct qemu_alarm_timer *t);
+static void dynticks_rearm_timer(struct qemu_alarm_timer *t);
+
 static int hpet_start_timer(struct qemu_alarm_timer *t);
 static void hpet_stop_timer(struct qemu_alarm_timer *t);
 
 static int rtc_start_timer(struct qemu_alarm_timer *t);
 static void rtc_stop_timer(struct qemu_alarm_timer *t);
 
-#endif
+#endif /* __linux__ */
 
 #endif /* _WIN32 */
 
 static struct qemu_alarm_timer alarm_timers[] = {
-#ifdef __linux__
-    /* HPET - if available - is preferred */
-    {"hpet", hpet_start_timer, hpet_stop_timer, NULL},
-    /* ...otherwise try RTC */
-    {"rtc", rtc_start_timer, rtc_stop_timer, NULL},
-#endif
 #ifndef _WIN32
-    {"unix", unix_start_timer, unix_stop_timer, NULL},
+#ifdef __linux__
+    {"dynticks", ALARM_FLAG_DYNTICKS, dynticks_start_timer,
+     dynticks_stop_timer, dynticks_rearm_timer, NULL},
+    /* HPET - if available - is preferred */
+    {"hpet", 0, hpet_start_timer, hpet_stop_timer, NULL, NULL},
+    /* ...otherwise try RTC */
+    {"rtc", 0, rtc_start_timer, rtc_stop_timer, NULL, NULL},
+#endif
+    {"unix", 0, unix_start_timer, unix_stop_timer, NULL, NULL},
 #else
-    {"win32", win32_start_timer, win32_stop_timer, &alarm_win32_data},
+    {"dynticks", ALARM_FLAG_DYNTICKS, win32_start_timer,
+     win32_stop_timer, win32_rearm_timer, &alarm_win32_data},
+    {"win32", 0, win32_start_timer,
+     win32_stop_timer, NULL, &alarm_win32_data},
 #endif
     {NULL, }
 };
+
+static void show_available_alarms()
+{
+    int i;
+
+    printf("Available alarm timers, in order of precedence:\n");
+    for (i = 0; alarm_timers[i].name; i++)
+        printf("%s\n", alarm_timers[i].name);
+}
+
+static void configure_alarms(char const *opt)
+{
+    int i;
+    int cur = 0;
+    int count = (sizeof(alarm_timers) / sizeof(*alarm_timers)) - 1;
+    char *arg;
+    char *name;
+
+    if (!strcmp(opt, "help")) {
+        show_available_alarms();
+        exit(0);
+    }
+
+    arg = strdup(opt);
+
+    /* Reorder the array */
+    name = strtok(arg, ",");
+    while (name) {
+        struct qemu_alarm_timer tmp;
+
+        for (i = 0; i < count; i++) {
+            if (!strcmp(alarm_timers[i].name, name))
+                break;
+        }
+
+        if (i == count) {
+            fprintf(stderr, "Unknown clock %s\n", name);
+            goto next;
+        }
+
+        if (i < cur)
+            /* Ignore */
+            goto next;
+
+	/* Swap */
+        tmp = alarm_timers[i];
+        alarm_timers[i] = alarm_timers[cur];
+        alarm_timers[cur] = tmp;
+
+        cur++;
+next:
+        name = strtok(NULL, ",");
+    }
+
+    free(arg);
+
+    if (cur) {
+	/* Disable remaining timers */
+        for (i = cur; i < count; i++)
+            alarm_timers[i].name = NULL;
+    }
+
+    /* debug */
+    show_available_alarms();
+}
 
 QEMUClock *rt_clock;
 QEMUClock *vm_clock;
@@ -884,6 +979,8 @@ void qemu_del_timer(QEMUTimer *ts)
         }
         pt = &t->next;
     }
+
+    qemu_rearm_alarm_timer(alarm_timer);
 }
 
 /* modify the current timer so that it will be fired when current_time
@@ -943,6 +1040,7 @@ static void qemu_run_timers(QEMUTimer **ptimer_head, int64_t current_time)
         /* run the callback (the timer list can be modified) */
         ts->cb(ts->opaque);
     }
+    qemu_rearm_alarm_timer(alarm_timer);
 }
 
 int64_t qemu_get_clock(QEMUClock *clock)
@@ -1050,7 +1148,8 @@ static void host_alarm_handler(int host_signum)
         last_clock = ti;
     }
 #endif
-    if (qemu_timer_expired(active_timers[QEMU_TIMER_VIRTUAL],
+    if (alarm_has_dynticks(alarm_timer) ||
+        qemu_timer_expired(active_timers[QEMU_TIMER_VIRTUAL],
                            qemu_get_clock(vm_clock)) ||
         qemu_timer_expired(active_timers[QEMU_TIMER_REALTIME],
                            qemu_get_clock(rt_clock))) {
@@ -1069,6 +1168,30 @@ static void host_alarm_handler(int host_signum)
 #endif
         }
     }
+}
+
+static uint64_t qemu_next_deadline(void)
+{
+    int64_t nearest_delta_us = ULONG_LONG_MAX;
+    int64_t vmdelta_us;
+
+    if (active_timers[QEMU_TIMER_REALTIME])
+        nearest_delta_us = (active_timers[QEMU_TIMER_REALTIME]->expire_time -
+                            qemu_get_clock(rt_clock))*1000;
+
+    if (active_timers[QEMU_TIMER_VIRTUAL]) {
+        /* round up */
+        vmdelta_us = (active_timers[QEMU_TIMER_VIRTUAL]->expire_time -
+                      qemu_get_clock(vm_clock)+999)/1000;
+        if (vmdelta_us < nearest_delta_us)
+            nearest_delta_us = vmdelta_us;
+    }
+
+    /* Avoid arming the timer to negative, zero, or too low values */
+    if (nearest_delta_us <= MIN_TIMER_REARM_US)
+        nearest_delta_us = MIN_TIMER_REARM_US;
+
+    return nearest_delta_us;
 }
 
 #ifndef _WIN32
@@ -1128,7 +1251,7 @@ static int hpet_start_timer(struct qemu_alarm_timer *t)
         goto fail;
 
     enable_sigio_timer(fd);
-    t->priv = (void *)fd;
+    t->priv = (void *)(long)fd;
 
     return 0;
 fail:
@@ -1138,7 +1261,7 @@ fail:
 
 static void hpet_stop_timer(struct qemu_alarm_timer *t)
 {
-    int fd = (int)t->priv;
+    int fd = (long)t->priv;
 
     close(fd);
 }
@@ -1164,19 +1287,93 @@ static int rtc_start_timer(struct qemu_alarm_timer *t)
 
     enable_sigio_timer(rtc_fd);
 
-    t->priv = (void *)rtc_fd;
+    t->priv = (void *)(long)rtc_fd;
 
     return 0;
 }
 
 static void rtc_stop_timer(struct qemu_alarm_timer *t)
 {
-    int rtc_fd = (int)t->priv;
+    int rtc_fd = (long)t->priv;
 
     close(rtc_fd);
 }
 
-#endif /* !defined(__linux__) */
+static int dynticks_start_timer(struct qemu_alarm_timer *t)
+{
+    struct sigevent ev;
+    timer_t host_timer;
+    struct sigaction act;
+
+    sigfillset(&act.sa_mask);
+    act.sa_flags = 0;
+#if defined(TARGET_I386) && defined(USE_CODE_COPY)
+    act.sa_flags |= SA_ONSTACK;
+#endif
+    act.sa_handler = host_alarm_handler;
+
+    sigaction(SIGALRM, &act, NULL);
+
+    ev.sigev_value.sival_int = 0;
+    ev.sigev_notify = SIGEV_SIGNAL;
+    ev.sigev_signo = SIGALRM;
+
+    if (timer_create(CLOCK_REALTIME, &ev, &host_timer)) {
+        perror("timer_create");
+
+        /* disable dynticks */
+        fprintf(stderr, "Dynamic Ticks disabled\n");
+
+        return -1;
+    }
+
+    t->priv = (void *)host_timer;
+
+    return 0;
+}
+
+static void dynticks_stop_timer(struct qemu_alarm_timer *t)
+{
+    timer_t host_timer = (timer_t)t->priv;
+
+    timer_delete(host_timer);
+}
+
+static void dynticks_rearm_timer(struct qemu_alarm_timer *t)
+{
+    timer_t host_timer = (timer_t)t->priv;
+    struct itimerspec timeout;
+    int64_t nearest_delta_us = INT64_MAX;
+    int64_t current_us;
+
+    if (!active_timers[QEMU_TIMER_REALTIME] &&
+                !active_timers[QEMU_TIMER_VIRTUAL])
+            return;
+
+    nearest_delta_us = qemu_next_deadline();
+
+    /* check whether a timer is already running */
+    if (timer_gettime(host_timer, &timeout)) {
+        perror("gettime");
+        fprintf(stderr, "Internal timer error: aborting\n");
+        exit(1);
+    }
+    current_us = timeout.it_value.tv_sec * 1000000 + timeout.it_value.tv_nsec/1000;
+    if (current_us && current_us <= nearest_delta_us)
+        return;
+
+    timeout.it_interval.tv_sec = 0;
+    timeout.it_interval.tv_nsec = 0; /* 0 for one-shot timer */
+    timeout.it_value.tv_sec =  nearest_delta_us / 1000000;
+    timeout.it_value.tv_nsec = (nearest_delta_us % 1000000) * 1000;
+    if (timer_settime(host_timer, 0 /* RELATIVE */, &timeout, NULL)) {
+        perror("settime");
+        fprintf(stderr, "Internal timer error: aborting\n");
+        exit(1);
+    }
+}
+
+#endif /* defined(__linux__) */
 
 static int unix_start_timer(struct qemu_alarm_timer *t)
 {
@@ -1223,6 +1420,7 @@ static int win32_start_timer(struct qemu_alarm_timer *t)
 {
     TIMECAPS tc;
     struct qemu_alarm_win32 *data = t->priv;
+    UINT flags;
 
     data->host_alarm = CreateEvent(NULL, FALSE, FALSE, NULL);
     if (!data->host_alarm) {
@@ -1238,11 +1436,17 @@ static int win32_start_timer(struct qemu_alarm_timer *t)
 
     timeBeginPeriod(data->period);
 
+    flags = TIME_CALLBACK_FUNCTION;
+    if (alarm_has_dynticks(t))
+        flags |= TIME_ONESHOT;
+    else
+        flags |= TIME_PERIODIC;
+
     data->timerId = timeSetEvent(1,         // interval (ms)
                         data->period,       // resolution
                         host_alarm_handler, // function
                         (DWORD)t,           // parameter
-                        TIME_PERIODIC | TIME_CALLBACK_FUNCTION);
+                        flags);
 
     if (!data->timerId) {
         perror("Failed to initialize win32 alarm timer");
@@ -1267,6 +1471,35 @@ static void win32_stop_timer(struct qemu_alarm_timer *t)
     CloseHandle(data->host_alarm);
 }
 
+static void win32_rearm_timer(struct qemu_alarm_timer *t)
+{
+    struct qemu_alarm_win32 *data = t->priv;
+    uint64_t nearest_delta_us;
+
+    if (!active_timers[QEMU_TIMER_REALTIME] &&
+                !active_timers[QEMU_TIMER_VIRTUAL])
+            return;
+
+    nearest_delta_us = qemu_next_deadline();
+    nearest_delta_us /= 1000;
+
+    timeKillEvent(data->timerId);
+
+    data->timerId = timeSetEvent(1,
+                        data->period,
+                        host_alarm_handler,
+                        (DWORD)t,
+                        TIME_ONESHOT | TIME_PERIODIC);
+
+    if (!data->timerId) {
+        perror("Failed to re-arm win32 alarm timer");
+
+        timeEndPeriod(data->period);
+        CloseHandle(data->host_alarm);
+        exit(1);
+    }
+}
+
 #endif /* _WIN32 */
 
 static void init_timer_alarm(void)
@@ -1276,8 +1509,6 @@ static void init_timer_alarm(void)
 
     for (i = 0; alarm_timers[i].name; i++) {
         t = &alarm_timers[i];
-
-        printf("trying %s...\n", t->name);
 
         err = t->start(t);
         if (!err)
@@ -6425,6 +6656,7 @@ void vm_start(void)
         cpu_enable_ticks();
         vm_running = 1;
         vm_state_notify(1);
+        qemu_rearm_alarm_timer(alarm_timer);
     }
 }
 
@@ -6591,12 +6823,10 @@ void main_loop_wait(int timeout)
         IOHandlerRecord **pioh;
 
         for(ioh = first_io_handler; ioh != NULL; ioh = ioh->next) {
-            if (ioh->deleted)
-                continue;
-            if (FD_ISSET(ioh->fd, &rfds)) {
+            if (!ioh->deleted && ioh->fd_read && FD_ISSET(ioh->fd, &rfds)) {
                 ioh->fd_read(ioh->opaque);
             }
-            if (FD_ISSET(ioh->fd, &wfds)) {
+            if (!ioh->deleted && ioh->fd_write && FD_ISSET(ioh->fd, &wfds)) {
                 ioh->fd_write(ioh->opaque);
             }
         }
@@ -6846,6 +7076,8 @@ static void help(int exitcode)
 #ifdef TARGET_SPARC
            "-prom-env variable=value  set OpenBIOS nvram variables\n"
 #endif
+           "-clock          force the use of the given methods for timer alarm.\n"
+           "                To see what timers are available use -clock help\n"
            "\n"
            "During emulation, the following keys are useful:\n"
            "ctrl-alt-f      toggle full screen\n"
@@ -6943,6 +7175,7 @@ enum {
     QEMU_OPTION_name,
     QEMU_OPTION_prom_env,
     QEMU_OPTION_old_param,
+    QEMU_OPTION_clock,
 };
 
 typedef struct QEMUOption {
@@ -7047,6 +7280,7 @@ const QEMUOption qemu_options[] = {
 #if defined(TARGET_ARM)
     { "old-param", 0, QEMU_OPTION_old_param },
 #endif
+    { "clock", HAS_ARG, QEMU_OPTION_clock },
     { NULL },
 };
 
@@ -7826,6 +8060,9 @@ int main(int argc, char **argv)
             case QEMU_OPTION_old_param:
                 old_param = 1;
 #endif
+            case QEMU_OPTION_clock:
+                configure_alarms(optarg);
+                break;
             }
         }
     }
@@ -7966,7 +8203,6 @@ int main(int argc, char **argv)
 	    fprintf(stderr, "No valid PXE rom found for network device\n");
 	    exit(1);
 	}
-	boot_device = 'c'; /* to prevent confusion by the BIOS */
     }
 #endif
 
@@ -8082,7 +8318,9 @@ int main(int argc, char **argv)
         /* nearly nothing to do */
         dumb_display_init(ds);
     } else if (vnc_display != NULL) {
-        vnc_display_init(ds, vnc_display);
+        vnc_display_init(ds);
+        if (vnc_display_open(ds, vnc_display) < 0)
+            exit(1);
     } else {
 #if defined(CONFIG_SDL)
         sdl_display_init(ds, full_screen, no_frame);

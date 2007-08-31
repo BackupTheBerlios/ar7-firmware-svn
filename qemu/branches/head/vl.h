@@ -967,7 +967,10 @@ void sdl_display_init(DisplayState *ds, int full_screen, int no_frame);
 void cocoa_display_init(DisplayState *ds, int full_screen);
 
 /* vnc.c */
-void vnc_display_init(DisplayState *ds, const char *display);
+void vnc_display_init(DisplayState *ds);
+void vnc_display_close(DisplayState *ds);
+int vnc_display_open(DisplayState *ds, const char *display);
+int vnc_display_password(DisplayState *ds, const char *password);
 void do_info_vnc(void);
 
 /* x_keymap.c */
@@ -1057,6 +1060,12 @@ void lance_init(NICInfo *nd, target_phys_addr_t leaddr, void *dma_opaque,
 
 /* vmmouse.c */
 void *vmmouse_init(void *m);
+
+/* vmport.c */
+#ifdef TARGET_I386
+void vmport_init(CPUState *env);
+void vmport_register(unsigned char command, IOPortReadFunc *func, void *opaque);
+#endif
 
 /* pckbd.c */
 

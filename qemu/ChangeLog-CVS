@@ -1,3 +1,129 @@
+2007-08-29 00:21  ths
+
+	* vl.c: Build fix for older GCCs.
+
+2007-08-26 19:51  ths
+
+	* vl.c, hw/pc.c: Let qemu work with latest bochsbios, by Bernhard
+	  Kauer.
+
+2007-08-26 19:50  ths
+
+	* hw/arm_gic.c: arm_gic.c error message fix, by Adam Lackorzynski.
+
+2007-08-26 19:48  ths
+
+	* target-sh4/translate.c: SH4 mov.b fix, by Vince Weaver.
+
+2007-08-26 19:48  ths
+
+	* hw/vmport.c: Add file missed in last commit.
+
+2007-08-26 19:46  ths
+
+	* hw/: pc.c, vmmouse.c: Use the framework for the VMware mouse
+	  emulation, by Herve Poussineau.
+
+2007-08-26 19:45  ths
+
+	* Makefile.target, vl.h: Add a generic framework for VMware
+	  communication port, by Herve Poussineau.
+
+2007-08-26 19:45  ths
+
+	* hw/vmmouse.c: Replace tabs by 8 spaces. No code change, by Herve
+	  Poussineau.
+
+2007-08-26 19:42  ths
+
+	* hw/ide.c: Last AIO patch, by Vladimir N. Oleynik.
+
+2007-08-26 19:37  ths
+
+	* target-mips/: helper.c, op.c, translate.c, translate_init.c:
+	  Disable 64-bit instructions on 32-bit CPU, by Aurelien Jarno.
+
+2007-08-26 19:33  ths
+
+	* readline.c: Reset buffer pointers after CR/LF, by Jim Paris.
+
+2007-08-26 19:33  ths
+
+	* hw/apic.c: Set apic instance number for savevm, by Ari Kivity.
+
+2007-08-26 19:31  ths
+
+	* vl.c: Fix typo in comment, by Andreas Faerber.
+
+2007-08-26 19:29  ths
+
+	* vl.c: Make dynticks conditional on __linux__. Spotted by Andreas
+	  Faerber.
+
+2007-08-25 04:09  ths
+
+	* d3des.c, d3des.h: Actually add d3des implementation files.
+
+2007-08-25 03:40  ths
+
+	* qemu-doc.texi: Document all VNC authentication options, by Daniel
+	  P. Berrange.
+
+2007-08-25 03:39  ths
+
+	* vnc.c: Custom location for x509 cert paths, by Daniel P.
+	  Berrange.
+
+2007-08-25 03:39  ths
+
+	* vnc.c: x509 client certificate verification, by Daniel P.
+	  Berrange.
+
+2007-08-25 03:38  ths
+
+	* vnc.c: x509 certificate for server, by Daniel P. Berrange.
+
+2007-08-25 03:37  ths
+
+	* Makefile.target, configure, vnc.c: VeNCrypt basic TLS support, by
+	  Daniel P. Berrange.
+
+2007-08-25 03:37  ths
+
+	* Makefile.target, monitor.c, vl.h, vnc.c: VNC password
+	  authentication, by Daniel P. Berrange.
+
+2007-08-25 03:36  ths
+
+	* monitor.c, vnc.c: Extend monitor 'change' command for VNC, by
+	  Daniel P. Berrange.
+
+2007-08-25 03:35  ths
+
+	* vl.c, vl.h, vnc.c: Refactor VNC server setup API, by Daniel P.
+	  Berrange.
+
+2007-08-25 03:34  ths
+
+	* vl.c: Avoid SEGV in IOHandler dispatch, by Daniel P. Berrange.
+
+2007-08-24 03:46  ths
+
+	* vl.c: De-noise startup.
+
+2007-08-24 03:36  ths
+
+	* vl.c: Add support for dynamic ticks, by Luca Tettamanti and Dan
+	  Kenigsberg.
+
+2007-08-24 03:26  ths
+
+	* vl.c: Implement -clock selection, by Luca Tettamanti.
+
+2007-08-23 22:22  pbrook
+
+	* vl.c: Suppress int<->pointer compiler warnings.
+
 2007-08-20 17:42  ths
 
 	* vl.c: Windows build fix, spotted by Herve Poussineau.
