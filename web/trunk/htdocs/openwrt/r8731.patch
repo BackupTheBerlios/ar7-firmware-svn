@@ -1,0 +1,1356 @@
+Index: .config
+===================================================================
+--- .config	(Revision 0)
++++ .config	(Revision 0)
+@@ -0,0 +1,953 @@
++#
++# Automatically generated make config: don't edit
++# OpenWrt version: Kamikaze/r8731
++# Mon Sep 10 19:26:43 2007
++#
++CONFIG_HAVE_DOT_CONFIG=y
++# CONFIG_TARGET_adm5120_router_be is not set
++# CONFIG_TARGET_adm5120_router_le is not set
++# CONFIG_TARGET_amcc is not set
++# CONFIG_TARGET_au1000 is not set
++# CONFIG_TARGET_at91 is not set
++# CONFIG_TARGET_atheros is not set
++# CONFIG_TARGET_avr32 is not set
++# CONFIG_TARGET_brcm_2_4 is not set
++# CONFIG_TARGET_brcm47xx is not set
++# CONFIG_TARGET_brcm63xx is not set
++# CONFIG_TARGET_etrax is not set
++# CONFIG_TARGET_amazon is not set
++# CONFIG_TARGET_iop32x is not set
++# CONFIG_TARGET_ixp4xx is not set
++# CONFIG_TARGET_magicbox is not set
++# CONFIG_TARGET_rb532 is not set
++# CONFIG_TARGET_pxa is not set
++# CONFIG_TARGET_rdc is not set
++# CONFIG_TARGET_sibyte is not set
++CONFIG_TARGET_ar7=y
++# CONFIG_TARGET_uml is not set
++# CONFIG_TARGET_x86 is not set
++CONFIG_TARGET_BOARD="ar7"
++# CONFIG_TARGET_adm5120_router_be_Zyxel is not set
++# CONFIG_TARGET_adm5120_router_be_Texas is not set
++# CONFIG_TARGET_adm5120_router_be_Atheros is not set
++# CONFIG_TARGET_adm5120_router_be_None is not set
++# CONFIG_TARGET_adm5120_router_le_Atheros is not set
++# CONFIG_TARGET_adm5120_router_le_Texas is not set
++# CONFIG_TARGET_adm5120_router_le_Ralink is not set
++# CONFIG_TARGET_adm5120_router_le_None is not set
++# CONFIG_TARGET_adm5120_router_le_Cellvision is not set
++# CONFIG_TARGET_adm5120_router_le_RouterBoard is not set
++# CONFIG_TARGET_amcc_Default is not set
++# CONFIG_TARGET_au1000_Atheros is not set
++# CONFIG_TARGET_au1000_Broadcom is not set
++# CONFIG_TARGET_au1000_Intel is not set
++# CONFIG_TARGET_at91_Default is not set
++# CONFIG_TARGET_atheros_Default is not set
++# CONFIG_TARGET_avr32_Default is not set
++# CONFIG_TARGET_brcm_2_4_Broadcom is not set
++# CONFIG_TARGET_brcm_2_4_BroadcomMimo is not set
++# CONFIG_TARGET_brcm_2_4_Atheros is not set
++# CONFIG_TARGET_brcm_2_4_None is not set
++# CONFIG_TARGET_brcm_2_4_WL500G is not set
++# CONFIG_TARGET_brcm_2_4_WL500GD is not set
++# CONFIG_TARGET_brcm_2_4_WL500GP is not set
++# CONFIG_TARGET_brcm_2_4_WL700GE is not set
++# CONFIG_TARGET_brcm_2_4_WLHDD is not set
++# CONFIG_TARGET_brcm_2_4_WRT54G3G is not set
++# CONFIG_TARGET_brcm47xx_Atheros is not set
++# CONFIG_TARGET_brcm47xx_None is not set
++# CONFIG_TARGET_brcm47xx_WGT634U is not set
++# CONFIG_TARGET_brcm47xx_WRTSL54GS is not set
++# CONFIG_TARGET_brcm63xx_Atheros is not set
++# CONFIG_TARGET_brcm63xx_Broadcom is not set
++# CONFIG_TARGET_brcm63xx_Ralink is not set
++# CONFIG_TARGET_etrax_default is not set
++# CONFIG_TARGET_etrax_vhdl_no_fb is not set
++# CONFIG_TARGET_amazon_Default is not set
++# CONFIG_TARGET_iop32x_Default is not set
++# CONFIG_TARGET_ixp4xx_Default is not set
++# CONFIG_TARGET_ixp4xx_NSLU2 is not set
++# CONFIG_TARGET_ixp4xx_NAS100d is not set
++# CONFIG_TARGET_ixp4xx_DSMG600RevA is not set
++# CONFIG_TARGET_ixp4xx_FSG3 is not set
++# CONFIG_TARGET_magicbox_Default is not set
++# CONFIG_TARGET_rb532_Default is not set
++# CONFIG_TARGET_pxa_Default is not set
++# CONFIG_TARGET_rdc_ar525w is not set
++# CONFIG_TARGET_rdc_wl153 is not set
++# CONFIG_TARGET_sibyte_Default is not set
++CONFIG_TARGET_ar7_Texas=y
++# CONFIG_TARGET_ar7_Sinus is not set
++# CONFIG_TARGET_ar7_None is not set
++# CONFIG_TARGET_uml_Default is not set
++# CONFIG_TARGET_x86_Generic is not set
++# CONFIG_TARGET_x86_Soekris is not set
++# CONFIG_TARGET_x86_s100 is not set
++CONFIG_LINUX_2_6=y
++CONFIG_PCI_SUPPORT=y
++CONFIG_USES_SQUASHFS=y
++CONFIG_USES_JFFS2=y
++CONFIG_mipsel=y
++CONFIG_ARCH="mipsel"
++
++#
++# Target Images
++#
++# CONFIG_TARGET_ROOTFS_INITRAMFS is not set
++# CONFIG_TARGET_ROOTFS_JFFS2 is not set
++# CONFIG_TARGET_ROOTFS_SQUASHFS is not set
++# CONFIG_TARGET_ROOTFS_TGZ is not set
++CONFIG_TARGET_ROOTFS_EXT2FS=y
++
++#
++# Image Options
++#
++CONFIG_X86_GRUB_ROOTPART="/dev/hda2"
++CONFIG_X86_GRUB_BOOTOPTS=""
++CONFIG_TARGET_ROOTFS_FSPART=16
++CONFIG_TARGET_ROOTFS_MAXINODE=1500
++# CONFIG_ALL is not set
++# CONFIG_DEVEL is not set
++# CONFIG_BROKEN is not set
++CONFIG_AUTOREBUILD=y
++# CONFIG_TAR_VERBOSITY is not set
++# CONFIG_CCACHE is not set
++CONFIG_SOURCE_FEEDS="https://svn.openwrt.org/openwrt/packages/"
++CONFIG_BUILD_SUFFIX=""
++CONFIG_SOURCE_FEEDS_REV=""
++# CONFIG_NATIVE_TOOLCHAIN is not set
++# CONFIG_BINUTILS_VERSION_2_16_1 is not set
++# CONFIG_BINUTILS_VERSION_2_17 is not set
++CONFIG_BINUTILS_VERSION="2.17"
++# CONFIG_GCC_VERSION_3_4_6 is not set
++# CONFIG_GCC_VERSION_4_1_2 is not set
++# CONFIG_GCC_VERSION_4_2_0 is not set
++# CONFIG_GCC_VERSION_4_2_1 is not set
++CONFIG_EXTRA_GCC_CONFIG_OPTIONS=""
++CONFIG_INSTALL_LIBSTDCPP=y
++# CONFIG_INSTALL_LIBGCJ is not set
++# CONFIG_GDB is not set
++CONFIG_LARGEFILE=y
++# CONFIG_C99_MATH is not set
++CONFIG_TARGET_OPTIMIZATION="-Os -pipe -mips32 -mtune=mips32 -funit-at-a-time"
++CONFIG_GCC_VERSION="4.1.2"
++# CONFIG_IB is not set
++# CONFIG_SDK is not set
++# CONFIG_UCI_PRECONFIG is not set
++CONFIG_UCI_PRECONFIG_network_lan_proto="static"
++CONFIG_UCI_PRECONFIG_network_lan_ipaddr="192.168.1.1"
++CONFIG_UCI_PRECONFIG_network_lan_netmask="255.255.255.0"
++CONFIG_UCI_PRECONFIG_network_lan_gateway=""
++CONFIG_UCI_PRECONFIG_network_lan_dns=""
++
++#
++# Base system
++#
++CONFIG_DEFAULT_base-files=y
++CONFIG_DEFAULT_libgcc=y
++CONFIG_DEFAULT_uclibc=y
++CONFIG_DEFAULT_bridge=y
++CONFIG_DEFAULT_busybox=y
++CONFIG_DEFAULT_dnsmasq=y
++CONFIG_DEFAULT_dropbear=y
++CONFIG_DEFAULT_iptables=y
++CONFIG_DEFAULT_mtd=y
++CONFIG_PACKAGE_base-files=y
++# CONFIG_PACKAGE_br2684ctl is not set
++CONFIG_PACKAGE_bridge=y
++CONFIG_PACKAGE_busybox=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_DEVFS=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_2_4_MODULES=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_2_6_MODULES=y
++
++#
++# Configuration
++#
++CONFIG_BUSYBOX_CONFIG_HAVE_DOT_CONFIG=y
++
++#
++# Busybox Settings
++#
++
++#
++# General Configuration
++#
++# CONFIG_BUSYBOX_CONFIG_NITPICK is not set
++# CONFIG_BUSYBOX_CONFIG_DESKTOP is not set
++CONFIG_BUSYBOX_CONFIG_SHOW_USAGE=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_VERBOSE_USAGE=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_COMPRESS_USAGE=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_INSTALLER is not set
++# CONFIG_BUSYBOX_CONFIG_LOCALE_SUPPORT is not set
++CONFIG_BUSYBOX_CONFIG_GETOPT_LONG=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_DEVPTS=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_SUID=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_SYSLOG=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_SUID_CONFIG is not set
++CONFIG_BUSYBOX_CONFIG_FEATURE_HAVE_RPC=y
++# CONFIG_BUSYBOX_CONFIG_SELINUX is not set
++CONFIG_BUSYBOX_CONFIG_BUSYBOX_EXEC_PATH="/proc/self/exe"
++
++#
++# Build Options
++#
++# CONFIG_BUSYBOX_CONFIG_STATIC is not set
++# CONFIG_BUSYBOX_CONFIG_BUILD_LIBBUSYBOX is not set
++CONFIG_BUSYBOX_CONFIG_LFS=y
++# CONFIG_BUSYBOX_CONFIG_BUILD_AT_ONCE is not set
++
++#
++# Debugging Options
++#
++# CONFIG_BUSYBOX_CONFIG_DEBUG is not set
++CONFIG_BUSYBOX_CONFIG_INCLUDE_SUSv2=y
++
++#
++# Installation Options
++#
++# CONFIG_BUSYBOX_CONFIG_INSTALL_NO_USR is not set
++CONFIG_BUSYBOX_CONFIG_INSTALL_APPLET_SYMLINKS=y
++# CONFIG_BUSYBOX_CONFIG_INSTALL_APPLET_HARDLINKS is not set
++# CONFIG_BUSYBOX_CONFIG_INSTALL_APPLET_DONT is not set
++CONFIG_BUSYBOX_CONFIG_PREFIX="./_install"
++
++#
++# Busybox Library Tuning
++#
++CONFIG_BUSYBOX_CONFIG_PASSWORD_MINLEN=6
++CONFIG_BUSYBOX_CONFIG_MD5_SIZE_VS_SPEED=2
++
++#
++# Applets
++#
++
++#
++# Archival Utilities
++#
++# CONFIG_BUSYBOX_CONFIG_AR is not set
++CONFIG_BUSYBOX_CONFIG_BUNZIP2=y
++# CONFIG_BUSYBOX_CONFIG_CPIO is not set
++# CONFIG_BUSYBOX_CONFIG_DPKG is not set
++# CONFIG_BUSYBOX_CONFIG_DPKG_DEB is not set
++CONFIG_BUSYBOX_CONFIG_GUNZIP=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_GUNZIP_UNCOMPRESS=y
++CONFIG_BUSYBOX_CONFIG_GZIP=y
++CONFIG_BUSYBOX_CONFIG_IPKG=y
++# CONFIG_BUSYBOX_CONFIG_RPM2CPIO is not set
++# CONFIG_BUSYBOX_CONFIG_RPM is not set
++CONFIG_BUSYBOX_CONFIG_TAR=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_TAR_CREATE=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_TAR_BZIP2=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_TAR_LZMA is not set
++CONFIG_BUSYBOX_CONFIG_FEATURE_TAR_FROM=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_TAR_GZIP=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_TAR_COMPRESS is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_TAR_OLDGNU_COMPATIBILITY is not set
++CONFIG_BUSYBOX_CONFIG_FEATURE_TAR_GNU_EXTENSIONS=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_TAR_LONG_OPTIONS is not set
++# CONFIG_BUSYBOX_CONFIG_UNCOMPRESS is not set
++# CONFIG_BUSYBOX_CONFIG_UNLZMA is not set
++# CONFIG_BUSYBOX_CONFIG_UNZIP is not set
++
++#
++# Common options for cpio and tar
++#
++# CONFIG_BUSYBOX_CONFIG_FEATURE_UNARCHIVE_TAPE is not set
++
++#
++# Coreutils
++#
++CONFIG_BUSYBOX_CONFIG_BASENAME=y
++# CONFIG_BUSYBOX_CONFIG_CAL is not set
++CONFIG_BUSYBOX_CONFIG_CAT=y
++# CONFIG_BUSYBOX_CONFIG_CATV is not set
++CONFIG_BUSYBOX_CONFIG_CHGRP=y
++CONFIG_BUSYBOX_CONFIG_CHMOD=y
++CONFIG_BUSYBOX_CONFIG_CHOWN=y
++CONFIG_BUSYBOX_CONFIG_CHROOT=y
++# CONFIG_BUSYBOX_CONFIG_CKSUM is not set
++# CONFIG_BUSYBOX_CONFIG_CMP is not set
++# CONFIG_BUSYBOX_CONFIG_COMM is not set
++CONFIG_BUSYBOX_CONFIG_CP=y
++CONFIG_BUSYBOX_CONFIG_CUT=y
++CONFIG_BUSYBOX_CONFIG_DATE=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_DATE_ISOFMT=y
++CONFIG_BUSYBOX_CONFIG_DD=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_DD_SIGNAL_HANDLING=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_DD_IBS_OBS is not set
++CONFIG_BUSYBOX_CONFIG_DF=y
++CONFIG_BUSYBOX_CONFIG_DIFF=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_DIFF_BINARY is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_DIFF_DIR is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_DIFF_MINIMAL is not set
++CONFIG_BUSYBOX_CONFIG_DIRNAME=y
++# CONFIG_BUSYBOX_CONFIG_DOS2UNIX is not set
++CONFIG_BUSYBOX_CONFIG_DU=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_DU_DEFAULT_BLOCKSIZE_1K=y
++CONFIG_BUSYBOX_CONFIG_ECHO=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_FANCY_ECHO=y
++CONFIG_BUSYBOX_CONFIG_ENV=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_ENV_LONG_OPTIONS is not set
++CONFIG_BUSYBOX_CONFIG_EXPR=y
++# CONFIG_BUSYBOX_CONFIG_EXPR_MATH_SUPPORT_64 is not set
++CONFIG_BUSYBOX_CONFIG_FALSE=y
++# CONFIG_BUSYBOX_CONFIG_FOLD is not set
++CONFIG_BUSYBOX_CONFIG_HEAD=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_FANCY_HEAD=y
++CONFIG_BUSYBOX_CONFIG_HOSTID=y
++CONFIG_BUSYBOX_CONFIG_ID=y
++# CONFIG_BUSYBOX_CONFIG_INSTALL is not set
++CONFIG_BUSYBOX_CONFIG_LENGTH=y
++CONFIG_BUSYBOX_CONFIG_LN=y
++# CONFIG_BUSYBOX_CONFIG_LOGNAME is not set
++CONFIG_BUSYBOX_CONFIG_LS=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_LS_FILETYPES=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_LS_FOLLOWLINKS=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_LS_RECURSIVE=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_LS_SORTFILES=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_LS_TIMESTAMPS=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_LS_USERNAME=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_LS_COLOR=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_LS_COLOR_IS_DEFAULT=y
++CONFIG_BUSYBOX_CONFIG_MD5SUM=y
++CONFIG_BUSYBOX_CONFIG_MKDIR=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_MKDIR_LONG_OPTIONS is not set
++CONFIG_BUSYBOX_CONFIG_MKFIFO=y
++CONFIG_BUSYBOX_CONFIG_MKNOD=y
++CONFIG_BUSYBOX_CONFIG_MV=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_MV_LONG_OPTIONS is not set
++# CONFIG_BUSYBOX_CONFIG_NICE is not set
++# CONFIG_BUSYBOX_CONFIG_NOHUP is not set
++# CONFIG_BUSYBOX_CONFIG_OD is not set
++# CONFIG_BUSYBOX_CONFIG_PRINTENV is not set
++CONFIG_BUSYBOX_CONFIG_PRINTF=y
++CONFIG_BUSYBOX_CONFIG_PWD=y
++# CONFIG_BUSYBOX_CONFIG_REALPATH is not set
++CONFIG_BUSYBOX_CONFIG_RM=y
++CONFIG_BUSYBOX_CONFIG_RMDIR=y
++CONFIG_BUSYBOX_CONFIG_SEQ=y
++# CONFIG_BUSYBOX_CONFIG_SHA1SUM is not set
++CONFIG_BUSYBOX_CONFIG_SLEEP=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_FANCY_SLEEP=y
++CONFIG_BUSYBOX_CONFIG_SORT=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_SORT_BIG is not set
++# CONFIG_BUSYBOX_CONFIG_STAT is not set
++# CONFIG_BUSYBOX_CONFIG_STTY is not set
++# CONFIG_BUSYBOX_CONFIG_SUM is not set
++CONFIG_BUSYBOX_CONFIG_SYNC=y
++CONFIG_BUSYBOX_CONFIG_TAIL=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_FANCY_TAIL=y
++CONFIG_BUSYBOX_CONFIG_TEE=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_TEE_USE_BLOCK_IO=y
++CONFIG_BUSYBOX_CONFIG_TEST=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_TEST_64 is not set
++CONFIG_BUSYBOX_CONFIG_TOUCH=y
++CONFIG_BUSYBOX_CONFIG_TR=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_TR_CLASSES is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_TR_EQUIV is not set
++CONFIG_BUSYBOX_CONFIG_TRUE=y
++# CONFIG_BUSYBOX_CONFIG_TTY is not set
++CONFIG_BUSYBOX_CONFIG_UNAME=y
++CONFIG_BUSYBOX_CONFIG_UNIQ=y
++# CONFIG_BUSYBOX_CONFIG_USLEEP is not set
++# CONFIG_BUSYBOX_CONFIG_UUDECODE is not set
++# CONFIG_BUSYBOX_CONFIG_UUENCODE is not set
++# CONFIG_BUSYBOX_CONFIG_WATCH is not set
++CONFIG_BUSYBOX_CONFIG_WC=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_WC_LARGE is not set
++# CONFIG_BUSYBOX_CONFIG_WHO is not set
++# CONFIG_BUSYBOX_CONFIG_WHOAMI is not set
++CONFIG_BUSYBOX_CONFIG_YES=y
++
++#
++# Common options for cp and mv
++#
++CONFIG_BUSYBOX_CONFIG_FEATURE_PRESERVE_HARDLINKS=y
++
++#
++# Common options for ls, more and telnet
++#
++CONFIG_BUSYBOX_CONFIG_FEATURE_AUTOWIDTH=y
++
++#
++# Common options for df, du, ls
++#
++CONFIG_BUSYBOX_CONFIG_FEATURE_HUMAN_READABLE=y
++
++#
++# Common options for md5sum, sha1sum
++#
++CONFIG_BUSYBOX_CONFIG_FEATURE_MD5_SHA1_SUM_CHECK=y
++
++#
++# Console Utilities
++#
++# CONFIG_BUSYBOX_CONFIG_CHVT is not set
++CONFIG_BUSYBOX_CONFIG_CLEAR=y
++# CONFIG_BUSYBOX_CONFIG_DEALLOCVT is not set
++# CONFIG_BUSYBOX_CONFIG_DUMPKMAP is not set
++# CONFIG_BUSYBOX_CONFIG_LOADFONT is not set
++# CONFIG_BUSYBOX_CONFIG_LOADKMAP is not set
++# CONFIG_BUSYBOX_CONFIG_OPENVT is not set
++CONFIG_BUSYBOX_CONFIG_RESET=y
++# CONFIG_BUSYBOX_CONFIG_RESIZE is not set
++# CONFIG_BUSYBOX_CONFIG_SETCONSOLE is not set
++# CONFIG_BUSYBOX_CONFIG_SETKEYCODES is not set
++# CONFIG_BUSYBOX_CONFIG_SETLOGCONS is not set
++
++#
++# Debian Utilities
++#
++CONFIG_BUSYBOX_CONFIG_MKTEMP=y
++# CONFIG_BUSYBOX_CONFIG_PIPE_PROGRESS is not set
++# CONFIG_BUSYBOX_CONFIG_READLINK is not set
++# CONFIG_BUSYBOX_CONFIG_RUN_PARTS is not set
++# CONFIG_BUSYBOX_CONFIG_START_STOP_DAEMON is not set
++CONFIG_BUSYBOX_CONFIG_WHICH=y
++
++#
++# Editors
++#
++CONFIG_BUSYBOX_CONFIG_AWK=y
++CONFIG_BUSYBOX_CONFIG_AWX=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_AWK_MATH=y
++# CONFIG_BUSYBOX_CONFIG_ED is not set
++# CONFIG_BUSYBOX_CONFIG_PATCH is not set
++CONFIG_BUSYBOX_CONFIG_SED=y
++CONFIG_BUSYBOX_CONFIG_VI=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_VI_COLON=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_VI_YANKMARK=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_VI_SEARCH=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_VI_USE_SIGNALS=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_VI_DOT_CMD=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_VI_READONLY=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_VI_SETOPTS=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_VI_SET=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_VI_WIN_RESIZE=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_VI_OPTIMIZE_CURSOR=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_ALLOW_EXEC=y
++
++#
++# Finding Utilities
++#
++CONFIG_BUSYBOX_CONFIG_FIND=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_FIND_PRINT0=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_FIND_MTIME is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_FIND_MMIN is not set
++CONFIG_BUSYBOX_CONFIG_FEATURE_FIND_PERM=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_FIND_TYPE=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_FIND_XDEV=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_FIND_NEWER is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_FIND_INUM is not set
++CONFIG_BUSYBOX_CONFIG_FEATURE_FIND_EXEC=y
++CONFIG_BUSYBOX_CONFIG_GREP=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_GREP_EGREP_ALIAS=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_GREP_FGREP_ALIAS=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_GREP_CONTEXT=y
++CONFIG_BUSYBOX_CONFIG_XARGS=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_XARGS_SUPPORT_CONFIRMATION=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_XARGS_SUPPORT_QUOTES=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_XARGS_SUPPORT_TERMOPT=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_XARGS_SUPPORT_ZERO_TERM=y
++
++#
++# Init Utilities
++#
++CONFIG_BUSYBOX_CONFIG_INIT=y
++# CONFIG_BUSYBOX_CONFIG_DEBUG_INIT is not set
++CONFIG_BUSYBOX_CONFIG_FEATURE_USE_INITTAB=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_INIT_SCTTY is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_EXTRA_QUIET is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_INIT_COREDUMPS is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_INITRD is not set
++CONFIG_BUSYBOX_CONFIG_HALT=y
++CONFIG_BUSYBOX_CONFIG_MESG=y
++
++#
++# Login/Password Management Utilities
++#
++# CONFIG_BUSYBOX_CONFIG_FEATURE_SHADOWPASSWDS is not set
++# CONFIG_BUSYBOX_CONFIG_USE_BB_PWD_GRP is not set
++# CONFIG_BUSYBOX_CONFIG_ADDGROUP is not set
++# CONFIG_BUSYBOX_CONFIG_DELGROUP is not set
++# CONFIG_BUSYBOX_CONFIG_ADDUSER is not set
++# CONFIG_BUSYBOX_CONFIG_DELUSER is not set
++# CONFIG_BUSYBOX_CONFIG_GETTY is not set
++# CONFIG_BUSYBOX_CONFIG_LOGIN is not set
++CONFIG_BUSYBOX_CONFIG_PASSWD=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_PASSWD_WEAK_CHECK=y
++# CONFIG_BUSYBOX_CONFIG_SU is not set
++# CONFIG_BUSYBOX_CONFIG_SULOGIN is not set
++# CONFIG_BUSYBOX_CONFIG_VLOCK is not set
++
++#
++# Linux Ext2 FS Progs
++#
++# CONFIG_BUSYBOX_CONFIG_CHATTR is not set
++# CONFIG_BUSYBOX_CONFIG_FSCK is not set
++# CONFIG_BUSYBOX_CONFIG_LSATTR is not set
++
++#
++# Linux Module Utilities
++#
++CONFIG_BUSYBOX_CONFIG_INSMOD=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_INSMOD_VERSION_CHECKING is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_INSMOD_KSYMOOPS_SYMBOLS is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_INSMOD_LOADINKMEM is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_INSMOD_LOAD_MAP is not set
++CONFIG_BUSYBOX_CONFIG_RMMOD=y
++CONFIG_BUSYBOX_CONFIG_LSMOD=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_LSMOD_PRETTY_2_6_OUTPUT=y
++# CONFIG_BUSYBOX_CONFIG_MODPROBE is not set
++
++#
++# Options common to multiple modutils
++#
++CONFIG_BUSYBOX_CONFIG_FEATURE_CHECK_TAINTED_MODULE=y
++
++#
++# Linux System Utilities
++#
++CONFIG_BUSYBOX_CONFIG_DMESG=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_DMESG_PRETTY=y
++# CONFIG_BUSYBOX_CONFIG_FBSET is not set
++# CONFIG_BUSYBOX_CONFIG_FDFLUSH is not set
++# CONFIG_BUSYBOX_CONFIG_FDFORMAT is not set
++# CONFIG_BUSYBOX_CONFIG_FDISK is not set
++CONFIG_BUSYBOX_CONFIG_FDISK_SUPPORT_LARGE_DISKS=y
++# CONFIG_BUSYBOX_CONFIG_FREERAMDISK is not set
++# CONFIG_BUSYBOX_CONFIG_FSCK_MINIX is not set
++# CONFIG_BUSYBOX_CONFIG_MKFS_MINIX is not set
++# CONFIG_BUSYBOX_CONFIG_GETOPT is not set
++CONFIG_BUSYBOX_CONFIG_HEXDUMP=y
++# CONFIG_BUSYBOX_CONFIG_HWCLOCK is not set
++# CONFIG_BUSYBOX_CONFIG_IPCRM is not set
++# CONFIG_BUSYBOX_CONFIG_IPCS is not set
++# CONFIG_BUSYBOX_CONFIG_LOSETUP is not set
++CONFIG_BUSYBOX_CONFIG_MDEV=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_MDEV_CONF is not set
++# CONFIG_BUSYBOX_CONFIG_MKSWAP is not set
++# CONFIG_BUSYBOX_CONFIG_MORE is not set
++CONFIG_BUSYBOX_CONFIG_MOUNT=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_MOUNT_NFS=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_MOUNT_CIFS=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_MOUNT_FLAGS=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_MOUNT_FSTAB=y
++CONFIG_BUSYBOX_CONFIG_PIVOT_ROOT=y
++CONFIG_BUSYBOX_CONFIG_RDATE=y
++# CONFIG_BUSYBOX_CONFIG_READPROFILE is not set
++# CONFIG_BUSYBOX_CONFIG_SETARCH is not set
++# CONFIG_BUSYBOX_CONFIG_SWAPONOFF is not set
++CONFIG_BUSYBOX_CONFIG_SWITCH_ROOT=y
++CONFIG_BUSYBOX_CONFIG_UMOUNT=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_UMOUNT_ALL=y
++
++#
++# Common options for mount/umount
++#
++CONFIG_BUSYBOX_CONFIG_FEATURE_MOUNT_LOOP=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_MTAB_SUPPORT is not set
++
++#
++# Miscellaneous Utilities
++#
++# CONFIG_BUSYBOX_CONFIG_ADJTIMEX is not set
++# CONFIG_BUSYBOX_CONFIG_BBCONFIG is not set
++CONFIG_BUSYBOX_CONFIG_CROND=y
++# CONFIG_BUSYBOX_CONFIG_DEBUG_CROND_OPTION is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_CROND_CALL_SENDMAIL is not set
++CONFIG_BUSYBOX_CONFIG_CRONTAB=y
++# CONFIG_BUSYBOX_CONFIG_DC is not set
++# CONFIG_BUSYBOX_CONFIG_DEVFSD is not set
++# CONFIG_BUSYBOX_CONFIG_EJECT is not set
++# CONFIG_BUSYBOX_CONFIG_LAST is not set
++CONFIG_BUSYBOX_CONFIG_LESS=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_LESS_MAXLINES=9999999
++# CONFIG_BUSYBOX_CONFIG_FEATURE_LESS_BRACKETS is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_LESS_FLAGS is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_LESS_FLAGCS is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_LESS_MARKS is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_LESS_REGEXP is not set
++# CONFIG_BUSYBOX_CONFIG_HDPARM is not set
++CONFIG_BUSYBOX_CONFIG_LOCK=y
++# CONFIG_BUSYBOX_CONFIG_MAKEDEVS is not set
++# CONFIG_BUSYBOX_CONFIG_MOUNTPOINT is not set
++# CONFIG_BUSYBOX_CONFIG_MT is not set
++# CONFIG_BUSYBOX_CONFIG_NMETER is not set
++# CONFIG_BUSYBOX_CONFIG_RAIDAUTORUN is not set
++# CONFIG_BUSYBOX_CONFIG_RUNLEVEL is not set
++# CONFIG_BUSYBOX_CONFIG_RX is not set
++CONFIG_BUSYBOX_CONFIG_STRINGS=y
++# CONFIG_BUSYBOX_CONFIG_SETSID is not set
++# CONFIG_BUSYBOX_CONFIG_TASKSET is not set
++CONFIG_BUSYBOX_CONFIG_TIME=y
++CONFIG_BUSYBOX_CONFIG_WATCHDOG=y
++
++#
++# Networking Utilities
++#
++CONFIG_BUSYBOX_CONFIG_FEATURE_IPV6=y
++# CONFIG_BUSYBOX_CONFIG_ARP is not set
++CONFIG_BUSYBOX_CONFIG_ARPING=y
++# CONFIG_BUSYBOX_CONFIG_DNSD is not set
++# CONFIG_BUSYBOX_CONFIG_ETHER_WAKE is not set
++# CONFIG_BUSYBOX_CONFIG_FAKEIDENTD is not set
++# CONFIG_BUSYBOX_CONFIG_FTPGET is not set
++# CONFIG_BUSYBOX_CONFIG_FTPPUT is not set
++# CONFIG_BUSYBOX_CONFIG_HOSTNAME is not set
++CONFIG_BUSYBOX_CONFIG_HTTPD=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_HTTPD_RELOAD_CONFIG_SIGHUP=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_HTTPD_SETUID is not set
++CONFIG_BUSYBOX_CONFIG_FEATURE_HTTPD_BASIC_AUTH=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_HTTPD_AUTH_MD5=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_HTTPD_CONFIG_WITH_MIME_TYPES=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_HTTPD_CGI=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_HTTPD_CONFIG_WITH_SCRIPT_INTERPR is not set
++CONFIG_BUSYBOX_CONFIG_FEATURE_HTTPD_SET_REMOTE_PORT_TO_ENV=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_HTTPD_ENCODE_URL_STR=y
++CONFIG_BUSYBOX_CONFIG_IFCONFIG=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_IFCONFIG_STATUS=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_IFCONFIG_SLIP is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_IFCONFIG_MEMSTART_IOADDR_IRQ is not set
++CONFIG_BUSYBOX_CONFIG_FEATURE_IFCONFIG_HW=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_IFCONFIG_BROADCAST_PLUS=y
++# CONFIG_BUSYBOX_CONFIG_IFUPDOWN is not set
++# CONFIG_BUSYBOX_CONFIG_INETD is not set
++# CONFIG_BUSYBOX_CONFIG_IP is not set
++# CONFIG_BUSYBOX_CONFIG_IPCALC is not set
++# CONFIG_BUSYBOX_CONFIG_NAMEIF is not set
++CONFIG_BUSYBOX_CONFIG_NC=y
++CONFIG_BUSYBOX_CONFIG_NETMSG=y
++# CONFIG_BUSYBOX_CONFIG_NC_SERVER is not set
++# CONFIG_BUSYBOX_CONFIG_NC_EXTRA is not set
++CONFIG_BUSYBOX_CONFIG_NETSTAT=y
++CONFIG_BUSYBOX_CONFIG_NSLOOKUP=y
++CONFIG_BUSYBOX_CONFIG_PING=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_FANCY_PING=y
++CONFIG_BUSYBOX_CONFIG_PING6=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_FANCY_PING6=y
++CONFIG_BUSYBOX_CONFIG_ROUTE=y
++CONFIG_BUSYBOX_CONFIG_TELNET=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_TELNET_TTYPE=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_TELNET_AUTOLOGIN is not set
++CONFIG_BUSYBOX_CONFIG_TELNETD=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_TELNETD_STANDALONE=y
++# CONFIG_BUSYBOX_CONFIG_TFTP is not set
++CONFIG_BUSYBOX_CONFIG_TRACEROUTE=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_TRACEROUTE_VERBOSE=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_TRACEROUTE_SOURCE_ROUTE is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_TRACEROUTE_USE_ICMP is not set
++# CONFIG_BUSYBOX_CONFIG_APP_UDHCPD is not set
++CONFIG_BUSYBOX_CONFIG_APP_UDHCPC=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_UDHCP_SYSLOG is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_UDHCP_DEBUG is not set
++CONFIG_BUSYBOX_CONFIG_VCONFIG=y
++CONFIG_BUSYBOX_CONFIG_WGET=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_WGET_STATUSBAR=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_WGET_AUTHENTICATION=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_WGET_IP6_LITERAL=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_WGET_LONG_OPTIONS=y
++# CONFIG_BUSYBOX_CONFIG_ZCIP is not set
++
++#
++# Process Utilities
++#
++CONFIG_BUSYBOX_CONFIG_FREE=y
++# CONFIG_BUSYBOX_CONFIG_FUSER is not set
++CONFIG_BUSYBOX_CONFIG_KILL=y
++CONFIG_BUSYBOX_CONFIG_KILLALL=y
++CONFIG_BUSYBOX_CONFIG_KILLALL5=y
++CONFIG_BUSYBOX_CONFIG_PIDOF=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_PIDOF_SINGLE is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_PIDOF_OMIT is not set
++CONFIG_BUSYBOX_CONFIG_PS=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_PS_WIDE is not set
++# CONFIG_BUSYBOX_CONFIG_RENICE is not set
++CONFIG_BUSYBOX_CONFIG_BB_SYSCTL=y
++CONFIG_BUSYBOX_CONFIG_TOP=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_TOP_CPU_USAGE_PERCENTAGE=y
++CONFIG_BUSYBOX_CONFIG_UPTIME=y
++
++#
++# Shells
++#
++CONFIG_BUSYBOX_CONFIG_FEATURE_SH_IS_ASH=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_SH_IS_HUSH is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_SH_IS_LASH is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_SH_IS_MSH is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_SH_IS_NONE is not set
++CONFIG_BUSYBOX_CONFIG_ASH=y
++
++#
++# Ash Shell Options
++#
++CONFIG_BUSYBOX_CONFIG_ASH_JOB_CONTROL=y
++# CONFIG_BUSYBOX_CONFIG_ASH_READ_NCHARS is not set
++CONFIG_BUSYBOX_CONFIG_ASH_READ_TIMEOUT=y
++CONFIG_BUSYBOX_CONFIG_ASH_ALIAS=y
++CONFIG_BUSYBOX_CONFIG_ASH_MATH_SUPPORT=y
++# CONFIG_BUSYBOX_CONFIG_ASH_MATH_SUPPORT_64 is not set
++CONFIG_BUSYBOX_CONFIG_ASH_GETOPTS=y
++CONFIG_BUSYBOX_CONFIG_ASH_BUILTIN_ECHO=y
++CONFIG_BUSYBOX_CONFIG_ASH_BUILTIN_TEST=y
++CONFIG_BUSYBOX_CONFIG_ASH_CMDCMD=y
++# CONFIG_BUSYBOX_CONFIG_ASH_MAIL is not set
++CONFIG_BUSYBOX_CONFIG_ASH_OPTIMIZE_FOR_SIZE=y
++# CONFIG_BUSYBOX_CONFIG_ASH_RANDOM_SUPPORT is not set
++# CONFIG_BUSYBOX_CONFIG_ASH_EXPAND_PRMT is not set
++# CONFIG_BUSYBOX_CONFIG_HUSH is not set
++# CONFIG_BUSYBOX_CONFIG_LASH is not set
++# CONFIG_BUSYBOX_CONFIG_MSH is not set
++
++#
++# Bourne Shell Options
++#
++# CONFIG_BUSYBOX_CONFIG_FEATURE_SH_EXTRA_QUIET is not set
++# CONFIG_BUSYBOX_CONFIG_FEATURE_SH_STANDALONE_SHELL is not set
++CONFIG_BUSYBOX_CONFIG_FEATURE_COMMAND_EDITING=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_COMMAND_EDITING_VI is not set
++CONFIG_BUSYBOX_CONFIG_FEATURE_COMMAND_HISTORY=15
++# CONFIG_BUSYBOX_CONFIG_FEATURE_COMMAND_SAVEHISTORY is not set
++CONFIG_BUSYBOX_CONFIG_FEATURE_COMMAND_TAB_COMPLETION=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_COMMAND_USERNAME_COMPLETION is not set
++CONFIG_BUSYBOX_CONFIG_FEATURE_SH_FANCY_PROMPT=y
++
++#
++# System Logging Utilities
++#
++CONFIG_BUSYBOX_CONFIG_SYSLOGD=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_ROTATE_LOGFILE=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_REMOTE_LOG=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_IPC_SYSLOG=y
++CONFIG_BUSYBOX_CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=16
++CONFIG_BUSYBOX_CONFIG_LOGREAD=y
++# CONFIG_BUSYBOX_CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING is not set
++CONFIG_BUSYBOX_CONFIG_KLOGD=y
++CONFIG_BUSYBOX_CONFIG_LOGGER=y
++
++#
++# Runit Utilities
++#
++# CONFIG_BUSYBOX_CONFIG_RUNSV is not set
++# CONFIG_BUSYBOX_CONFIG_RUNSVDIR is not set
++# CONFIG_BUSYBOX_CONFIG_SV is not set
++# CONFIG_BUSYBOX_CONFIG_SVLOGD is not set
++# CONFIG_BUSYBOX_CONFIG_CHPST is not set
++# CONFIG_BUSYBOX_CONFIG_SETUIDGID is not set
++# CONFIG_BUSYBOX_CONFIG_ENVUIDGID is not set
++# CONFIG_BUSYBOX_CONFIG_ENVDIR is not set
++# CONFIG_BUSYBOX_CONFIG_SOFTLIMIT is not set
++CONFIG_PACKAGE_dnsmasq=y
++CONFIG_PACKAGE_dropbear=y
++# CONFIG_PACKAGE_iptables is not set
++CONFIG_PACKAGE_libgcc=y
++# CONFIG_PACKAGE_libpthread is not set
++# CONFIG_PACKAGE_libssp is not set
++# CONFIG_PACKAGE_libstdcpp is not set
++CONFIG_PACKAGE_mtd=y
++CONFIG_PACKAGE_uclibc=y
++CONFIG_PACKAGE_wireless-tools=y
++
++#
++# Utilities
++#
++CONFIG_DEFAULT_hotplug2=y
++CONFIG_DEFAULT_udevtrigger=y
++# CONFIG_PACKAGE_cfdisk is not set
++# CONFIG_PACKAGE_comgt is not set
++# CONFIG_PACKAGE_dropbearconvert is not set
++# CONFIG_PACKAGE_e2fsprogs is not set
++# CONFIG_PACKAGE_fdisk is not set
++# CONFIG_PACKAGE_fuse-utils is not set
++CONFIG_PACKAGE_hotplug2=y
++# CONFIG_PACKAGE_hwclock is not set
++# CONFIG_PACKAGE_losetup is not set
++# CONFIG_PACKAGE_ntfs-3g is not set
++# CONFIG_PACKAGE_openssl-util is not set
++# CONFIG_PACKAGE_qc-usb-utils is not set
++# CONFIG_PACKAGE_robocfg is not set
++# CONFIG_PACKAGE_shfs-utils is not set
++# CONFIG_PACKAGE_swap-utils is not set
++# CONFIG_PACKAGE_udev is not set
++CONFIG_PACKAGE_udevtrigger=y
++
++#
++# Network
++#
++CONFIG_DEFAULT_ppp=y
++CONFIG_DEFAULT_ppp-mod-pppoe=y
++# CONFIG_PACKAGE_aodv-uu is not set
++# CONFIG_PACKAGE_arptables is not set
++# CONFIG_PACKAGE_chat is not set
++# CONFIG_PACKAGE_ebtables is not set
++# CONFIG_PACKAGE_genl is not set
++# CONFIG_PACKAGE_hostapd is not set
++# CONFIG_PACKAGE_hostapd-mini is not set
++# CONFIG_PACKAGE_ifenslave is not set
++# CONFIG_PACKAGE_ip is not set
++# CONFIG_PACKAGE_ip6tables is not set
++# CONFIG_PACKAGE_ipsec-tools is not set
++# CONFIG_PACKAGE_ipset is not set
++# CONFIG_PACKAGE_isakmpd is not set
++# CONFIG_PACKAGE_keynote is not set
++CONFIG_PACKAGE_ppp=y
++# CONFIG_PACKAGE_ppp-mod-pppoa is not set
++CONFIG_PACKAGE_ppp-mod-pppoe=y
++# CONFIG_PACKAGE_ppp-mod-radius is not set
++# CONFIG_PACKAGE_pppdump is not set
++# CONFIG_PACKAGE_pppstats is not set
++# CONFIG_PACKAGE_pptp is not set
++# CONFIG_PACKAGE_tc is not set
++# CONFIG_PACKAGE_wpa-supplicant is not set
++# CONFIG_PACKAGE_zd1211-firmware is not set
++
++#
++# Libraries
++#
++# CONFIG_PACKAGE_libblkid is not set
++# CONFIG_PACKAGE_libfuse is not set
++# CONFIG_PACKAGE_libgmp is not set
++# CONFIG_PACKAGE_libjson is not set
++# CONFIG_PACKAGE_libncurses is not set
++# CONFIG_PACKAGE_libopenssl is not set
++# CONFIG_PACKAGE_libpcap is not set
++# CONFIG_PACKAGE_libuuid is not set
++# CONFIG_PACKAGE_linux-atm is not set
++# CONFIG_PACKAGE_zlib is not set
++
++#
++# Kernel modules
++#
++CONFIG_DEFAULT_kmod-acx=y
++CONFIG_DEFAULT_kmod-ipt-nathelper=y
++
++#
++# Block Devices
++#
++# CONFIG_PACKAGE_kmod-ata-piix is not set
++# CONFIG_PACKAGE_kmod-ide-aec62xx is not set
++# CONFIG_PACKAGE_kmod-ide-core is not set
++# CONFIG_PACKAGE_kmod-libata is not set
++# CONFIG_PACKAGE_kmod-pata-artop is not set
++# CONFIG_PACKAGE_kmod-scsi-core is not set
++
++#
++# Filesystems
++#
++# CONFIG_PACKAGE_kmod-fs-cifs is not set
++# CONFIG_PACKAGE_kmod-fs-ext2 is not set
++# CONFIG_PACKAGE_kmod-fs-ext3 is not set
++# CONFIG_PACKAGE_kmod-fs-hfs is not set
++# CONFIG_PACKAGE_kmod-fs-hfsplus is not set
++# CONFIG_PACKAGE_kmod-fs-isofs is not set
++# CONFIG_PACKAGE_kmod-fs-minix is not set
++# CONFIG_PACKAGE_kmod-fs-msdos is not set
++# CONFIG_PACKAGE_kmod-fs-nfs is not set
++# CONFIG_PACKAGE_kmod-fs-nfsd is not set
++# CONFIG_PACKAGE_kmod-fs-ntfs is not set
++# CONFIG_PACKAGE_kmod-fs-udf is not set
++# CONFIG_PACKAGE_kmod-fs-vfat is not set
++# CONFIG_PACKAGE_kmod-fs-xfs is not set
++# CONFIG_PACKAGE_kmod-fuse is not set
++# CONFIG_PACKAGE_kmod-nls-base is not set
++# CONFIG_PACKAGE_kmod-nls-cp1250 is not set
++# CONFIG_PACKAGE_kmod-nls-cp437 is not set
++# CONFIG_PACKAGE_kmod-nls-cp850 is not set
++# CONFIG_PACKAGE_kmod-nls-iso8859-1 is not set
++# CONFIG_PACKAGE_kmod-nls-iso8859-15 is not set
++# CONFIG_PACKAGE_kmod-nls-iso8859-2 is not set
++# CONFIG_PACKAGE_kmod-nls-koi8r is not set
++# CONFIG_PACKAGE_kmod-nls-utf8 is not set
++# CONFIG_PACKAGE_kmod-shfs is not set
++
++#
++# I2C Bus
++#
++# CONFIG_PACKAGE_kmod-i2c-core is not set
++
++#
++# Netfilter Extensions
++#
++# CONFIG_PACKAGE_kmod-arptables is not set
++# CONFIG_PACKAGE_kmod-ebtables is not set
++# CONFIG_PACKAGE_kmod-ip6tables is not set
++# CONFIG_PACKAGE_kmod-ipt-conntrack is not set
++# CONFIG_PACKAGE_kmod-ipt-extra is not set
++# CONFIG_PACKAGE_kmod-ipt-filter is not set
++# CONFIG_PACKAGE_kmod-ipt-imq is not set
++# CONFIG_PACKAGE_kmod-ipt-ipopt is not set
++# CONFIG_PACKAGE_kmod-ipt-iprange is not set
++# CONFIG_PACKAGE_kmod-ipt-ipsec is not set
++CONFIG_PACKAGE_kmod-ipt-ipset=m
++# CONFIG_PACKAGE_kmod-ipt-nat is not set
++# CONFIG_PACKAGE_kmod-ipt-nathelper is not set
++# CONFIG_PACKAGE_kmod-ipt-nathelper-extra is not set
++# CONFIG_PACKAGE_kmod-ipt-queue is not set
++# CONFIG_PACKAGE_kmod-ipt-ulog is not set
++
++#
++# Network Devices
++#
++# CONFIG_PACKAGE_kmod-sangam-atm-annex-a is not set
++CONFIG_PACKAGE_kmod-sangam-atm-annex-b=m
++
++#
++# Network Support
++#
++# CONFIG_PACKAGE_kmod-aodv-uu is not set
++CONFIG_PACKAGE_kmod-atm=m
++# CONFIG_PACKAGE_kmod-atmtcp is not set
++# CONFIG_PACKAGE_kmod-ax25 is not set
++# CONFIG_PACKAGE_kmod-bonding is not set
++# CONFIG_PACKAGE_kmod-gre is not set
++# CONFIG_PACKAGE_kmod-ipip is not set
++# CONFIG_PACKAGE_kmod-ipsec is not set
++# CONFIG_PACKAGE_kmod-ipv6 is not set
++# CONFIG_PACKAGE_kmod-mp-alg is not set
++CONFIG_PACKAGE_kmod-ppp=y
++# CONFIG_PACKAGE_kmod-mppe is not set
++# CONFIG_PACKAGE_kmod-ppp-synctty is not set
++# CONFIG_PACKAGE_kmod-pppoa is not set
++CONFIG_PACKAGE_kmod-pppoe=y
++# CONFIG_PACKAGE_kmod-sched is not set
++# CONFIG_PACKAGE_kmod-tun is not set
++
++#
++# Other modules
++#
++# CONFIG_PACKAGE_kmod-capi is not set
++# CONFIG_PACKAGE_kmod-crc-itu-t is not set
++CONFIG_PACKAGE_kmod-crypto=m
++# CONFIG_PACKAGE_kmod-eeprom-93cx6 is not set
++# CONFIG_PACKAGE_kmod-hwmon is not set
++# CONFIG_PACKAGE_kmod-input-core is not set
++# CONFIG_PACKAGE_kmod-input-evdev is not set
++CONFIG_PACKAGE_kmod-loop=m
++# CONFIG_PACKAGE_kmod-nbd is not set
++# CONFIG_PACKAGE_kmod-softdog is not set
++# CONFIG_PACKAGE_kmod-soundcore is not set
++# CONFIG_PACKAGE_kmod-videodev is not set
++
++#
++# USB Support
++#
++
++#
++# Wireless Drivers
++#
++CONFIG_PACKAGE_kmod-acx=m
++CONFIG_PACKAGE_kmod-acx-mac80211=m
++# CONFIG_PACKAGE_kmod-hostap is not set
++# CONFIG_PACKAGE_kmod-ieee80211 is not set
++CONFIG_PACKAGE_kmod-mac80211=m
++# CONFIG_PACKAGE_kmod-madwifi is not set
++# CONFIG_PACKAGE_kmod-net-airo is not set
++# CONFIG_PACKAGE_kmod-net-hermes is not set
++# CONFIG_PACKAGE_kmod-net-prism54 is not set
++# CONFIG_PACKAGE_kmod-net-zd1211rw is not set
++# CONFIG_PACKAGE_kmod-rt2400-pci is not set
++# CONFIG_PACKAGE_kmod-rt2500-pci is not set
++# CONFIG_PACKAGE_kmod-rt2x00-lib is not set
++# CONFIG_PACKAGE_kmod-rt2x00-pci is not set
++# CONFIG_PACKAGE_kmod-rt61 is not set
++# CONFIG_PACKAGE_kmod-rt61-pci is not set
+Index: target/linux/ar7/files/include/asm-mips/ar7/ar7.h
+===================================================================
+--- target/linux/ar7/files/include/asm-mips/ar7/ar7.h	(Revision 8731)
++++ target/linux/ar7/files/include/asm-mips/ar7/ar7.h	(Arbeitskopie)
+@@ -58,6 +58,8 @@
+ #define AR7_GPIO_DIR    0x8
+ #define AR7_GPIO_ENABLE 0xc
+ 
++#define AR7_GPIO_BIT_STATUS_LED   8
++
+ #define AR7_CHIP_7100 0x18
+ #define AR7_CHIP_7200 0x2b
+ #define AR7_CHIP_7300 0x05
+Index: target/linux/ar7/files/arch/mips/ar7/vlynq-pci.c
+===================================================================
+--- target/linux/ar7/files/arch/mips/ar7/vlynq-pci.c	(Revision 8731)
++++ target/linux/ar7/files/arch/mips/ar7/vlynq-pci.c	(Arbeitskopie)
+@@ -207,6 +207,7 @@
+ 	case PCI_SUBSYSTEM_VENDOR_ID:
+ 	case PCI_SUBSYSTEM_ID:
+ 	case PCI_ROM_ADDRESS:
++	case PCI_ROM_ADDRESS1:
+ 	case PCI_INTERRUPT_LINE:
+ 	case PCI_CARDBUS_CIS:
+ 	case PCI_CAPABILITY_LIST:
+@@ -275,6 +276,7 @@
+ 	case PCI_BASE_ADDRESS_4:
+ 	case PCI_BASE_ADDRESS_5:
+ 	case PCI_ROM_ADDRESS:
++	case PCI_ROM_ADDRESS1:
+ 		break;
+ 	default:
+ 		printk("%s: Write to unknown register 0x%x (size %d) value=0x%x\n", 
+Index: target/linux/ar7/files/arch/mips/ar7/vlynq.c
+===================================================================
+--- target/linux/ar7/files/arch/mips/ar7/vlynq.c	(Revision 8731)
++++ target/linux/ar7/files/arch/mips/ar7/vlynq.c	(Arbeitskopie)
+@@ -237,7 +237,7 @@
+ 		dev->remote->int_device[i >> 2] = 0;
+ 	}
+ 
+-	if (request_irq(dev->irq, vlynq_irq, SA_SHIRQ, "vlynq", dev)) {
++	if (request_irq(dev->irq, vlynq_irq, IRQF_SHARED, "vlynq", dev)) {
+ 		printk("%s: request_irq failed\n", dev->dev.bus_id);
+ 		return -EAGAIN;
+ 	}
+Index: target/linux/ar7/files/arch/mips/ar7/clock.c
+===================================================================
+--- target/linux/ar7/files/arch/mips/ar7/clock.c	(Revision 8731)
++++ target/linux/ar7/files/arch/mips/ar7/clock.c	(Arbeitskopie)
+@@ -62,14 +62,14 @@
+ #define PLL_DIV 0x00000002
+ #define PLL_STATUS 0x00000001
+ 	u32 unused2[3];
+-} __attribute__ ((packed));
++};
+ 
+ struct tnetd7300_clocks {
+ 	struct tnetd7300_clock bus;
+ 	struct tnetd7300_clock cpu;
+ 	struct tnetd7300_clock usb;
+ 	struct tnetd7300_clock dsp;
+-} __attribute__ ((packed));
++};
+ 
+ struct tnetd7200_clock {
+ 	volatile u32 ctrl;
+@@ -84,13 +84,13 @@
+ 	volatile u32 status;
+ 	volatile u32 cmden;
+ 	u32 padding[15];
+-} __attribute__ ((packed));
++};
+ 
+ struct tnetd7200_clocks {
+ 	struct tnetd7200_clock cpu;
+ 	struct tnetd7200_clock dsp;
+ 	struct tnetd7200_clock usb;
+-} __attribute__ ((packed));
++};
+ 
+ int ar7_cpu_clock = 150000000;
+ EXPORT_SYMBOL(ar7_cpu_clock);
+@@ -272,10 +272,10 @@
+ 	} else {
+ 		ar7_cpu_clock = ar7_bus_clock;
+ 	}
+-#if 0
++
+ 	tnetd7300_set_clock(USB_PLL_SOURCE_SHIFT, &clocks->usb,
+ 		bootcr, 48000000);
+-#endif
++
+ 	if (ar7_dsp_clock == 250000000)
+ 		tnetd7300_set_clock(DSP_PLL_SOURCE_SHIFT, &clocks->dsp,
+ 			bootcr, ar7_dsp_clock);
+Index: target/linux/ar7/files/arch/mips/ar7/prom.c
+===================================================================
+--- target/linux/ar7/files/arch/mips/ar7/prom.c	(Revision 8731)
++++ target/linux/ar7/files/arch/mips/ar7/prom.c	(Arbeitskopie)
+@@ -289,28 +289,6 @@
+ 	return 1;
+ }
+ 
+-// from adm5120/prom.c
+-void prom_printf(char *fmt, ...)
+-{
+-	va_list args;
+-	int l;
+-	char *p, *buf_end;
+-	char buf[1024];
+-	
+-	va_start(args, fmt);
+-	l = vsprintf(buf, fmt, args); /* hopefully i < sizeof(buf) */
+-	va_end(args);
+-	
+-	buf_end = buf + l;
+-	
+-	for (p = buf; p < buf_end; p++) {
+-		/* Crude cr/nl handling is better than none */
+-		if (*p == '\n')
+-			prom_putchar('\r');
+-		prom_putchar(*p);
+-	}
+-}
+-
+ #ifdef CONFIG_KGDB
+ int putDebugChar(char c)
+ {
+Index: target/linux/ar7/files/drivers/net/cpmac.c
+===================================================================
+--- target/linux/ar7/files/drivers/net/cpmac.c	(Revision 8731)
++++ target/linux/ar7/files/drivers/net/cpmac.c	(Arbeitskopie)
+@@ -57,14 +57,14 @@
+ 	volatile u32 control;
+ 	volatile u32 teardown;
+ 	volatile u32 unused;
+-} __attribute__ ((packed));
++};
+ 
+ struct cpmac_int_regs {
+ 	volatile u32 stat_raw;
+ 	volatile u32 stat_masked;
+ 	volatile u32 enable;
+ 	volatile u32 clear;
+-} __attribute__ ((packed));
++};
+ 
+ struct cpmac_stats {
+ 	volatile u32 good;
+@@ -80,12 +80,12 @@
+ 	volatile u32 filtered;
+ 	volatile u32 qos_filtered;
+ 	volatile u32 octets;
+-} __attribute__ ((packed));
++};
+ 
+ struct cpmac_regs {
+ 	struct cpmac_control_regs tx_ctrl;
+ 	struct cpmac_control_regs rx_ctrl;
+-	volatile u32 unused1[56];
++	u32 unused1[56];
+ 	volatile u32 mbp;
+ /* MBP bits */
+ #define MBP_RXPASSCRC         0x40000000
+@@ -105,7 +105,7 @@
+ 	volatile u32 max_len;
+ 	volatile u32 buffer_offset;
+ 	volatile u32 filter_flow_threshold;
+-	volatile u32 unused2[2];
++	u32 unused2[2];
+ 	volatile u32 flow_thre[8];
+ 	volatile u32 free_buffer[8];
+ 	volatile u32 mac_control;
+@@ -122,7 +122,7 @@
+ #define MACST_RXFLOW 0x2
+ #define MACST_TXFLOW 0x1
+ 	volatile u32 emc_control;
+-	volatile u32 unused3;
++	u32 unused3;
+ 	struct cpmac_int_regs tx_int;
+ 	volatile u32 mac_int_vector;
+ /* Int Status bits */
+@@ -131,7 +131,7 @@
+ #define INTST_RX     0x20000
+ #define INTST_TX     0x10000
+ 	volatile u32 mac_eoi_vector;
+-	volatile u32 unused4[2];
++	u32 unused4[2];
+ 	struct cpmac_int_regs rx_int;
+ 	volatile u32 mac_int_stat_raw;
+ 	volatile u32 mac_int_stat_masked;
+@@ -146,16 +146,15 @@
+ 	volatile u32 pac_test;
+ 	volatile u32 rx_pause;
+ 	volatile u32 tx_pause;
+-	volatile u32 unused5[2];
++	u32 unused5[2];
+ 	struct cpmac_stats rx_stats;
+ 	struct cpmac_stats tx_stats;
+-	volatile u32 unused6[232];
++	u32 unused6[232];
+ 	volatile u32 tx_ptr[8];
+ 	volatile u32 rx_ptr[8];
+ 	volatile u32 tx_ack[8];
+ 	volatile u32 rx_ack[8];
+-	
+-} __attribute__ ((packed));
++};
+ 
+ struct cpmac_mdio_regs {
+ 	volatile u32 version;
+@@ -214,7 +213,8 @@
+ 	int oldlink, oldspeed, oldduplex;
+ 	u32 msg_enable;
+ 	struct net_device *dev;
+-	struct work_struct alloc_work;
++        //~ http://lwn.net/Articles/213149/
++	struct delayed_work thread;
+ };
+ 
+ static irqreturn_t cpmac_irq(int, void *);
+@@ -393,7 +393,7 @@
+ 		priv->free_skbs--;
+ 
+ 	if (priv->free_skbs < CPMAC_LOW_THRESH)
+-		schedule_work(&priv->alloc_work);
++		schedule_delayed_work(&priv->thread, 0);
+ 
+ 	return skb;
+ }
+@@ -528,7 +528,7 @@
+ cpmac_alloc_skbs(struct work_struct *work)
+ {
+ 	struct cpmac_priv *priv = container_of(work, struct cpmac_priv,
+-		alloc_work);
++		thread);
+ #else
+ static void
+ cpmac_alloc_skbs(void *data)
+@@ -937,11 +937,11 @@
+ 	priv->rx_head = &priv->desc_ring[CPMAC_TX_RING_SIZE];
+ 
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 20)
+-	INIT_WORK(&priv->alloc_work, cpmac_alloc_skbs);
++	INIT_DELAYED_WORK(&priv->thread, cpmac_alloc_skbs);
+ #else
+-	INIT_WORK(&priv->alloc_work, cpmac_alloc_skbs, dev);
++	INIT_WORK(&priv->thread, cpmac_alloc_skbs, dev);
+ #endif
+-	schedule_work(&priv->alloc_work);
++	schedule_delayed_work(&priv->thread, 0);
+ 	flush_scheduled_work();
+ 
+ 	for (i = 0; i < rx_ring_size; i++) {
+@@ -960,7 +960,7 @@
+ 		dma_cache_wback((u32)desc, 16);
+ 	}
+ 
+-	if((res = request_irq(dev->irq, cpmac_irq, SA_INTERRUPT,
++	if((res = request_irq(dev->irq, cpmac_irq, IRQF_DISABLED,
+ 			dev->name, dev))) {
+ 		printk("%s: failed to obtain irq\n", dev->name);
+ 		goto fail_irq;
+@@ -1021,7 +1021,7 @@
+ 	release_mem_region(dev->mem_start, dev->mem_end -
+ 			   dev->mem_start);
+ 
+-	cancel_delayed_work(&priv->alloc_work);
++	cancel_delayed_work(&priv->thread);
+ 	flush_scheduled_work();
+ 
+ 	priv->rx_head = &priv->desc_ring[CPMAC_TX_RING_SIZE];
+Index: target/linux/ar7/image/Makefile
+===================================================================
+--- target/linux/ar7/image/Makefile	(Revision 8731)
++++ target/linux/ar7/image/Makefile	(Arbeitskopie)
+@@ -11,7 +11,8 @@
+ OBJCOPY_SREC:=$(TARGET_CROSS)objcopy -S -O srec $(addprefix --remove-section=,$(DROP_SECTIONS))
+ 
+ LOADADDR:=0x94600000
+-KERNEL_ENTRY:=0x94100000
++#~ KERNEL_ENTRY:=0x94100000
++KERNEL_ENTRY:=0x94000000
+ RAMSTART:=0x94000000
+ RAMSIZE:=0x00100000
+ 
+Index: target/linux/ar7/profiles/105-Sinus.mk
+===================================================================
+--- target/linux/ar7/profiles/105-Sinus.mk	(Revision 0)
++++ target/linux/ar7/profiles/105-Sinus.mk	(Revision 0)
+@@ -0,0 +1,17 @@
++#
++# Copyright (C) 2007 OpenWrt.org
++#
++# This is free software, licensed under the GNU General Public License v2.
++# See /LICENSE for more information.
++#
++
++define Profile/Sinus
++  NAME:=Sinus 154 DSL Basic SE (default)
++  PACKAGES:=kmod-acx kmod-sangam-atm-annex-a
++endef
++
++define Profile/Sinus/Description
++	Package set compatible with hardware using Texas Instruments WiFi cards
++endef
++$(eval $(call Profile,Sinus))
++
+Index: target/linux/ar7/patches-2.6.22/100-board_support.patch
+===================================================================
+--- target/linux/ar7/patches-2.6.22/100-board_support.patch	(Revision 8731)
++++ target/linux/ar7/patches-2.6.22/100-board_support.patch	(Arbeitskopie)
+@@ -67,7 +67,7 @@
+ +#
+ +core-$(CONFIG_AR7)		+= arch/mips/ar7/
+ +cflags-$(CONFIG_AR7)		+= -Iinclude/asm-mips/ar7
+-+load-$(CONFIG_AR7)		+= 0xffffffff94100000
+++load-$(CONFIG_AR7)		+= 0xffffffff94000000
+ +
+ +#
+  # Acer PICA 61, Mips Magnum 4000 and Olivetti M700.
+Index: package/base-files/files/etc/init.d/boot
+===================================================================
+--- package/base-files/files/etc/init.d/boot	(Revision 8731)
++++ package/base-files/files/etc/init.d/boot	(Arbeitskopie)
+@@ -24,7 +24,7 @@
+ )}
+ 
+ start() {
+-	[ -f /proc/mounts ] || /sbin/mount_root
++	[ -f /proc/mounts ] || fgrep -q nfs /proc/mounts || /sbin/mount_root
+ 	[ -f /proc/jffs2_bbc ] && echo "S" > /proc/jffs2_bbc
+ 	vconfig set_name_type DEV_PLUS_VID_NO_PAD
+ 
+Index: package/base-files/files/etc/init.d/settime
+===================================================================
+--- package/base-files/files/etc/init.d/settime	(Revision 0)
++++ package/base-files/files/etc/init.d/settime	(Revision 0)
+@@ -0,0 +1,13 @@
++#!/bin/sh /etc/rc.common
++
++# Set the time. Use file timestamp from NFS file.
++
++START=05
++
++start() {
++  touch /tmp/nfsfile
++  rm /tmp/nfsfile
++  date `date -r /tmp +%m%d%H%M%Y.%S`
++}
++
++# eof
+
+Eigenschaftsänderungen: package/base-files/files/etc/init.d/settime
+___________________________________________________________________
+Name: svn:executable
+   + *
+
+Index: package/base-files/files/etc/rc.common
+===================================================================
+--- package/base-files/files/etc/rc.common	(Revision 8731)
++++ package/base-files/files/etc/rc.common	(Arbeitskopie)
+@@ -38,8 +38,8 @@
+ enable() {
+ 	name="$(basename "${initscript}")"
+ 	disable
+-	[ "$START" ] && ln -s "/etc/init.d/$name" "$IPKG_INSTROOT/etc/rc.d/S${START}${name##S[0-9][0-9]}"
+-	[ "$STOP"  ] && ln -s "/etc/init.d/$name" "$IPKG_INSTROOT/etc/rc.d/K${STOP}${name##K[0-9][0-9]}"
++	[ "$START" ] && ln -s "../init.d/$name" "$IPKG_INSTROOT/etc/rc.d/S${START}${name##S[0-9][0-9]}"
++	[ "$STOP"  ] && ln -s "../init.d/$name" "$IPKG_INSTROOT/etc/rc.d/K${STOP}${name##K[0-9][0-9]}"
+ }
+ 
+ enabled() {
+Index: package/base-files/files/etc/hotplug.d/net/10-net
+===================================================================
+--- package/base-files/files/etc/hotplug.d/net/10-net	(Revision 8731)
++++ package/base-files/files/etc/hotplug.d/net/10-net	(Arbeitskopie)
+@@ -8,6 +8,8 @@
+ 		ppp*) return 0;;
+ 	esac
+ 
++	fgrep -q nfs /proc/mounts && return 0
++
+ 	scan_interfaces
+ 	local cfg="$(find_config "$INTERFACE")"
+ 
+Index: package/base-files/files/etc/ipkg.conf
+===================================================================
+--- package/base-files/files/etc/ipkg.conf	(Revision 8731)
++++ package/base-files/files/etc/ipkg.conf	(Arbeitskopie)
+@@ -1,4 +1,6 @@
+ src snapshots http://downloads.openwrt.org/snapshots/$S/packages
+ src packages http://downloads.openwrt.org/kamikaze/packages/$A
++src sinus http://192.168.2.2/snapshots/$S/packages
++src qemu  http://10.0.2.2/snapshots/$S/packages
+ dest root /
+ dest ram /tmp
