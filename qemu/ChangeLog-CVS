@@ -1,3 +1,17 @@
+2007-09-10 02:10  ths
+
+	* target-i386/helper2.c: Fix the reported xlevel for Intel CPU, by
+	  Filip Navara.
+
+2007-09-10 02:07  ths
+
+	* block-vmdk.c: Fix VMDK 2GB bug, by Filip Navara.
+
+2007-09-09 23:16  pbrook
+
+	* hw/: usb-hid.c, usb-uhci.c: Implement HID idle mode (avoids
+	  flooding guest with useless updates).  Fix UHCI NACK bug.
+
 2007-09-06 02:18  ths
 
 	* cpu-exec.c, gdbstub.c, monitor.c, translate-all.c, hw/mips_r4k.c,
