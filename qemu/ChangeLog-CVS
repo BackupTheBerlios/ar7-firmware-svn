@@ -1,3 +1,14 @@
+2007-09-06 02:18  ths
+
+	* cpu-exec.c, gdbstub.c, monitor.c, translate-all.c, hw/mips_r4k.c,
+	  hw/mips_timer.c, linux-user/main.c, linux-user/signal.c,
+	  linux-user/syscall.c, target-mips/cpu.h, target-mips/exec.h,
+	  target-mips/fop_template.c, target-mips/helper.c,
+	  target-mips/op.c, target-mips/op_helper.c,
+	  target-mips/op_template.c, target-mips/translate.c,
+	  target-mips/translate_init.c: Partial support for 34K
+	  multithreading, not functional yet.
+
 2007-08-29 00:21  ths
 
 	* vl.c: Build fix for older GCCs.
