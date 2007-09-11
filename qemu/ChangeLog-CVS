@@ -1,3 +1,11 @@
+2007-09-11 12:04  ths
+
+	* target-alpha/translate.c, target-arm/translate.c,
+	  target-m68k/translate.c, target-mips/translate.c,
+	  target-ppc/translate.c, target-sh4/translate.c,
+	  target-sparc/translate.c: Fix tb->size mishandling, by Daniel
+	  Jacobowitz.
+
 2007-09-10 02:10  ths
 
 	* target-i386/helper2.c: Fix the reported xlevel for Intel CPU, by
