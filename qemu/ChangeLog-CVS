@@ -1,3 +1,40 @@
+2007-09-13 14:41  ths
+
+	* vnc.c: Fix infinite loop in VNC support, by Marc Bevand.
+
+2007-09-13 14:40  ths
+
+	* hw/fdc.c: Emulate spinning floppy disk, by Jan Jezabek.
+
+2007-09-13 14:39  ths
+
+	* vl.c, slirp/libslirp.h: Move network related includes to vl.c to
+	  help SLIRP-less builds.
+
+2007-09-13 14:29  ths
+
+	* block-raw.c: Enhance raw io reliability, by Ben Guthro.
+
+2007-09-13 14:28  ths
+
+	* hw/ide.c: Allow more IDE power management, by Ben Guthro.
+
+2007-09-13 05:24  ths
+
+	* Makefile.target: Stop the compiler from using section anchors.
+
+2007-09-13 04:22  ths
+
+	* hw/eepro100.c: Improved EEPRO 100 emulation, by Filip Navara.
+
+2007-09-13 04:21  ths
+
+	* target-i386/helper.c: Intel cache info, by Filip Navara.
+
+2007-09-13 04:20  ths
+
+	* hw/ide.c: Partial IDE DVD emulation, by Filip Navara.
+
 2007-09-11 12:04  ths
 
 	* target-alpha/translate.c, target-arm/translate.c,
