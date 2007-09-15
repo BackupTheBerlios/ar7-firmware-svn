@@ -1,3 +1,7 @@
+2007-09-15 00:22  ths
+
+	* hw/eepro100.c: Less magic constants, by Filip Navara.
+
 2007-09-13 14:41  ths
 
 	* vnc.c: Fix infinite loop in VNC support, by Marc Bevand.
