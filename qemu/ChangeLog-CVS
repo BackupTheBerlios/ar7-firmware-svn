@@ -1,3 +1,204 @@
+2007-09-17 11:51  j_mayer
+
+	* target-ppc/: op.c, op_helper.c, op_mem.h, translate.c: PowerPC
+	  flags update/use fixes: - fix confusion between overflow/summary
+	  overflow, as reported by S Bansal.  - reset carry in addic.
+	  optimized case (as it was already done in addic).
+
+2007-09-17 10:21  j_mayer
+
+	* hw/ppc405_uc.c, hw/ppc_chrp.c, hw/ppc_prep.c, target-ppc/cpu.h,
+	  target-ppc/exec.h, target-ppc/helper.c, target-ppc/op.c,
+	  target-ppc/op_helper.c, target-ppc/op_helper_mem.h,
+	  target-ppc/op_mem.h, target-ppc/op_template.h,
+	  target-ppc/translate.c, target-ppc/translate_init.c: Coding style
+	  fixes in PowerPC related code (no functional change): - avoid
+	  useless blanks at EOL.  - avoid tabs.  - fix wrapping lines on 80
+	  chars terminals.  - add missing ';' at macros EOL to avoid
+	  confusing auto-identers.  - fix identation.  - Remove historical
+	  macros in micro-ops (PARAM, SPARAM, PPC_OP, regs)
+
+2007-09-17 10:09  ths
+
+	* Changelog, aes.c, arm-dis.c, arm-semi.c, block-bochs.c,
+	  block-cloop.c, block-cow.c, block-dmg.c, block-qcow.c,
+	  block-qcow2.c, block-raw.c, block-vmdk.c, block-vpc.c,
+	  block-vvfat.c, block.c, block_int.h, cocoa.m, console.c,
+	  cpu-exec.c, dis-asm.h, disas.c, dyngen.c, dyngen.h, elf_ops.h,
+	  exec-all.h, exec.c, gdbstub.c, kqemu.c, loader.c, m68k-dis.c,
+	  mips-dis.c, monitor.c, qemu-doc.texi, qemu-img.c, readline.c,
+	  s390-dis.c, sdl.c, sh4-dis.c, softmmu_template.h, sparc-dis.c,
+	  tap-win32.c, thunk.c, translate-all.c, usb-linux.c, vl.c, vl.h,
+	  vnc.c, darwin-user/syscall.c, hw/acpi.c, hw/adb.c,
+	  hw/alpha_palcode.c, hw/apic.c, hw/cdrom.c, hw/cirrus_vga.c,
+	  hw/cirrus_vga_rop2.h, hw/cuda.c, hw/esp.c, hw/grackle_pci.c,
+	  hw/gt64xxx.c, hw/heathrow_pic.c, hw/i8254.c, hw/i8259.c,
+	  hw/ide.c, hw/iommu.c, hw/m48t59.c, hw/mc146818rtc.c,
+	  hw/mips_malta.c, hw/ne2000.c, hw/openpic.c, hw/parallel.c,
+	  hw/pc.c, hw/pci.c, hw/pckbd.c, hw/pcnet.c, hw/pflash_cfi02.c,
+	  hw/pl011.c, hw/pl110.c, hw/pl181.c, hw/ppc.c, hw/ppc405_boards.c,
+	  hw/ppc405_uc.c, hw/ppc_chrp.c, hw/ps2.c, hw/rtl8139.c,
+	  hw/serial.c, hw/slavio_intctl.c, hw/slavio_serial.c,
+	  hw/slavio_timer.c, hw/smbus_eeprom.c, hw/smc91c111.c, hw/tcx.c,
+	  hw/usb-hid.c, hw/usb-hub.c, hw/usb-msd.c, hw/usb-uhci.c,
+	  hw/usb.h, hw/vga.c, hw/vga_int.h, hw/vga_template.h,
+	  linux-user/elfload.c, linux-user/flat.h, linux-user/flatload.c,
+	  linux-user/linuxload.c, linux-user/main.c, linux-user/mmap.c,
+	  linux-user/signal.c, linux-user/syscall.c,
+	  linux-user/syscall_defs.h, linux-user/syscall_types.h,
+	  linux-user/vm86.c, linux-user/alpha/syscall_nr.h, slirp/bootp.c,
+	  slirp/cksum.c, slirp/debug.c, slirp/if.c, slirp/ip_icmp.c,
+	  slirp/ip_output.c, slirp/mbuf.c, slirp/misc.c, slirp/sbuf.c,
+	  slirp/slirp.c, slirp/socket.c, slirp/socket.h, slirp/tcp_input.c,
+	  slirp/tcp_output.c, slirp/tcp_subr.c, slirp/tcp_timer.c,
+	  slirp/tftp.c, slirp/udp.c, target-alpha/helper.c,
+	  target-arm/cpu.h, target-arm/op.c, target-arm/translate.c,
+	  target-arm/nwfpe/double_cpdo.c, target-arm/nwfpe/extended_cpdo.c,
+	  target-arm/nwfpe/fpa11.c, target-arm/nwfpe/fpa11.h,
+	  target-arm/nwfpe/fpa11_cpdo.c, target-arm/nwfpe/fpa11_cpdt.c,
+	  target-arm/nwfpe/fpa11_cprt.c, target-arm/nwfpe/fpopcode.c,
+	  target-arm/nwfpe/fpopcode.h, target-arm/nwfpe/single_cpdo.c,
+	  target-i386/cpu.h, target-i386/exec.h, target-i386/helper.c,
+	  target-i386/helper2.c, target-i386/op.c, target-i386/ops_sse.h,
+	  target-i386/ops_template.h, target-i386/translate-copy.c,
+	  target-i386/translate.c, target-m68k/cpu.h, target-m68k/op.c,
+	  target-m68k/translate.c, target-mips/helper.c,
+	  target-mips/op_helper.c, target-mips/translate.c,
+	  target-ppc/helper.c, target-ppc/mfrom_table_gen.c,
+	  target-ppc/op_helper.c, target-ppc/translate.c,
+	  target-ppc/translate_init.c, target-sh4/README.sh4,
+	  target-sparc/op.c, target-sparc/op_helper.c, tests/hello-arm.c,
+	  tests/linux-test.c, tests/qruncom.c, tests/runcom.c,
+	  tests/test-i386-code16.S, tests/test-i386-vm86.S,
+	  tests/test-i386.c: find -type f | xargs sed -i 's/[\t ]*$//g' #
+	  Yes, again. Note the star in the regex.
+
+2007-09-17 00:12  ths
+
+	* configure: Solaris x86_64 configure patch, by Ben Taylor.
+
+2007-09-16 23:59  ths
+
+	* block-qcow.c, block-qcow2.c, block-vmdk.c, block_int.h,
+	  qemu-img.c, qemu-img.texi: vmdk compatibility level 6 images, by
+	  Soren Hansen.
+
+2007-09-16 23:39  ths
+
+	* linux-user/syscall.c: Add some missing checks for host syscalls.
+
+2007-09-16 23:07  ths
+
+	* Changelog, Makefile, Makefile.target, TODO, aes.c, alpha-dis.c,
+	  arm-dis.c, arm-semi.c, block-bochs.c, block-cloop.c, block-cow.c,
+	  block-dmg.c, block-qcow.c, block-qcow2.c, block-raw.c,
+	  block-vmdk.c, block-vpc.c, block-vvfat.c, block.c, block_int.h,
+	  bswap.h, cocoa.m, configure, console.c, cpu-all.h, cpu-defs.h,
+	  cpu-exec.c, cutils.c, dis-asm.h, disas.c, dyngen-exec.h,
+	  dyngen.c, dyngen.h, elf.h, elf_ops.h, exec-all.h, exec.c,
+	  gdbstub.c, keymaps.c, kqemu.c, kqemu.h, loader.c, m68k-dis.c,
+	  m68k-semi.c, mips-dis.c, monitor.c, osdep.c, ppc-dis.c,
+	  qemu-doc.texi, qemu-img.c, qemu-img.texi, qemu-tech.texi,
+	  readline.c, s390-dis.c, sdl.c, sh4-dis.c, softmmu-semi.h,
+	  softmmu_header.h, softmmu_template.h, sparc-dis.c, tap-win32.c,
+	  texi2pod.pl, thunk.c, thunk.h, translate-all.c, translate-op.c,
+	  usb-linux.c, vl.c, vl.h, vnc.c, vnchextile.h,
+	  darwin-user/syscall.c, fpu/softfloat-native.c, hw/acpi.c,
+	  hw/adb.c, hw/alpha_palcode.c, hw/an5206.c, hw/apb_pci.c,
+	  hw/apic.c, hw/arm_boot.c, hw/arm_gic.c, hw/arm_pic.c,
+	  hw/arm_pic.h, hw/arm_sysctl.c, hw/arm_timer.c, hw/cdrom.c,
+	  hw/cirrus_vga.c, hw/cirrus_vga_rop.h, hw/cirrus_vga_rop2.h,
+	  hw/cuda.c, hw/eepro100.c, hw/esp.c, hw/fdc.c, hw/grackle_pci.c,
+	  hw/gt64xxx.c, hw/heathrow_pic.c, hw/i2c.c, hw/i8254.c,
+	  hw/i8259.c, hw/ide.c, hw/integratorcp.c, hw/iommu.c, hw/irq.c,
+	  hw/isa_mmio.c, hw/jazz_led.c, hw/lsi53c895a.c, hw/m48t59.c,
+	  hw/mc146818rtc.c, hw/mcf5206.c, hw/mcf5208.c, hw/mcf_fec.c,
+	  hw/mcf_intc.c, hw/mcf_uart.c, hw/mips_malta.c, hw/mips_r4k.c,
+	  hw/nand.c, hw/ne2000.c, hw/omap.h, hw/omap_lcd_template.h,
+	  hw/openpic.c, hw/parallel.c, hw/pc.c, hw/pci.c, hw/pci_host.h,
+	  hw/pckbd.c, hw/pcnet.c, hw/pflash_cfi02.c, hw/piix_pci.c,
+	  hw/pl011.c, hw/pl050.c, hw/pl080.c, hw/pl110.c,
+	  hw/pl110_template.h, hw/pl181.c, hw/pl190.c, hw/ppc.c,
+	  hw/ppc405.h, hw/ppc405_boards.c, hw/ppc405_uc.c, hw/ppc_chrp.c,
+	  hw/ppc_prep.c, hw/prep_pci.c, hw/ps2.c, hw/ptimer.c,
+	  hw/pxa2xx_gpio.c, hw/pxa2xx_template.h, hw/realview.c,
+	  hw/rtl8139.c, hw/sd.c, hw/sd.h, hw/serial.c, hw/sh7750.c,
+	  hw/sh7750_regs.h, hw/shix.c, hw/slavio_intctl.c,
+	  hw/slavio_misc.c, hw/slavio_serial.c, hw/slavio_timer.c,
+	  hw/smbus.c, hw/smbus.h, hw/smbus_eeprom.c, hw/smc91c111.c,
+	  hw/sparc32_dma.c, hw/sun4m.c, hw/sun4u.c, hw/tcx.c,
+	  hw/unin_pci.c, hw/usb-hid.c, hw/usb-hub.c, hw/usb-msd.c,
+	  hw/usb-uhci.c, hw/usb-wacom.c, hw/usb.c, hw/usb.h,
+	  hw/versatile_pci.c, hw/versatilepb.c, hw/vga.c, hw/vga_int.h,
+	  hw/vga_template.h, hw/vmmouse.c, keymaps/common, keymaps/de-ch,
+	  keymaps/et, keymaps/fr, keymaps/is, keymaps/modifiers,
+	  keymaps/nl, keymaps/sv, linux-user/elfload.c, linux-user/flat.h,
+	  linux-user/flatload.c, linux-user/linuxload.c,
+	  linux-user/m68k-sim.c, linux-user/main.c, linux-user/mmap.c,
+	  linux-user/qemu.h, linux-user/signal.c, linux-user/syscall.c,
+	  linux-user/syscall_defs.h, linux-user/syscall_types.h,
+	  linux-user/vm86.c, linux-user/alpha/syscall_nr.h,
+	  linux-user/ppc/syscall.h, linux-user/ppc64/syscall.h,
+	  linux-user/sh4/termbits.h, linux-user/sparc/termbits.h,
+	  linux-user/sparc64/termbits.h, linux-user/x86_64/syscall_nr.h,
+	  slirp/COPYRIGHT, slirp/bootp.c, slirp/cksum.c, slirp/debug.c,
+	  slirp/debug.h, slirp/if.c, slirp/if.h, slirp/ip_icmp.c,
+	  slirp/ip_input.c, slirp/ip_output.c, slirp/libslirp.h,
+	  slirp/main.h, slirp/mbuf.c, slirp/mbuf.h, slirp/misc.c,
+	  slirp/misc.h, slirp/sbuf.c, slirp/sbuf.h, slirp/slirp.c,
+	  slirp/socket.c, slirp/socket.h, slirp/tcp_input.c,
+	  slirp/tcp_output.c, slirp/tcp_subr.c, slirp/tcp_timer.c,
+	  slirp/tftp.c, slirp/tftp.h, slirp/udp.c, slirp/udp.h,
+	  target-alpha/cpu.h, target-alpha/exec.h, target-alpha/helper.c,
+	  target-alpha/op.c, target-alpha/op_helper.c,
+	  target-alpha/op_helper.h, target-alpha/op_helper_mem.h,
+	  target-alpha/op_mem.h, target-alpha/op_template.h,
+	  target-alpha/translate.c, target-arm/cpu.h, target-arm/exec.h,
+	  target-arm/helper.c, target-arm/op.c, target-arm/op_helper.c,
+	  target-arm/op_iwmmxt.c, target-arm/op_template.h,
+	  target-arm/translate.c, target-arm/nwfpe/double_cpdo.c,
+	  target-arm/nwfpe/extended_cpdo.c, target-arm/nwfpe/fpa11.c,
+	  target-arm/nwfpe/fpa11.h, target-arm/nwfpe/fpa11_cpdo.c,
+	  target-arm/nwfpe/fpa11_cpdt.c, target-arm/nwfpe/fpa11_cprt.c,
+	  target-arm/nwfpe/fpopcode.c, target-arm/nwfpe/fpopcode.h,
+	  target-arm/nwfpe/fpsr.h, target-arm/nwfpe/single_cpdo.c,
+	  target-i386/cpu.h, target-i386/exec.h, target-i386/helper.c,
+	  target-i386/helper2.c, target-i386/op.c,
+	  target-i386/opreg_template.h, target-i386/ops_sse.h,
+	  target-i386/ops_template.h, target-i386/ops_template_mem.h,
+	  target-i386/translate-copy.c, target-i386/translate.c,
+	  target-m68k/cpu.h, target-m68k/exec.h, target-m68k/helper.c,
+	  target-m68k/op.c, target-m68k/op_helper.c,
+	  target-m68k/translate.c, target-mips/exec.h,
+	  target-mips/fop_template.c, target-mips/helper.c,
+	  target-mips/op.c, target-mips/op_helper.c, target-mips/op_mem.c,
+	  target-mips/op_template.c, target-mips/translate.c,
+	  target-ppc/cpu.h, target-ppc/exec.h, target-ppc/helper.c,
+	  target-ppc/mfrom_table.c, target-ppc/mfrom_table_gen.c,
+	  target-ppc/op.c, target-ppc/op_helper.c, target-ppc/op_helper.h,
+	  target-ppc/op_mem.h, target-ppc/op_template.h,
+	  target-ppc/translate.c, target-ppc/translate_init.c,
+	  target-sh4/README.sh4, target-sh4/cpu.h, target-sh4/exec.h,
+	  target-sh4/helper.c, target-sh4/op.c, target-sh4/op_helper.c,
+	  target-sh4/op_mem.c, target-sh4/translate.c, target-sparc/cpu.h,
+	  target-sparc/fop_template.h, target-sparc/helper.c,
+	  target-sparc/op.c, target-sparc/op_helper.c,
+	  target-sparc/op_template.h, target-sparc/translate.c,
+	  tests/hello-arm.c, tests/linux-test.c, tests/qruncom.c,
+	  tests/runcom.c, tests/test-i386-code16.S,
+	  tests/test-i386-muldiv.h, tests/test-i386-vm86.S,
+	  tests/test-i386.c, tests/test_path.c: find -type f | xargs sed -i
+	  's/[\t ]$//g' # on most files
+
+2007-09-16 22:03  ths
+
+	* hpet.h, vl.c: Add a local copy of hpet.h.
+
+2007-09-16 21:53  ths
+
+	* vl.c: Use UINT64_MAX instead of ULONG_LONG_MAX, suggested by
+	  Andreas Schwab.
+
 2007-09-15 00:22  ths
 
 	* hw/eepro100.c: Less magic constants, by Filip Navara.
