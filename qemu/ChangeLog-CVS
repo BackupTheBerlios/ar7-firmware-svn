@@ -1,3 +1,8 @@
+2007-09-17 19:27  balrog
+
+	* hw/usb-hid.c: Pass correct pointer to HID keyboard event handler,
+	  fixes regression from IDLE mode introduction.
+
 2007-09-17 11:51  j_mayer
 
 	* target-ppc/: op.c, op_helper.c, op_mem.h, translate.c: PowerPC
