@@ -1,3 +1,15 @@
+2007-09-18 13:17  j_mayer
+
+	* target-ppc/cpu.h: Fix PowerPC 32 emulation on 64 bits hosts: we
+	  can use 64 bits registers but not pretend page is 1kB long As it
+	  seems most Linux programs assume page-size is 4kB, never allow
+	  1kB pages for user-mode only emulation.
+
+2007-09-17 23:25  balrog
+
+	* vl.c: Prevent segfaulting when -clock is specified multiple
+	  times.
+
 2007-09-17 19:27  balrog
 
 	* hw/usb-hid.c: Pass correct pointer to HID keyboard event handler,
