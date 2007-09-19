@@ -1,3 +1,51 @@
+2007-09-19 07:49  j_mayer
+
+	* monitor.c: More PowerPC registers definitions.  Avoid duplicating
+	  code and, as a side effect, fix missing bits in MSR.
+
+2007-09-19 07:46  j_mayer
+
+	* cpu-defs.h, target-ppc/cpu.h, target-ppc/op_helper.c:
+	  TARGET_FMT_lu may also be useful.  Fix compilation warnings.
+
+2007-09-19 07:44  j_mayer
+
+	* target-ppc/: helper.c, op.c, op_helper.c, op_helper.h,
+	  translate.c: Code provision for PowerPC BookE MMU model support.
+	  Better MSR flags initialisation.
+
+2007-09-19 07:37  j_mayer
+
+	* cpu-exec.c: Improve PowerPC target implementation, using computed
+	  hflags as TB flags.
+
+2007-09-19 06:46  j_mayer
+
+	* hw/cuda.c: Avoid Linux to stay stucked in an infinite loop when
+	  requesting a reboot.
+
+2007-09-19 06:36  j_mayer
+
+	* target-ppc/helper.c: Code provision for PowerPC 64 MMU model
+	  support.
+
+2007-09-19 06:34  j_mayer
+
+	* target-ppc/: cpu.h, op_helper_mem.h: More PowerPC target
+	  cleanups: - remove unuseful historical macros and definitions -
+	  fix comments (bugs and cosmetics)
+
+2007-09-18 23:54  j_mayer
+
+	* linux-user/syscall_defs.h: Fix invalid MAP_xxx flags for PowerPC
+	  targets.
+
+2007-09-18 23:47  j_mayer
+
+	* hw/ppc405_uc.c: Always keep the bootinfo structure in the first
+	  16 MB,  as suggested by Andrew May.  Fix compilation warnings
+	  introduced by variables types changes.
+
 2007-09-18 13:17  j_mayer
 
 	* target-ppc/cpu.h: Fix PowerPC 32 emulation on 64 bits hosts: we
