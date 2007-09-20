@@ -1,3 +1,34 @@
+2007-09-20 18:01  blueswir1
+
+	* hw/iommu.c:  Change ldl_phys to cpu_physical_memory_read, fix pte
+	  address
+
+2007-09-20 17:21  blueswir1
+
+	* target-sparc/op.c:  Fix tadd op generation with GCC 4.x
+
+2007-09-20 16:54  blueswir1
+
+	* target-sparc/: cpu.h, helper.c, op.c, op_helper.c, op_mem.h,
+	  translate.c:	Detabify
+
+2007-09-20 15:24  balrog
+
+	* block-raw.c, exec-all.h, vl.h, hw/omap.c: Make likely/unlikely
+	  accessible also in hw/.  Revert the logfile->stderr change.
+
+2007-09-20 14:42  balrog
+
+	* block-raw.c: Use logfile only when loglevel is set
+	  (http://bugzilla.openmoko.org/cgi-bin/bugz
+	  illa/show_bug.cgi?id=886).  raw_pread() and raw_pwrite() are
+	  expected to return number of bytes read.
+
+2007-09-20 11:44  j_mayer
+
+	* exec-all.h, target-alpha/cpu.h, target-ppc/cpu.h: Move likely and
+	  unlikely macros in a common place (Aurelien Jarno).
+
 2007-09-19 07:49  j_mayer
 
 	* monitor.c: More PowerPC registers definitions.  Avoid duplicating
