@@ -1,3 +1,39 @@
+2007-09-21 08:32  j_mayer
+
+	* target-ppc/helper.c: Avoid compilation warnings on 32 bits hosts.
+
+2007-09-21 08:09  j_mayer
+
+	* block-raw.c, block-vmdk.c: Avoid compilation warnings on 64 bits
+	  hosts.
+
+2007-09-21 07:50  j_mayer
+
+	* target-ppc/: STATUS, cpu.h, helper.c, translate.c,
+	  translate_init.c: More PowerPC definitions, from POWER 2.04
+	  specifications and misc sources.  Check that at least
+	  instructions set and SPRs are correct for  PowerPC 401, 403, 405
+	  and 440 cores.  Implement PowerPC 401 MMU model (real-mode only).
+	  Improve INSNs and SPRs dump to ease parse with standard shell
+	  tools.  Add more precise status for most PowerPC cores families.
+
+2007-09-21 07:28  j_mayer
+
+	* target-ppc/: op.c, op_helper.c, op_helper.h, translate.c: Rework
+	  PowerPC 440 TLB management (thanks to Hollis Blanchard)
+
+2007-09-21 07:23  j_mayer
+
+	* target-ppc/: cpu.h, helper.c: Make CPU hflags be a masked version
+	  of the PowerPC MSR.  As a side effect, avoid potential bits
+	  shadowing in TB flags on 64 bits BookE.
+
+2007-09-21 00:47  j_mayer
+
+	* cpu-exec.c, target-i386/translate.c, exec-all.h,
+	  target-mips/translate.c: Extend TB flags to 64 bits (Alexander
+	  Graf).
+
 2007-09-20 18:01  blueswir1
 
 	* hw/iommu.c:  Change ldl_phys to cpu_physical_memory_read, fix pte

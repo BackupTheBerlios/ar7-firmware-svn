@@ -846,10 +846,12 @@ static int ppcemb_tlb_check (CPUState *env, ppcemb_tlb_t *tlb,
     if ((address & mask) != tlb->EPN)
         return -1;
     *raddrp = (tlb->RPN & mask) | (address & ~mask);
+#if (TARGET_PHYS_ADDR_BITS >= 36)
     if (ext) {
         /* Extend the physical address to 36 bits */
         *raddrp |= (target_phys_addr_t)(tlb->RPN & 0xF) << 32;
     }
+#endif
 
     return 0;
 }
@@ -1072,16 +1074,17 @@ static int check_physical (CPUState *env, mmu_ctx_t *ctx,
     case PPC_FLAGS_MMU_SOFT_6xx:
     case PPC_FLAGS_MMU_601:
     case PPC_FLAGS_MMU_SOFT_4xx:
+    case PPC_FLAGS_MMU_401:
         ctx->prot |= PAGE_WRITE;
         break;
 #if defined(TARGET_PPC64)
     case PPC_FLAGS_MMU_64B:
     case PPC_FLAGS_MMU_64BRIDGE:
-#endif
         /* Real address are 60 bits long */
         ctx->raddr &= 0x0FFFFFFFFFFFFFFFUL;
         ctx->prot |= PAGE_WRITE;
         break;
+#endif
     case PPC_FLAGS_MMU_403:
         if (unlikely(msr_pe != 0)) {
             /* 403 family add some particular protections,
@@ -1167,6 +1170,9 @@ int get_physical_address (CPUState *env, mmu_ctx_t *ctx, target_ulong eaddr,
         case PPC_FLAGS_MMU_BOOKE_FSL:
             /* XXX: TODO */
             cpu_abort(env, "BookE FSL MMU model not implemented\n");
+            return -1;
+        case PPC_FLAGS_MMU_401:
+            cpu_abort(env, "PowerPC 401 does not do any translation\n");
             return -1;
         default:
             cpu_abort(env, "Unknown or invalid MMU model\n");
@@ -1267,6 +1273,10 @@ int cpu_ppc_handle_mmu_fault (CPUState *env, target_ulong address, int rw,
                     /* XXX: TODO */
                     cpu_abort(env, "MMU model not implemented\n");
                     return -1;
+                case PPC_FLAGS_MMU_401:
+                    cpu_abort(env, "PowerPC 401 should never raise any MMU "
+                              "exceptions\n");
+                    return -1;
                 default:
                     cpu_abort(env, "Unknown or invalid MMU model\n");
                     return -1;
@@ -1347,6 +1357,10 @@ int cpu_ppc_handle_mmu_fault (CPUState *env, target_ulong address, int rw,
                 case PPC_FLAGS_MMU_BOOKE_FSL:
                     /* XXX: TODO */
                     cpu_abort(env, "MMU model not implemented\n");
+                    return -1;
+                case PPC_FLAGS_MMU_401:
+                    cpu_abort(env, "PowerPC 401 should never raise any MMU "
+                              "exceptions\n");
                     return -1;
                 default:
                     cpu_abort(env, "Unknown or invalid MMU model\n");
@@ -1776,13 +1790,14 @@ void ppc_store_msr_32 (CPUPPCState *env, uint32_t value)
 void do_compute_hflags (CPUPPCState *env)
 {
     /* Compute current hflags */
-    env->hflags = (msr_cm << MSR_CM) | (msr_vr << MSR_VR) |
+    env->hflags = (msr_vr << MSR_VR) |
         (msr_ap << MSR_AP) | (msr_sa << MSR_SA) | (msr_pr << MSR_PR) |
         (msr_fp << MSR_FP) | (msr_fe0 << MSR_FE0) | (msr_se << MSR_SE) |
         (msr_be << MSR_BE) | (msr_fe1 << MSR_FE1) | (msr_le << MSR_LE);
 #if defined (TARGET_PPC64)
-    /* No care here: PowerPC 64 MSR_SF means the same as MSR_CM for BookE */
-    env->hflags |= (msr_sf << (MSR_SF - 32)) | (msr_hv << (MSR_HV - 32));
+    env->hflags |= msr_cm << MSR_CM;
+    env->hflags |= (uint64_t)msr_sf << MSR_SF;
+    env->hflags |= (uint64_t)msr_hv << MSR_HV;
 #endif
 }
 
