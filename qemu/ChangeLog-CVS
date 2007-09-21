@@ -1,3 +1,12 @@
+2007-09-21 21:10  blueswir1
+
+	* target-sparc/: exec.h, op.c, op_helper.c, op_mem.h, translate.c:
+	  Rework ASI instructions (Aurelien Jarno)
+
+2007-09-21 21:09  blueswir1
+
+	* hw/slavio_serial.c:  Improve keyboard handling
+
 2007-09-21 08:32  j_mayer
 
 	* target-ppc/helper.c: Avoid compilation warnings on 32 bits hosts.
