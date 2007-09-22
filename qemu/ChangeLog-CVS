@@ -1,3 +1,11 @@
+2007-09-22 18:49  pbrook
+
+	* Makefile, configure: Only build qemu-img with softmmu targets.
+
+2007-09-22 14:09  blueswir1
+
+	* hw/iommu.c:  Fix breakage on big endian hosts (Aurelien Jarno)
+
 2007-09-21 21:10  blueswir1
 
 	* target-sparc/: exec.h, op.c, op_helper.c, op_mem.h, translate.c:
