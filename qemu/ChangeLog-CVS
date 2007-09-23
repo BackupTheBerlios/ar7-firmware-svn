@@ -1,3 +1,35 @@
+2007-09-23 20:07  ths
+
+	* linux-user/mips/syscall_nr.h: Add new MIPS/Linux syscalls.
+
+2007-09-23 19:55  ths
+
+	* linux-user/mips/termbits.h: Correct and update mips termbits.h.
+
+2007-09-23 19:54  ths
+
+	* target-mips/translate_init.c: Fix mips usermode emulation.
+
+2007-09-23 17:30  ths
+
+	* Changelog, target-i386/svm.h: Add missing svm.h header, and add a
+	  Changelog entry.
+
+2007-09-23 17:28  ths
+
+	* cpu-all.h, cpu-exec.c, exec.c, target-i386/cpu.h,
+	  target-i386/exec.h, target-i386/helper.c, target-i386/helper2.c,
+	  target-i386/op.c, target-i386/translate.c: SVM Support, by
+	  Alexander Graf.
+
+2007-09-23 13:48  blueswir1
+
+	* hw/slavio_serial.c:  Fix Caps lock and Num lock handling
+
+2007-09-23 13:40  blueswir1
+
+	* target-sparc/op_helper.c:  Add missing break statements
+
 2007-09-22 18:49  pbrook
 
 	* Makefile, configure: Only build qemu-img with softmmu targets.
