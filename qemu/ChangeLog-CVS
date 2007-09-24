@@ -1,3 +1,17 @@
+2007-09-24 21:44  blueswir1
+
+	* cpu-exec.c, hw/sun4m.c, target-sparc/cpu.h,
+	  target-sparc/helper.c, target-sparc/op_helper.c,
+	  target-sparc/translate.c:  CPU boot mode
+
+2007-09-24 20:41  blueswir1
+
+	* elf_ops.h:  Fix loading above 4G
+
+2007-09-24 20:39  blueswir1
+
+	* monitor.c:  Fix >4G physical memory dump for Sparc32
+
 2007-09-24 14:48  ths
 
 	* target-mips/: cpu.h, helper.c, mips-defs.h, op.c, translate.c,
