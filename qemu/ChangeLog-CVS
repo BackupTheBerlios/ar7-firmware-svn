@@ -1,3 +1,78 @@
+2007-09-24 14:48  ths
+
+	* target-mips/: cpu.h, helper.c, mips-defs.h, op.c, translate.c,
+	  translate_init.c: Per-CPU instruction decoding implementation, by
+	  Aurelien Jarno.
+
+2007-09-24 11:27  ths
+
+	* linux-user/syscall.c: linux-user faccessat() syscall, by Thayne
+	  Harbaugh.
+
+2007-09-24 11:26  ths
+
+	* linux-user/syscall.c: linux-user fchmodat() syscall, by Thayne
+	  Harbaugh.
+
+2007-09-24 11:26  ths
+
+	* linux-user/syscall.c: linux-user readlinkat() syscall, by Thayne
+	  Harbaugh.
+
+2007-09-24 11:25  ths
+
+	* linux-user/syscall.c: linux-user symlinkat() syscall, by Thayne
+	  Harbaugh.
+
+2007-09-24 11:25  ths
+
+	* linux-user/syscall.c: linux-user linkat() syscall, by Thayne
+	  Harbaugh.
+
+2007-09-24 11:24  ths
+
+	* linux-user/syscall.c: linux-user renameat() syscall, by Thayne
+	  Harbaugh.
+
+2007-09-24 11:24  ths
+
+	* linux-user/syscall.c: linux-user unlinkat() syscall, by Thayne
+	  Harbaugh.
+
+2007-09-24 11:23  ths
+
+	* linux-user/syscall.c: linux-user fchownat() syscall, by Thayne
+	  Harbaugh.
+
+2007-09-24 11:23  ths
+
+	* linux-user/syscall.c: linux-user mknodat() syscall, by Thayne
+	  Harbaugh.
+
+2007-09-24 11:22  ths
+
+	* linux-user/syscall.c: linux-user mkdirat() syscall, by Thayne
+	  Harbaugh.
+
+2007-09-24 11:21  ths
+
+	* linux-user/syscall.c: linux-user openat() syscall, by Thayne
+	  Harbaugh.
+
+2007-09-24 02:11  ths
+
+	* linux-user/: alpha/syscall_nr.h, arm/syscall_nr.h,
+	  i386/syscall_nr.h, m68k/syscall_nr.h, ppc/syscall_nr.h,
+	  ppc64/syscall_nr.h, sh4/syscall_nr.h, sparc/syscall_nr.h,
+	  sparc64/syscall_nr.h, x86_64/syscall_nr.h: Update Linux kernel
+	  syscall list.
+
+2007-09-24 01:27  ths
+
+	* linux-user/: arm/termbits.h, i386/termbits.h, m68k/termbits.h,
+	  ppc/termbits.h, ppc64/termbits.h, sparc/termbits.h,
+	  sparc64/termbits.h: Sync termbits.h with current Linux kernel.
+
 2007-09-23 20:07  ths
 
 	* linux-user/mips/syscall_nr.h: Add new MIPS/Linux syscalls.
