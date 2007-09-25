@@ -1,3 +1,46 @@
+2007-09-25 19:50  ths
+
+	* linux-user/syscall.c: linux-user utimensat() syscall, by Thayne
+	  Harbaugh.
+
+2007-09-25 19:30  blueswir1
+
+	* elf_ops.h:  Remove the target dependency introduced by previous
+	  patch
+
+2007-09-25 19:28  blueswir1
+
+	* monitor.c:  Fix monitor expressions
+
+2007-09-25 18:53  ths
+
+	* hw/mips_timer.c, target-mips/exec.h, target-mips/op.c,
+	  target-mips/op_helper.c: Timer start/stop implementation, by
+	  Aurelien Jarno.
+
+2007-09-25 18:09  ths
+
+	* linux-user/syscall.c: Check if the hosts defines a symlinkat
+	  syscall.
+
+2007-09-25 16:49  ths
+
+	* target-mips/: cpu.h, helper.c, op.c, translate.c: Optimise
+	  instructions accessing CP0, by Aurelien Jarno.
+
+2007-09-25 16:47  ths
+
+	* block-vvfat.c: vvfat mbr fixes, by Ivan Kalvachev.
+
+2007-09-25 16:45  ths
+
+	* readline.c: Improve completion in monitor, by Pascal Terjan.
+
+2007-09-25 03:17  balrog
+
+	* Makefile.target, ecc.h, vl.h, hw/ecc.c: Move ECC calculation to a
+	  more appropriate place.
+
 2007-09-24 21:44  blueswir1
 
 	* cpu-exec.c, hw/sun4m.c, target-sparc/cpu.h,
