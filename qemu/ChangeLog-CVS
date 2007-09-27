@@ -1,3 +1,91 @@
+2007-09-27 15:57  ths
+
+	* linux-user/qemu.h, linux-user/signal.c, linux-user/syscall.c,
+	  linux-user/alpha/target_signal.h, linux-user/arm/target_signal.h,
+	  linux-user/i386/target_signal.h, linux-user/m68k/target_signal.h,
+	  linux-user/mips/target_signal.h, linux-user/ppc/target_signal.h,
+	  linux-user/ppc64/target_signal.h, linux-user/sh4/target_signal.h,
+	  linux-user/sparc/target_signal.h,
+	  linux-user/sparc64/target_signal.h,
+	  linux-user/x86_64/target_signal.h, target-alpha/cpu.h,
+	  target-arm/cpu.h, target-i386/cpu.h, target-mips/cpu.h,
+	  target-ppc/cpu.h, target-sparc/cpu.h: linux-user sigaltstack()
+	  syscall, by Thayne Harbaugh.
+
+2007-09-27 14:48  ths
+
+	* target-ppc/translate_init.c: Build fix for PowerPC hosts, where
+	  "PPC" is a predefined macro name.
+
+2007-09-27 06:47  j_mayer
+
+	* target-ppc/translate.c: Implement size bit in PowerPC 64
+	  comparisons.	Allow 'weight' field in sync instruction.
+
+2007-09-27 06:10  j_mayer
+
+	* linux-user/: elfload.c, mmap.c: memset string pages to zero to
+	  avoid putting random data on the stack  that may make some
+	  program crash at startup.  Fix unsigned long / target_ulong
+	  confusion (more to do).  Fix missing g2h macros.
+
+2007-09-27 03:52  ths
+
+	* cpu-exec.c, target-i386/helper.c, target-i386/translate.c: SVM
+	  VINTR fix, by Alexander Graf.
+
+2007-09-27 03:32  j_mayer
+
+	* target-ppc/: op.c, translate.c: Fixes for PowerPC 64 rotate and
+	  mask instructions.
+
+2007-09-27 03:14  j_mayer
+
+	* configure, linux-user/elfload.c, linux-user/qemu.h,
+	  linux-user/ppc64/syscall.h, target-ppc/translate_init.c: New
+	  ppc64-linux-user target.  Allow use of PowerPC 970 for debugging
+	  (softmmu would not run, for now).
+
+2007-09-27 01:55  j_mayer
+
+	* hw/: ppc405.h, ppc405_boards.c, ppc405_uc.c: Add flags to support
+	  PowerPC 405 bootinfos variations.
+
+2007-09-27 01:54  j_mayer
+
+	* hw/ppc.c, linux-user/main.c, target-ppc/STATUS, target-ppc/cpu.h,
+	  target-ppc/exec.h, target-ppc/helper.c, target-ppc/op.c,
+	  target-ppc/op_helper.c, target-ppc/op_helper.h,
+	  target-ppc/translate.c, target-ppc/translate_init.c: Great rework
+	  and cleanups to ease PowerPC implementations definitions.  *
+	  cleanup cpu.h, removing definitions used only in
+	  translate.c/translate_init.c * add new flags to define
+	  instructions sets more precisely * various changes in MMU models
+	  definitions * add definitions for PowerPC 440/460 support (insns
+	  and SPRs).  * add definitions for PowerPC 401/403 and 620 input
+	  pins model * Fix definitions for most PowerPC 401, 403, 405, 440,
+	  601, 602, 603 and 7x0 * Preliminary support for PowerPC 74xx (aka
+	  G4) without altivec.	* Code provision for other PowerPC support
+	  (7x5, 970, ...).  * New SPR and PVR defined, from PowerPC 2.04
+	  specification and other sources * Misc code bugs, error messages
+	  and styles fixes.  * Update status files for PowerPC cores
+	  support.
+
+2007-09-27 01:52  ths
+
+	* target-mips/: exec.h, helper.c, op.c: hflags computation cleanup,
+	  by Aurelien Jarno.
+
+2007-09-27 01:50  ths
+
+	* target-mips/translate.c: Wrap a few often used tests with
+	  unlikely(), by Aurelien Jarno.
+
+2007-09-27 01:01  j_mayer
+
+	* linux-user/: qemu.h, syscall.c: Convert syscall arguments and
+	  return value from long to int or target_long.
+
 2007-09-25 19:50  ths
 
 	* linux-user/syscall.c: linux-user utimensat() syscall, by Thayne
