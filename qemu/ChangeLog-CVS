@@ -1,3 +1,14 @@
+2007-09-27 18:44  ths
+
+	* linux-user/syscall.c, linux-user/alpha/target_signal.h,
+	  linux-user/arm/target_signal.h, linux-user/i386/target_signal.h,
+	  linux-user/mips/target_signal.h, linux-user/ppc/target_signal.h,
+	  linux-user/sparc/target_signal.h, target-alpha/cpu.h,
+	  target-arm/cpu.h, target-i386/cpu.h, target-mips/cpu.h,
+	  target-ppc/cpu.h, target-sparc/cpu.h: Move get_sp_from_cpustate
+	  from cpu.h to target_signal.h.  Enable sigaltstack processing for
+	  more architectures.
+
 2007-09-27 15:57  ths
 
 	* linux-user/qemu.h, linux-user/signal.c, linux-user/syscall.c,
