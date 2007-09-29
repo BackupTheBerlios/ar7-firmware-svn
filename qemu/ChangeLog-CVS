@@ -1,3 +1,125 @@
+2007-09-29 21:55  ths
+
+	* configure: Enable sh4-softmmu and sh4-linux-user builds by
+	  default, by Magnus Damm.
+
+2007-09-29 21:52  ths
+
+	* target-sh4/translate.c: Fix rte opcode, by Magnus Damm.
+
+2007-09-29 21:51  ths
+
+	* hw/sh7750.c: Add FRQCR read support, by Magnus Damm.
+
+2007-09-29 21:47  ths
+
+	* hw/sh7750.c: Add INTC controller prototype, by Magnus Damm.
+
+2007-09-29 21:43  ths
+
+	* Makefile.target, vl.h, hw/sh7750.c, hw/sh7750_regnames.c,
+	  hw/sh7750_regs.h, hw/sh_serial.c: Stand-alone SCI/SCIF emulation
+	  code, by Magnus Damm.
+
+2007-09-29 21:40  ths
+
+	* Makefile.target, vl.h, hw/sh7750.c, hw/sh7750_regnames.c,
+	  hw/sh7750_regs.h, hw/sh_timer.c: Stand-alone TMU emulation code,
+	  by Magnus Damm.
+
+2007-09-29 21:24  ths
+
+	* Makefile.target, vl.c, vl.h, hw/r2d.c: Add R2D-PLUS support, by
+	  Magnus Damm.
+
+2007-09-29 21:21  ths
+
+	* target-mips/: exec.h, helper.c, translate_init.c: Supervisor mode
+	  implementation, by Aurelien Jarno.
+
+2007-09-29 21:19  ths
+
+	* target-mips/op_helper.c: Less magic constants.
+
+2007-09-29 17:02  j_mayer
+
+	* target-ppc/: translate.c, translate_init.c: PowerPC emulation
+	  optimization: avoid stopping translation after most SPR updates
+	  when a context-synchronization instruction is also needed.
+
+2007-09-29 15:21  j_mayer
+
+	* hw/ppc.c, target-ppc/cpu.h: Code provision for hypervisor timers
+	  resources,  as described in PowerPC 2.04 specification.
+
+2007-09-29 15:20  j_mayer
+
+	* Makefile.target: Fix PowerPC target objects dependencies
+
+2007-09-29 15:12  j_mayer
+
+	* linux-user/x86_64/target_signal.h: Provision for
+	  x86_64-linux-user target: needs get_sp_from_cpustate
+
+2007-09-29 15:06  j_mayer
+
+	* darwin-user/main.c, linux-user/main.c, target-ppc/cpu.h,
+	  target-ppc/helper.c, target-ppc/op_helper.c, target-ppc/op_mem.h,
+	  target-ppc/translate.c, target-ppc/translate_init.c: Rework
+	  PowerPC exceptions model to make it more versatile: * don't use
+	  exception vectors as the exception number.	Use vectors numbers
+	  as defined in the PowerPC embedded specification instead    and
+	  extend this model to cover all emulated PowerPC variants
+	  exceptions.  * add some missing exceptions definitions, from
+	  PowerPC 2.04 specification   and actual PowerPC implementations.
+	  * add code provision for hypervisor exceptions handling.  *
+	  define exception vectors and prefix in CPUPPCState to emulate
+	  BookE exception   vectors without any hacks.	* define per CPU
+	  model valid exception vectors.  * handle all known exceptions in
+	  user-mode only emulations.  * fix hardware interrupts priorities
+	  in most cases.  * change RET_EXCP macros name into GEN_EXCP as
+	  they don't return.  * do not stop translation on most
+	  instructions that are not defined as	 context-synchronizing in
+	  PowerPC specification.  * fix PowerPC 64 jump targets and link
+	  register update when in 32 bits mode.  * Fix PowerPC 464 and 464F
+	  definitions.
+
+2007-09-29 14:18  j_mayer
+
+	* exec.c: make cpu_abort dump cpu state in logfile, which is useful
+	  for debugging.
+
+2007-09-29 14:17  j_mayer
+
+	* exec-all.h, vl.h: always_inline gcc directive can be useful.
+
+2007-09-29 14:15  j_mayer
+
+	* Makefile.target: host_utils.o may also be useful for user-mode
+	  emulation.
+
+2007-09-29 14:01  j_mayer
+
+	* disas.c, target-ppc/cpu.h, target-ppc/translate.c,
+	  target-ppc/translate_init.c: Define the proper bfd_mach to be
+	  used by the disassembler for each PowerPC emulated CPU.
+
+2007-09-29 13:51  j_mayer
+
+	* hw/ppc_chrp.c, hw/ppc_prep.c, target-ppc/translate_init.c: Change
+	  POWERPC_PPC_GENERIC to POWERPC_DEFAULT.  Use it as default for
+	  workstation targets.	Fix PowerPC 750fl and 750gl definitions.
+
+2007-09-28 21:30  ths
+
+	* target-mips/op_helper.c: Fix MIPS FP underflow handling, spotted
+	  by Daniel Jacobowitz.
+
+2007-09-28 20:45  ths
+
+	* linux-user/ppc64/target_signal.h: Build fix, ppc64 needs also a
+	  get_sp_from_cpustate function now.
+
 2007-09-27 18:44  ths
 
 	* linux-user/syscall.c, linux-user/alpha/target_signal.h,
