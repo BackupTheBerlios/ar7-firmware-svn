@@ -1,3 +1,11 @@
+2007-09-29 23:22  ths
+
+	* Makefile: Don't hardcode the host architecture name.
+
+2007-09-29 23:18  ths
+
+	* Makefile: Update tarbin rule.
+
 2007-09-29 21:55  ths
 
 	* configure: Enable sh4-softmmu and sh4-linux-user builds by
