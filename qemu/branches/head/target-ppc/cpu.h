@@ -287,6 +287,7 @@ enum {
 
 #define PPC_INPUT(env) (env->bus_model)
 
+/*****************************************************************************/
 typedef struct ppc_def_t ppc_def_t;
 typedef struct opc_handler_t opc_handler_t;
 
@@ -306,6 +307,10 @@ struct ppc_spr_t {
 #if !defined(CONFIG_USER_ONLY)
     void (*oea_read)(void *opaque, int spr_num);
     void (*oea_write)(void *opaque, int spr_num);
+#if defined(TARGET_PPC64H)
+    void (*hea_read)(void *opaque, int spr_num);
+    void (*hea_write)(void *opaque, int spr_num);
+#endif
 #endif
     const unsigned char *name;
 };
@@ -603,11 +608,13 @@ void ppc_store_asr (CPUPPCState *env, target_ulong value);
 target_ulong do_load_sr (CPUPPCState *env, int srnum);
 void do_store_sr (CPUPPCState *env, int srnum, target_ulong value);
 #endif
-uint32_t ppc_load_xer (CPUPPCState *env);
-void ppc_store_xer (CPUPPCState *env, uint32_t value);
+target_ulong ppc_load_xer (CPUPPCState *env);
+void ppc_store_xer (CPUPPCState *env, target_ulong value);
 target_ulong do_load_msr (CPUPPCState *env);
 void do_store_msr (CPUPPCState *env, target_ulong value);
+#if defined(TARGET_PPC64)
 void ppc_store_msr_32 (CPUPPCState *env, uint32_t value);
+#endif
 
 void do_compute_hflags (CPUPPCState *env);
 void cpu_ppc_reset (void *opaque);
@@ -625,6 +632,10 @@ uint32_t cpu_ppc_load_tbl (CPUPPCState *env);
 uint32_t cpu_ppc_load_tbu (CPUPPCState *env);
 void cpu_ppc_store_tbu (CPUPPCState *env, uint32_t value);
 void cpu_ppc_store_tbl (CPUPPCState *env, uint32_t value);
+uint32_t cpu_ppc_load_atbl (CPUPPCState *env);
+uint32_t cpu_ppc_load_atbu (CPUPPCState *env);
+void cpu_ppc_store_atbl (CPUPPCState *env, uint32_t value);
+void cpu_ppc_store_atbu (CPUPPCState *env, uint32_t value);
 uint32_t cpu_ppc_load_decr (CPUPPCState *env);
 void cpu_ppc_store_decr (CPUPPCState *env, uint32_t value);
 #if defined(TARGET_PPC64H)
@@ -798,8 +809,8 @@ int ppc_dcr_write (ppc_dcr_t *dcr_env, int dcrn, target_ulong val);
 #define SPR_BOOKE_SPEFSCR (0x200)
 #define SPR_E500_BBEAR   (0x201)
 #define SPR_E500_BBTAR   (0x202)
-#define SPR_BOOKE_ATBL   (0x20E)
-#define SPR_BOOKE_ATBU   (0x20F)
+#define SPR_ATBL         (0x20E)
+#define SPR_ATBU         (0x20F)
 #define SPR_IBAT0U       (0x210)
 #define SPR_BOOKE_IVOR32 (0x210)
 #define SPR_IBAT0L       (0x211)

@@ -1,3 +1,136 @@
+2007-09-30 18:37  blueswir1
+
+	* target-sparc/translate.c:  Fix Sparc64 wrasr instructions
+
+2007-09-30 17:21  j_mayer
+
+	* target-ppc/translate.c: Fix (once again) PowerPC sync weight
+	  field.
+
+2007-09-30 17:19  j_mayer
+
+	* target-ppc/helper.c: Fix PowerPC TLB miss dump code.
+
+2007-09-30 17:15  j_mayer
+
+	* darwin-user/main.c, linux-user/main.c: Fix missing case in the
+	  new PowerPC exception model.
+
+2007-09-30 16:52  j_mayer
+
+	* target-ppc/translate_init.c: Fix inconsistent end conditions in
+	  ppc_find_xxx functions.    (crash reported by Andreas Farber when
+	  using default CPU).
+
+2007-09-30 16:44  j_mayer
+
+	* exec-all.h, vl.h, hw/ppc.c: Fix compilation on Darwin platform,
+	  avoiding the use of gcc function attributes  (problem reported by
+	  Andreas Farber).  :
+	  ----------------------------------------------------------------------
+
+2007-09-30 16:32  ths
+
+	* linux-user/: mmap.c, qemu.h: Fix mmap to handle differing
+	  host/target page sizes, by Edgar E. Iglesias.
+
+2007-09-30 15:49  ths
+
+	* linux-user/sparc64/target_signal.h: Add get_sp_from_cpustate
+	  implementation.
+
+2007-09-30 15:03  j_mayer
+
+	* target-ppc/: cpu.h, op.c, op_helper.c, op_helper.h, translate.c:
+	  * Update OEA environment, following the PowerPC 2.04
+	  specification: - New mtmsr/mtmsrd form that just update RI and EE
+	  bits - New hrfid, lq and stq instructions - Add support for
+	  supervisor and hypervisor modes process priority update - Code
+	  provision for hypervisor SPR accesses * Actually implement the
+	  wait instruction * Bugfixes (missing RETURN in micro-op / missing
+	  #ifdef)
+
+2007-09-30 15:01  ths
+
+	* vnc.c: Support UltraVNC clients, by Eduardo Felipe.
+
+2007-09-30 05:46  j_mayer
+
+	* target-ppc/translate.c: Synchronize with latest PowerPC ISA VEA:
+	  * fix invalid instructions bits masks * new wait instruction *
+	  more comments about effect of cache instructions on the MMU
+
+2007-09-30 04:14  ths
+
+	* .cvsignore: Add mipsn32{,el}-linux-user.
+
+2007-09-30 04:10  ths
+
+	* hw/r2d.c: Remove unused variable.
+
+2007-09-30 03:58  ths
+
+	* Makefile, Makefile.target, configure, qemu-binfmt-conf.sh,
+	  linux-user/main.c, linux-user/signal.c,
+	  linux-user/syscall_defs.h, linux-user/mips/syscall.h,
+	  linux-user/mips/target_signal.h, linux-user/mips64/syscall.h,
+	  linux-user/mips64/syscall_nr.h,
+	  linux-user/mips64/target_signal.h, linux-user/mips64/termbits.h,
+	  linux-user/mipsn32/syscall.h, linux-user/mipsn32/syscall_nr.h,
+	  linux-user/mipsn32/target_signal.h,
+	  linux-user/mipsn32/termbits.h, target-mips/TODO,
+	  target-mips/exec.h, target-mips/helper.c,
+	  target-mips/mips-defs.h, target-mips/op.c,
+	  target-mips/op_helper.c, target-mips/op_helper_mem.c,
+	  target-mips/op_mem.c, target-mips/op_template.c,
+	  target-mips/translate.c, target-mips/translate_init.c: Code
+	  provision for n32/n64 mips userland emulation. Not functional
+	  yet.
+
+2007-09-30 03:29  j_mayer
+
+	* hw/m48t59.c: Avoid crash on NULL timers.  This is a rework of
+	  Stefan Weil proposed patch.
+
+2007-09-30 03:18  j_mayer
+
+	* target-ppc/: op.c, op_helper.c, op_helper.h, translate.c:
+	  Implement Process Priority Register as defined in the PowerPC
+	  2.04 spec.
+
+2007-09-30 03:11  j_mayer
+
+	* target-ppc/: op.c, op_helper.c, op_helper.h, translate.c:
+	  Implement new floating-point instructions (fre, frin, friz, frip,
+	  frim)   as defined in the PowerPC 2.04 specification.
+
+2007-09-30 03:01  j_mayer
+
+	* target-ppc/: op_mem.h, translate.c: Improve single-precision
+	  floats load & stores:   as the PowerPC registers only store
+	  double-precision floats,   use float64_to_float32 &
+	  float32_to_float64 to do the appropriate conversion.	Implement
+	  stfiwx.
+
+2007-09-30 02:50  j_mayer
+
+	* target-ppc/: cpu.h, helper.c: XER is to be treated as a 64 bits
+	  register on 64 bits implementations,	 according to the PowerPC
+	  2.04 specification.
+
+2007-09-30 02:45  ths
+
+	* target-mips/TODO: Update TODO.
+
+2007-09-30 02:38  j_mayer
+
+	* darwin-user/main.c, hw/ppc.c, linux-user/main.c,
+	  target-ppc/cpu.h, target-ppc/op.c, target-ppc/translate_init.c:
+	  Implement the PowerPC alternate time-base, following the 2.04
+	  specification.  Share most code with the time-base management
+	  routines.  Remove time-base write routines from user-mode
+	  emulation environments.
+
 2007-09-29 23:22  ths
 
 	* Makefile: Don't hardcode the host architecture name.

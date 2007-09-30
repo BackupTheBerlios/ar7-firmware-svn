@@ -57,6 +57,9 @@ void do_load_cr (void);
 void do_store_cr (uint32_t mask);
 void do_load_xer (void);
 void do_store_xer (void);
+#if defined(TARGET_PPC64)
+void do_store_pri (int prio);
+#endif
 void do_load_fpscr (void);
 void do_store_fpscr (uint32_t mask);
 target_ulong ppc_load_dump_spr (int sprn);
@@ -94,6 +97,7 @@ void do_popcntb_64 (void);
 
 /* Floating-point arithmetic helpers */
 void do_fsqrt (void);
+void do_fre (void);
 void do_fres (void);
 void do_frsqrte (void);
 void do_fsel (void);
@@ -110,6 +114,10 @@ void do_fcfid (void);
 void do_fctid (void);
 void do_fctidz (void);
 #endif
+void do_frin (void);
+void do_friz (void);
+void do_frip (void);
+void do_frim (void);
 void do_fcmpu (void);
 void do_fcmpo (void);
 
@@ -122,6 +130,9 @@ void do_td (int flags);
 void do_rfi (void);
 #if defined(TARGET_PPC64)
 void do_rfid (void);
+#endif
+#if defined(TARGET_PPC64H)
+void do_hrfid (void);
 #endif
 void do_tlbia (void);
 void do_tlbie (void);

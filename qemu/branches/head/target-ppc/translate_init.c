@@ -162,6 +162,18 @@ static void spr_read_tbu (void *opaque, int sprn)
     gen_op_load_tbu();
 }
 
+__attribute__ (( unused ))
+static void spr_read_atbl (void *opaque, int sprn)
+{
+    gen_op_load_atbl();
+}
+
+__attribute__ (( unused ))
+static void spr_read_atbu (void *opaque, int sprn)
+{
+    gen_op_load_atbu();
+}
+
 #if !defined(CONFIG_USER_ONLY)
 static void spr_write_tbl (void *opaque, int sprn)
 {
@@ -171,6 +183,18 @@ static void spr_write_tbl (void *opaque, int sprn)
 static void spr_write_tbu (void *opaque, int sprn)
 {
     gen_op_store_tbu();
+}
+
+__attribute__ (( unused ))
+static void spr_write_atbl (void *opaque, int sprn)
+{
+    gen_op_store_atbl();
+}
+
+__attribute__ (( unused ))
+static void spr_write_atbu (void *opaque, int sprn)
+{
+    gen_op_store_atbu();
 }
 #endif
 
@@ -5848,11 +5872,12 @@ int cpu_ppc_register (CPUPPCState *env, ppc_def_t *def)
 
 int ppc_find_by_name (const unsigned char *name, ppc_def_t **def)
 {
-    int i, ret;
+    int i, max, ret;
 
     ret = -1;
     *def = NULL;
-    for (i = 0; strcmp(ppc_defs[i].name, "default") != 0; i++) {
+    max = sizeof(ppc_defs) / sizeof(ppc_def_t);
+    for (i = 0; i < max; i++) {
         if (strcasecmp(name, ppc_defs[i].name) == 0) {
             *def = &ppc_defs[i];
             ret = 0;
@@ -5865,11 +5890,12 @@ int ppc_find_by_name (const unsigned char *name, ppc_def_t **def)
 
 int ppc_find_by_pvr (uint32_t pvr, ppc_def_t **def)
 {
-    int i, ret;
+    int i, max, ret;
 
     ret = -1;
     *def = NULL;
-    for (i = 0; ppc_defs[i].name != NULL; i++) {
+    max = sizeof(ppc_defs) / sizeof(ppc_def_t);
+    for (i = 0; i < max; i++) {
         if ((pvr & ppc_defs[i].pvr_mask) ==
             (ppc_defs[i].pvr & ppc_defs[i].pvr_mask)) {
             *def = &ppc_defs[i];
@@ -5883,12 +5909,11 @@ int ppc_find_by_pvr (uint32_t pvr, ppc_def_t **def)
 
 void ppc_cpu_list (FILE *f, int (*cpu_fprintf)(FILE *f, const char *fmt, ...))
 {
-    int i;
+    int i, max;
 
-    for (i = 0; ; i++) {
+    max = sizeof(ppc_defs) / sizeof(ppc_def_t);
+    for (i = 0; i < max; i++) {
         (*cpu_fprintf)(f, "PowerPC %-16s PVR %08x\n",
                        ppc_defs[i].name, ppc_defs[i].pvr);
-        if (strcmp(ppc_defs[i].name, "default") == 0)
-            break;
     }
 }

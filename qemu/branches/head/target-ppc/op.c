@@ -295,6 +295,14 @@ void OPPROTO op_store_xer (void)
     RETURN();
 }
 
+#if defined(TARGET_PPC64)
+void OPPROTO op_store_pri (void)
+{
+    do_store_pri(PARAM1);
+    RETURN();
+}
+#endif
+
 #if !defined(CONFIG_USER_ONLY)
 /* Segment registers load and store */
 void OPPROTO op_load_sr (void)
@@ -344,6 +352,13 @@ void OPPROTO op_load_msr (void)
 void OPPROTO op_store_msr (void)
 {
     do_store_msr(env, T0);
+    RETURN();
+}
+
+void OPPROTO op_update_riee (void)
+{
+    msr_ri = (T0 >> MSR_RI) & 1;
+    msr_ee = (T0 >> MSR_EE) & 1;
     RETURN();
 }
 
@@ -423,6 +438,18 @@ void OPPROTO op_load_tbu (void)
     RETURN();
 }
 
+void OPPROTO op_load_atbl (void)
+{
+    T0 = cpu_ppc_load_atbl(env);
+    RETURN();
+}
+
+void OPPROTO op_load_atbu (void)
+{
+    T0 = cpu_ppc_load_atbu(env);
+    RETURN();
+}
+
 #if !defined(CONFIG_USER_ONLY)
 void OPPROTO op_store_tbl (void)
 {
@@ -433,6 +460,18 @@ void OPPROTO op_store_tbl (void)
 void OPPROTO op_store_tbu (void)
 {
     cpu_ppc_store_tbu(env, T0);
+    RETURN();
+}
+
+void OPPROTO op_store_atbl (void)
+{
+    cpu_ppc_store_atbl(env, T0);
+    RETURN();
+}
+
+void OPPROTO op_store_atbu (void)
+{
+    cpu_ppc_store_atbu(env, T0);
     RETURN();
 }
 
@@ -1677,6 +1716,13 @@ void OPPROTO op_fsqrt (void)
     RETURN();
 }
 
+/* fre - fre. */
+void OPPROTO op_fre (void)
+{
+    do_fre();
+    RETURN();
+}
+
 /* fres - fres. */
 void OPPROTO op_fres (void)
 {
@@ -1782,6 +1828,30 @@ void OPPROTO op_fctidz (void)
 }
 #endif
 
+void OPPROTO op_frin (void)
+{
+    do_frin();
+    RETURN();
+}
+
+void OPPROTO op_friz (void)
+{
+    do_friz();
+    RETURN();
+}
+
+void OPPROTO op_frip (void)
+{
+    do_frip();
+    RETURN();
+}
+
+void OPPROTO op_frim (void)
+{
+    do_frim();
+    RETURN();
+}
+
 /***                         Floating-Point compare                        ***/
 /* fcmpu */
 void OPPROTO op_fcmpu (void)
@@ -1850,6 +1920,12 @@ void OPPROTO op_check_reservation_64 (void)
 }
 #endif
 
+void OPPROTO op_wait (void)
+{
+    env->halted = 1;
+    RETURN();
+}
+
 /* Return from interrupt */
 #if !defined(CONFIG_USER_ONLY)
 void OPPROTO op_rfi (void)
@@ -1862,6 +1938,14 @@ void OPPROTO op_rfi (void)
 void OPPROTO op_rfid (void)
 {
     do_rfid();
+    RETURN();
+}
+#endif
+
+#if defined(TARGET_PPC64H)
+void OPPROTO op_hrfid (void)
+{
+    do_hrfid();
     RETURN();
 }
 #endif
@@ -2494,6 +2578,7 @@ void OPPROTO op_store_40x_pit (void)
 void OPPROTO op_store_40x_dbcr0 (void)
 {
     store_40x_dbcr0(env, T0);
+    RETURN();
 }
 
 void OPPROTO op_store_40x_sler (void)
@@ -2513,7 +2598,6 @@ void OPPROTO op_store_booke_tsr (void)
     store_booke_tsr(env, T0);
     RETURN();
 }
-
 #endif /* !defined(CONFIG_USER_ONLY) */
 
 #if defined(TARGET_PPCEMB)

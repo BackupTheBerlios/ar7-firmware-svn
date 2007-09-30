@@ -112,6 +112,14 @@ void do_store_xer (void)
     xer_bc = (T0 >> XER_BC) & 0x7F;
 }
 
+#if defined(TARGET_PPC64)
+void do_store_pri (int prio)
+{
+    env->spr[SPR_PPR] &= ~0x001C000000000000ULL;
+    env->spr[SPR_PPR] |= ((uint64_t)prio & 0x7) << 50;
+}
+#endif
+
 void do_load_fpscr (void)
 {
     /* The 32 MSB of the target fpr are undefined.
@@ -700,6 +708,36 @@ void do_fctidz (void)
 
 #endif
 
+static inline void do_fri (int rounding_mode)
+{
+    int curmode;
+
+    curmode = env->fp_status.float_rounding_mode;
+    set_float_rounding_mode(rounding_mode, &env->fp_status);
+    FT0 = float64_round_to_int(FT0, &env->fp_status);
+    set_float_rounding_mode(curmode, &env->fp_status);
+}
+
+void do_frin (void)
+{
+    do_fri(float_round_nearest_even);
+}
+
+void do_friz (void)
+{
+    do_fri(float_round_to_zero);
+}
+
+void do_frip (void)
+{
+    do_fri(float_round_up);
+}
+
+void do_frim (void)
+{
+    do_fri(float_round_down);
+}
+
 #if USE_PRECISE_EMULATION
 void do_fmadd (void)
 {
@@ -787,6 +825,32 @@ void do_fnmsub (void)
 void do_fsqrt (void)
 {
     FT0 = float64_sqrt(FT0, &env->fp_status);
+}
+
+void do_fre (void)
+{
+    union {
+        double d;
+        uint64_t i;
+    } p;
+
+    if (likely(isnormal(FT0))) {
+        FT0 = float64_div(1.0, FT0, &env->fp_status);
+    } else {
+        p.d = FT0;
+        if (p.i == 0x8000000000000000ULL) {
+            p.i = 0xFFF0000000000000ULL;
+        } else if (p.i == 0x0000000000000000ULL) {
+            p.i = 0x7FF0000000000000ULL;
+        } else if (isnan(FT0)) {
+            p.i = 0x7FF8000000000000ULL;
+        } else if (FT0 < 0.0) {
+            p.i = 0x8000000000000000ULL;
+        } else {
+            p.i = 0x0000000000000000ULL;
+        }
+        FT0 = p.d;
+    }
 }
 
 void do_fres (void)
@@ -931,6 +995,22 @@ void do_rfid (void)
     } else {
         env->nip = (uint32_t)(env->spr[SPR_SRR0] & ~0x00000003);
         do_store_msr(env, (uint32_t)(env->spr[SPR_SRR1] & ~0xFFFF0000UL));
+    }
+#if defined (DEBUG_OP)
+    cpu_dump_rfi(env->nip, do_load_msr(env));
+#endif
+    env->interrupt_request |= CPU_INTERRUPT_EXITTB;
+}
+#endif
+#if defined(TARGET_PPC64H)
+void do_hrfid (void)
+{
+    if (env->spr[SPR_HSRR1] & (1ULL << MSR_SF)) {
+        env->nip = (uint64_t)(env->spr[SPR_HSRR0] & ~0x00000003);
+        do_store_msr(env, (uint64_t)(env->spr[SPR_HSRR1] & ~0xFFFF0000UL));
+    } else {
+        env->nip = (uint32_t)(env->spr[SPR_HSRR0] & ~0x00000003);
+        do_store_msr(env, (uint32_t)(env->spr[SPR_HSRR1] & ~0xFFFF0000UL));
     }
 #if defined (DEBUG_OP)
     cpu_dump_rfi(env->nip, do_load_msr(env));
