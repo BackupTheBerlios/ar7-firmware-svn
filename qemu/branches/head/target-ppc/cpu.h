@@ -656,6 +656,11 @@ void store_40x_sler (CPUPPCState *env, uint32_t val);
 void store_booke_tcr (CPUPPCState *env, target_ulong val);
 void store_booke_tsr (CPUPPCState *env, target_ulong val);
 void ppc_tlb_invalidate_all (CPUPPCState *env);
+void ppc_tlb_invalidate_one (CPUPPCState *env, target_ulong addr);
+#if defined(TARGET_PPC64)
+void ppc_slb_invalidate_all (CPUPPCState *env);
+void ppc_slb_invalidate_one (CPUPPCState *env, uint64_t T0);
+#endif
 int ppcemb_tlb_search (CPUPPCState *env, target_ulong address, uint32_t pid);
 #endif
 #endif
@@ -1117,23 +1122,15 @@ enum {
 };
 
 enum {
-    /* PowerPC 401/403 input pins */
-    PPC401_INPUT_RESET      = 0,
-    PPC401_INPUT_CINT       = 1,
-    PPC401_INPUT_INT        = 2,
-    PPC401_INPUT_BERR       = 3,
-    PPC401_INPUT_HALT       = 4,
-};
-
-enum {
-    /* PowerPC 405 input pins */
-    PPC405_INPUT_RESET_CORE = 0,
-    PPC405_INPUT_RESET_CHIP = 1,
-    PPC405_INPUT_RESET_SYS  = 2,
-    PPC405_INPUT_CINT       = 3,
-    PPC405_INPUT_INT        = 4,
-    PPC405_INPUT_HALT       = 5,
-    PPC405_INPUT_DEBUG      = 6,
+    /* PowerPC 40x input pins */
+    PPC40x_INPUT_RESET_CORE = 0,
+    PPC40x_INPUT_RESET_CHIP = 1,
+    PPC40x_INPUT_RESET_SYS  = 2,
+    PPC40x_INPUT_CINT       = 3,
+    PPC40x_INPUT_INT        = 4,
+    PPC40x_INPUT_HALT       = 5,
+    PPC40x_INPUT_DEBUG      = 6,
+    PPC40x_INPUT_NB,
 };
 
 enum {

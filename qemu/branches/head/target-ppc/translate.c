@@ -2634,6 +2634,8 @@ static GenOpFunc *gen_op_stwcx[] = {
 /* lwarx */
 GEN_HANDLER(lwarx, 0x1F, 0x14, 0x00, 0x00000001, PPC_RES)
 {
+    /* NIP cannot be restored if the memory exception comes from an helper */
+    gen_update_nip(ctx, ctx->nip - 4);
     gen_addr_reg_index(ctx);
     op_lwarx();
     gen_op_store_T1_gpr(rD(ctx->opcode));
@@ -2642,6 +2644,8 @@ GEN_HANDLER(lwarx, 0x1F, 0x14, 0x00, 0x00000001, PPC_RES)
 /* stwcx. */
 GEN_HANDLER(stwcx_, 0x1F, 0x16, 0x04, 0x00000000, PPC_RES)
 {
+    /* NIP cannot be restored if the memory exception comes from an helper */
+    gen_update_nip(ctx, ctx->nip - 4);
     gen_addr_reg_index(ctx);
     gen_op_load_gpr_T1(rS(ctx->opcode));
     op_stwcx();
@@ -2689,6 +2693,8 @@ static GenOpFunc *gen_op_stdcx[] = {
 /* ldarx */
 GEN_HANDLER(ldarx, 0x1F, 0x14, 0x02, 0x00000001, PPC_64B)
 {
+    /* NIP cannot be restored if the memory exception comes from an helper */
+    gen_update_nip(ctx, ctx->nip - 4);
     gen_addr_reg_index(ctx);
     op_ldarx();
     gen_op_store_T1_gpr(rD(ctx->opcode));
@@ -2697,6 +2703,8 @@ GEN_HANDLER(ldarx, 0x1F, 0x14, 0x02, 0x00000001, PPC_64B)
 /* stdcx. */
 GEN_HANDLER(stdcx_, 0x1F, 0x16, 0x06, 0x00000000, PPC_64B)
 {
+    /* NIP cannot be restored if the memory exception comes from an helper */
+    gen_update_nip(ctx, ctx->nip - 4);
     gen_addr_reg_index(ctx);
     gen_op_load_gpr_T1(rS(ctx->opcode));
     op_stdcx();
@@ -2996,6 +3004,7 @@ static inline void gen_bcond (DisasContext *ctx, int type)
         case 6:
             if (type == BCOND_IM) {
                 gen_goto_tb(ctx, 0, target);
+                goto out;
             } else {
 #if defined(TARGET_PPC64)
                 if (ctx->sf_mode)
@@ -3004,8 +3013,9 @@ static inline void gen_bcond (DisasContext *ctx, int type)
 #endif
                     gen_op_b_T1();
                 gen_op_reset_T0();
+                goto no_test;
             }
-            goto no_test;
+            break;
         }
     } else {
         mask = 1 << (3 - (bi & 0x03));
@@ -3079,6 +3089,7 @@ static inline void gen_bcond (DisasContext *ctx, int type)
             gen_op_debug();
         gen_op_exit_tb();
     }
+ out:
     ctx->exception = POWERPC_EXCP_BRANCH;
 }
 
@@ -3381,11 +3392,15 @@ GEN_HANDLER(mtmsrd, 0x1F, 0x12, 0x05, 0x001EF801, PPC_64B)
         /* Special form that does not need any synchronisation */
         gen_op_update_riee();
     } else {
+        /* XXX: we need to update nip before the store
+         *      if we enter power saving mode, we will exit the loop
+         *      directly from ppc_store_msr
+         */
         gen_update_nip(ctx, ctx->nip);
         gen_op_store_msr();
         /* Must stop the translation as machine state (may have) changed */
         /* Note that mtmsr is not always defined as context-synchronizing */
-        GEN_STOP(ctx);
+        ctx->exception = POWERPC_EXCP_STOP;
     }
 #endif
 }
@@ -3405,6 +3420,10 @@ GEN_HANDLER(mtmsr, 0x1F, 0x12, 0x04, 0x001FF801, PPC_MISC)
         /* Special form that does not need any synchronisation */
         gen_op_update_riee();
     } else {
+        /* XXX: we need to update nip before the store
+         *      if we enter power saving mode, we will exit the loop
+         *      directly from ppc_store_msr
+         */
         gen_update_nip(ctx, ctx->nip);
 #if defined(TARGET_PPC64)
         if (!ctx->sf_mode)
@@ -3414,7 +3433,7 @@ GEN_HANDLER(mtmsr, 0x1F, 0x12, 0x04, 0x001FF801, PPC_MISC)
             gen_op_store_msr();
         /* Must stop the translation as machine state (may have) changed */
         /* Note that mtmsrd is not always defined as context-synchronizing */
-        GEN_STOP(ctx);
+        ctx->exception = POWERPC_EXCP_STOP;
     }
 #endif
 }
@@ -3601,6 +3620,8 @@ static GenOpFunc *gen_op_icbi[] = {
 
 GEN_HANDLER(icbi, 0x1F, 0x16, 0x1E, 0x03E00001, PPC_CACHE)
 {
+    /* NIP cannot be restored if the memory exception comes from an helper */
+    gen_update_nip(ctx, ctx->nip - 4);
     gen_addr_reg_index(ctx);
     op_icbi();
 }
@@ -4288,7 +4309,7 @@ GEN_HANDLER(mfrom, 0x1F, 0x09, 0x08, 0x03E0F801, PPC_602_SPEC)
 
 /* 602 - 603 - G2 TLB management */
 /* tlbld */
-GEN_HANDLER(tlbld, 0x1F, 0x12, 0x1E, 0x03FF0001, PPC_6xx_TLB)
+GEN_HANDLER(tlbld_6xx, 0x1F, 0x12, 0x1E, 0x03FF0001, PPC_6xx_TLB)
 {
 #if defined(CONFIG_USER_ONLY)
     GEN_EXCP_PRIVOPC(ctx);
@@ -4303,7 +4324,7 @@ GEN_HANDLER(tlbld, 0x1F, 0x12, 0x1E, 0x03FF0001, PPC_6xx_TLB)
 }
 
 /* tlbli */
-GEN_HANDLER(tlbli, 0x1F, 0x12, 0x1F, 0x03FF0001, PPC_6xx_TLB)
+GEN_HANDLER(tlbli_6xx, 0x1F, 0x12, 0x1F, 0x03FF0001, PPC_6xx_TLB)
 {
 #if defined(CONFIG_USER_ONLY)
     GEN_EXCP_PRIVOPC(ctx);
@@ -4314,6 +4335,37 @@ GEN_HANDLER(tlbli, 0x1F, 0x12, 0x1F, 0x03FF0001, PPC_6xx_TLB)
     }
     gen_op_load_gpr_T0(rB(ctx->opcode));
     gen_op_6xx_tlbli();
+#endif
+}
+
+/* 74xx TLB management */
+/* tlbld */
+GEN_HANDLER(tlbld_74xx, 0x1F, 0x12, 0x1E, 0x03FF0001, PPC_74xx_TLB)
+{
+#if defined(CONFIG_USER_ONLY)
+    GEN_EXCP_PRIVOPC(ctx);
+#else
+    if (unlikely(!ctx->supervisor)) {
+        GEN_EXCP_PRIVOPC(ctx);
+        return;
+    }
+    gen_op_load_gpr_T0(rB(ctx->opcode));
+    gen_op_74xx_tlbld();
+#endif
+}
+
+/* tlbli */
+GEN_HANDLER(tlbli_74xx, 0x1F, 0x12, 0x1F, 0x03FF0001, PPC_74xx_TLB)
+{
+#if defined(CONFIG_USER_ONLY)
+    GEN_EXCP_PRIVOPC(ctx);
+#else
+    if (unlikely(!ctx->supervisor)) {
+        GEN_EXCP_PRIVOPC(ctx);
+        return;
+    }
+    gen_op_load_gpr_T0(rB(ctx->opcode));
+    gen_op_74xx_tlbli();
 #endif
 }
 
@@ -4991,10 +5043,9 @@ GEN_HANDLER(tlbsx_40x, 0x1F, 0x12, 0x1C, 0x00000000, PPC_40x_TLB)
         return;
     }
     gen_addr_reg_index(ctx);
+    gen_op_4xx_tlbsx();
     if (Rc(ctx->opcode))
-        gen_op_4xx_tlbsx_();
-    else
-        gen_op_4xx_tlbsx();
+        gen_op_4xx_tlbsx_check();
     gen_op_store_T0_gpr(rD(ctx->opcode));
 #endif
 }
@@ -5064,10 +5115,9 @@ GEN_HANDLER(tlbsx_440, 0x1F, 0x12, 0x1C, 0x00000000, PPC_BOOKE)
         return;
     }
     gen_addr_reg_index(ctx);
+    gen_op_440_tlbsx();
     if (Rc(ctx->opcode))
-        gen_op_440_tlbsx_();
-    else
-        gen_op_440_tlbsx();
+        gen_op_4xx_tlbsx_check();
     gen_op_store_T0_gpr(rD(ctx->opcode));
 #endif
 }

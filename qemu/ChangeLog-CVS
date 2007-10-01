@@ -1,3 +1,71 @@
+2007-10-01 08:44  j_mayer
+
+	* pc-bios/ppc_rom.bin: Quickly hack PowerPC BIOS able to boot on
+	  CDROM again.
+
+2007-10-01 07:22  j_mayer
+
+	* target-ppc/translate.c: Fix missing nip updates for instructions
+	  that potentially generate   exceptions from op helpers.
+
+2007-10-01 07:16  j_mayer
+
+	* target-ppc/: helper.c, op.c, op_helper.c, op_helper.h,
+	  translate.c: Handle all MMU models in switches, even if it's just
+	  to abort because of lack   of supporting code.  Implement 74xx
+	  software TLB model.  Keep 74xx with software TLB disabled, as
+	  Linux is not able to handle TLB miss	 on those processors.
+
+2007-10-01 06:48  j_mayer
+
+	* target-ppc/translate_init.c: More comments about unimplemented
+	  SPRs.  Tag unused functions with unused attribute instead of
+	  using #ifdef (TODO)	to ease tests: just have to enable the
+	  implementation in the cpu_defs table.
+
+2007-10-01 05:03  j_mayer
+
+	* target-ppc/translate.c: Optimisations: avoid generation of
+	  duplicated micro-ops.
+
+2007-10-01 04:55  j_mayer
+
+	* hw/ppc405_uc.c: Compilation fix (forgotten patch).
+
+2007-10-01 03:59  j_mayer
+
+	* target-ppc/op_helper.h: Remove definitions for deprecated SLB &
+	  TLB related op helpers.
+
+2007-10-01 03:51  j_mayer
+
+	* target-ppc/: cpu.h, exec.h, helper.c, op.c, op_helper.c,
+	  translate.c: Avoid op helpers that would just call helpers for
+	  TLB & SLB management:   call the helpers directly from the
+	  micro-ops.  Avoid duplicated code for tlbsx. implementation.
+
+2007-10-01 03:38  j_mayer
+
+	* target-ppc/translate_init.c: Share more SPR instanciations
+	  between all PowerPC 401 incarnations.  Add comments about some
+	  unimplemented storage control dedicated SPRs.
+
+2007-10-01 03:32  j_mayer
+
+	* target-ppc/: op.c, translate_init.c: Implement embedded PowerPC
+	  exceptions prefix and vectors registers.
+
+2007-10-01 03:27  j_mayer
+
+	* hw/ppc.c, target-ppc/cpu.h, target-ppc/translate_init.c: Share
+	  input pins and internal interrupt controller between all PowerPC
+	  40x.	Fix critical input interrupt generation.
+
+2007-09-30 21:38  blueswir1
+
+	* target-sparc/: exec.h, op.c, op_helper.c, translate.c:  Fix
+	  Sparc64 ldfa, lddfa, stfa, and stdfa instructions
+
 2007-09-30 18:37  blueswir1
 
 	* target-sparc/translate.c:  Fix Sparc64 wrasr instructions
