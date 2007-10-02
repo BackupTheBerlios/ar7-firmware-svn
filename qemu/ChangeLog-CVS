@@ -1,3 +1,27 @@
+2007-10-02 21:15  blueswir1
+
+	* hw/sun4m.c:  Fix kernel loading
+
+2007-10-02 12:11  j_mayer
+
+	* target-ppc/translate.c: Code provision for hypervisor mode memory
+	  accesses.  Add comments in load & store tables to ease code
+	  reading.
+
+2007-10-01 23:51  j_mayer
+
+	* target-ppc/op.c: Fix nasty sign-extensions when running 32 bits
+	  CPU in the 64 bits emulator on 32 bits hosts.
+
+2007-10-01 23:49  j_mayer
+
+	* target-ppc/: cpu.h, helper.c, op.c: Fix reproductible crash: call
+	  cpu_loop_exit from micro-op, not from helper.c
+
+2007-10-01 19:07  blueswir1
+
+	* target-sparc/op_helper.c:  Fix block load ASIs
+
 2007-10-01 08:44  j_mayer
 
 	* pc-bios/ppc_rom.bin: Quickly hack PowerPC BIOS able to boot on

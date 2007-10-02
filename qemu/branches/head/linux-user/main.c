@@ -44,17 +44,13 @@ const char interp[] __attribute__((section(".interp"))) = "/lib/ld-linux.so.2";
 
 /* for recent libc, we add these dummy symbols which are not declared
    when generating a linked object (bug in ld ?) */
-#if (__GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 3)) && !defined(CONFIG_STATIC) && 0
-typedef void (*dummy_function_t)(void);
-static void dummy_function(void)
-{
-}
-dummy_function_t __preinit_array_start = dummy_function;
-dummy_function_t __preinit_array_end = dummy_function;
-dummy_function_t __init_array_start = dummy_function;
-dummy_function_t __init_array_end = dummy_function;
-dummy_function_t __fini_array_start = dummy_function;
-dummy_function_t __fini_array_end = dummy_function;
+#if (__GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 3)) && !defined(CONFIG_STATIC)
+long __preinit_array_start[0];
+long __preinit_array_end[0];
+long __init_array_start[0];
+long __init_array_end[0];
+long __fini_array_start[0];
+long __fini_array_end[0];
 #endif
 
 /* XXX: on x86 MAP_GROWSDOWN only works if ESP <= address + 32, so
