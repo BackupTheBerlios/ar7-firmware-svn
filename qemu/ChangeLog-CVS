@@ -1,3 +1,35 @@
+2007-10-03 22:27  j_mayer
+
+	* target-ppc/translate_init.c: HID0 is a write-clear register on
+	  970 (DBSR).
+
+2007-10-03 22:19  j_mayer
+
+	* target-ppc/helper.c: Enable PowerPC 64 MMU model and exceptions.
+	  Cleanups in MMU exceptions generation.
+
+2007-10-03 19:46  blueswir1
+
+	* target-sparc/translate.c:  Fix Sparc64 ldfa/stfa and float ops
+	  with fpr >= 32
+
+2007-10-03 03:06  j_mayer
+
+	* hw/ppc_chrp.c, hw/ppc_prep.c, target-ppc/helper.c: Fix PowerPC
+	  initialisation and first reset:  reset must occur after we
+	  defined the CPU features.
+
+2007-10-03 03:05  j_mayer
+
+	* hw/ppc.c, hw/ppc_chrp.c, target-ppc/cpu.h, target-ppc/helper.c,
+	  target-ppc/translate_init.c: We never have to export ppc_set_irq.
+	  Protect PowerPC 64 only features with #ifdef (TARGET_PPC64)
+
+2007-10-03 03:04  j_mayer
+
+	* hw/ppc405_boards.c: Fix PowerPC 405 BIOS instanciation: is a 32
+	  bits only target.
+
 2007-10-02 21:15  blueswir1
 
 	* hw/sun4m.c:  Fix kernel loading
