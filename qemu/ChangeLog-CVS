@@ -1,3 +1,24 @@
+2007-10-04 03:54  j_mayer
+
+	* hw/ppc405_uc.c, linux-user/main.c: We must reset the PowerPC CPU
+	  _after_ registering it, as hardware reset   effect is
+	  implementation dependant.
+
+2007-10-04 03:50  j_mayer
+
+	* target-ppc/: op_helper_mem.h, translate_init.c: More cache tuning
+	  fixes: * fix the tunable cache line size probe for PowerPC 970.
+	  * initialize HID5 so cache line is 32 bytes long when running in
+	  user-mode only
+
+2007-10-04 02:51  j_mayer
+
+	* target-ppc/: cpu.h, op_helper.c, op_helper.h, op_helper_mem.h,
+	  op_mem.h, translate.c, translate_init.c: Make PowerPC cache line
+	  size implementation dependant.  Implement dcbz tunable cache line
+	  size for PowerPC 970.  Make hardware reset vector implementation
+	  dependant.
+
 2007-10-03 22:27  j_mayer
 
 	* target-ppc/translate_init.c: HID0 is a write-clear register on
