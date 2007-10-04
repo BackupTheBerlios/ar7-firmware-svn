@@ -1,3 +1,19 @@
+2007-10-04 21:59  balrog
+
+	* vl.c: Remove redundant qemu_rearm_alarm_timer() in
+	  qemu_del_timer, patch by Dan Kenigsberg.
+
+2007-10-04 21:47  balrog
+
+	* vl.c: (int64_t)UINT64_MAX is -1 and should not be assigned to
+	  nearest_delta_us, patch by Dan Kenigsberg.
+
+2007-10-04 21:41  balrog
+
+	* hw/: pxa2xx_gpio.c, spitz.c: Several corrections in the spitzkbd
+	  keymap (patch by Juergen Lock).  Don't abort on illegal GPSR
+	  reads, instead only warn.
+
 2007-10-04 03:54  j_mayer
 
 	* hw/ppc405_uc.c, linux-user/main.c: We must reset the PowerPC CPU
