@@ -1,3 +1,41 @@
+2007-10-05 15:11  j_mayer
+
+	* target-ppc/: cpu.h, translate_init.c: Rename PowerPC MMUCSR0 and
+	  MMUCFG SPRs: those are not BookE specific.
+
+2007-10-05 15:09  j_mayer
+
+	* target-ppc/: helper.c, translate_init.c: PowerPC hardware reset
+	  vector is now considered as part of the exception model.  Use it
+	  at CPU initialisation time.
+
+2007-10-05 15:08  j_mayer
+
+	* vl.c, vl.h, hw/mips_malta.c, hw/mips_pica61.c, hw/mips_r4k.c,
+	  hw/pc.c, hw/ppc405_boards.c, hw/ppc_chrp.c, hw/ppc_prep.c,
+	  hw/shix.c, hw/sun4m.c, hw/sun4u.c: New '-bios' option, used to
+	  select an alternate BIOS image from bios_dir.
+
+2007-10-05 01:45  balrog
+
+	* hw/: pl110.c, pl110_template.h: Implement PL110 byte order config
+	  bit (original patch by Richard Purdie).
+
+2007-10-05 00:55  balrog
+
+	* usb-linux.c: Quiet warnings introduced with the USB iso support.
+
+2007-10-05 00:47  balrog
+
+	* usb-linux.c, hw/usb-uhci.c: USB iso transfers support for the
+	  linux redirector and for UHCI, by Arnon Gilboa.
+
+2007-10-04 23:53  balrog
+
+	* Makefile.target, hw/sh7750.c, hw/sh7750_regnames.c,
+	  hw/sh7750_regs.h, hw/sh_intc.c, hw/sh_intc.h: sh775x interrupt
+	  controller by Magnus Damm.
+
 2007-10-04 21:59  balrog
 
 	* vl.c: Remove redundant qemu_rearm_alarm_timer() in
