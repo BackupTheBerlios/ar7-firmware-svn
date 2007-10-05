@@ -1,3 +1,8 @@
+2007-10-05 19:01  blueswir1
+
+	* linux-user/: main.c, qemu.h, signal.c:  Implement
+	  sparc64_[gs]et_context
+
 2007-10-05 15:11  j_mayer
 
 	* target-ppc/: cpu.h, translate_init.c: Rename PowerPC MMUCSR0 and
