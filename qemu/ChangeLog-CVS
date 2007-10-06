@@ -1,3 +1,29 @@
+2007-10-06 13:28  blueswir1
+
+	* sparc-dis.c, sparc.ld, sparc64.ld, hw/apb_pci.c, hw/cs4231.c,
+	  hw/esp.c, hw/iommu.c, hw/slavio_intctl.c, hw/slavio_misc.c,
+	  hw/slavio_serial.c, hw/slavio_timer.c, hw/sun4m.c, hw/sun4u.c,
+	  hw/tcx.c:  More detabification
+
+2007-10-06 13:25  blueswir1
+
+	* vl.h, hw/slavio_timer.c, hw/sun4m.c:	Implement user mode for
+	  timers
+
+2007-10-06 13:24  blueswir1
+
+	* hw/sun4m.c:  Support for loading a real BIOS image (Robert Reif)
+
+2007-10-06 00:06  j_mayer
+
+	* target-ppc/: cpu.h, helper.c, op.c, translate.c,
+	  translate_init.c: Full implementation of PowerPC 64 MMU, just
+	  missing support for 1 TB   memory segments.  Remove the PowerPC
+	  64 "bridge" MMU model and implement segment registers   emulation
+	  using SLB entries instead.  Make SLB area size implementation
+	  dependant.  Improve TLB & SLB search debug traces.  Temporary
+	  hack to make PowerPC 970 boot from ROM instead of RAM.
+
 2007-10-05 19:01  blueswir1
 
 	* linux-user/: main.c, qemu.h, signal.c:  Implement

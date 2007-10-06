@@ -1782,7 +1782,7 @@ static void gen_compute_branch (DisasContext *ctx, uint32_t opc,
             MIPS_DEBUG("jal " TARGET_FMT_lx, btarget);
             break;
         case OPC_JR:
-            ctx->hflags = ((ctx->hflags & ~MIPS_HFLAG_BMASK) | MIPS_HFLAG_BR);
+            ctx->hflags |= MIPS_HFLAG_BR;
             MIPS_DEBUG("jr %s", regnames[rs]);
             break;
         case OPC_JALR:

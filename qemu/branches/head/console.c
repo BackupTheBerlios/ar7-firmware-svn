@@ -1002,10 +1002,10 @@ void console_select(unsigned int index)
                 if (s->console_type == TEXT_CONSOLE_FIXED_SIZE) {
                     dpy_resize(s->ds, s->g_width, s->g_height);
                 } else {
-                s->g_width = s->ds->width;
-                s->g_height = s->ds->height;
-                text_console_resize(s);
-            }
+                    s->g_width = s->ds->width;
+                    s->g_height = s->ds->height;
+                    text_console_resize(s);
+                }
             }
             console_refresh(s);
         } else {
