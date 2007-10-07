@@ -1,3 +1,8 @@
+2007-10-07 12:00  blueswir1
+
+	* Changelog, hw/slavio_timer.c:  More user timer fixes (Robert
+	  Reif)
+
 2007-10-06 13:28  blueswir1
 
 	* sparc-dis.c, sparc.ld, sparc64.ld, hw/apb_pci.c, hw/cs4231.c,
