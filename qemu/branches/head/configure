@@ -542,6 +542,10 @@ fi
 
 fi
 
+if test "$cpu" = "mipsel"; then
+    cpu="mips"
+fi
+
 # host long bits test
 hostlongbits="32"
 if test "$cpu" = "sparc64" -o "$cpu" = "ia64" -o "$cpu" = "x86_64" -o "$cpu" = "alpha"; then
