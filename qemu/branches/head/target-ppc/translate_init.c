@@ -39,6 +39,7 @@ struct ppc_def_t {
     uint8_t excp_model;
     uint8_t bus_model;
     uint8_t pad;
+    uint32_t flags;
     int bfd_mach;
     void (*init_proc)(CPUPPCState *env);
 };
@@ -532,6 +533,7 @@ static void gen_spr_ne_601 (CPUPPCState *env)
 /* BATs 0-3 */
 static void gen_low_BATs (CPUPPCState *env)
 {
+#if !defined(CONFIG_USER_ONLY)
     spr_register(env, SPR_IBAT0U, "IBAT0U",
                  SPR_NOACCESS, SPR_NOACCESS,
                  &spr_read_ibat, &spr_write_ibatu,
@@ -597,11 +599,13 @@ static void gen_low_BATs (CPUPPCState *env)
                  &spr_read_dbat, &spr_write_dbatl,
                  0x00000000);
     env->nb_BATs += 4;
+#endif
 }
 
 /* BATs 4-7 */
 static void gen_high_BATs (CPUPPCState *env)
 {
+#if !defined(CONFIG_USER_ONLY)
     spr_register(env, SPR_IBAT4U, "IBAT4U",
                  SPR_NOACCESS, SPR_NOACCESS,
                  &spr_read_ibat_h, &spr_write_ibatu_h,
@@ -667,6 +671,7 @@ static void gen_high_BATs (CPUPPCState *env)
                  &spr_read_dbat_h, &spr_write_dbatl_h,
                  0x00000000);
     env->nb_BATs += 4;
+#endif
 }
 
 /* Generic PowerPC time base */
@@ -693,6 +698,7 @@ static void gen_tbl (CPUPPCState *env)
 /* Softare table search registers */
 static void gen_6xx_7xx_soft_tlb (CPUPPCState *env, int nb_tlbs, int nb_ways)
 {
+#if !defined(CONFIG_USER_ONLY)
     env->nb_tlb = nb_tlbs;
     env->nb_ways = nb_ways;
     env->id_tlbs = 1;
@@ -724,6 +730,7 @@ static void gen_6xx_7xx_soft_tlb (CPUPPCState *env, int nb_tlbs, int nb_ways)
                  SPR_NOACCESS, SPR_NOACCESS,
                  &spr_read_generic, &spr_write_generic,
                  0x00000000);
+#endif
 }
 
 /* SPR common to MPC755 and G2 */
@@ -1104,6 +1111,7 @@ static void gen_spr_601 (CPUPPCState *env)
                  &spr_read_generic, &spr_write_generic,
                  0x00000000);
     /* Memory management */
+#if !defined(CONFIG_USER_ONLY)
     spr_register(env, SPR_IBAT0U, "IBAT0U",
                  SPR_NOACCESS, SPR_NOACCESS,
                  &spr_read_601_ubat, &spr_write_601_ubatu,
@@ -1137,6 +1145,7 @@ static void gen_spr_601 (CPUPPCState *env)
                  &spr_read_601_ubat, &spr_write_601_ubatl,
                  0x00000000);
     env->nb_BATs = 4;
+#endif
 }
 
 static void gen_spr_74xx (CPUPPCState *env)
@@ -1237,6 +1246,7 @@ static void gen_l3_ctrl (CPUPPCState *env)
 
 static void gen_74xx_soft_tlb (CPUPPCState *env, int nb_tlbs, int nb_ways)
 {
+#if !defined(CONFIG_USER_ONLY)
     env->nb_tlb = nb_tlbs;
     env->nb_ways = nb_ways;
     env->id_tlbs = 1;
@@ -1255,6 +1265,7 @@ static void gen_74xx_soft_tlb (CPUPPCState *env, int nb_tlbs, int nb_ways)
                  SPR_NOACCESS, SPR_NOACCESS,
                  &spr_read_generic, &spr_write_generic,
                  0x00000000);
+#endif
 }
 
 /* PowerPC BookE SPR */
@@ -1511,6 +1522,7 @@ static void gen_spr_BookE (CPUPPCState *env)
 /* FSL storage control registers */
 static void gen_spr_BookE_FSL (CPUPPCState *env)
 {
+#if !defined(CONFIG_USER_ONLY)
     /* TLB assist registers */
     /* XXX : not implemented */
     spr_register(env, SPR_BOOKE_MAS0, "MAS0",
@@ -1604,6 +1616,7 @@ static void gen_spr_BookE_FSL (CPUPPCState *env)
     default:
         break;
     }
+#endif
 }
 
 /* SPR specific to PowerPC 440 implementation */
@@ -2581,6 +2594,7 @@ static void init_excp_970 (CPUPPCState *env)
 #define POWERPC_EXCP_401     (POWERPC_EXCP_40x)
 #define POWERPC_INPUT_401    (PPC_FLAGS_INPUT_401)
 #define POWERPC_BFDM_401     (bfd_mach_ppc_403)
+#define POWERPC_FLAG_401     (POWERPC_FLAG_NONE)
 
 static void init_proc_401 (CPUPPCState *env)
 {
@@ -2605,6 +2619,7 @@ static void init_proc_401 (CPUPPCState *env)
 #define POWERPC_EXCP_401x2   (POWERPC_EXCP_40x)
 #define POWERPC_INPUT_401x2  (PPC_FLAGS_INPUT_401)
 #define POWERPC_BFDM_401x2   (bfd_mach_ppc_403)
+#define POWERPC_FLAG_401x2   (POWERPC_FLAG_NONE)
 
 static void init_proc_401x2 (CPUPPCState *env)
 {
@@ -2613,9 +2628,11 @@ static void init_proc_401x2 (CPUPPCState *env)
     gen_spr_401x2(env);
     gen_spr_compress(env);
     /* Memory management */
+#if !defined(CONFIG_USER_ONLY)
     env->nb_tlb = 64;
     env->nb_ways = 1;
     env->id_tlbs = 0;
+#endif
     init_excp_4xx_softmmu(env);
     env->dcache_line_size = 32;
     env->icache_line_size = 32;
@@ -2634,6 +2651,7 @@ static void init_proc_401x2 (CPUPPCState *env)
 #define POWERPC_EXCP_401x3   (POWERPC_EXCP_40x)
 #define POWERPC_INPUT_401x3  (PPC_FLAGS_INPUT_401)
 #define POWERPC_BFDM_401x3   (bfd_mach_ppc_403)
+#define POWERPC_FLAG_401x3   (POWERPC_FLAG_NONE)
 
 __attribute__ (( unused ))
 static void init_proc_401x3 (CPUPPCState *env)
@@ -2661,6 +2679,7 @@ static void init_proc_401x3 (CPUPPCState *env)
 #define POWERPC_EXCP_IOP480  (POWERPC_EXCP_40x)
 #define POWERPC_INPUT_IOP480 (PPC_FLAGS_INPUT_401)
 #define POWERPC_BFDM_IOP480  (bfd_mach_ppc_403)
+#define POWERPC_FLAG_IOP480  (POWERPC_FLAG_NONE)
 
 static void init_proc_IOP480 (CPUPPCState *env)
 {
@@ -2669,9 +2688,11 @@ static void init_proc_IOP480 (CPUPPCState *env)
     gen_spr_401x2(env);
     gen_spr_compress(env);
     /* Memory management */
+#if !defined(CONFIG_USER_ONLY)
     env->nb_tlb = 64;
     env->nb_ways = 1;
     env->id_tlbs = 0;
+#endif
     init_excp_4xx_softmmu(env);
     env->dcache_line_size = 32;
     env->icache_line_size = 32;
@@ -2689,6 +2710,7 @@ static void init_proc_IOP480 (CPUPPCState *env)
 #define POWERPC_EXCP_403     (POWERPC_EXCP_40x)
 #define POWERPC_INPUT_403    (PPC_FLAGS_INPUT_401)
 #define POWERPC_BFDM_403     (bfd_mach_ppc_403)
+#define POWERPC_FLAG_403     (POWERPC_FLAG_NONE)
 
 static void init_proc_403 (CPUPPCState *env)
 {
@@ -2717,6 +2739,7 @@ static void init_proc_403 (CPUPPCState *env)
 #define POWERPC_EXCP_403GCX  (POWERPC_EXCP_40x)
 #define POWERPC_INPUT_403GCX (PPC_FLAGS_INPUT_401)
 #define POWERPC_BFDM_403GCX  (bfd_mach_ppc_403)
+#define POWERPC_FLAG_403GCX  (POWERPC_FLAG_NONE)
 
 static void init_proc_403GCX (CPUPPCState *env)
 {
@@ -2737,9 +2760,11 @@ static void init_proc_403GCX (CPUPPCState *env)
                  &spr_read_generic, &spr_write_generic,
                  0x00000000);
     /* Memory management */
+#if !defined(CONFIG_USER_ONLY)
     env->nb_tlb = 64;
     env->nb_ways = 1;
     env->id_tlbs = 0;
+#endif
     init_excp_4xx_softmmu(env);
     env->dcache_line_size = 32;
     env->icache_line_size = 32;
@@ -2758,6 +2783,7 @@ static void init_proc_403GCX (CPUPPCState *env)
 #define POWERPC_EXCP_405     (POWERPC_EXCP_40x)
 #define POWERPC_INPUT_405    (PPC_FLAGS_INPUT_405)
 #define POWERPC_BFDM_405     (bfd_mach_ppc_403)
+#define POWERPC_FLAG_405     (POWERPC_FLAG_NONE)
 
 static void init_proc_405 (CPUPPCState *env)
 {
@@ -2777,9 +2803,11 @@ static void init_proc_405 (CPUPPCState *env)
                  &spr_read_generic, &spr_write_generic,
                  0x00000000);
     /* Memory management */
+#if !defined(CONFIG_USER_ONLY)
     env->nb_tlb = 64;
     env->nb_ways = 1;
     env->id_tlbs = 0;
+#endif
     init_excp_4xx_softmmu(env);
     env->dcache_line_size = 32;
     env->icache_line_size = 32;
@@ -2797,6 +2825,7 @@ static void init_proc_405 (CPUPPCState *env)
 #define POWERPC_EXCP_440EP   (POWERPC_EXCP_BOOKE)
 #define POWERPC_INPUT_440EP  (PPC_FLAGS_INPUT_BookE)
 #define POWERPC_BFDM_440EP   (bfd_mach_ppc_403)
+#define POWERPC_FLAG_440EP   (POWERPC_FLAG_NONE)
 
 static void init_proc_440EP (CPUPPCState *env)
 {
@@ -2823,9 +2852,11 @@ static void init_proc_440EP (CPUPPCState *env)
                  &spr_read_generic, &spr_write_generic,
                  0x00000000);
     /* Memory management */
+#if !defined(CONFIG_USER_ONLY)
     env->nb_tlb = 64;
     env->nb_ways = 1;
     env->id_tlbs = 0;
+#endif
     init_excp_BookE(env);
     env->dcache_line_size = 32;
     env->icache_line_size = 32;
@@ -2842,6 +2873,7 @@ static void init_proc_440EP (CPUPPCState *env)
 #define POWERPC_EXCP_440GP   (POWERPC_EXCP_BOOKE)
 #define POWERPC_INPUT_440GP  (PPC_FLAGS_INPUT_BookE)
 #define POWERPC_BFDM_440GP   (bfd_mach_ppc_403)
+#define POWERPC_FLAG_440GP   (POWERPC_FLAG_NONE)
 
 static void init_proc_440GP (CPUPPCState *env)
 {
@@ -2850,9 +2882,11 @@ static void init_proc_440GP (CPUPPCState *env)
     gen_spr_BookE(env);
     gen_spr_440(env);
     /* Memory management */
+#if !defined(CONFIG_USER_ONLY)
     env->nb_tlb = 64;
     env->nb_ways = 1;
     env->id_tlbs = 0;
+#endif
     init_excp_BookE(env);
     env->dcache_line_size = 32;
     env->icache_line_size = 32;
@@ -2869,6 +2903,7 @@ static void init_proc_440GP (CPUPPCState *env)
 #define POWERPC_EXCP_440x4   (POWERPC_EXCP_BOOKE)
 #define POWERPC_INPUT_440x4  (PPC_FLAGS_INPUT_BookE)
 #define POWERPC_BFDM_440x4   (bfd_mach_ppc_403)
+#define POWERPC_FLAG_440x4   (POWERPC_FLAG_NONE)
 
 __attribute__ (( unused ))
 static void init_proc_440x4 (CPUPPCState *env)
@@ -2878,9 +2913,11 @@ static void init_proc_440x4 (CPUPPCState *env)
     gen_spr_BookE(env);
     gen_spr_440(env);
     /* Memory management */
+#if !defined(CONFIG_USER_ONLY)
     env->nb_tlb = 64;
     env->nb_ways = 1;
     env->id_tlbs = 0;
+#endif
     init_excp_BookE(env);
     env->dcache_line_size = 32;
     env->icache_line_size = 32;
@@ -2897,6 +2934,7 @@ static void init_proc_440x4 (CPUPPCState *env)
 #define POWERPC_EXCP_440x5   (POWERPC_EXCP_BOOKE)
 #define POWERPC_INPUT_440x5  (PPC_FLAGS_INPUT_BookE)
 #define POWERPC_BFDM_440x5   (bfd_mach_ppc_403)
+#define POWERPC_FLAG_440x5   (POWERPC_FLAG_NONE)
 
 static void init_proc_440x5 (CPUPPCState *env)
 {
@@ -2923,9 +2961,11 @@ static void init_proc_440x5 (CPUPPCState *env)
                  &spr_read_generic, &spr_write_generic,
                  0x00000000);
     /* Memory management */
+#if !defined(CONFIG_USER_ONLY)
     env->nb_tlb = 64;
     env->nb_ways = 1;
     env->id_tlbs = 0;
+#endif
     init_excp_BookE(env);
     env->dcache_line_size = 32;
     env->icache_line_size = 32;
@@ -2942,6 +2982,7 @@ static void init_proc_440x5 (CPUPPCState *env)
 #define POWERPC_EXCP_460     (POWERPC_EXCP_BOOKE)
 #define POWERPC_INPUT_460    (PPC_FLAGS_INPUT_BookE)
 #define POWERPC_BFDM_460     (bfd_mach_ppc_403)
+#define POWERPC_FLAG_460     (POWERPC_FLAG_NONE)
 
 __attribute__ (( unused ))
 static void init_proc_460 (CPUPPCState *env)
@@ -2974,9 +3015,11 @@ static void init_proc_460 (CPUPPCState *env)
                  &spr_read_generic, &spr_write_generic,
                  0x00000000);
     /* Memory management */
+#if !defined(CONFIG_USER_ONLY)
     env->nb_tlb = 64;
     env->nb_ways = 1;
     env->id_tlbs = 0;
+#endif
     init_excp_BookE(env);
     env->dcache_line_size = 32;
     env->icache_line_size = 32;
@@ -2996,6 +3039,7 @@ static void init_proc_460 (CPUPPCState *env)
 #define POWERPC_EXCP_460F    (POWERPC_EXCP_BOOKE)
 #define POWERPC_INPUT_460F   (PPC_FLAGS_INPUT_BookE)
 #define POWERPC_BFDM_460F    (bfd_mach_ppc_403)
+#define POWERPC_FLAG_460F    (POWERPC_FLAG_NONE)
 
 __attribute__ (( unused ))
 static void init_proc_460F (CPUPPCState *env)
@@ -3028,9 +3072,11 @@ static void init_proc_460F (CPUPPCState *env)
                  &spr_read_generic, &spr_write_generic,
                  0x00000000);
     /* Memory management */
+#if !defined(CONFIG_USER_ONLY)
     env->nb_tlb = 64;
     env->nb_ways = 1;
     env->id_tlbs = 0;
+#endif
     init_excp_BookE(env);
     env->dcache_line_size = 32;
     env->icache_line_size = 32;
@@ -3050,6 +3096,7 @@ static void init_proc_460F (CPUPPCState *env)
 #define POWERPC_EXCP_BookE   (POWERPC_EXCP_BOOKE)
 #define POWERPC_INPUT_BookE  (PPC_FLAGS_INPUT_BookE)
 #define POWERPC_BFDM_BookE   (bfd_mach_ppc_403)
+#define POWERPC_FLAG_BookE   (POWERPC_FLAG_NONE)
 
 __attribute__ (( unused ))
 static void init_proc_BookE (CPUPPCState *env)
@@ -3072,6 +3119,7 @@ static void init_proc_BookE (CPUPPCState *env)
 #define POWERPC_EXCP_e500    (POWERPC_EXCP_40x)
 #define POWERPC_INPUT_e500   (PPC_FLAGS_INPUT_BookE)
 #define POWERPC_BFDM_e500    (bfd_mach_ppc_403)
+#define POWERPC_FLAG_e500    (POWERPC_FLAG_SPE)
 
 __attribute__ (( unused ))
 static void init_proc_e500 (CPUPPCState *env)
@@ -3081,9 +3129,11 @@ static void init_proc_e500 (CPUPPCState *env)
     gen_spr_BookE(env);
     /* Memory management */
     gen_spr_BookE_FSL(env);
+#if !defined(CONFIG_USER_ONLY)
     env->nb_tlb = 64;
     env->nb_ways = 1;
     env->id_tlbs = 0;
+#endif
     init_excp_BookE(env);
     env->dcache_line_size = 32;
     env->icache_line_size = 32;
@@ -3118,6 +3168,7 @@ static void init_proc_e500 (CPUPPCState *env)
 //#define POWERPC_EXCP_601     (POWERPC_EXCP_601)
 #define POWERPC_INPUT_601    (PPC_FLAGS_INPUT_6xx)
 #define POWERPC_BFDM_601     (bfd_mach_ppc_601)
+#define POWERPC_FLAG_601     (POWERPC_FLAG_NONE)
 
 static void init_proc_601 (CPUPPCState *env)
 {
@@ -3150,10 +3201,11 @@ static void init_proc_601 (CPUPPCState *env)
                  &spr_read_generic, &spr_write_generic,
                  0x00000000);
     /* Memory management */
+#if !defined(CONFIG_USER_ONLY)
     env->nb_tlb = 64;
     env->nb_ways = 2;
     env->id_tlbs = 0;
-    env->id_tlbs = 0;
+#endif
     init_excp_601(env);
     env->dcache_line_size = 64;
     env->icache_line_size = 64;
@@ -3171,6 +3223,7 @@ static void init_proc_601 (CPUPPCState *env)
 //#define POWERPC_EXCP_602     (POWERPC_EXCP_602)
 #define POWERPC_INPUT_602    (PPC_FLAGS_INPUT_6xx)
 #define POWERPC_BFDM_602     (bfd_mach_ppc_602)
+#define POWERPC_FLAG_602     (POWERPC_FLAG_TGPR)
 
 static void init_proc_602 (CPUPPCState *env)
 {
@@ -3206,6 +3259,7 @@ static void init_proc_602 (CPUPPCState *env)
 //#define POWERPC_EXCP_603     (POWERPC_EXCP_603)
 #define POWERPC_INPUT_603    (PPC_FLAGS_INPUT_6xx)
 #define POWERPC_BFDM_603     (bfd_mach_ppc_603)
+#define POWERPC_FLAG_603     (POWERPC_FLAG_TGPR)
 
 static void init_proc_603 (CPUPPCState *env)
 {
@@ -3241,6 +3295,7 @@ static void init_proc_603 (CPUPPCState *env)
 //#define POWERPC_EXCP_603E    (POWERPC_EXCP_603E)
 #define POWERPC_INPUT_603E   (PPC_FLAGS_INPUT_6xx)
 #define POWERPC_BFDM_603E    (bfd_mach_ppc_ec603e)
+#define POWERPC_FLAG_603E    (POWERPC_FLAG_TGPR)
 
 static void init_proc_603E (CPUPPCState *env)
 {
@@ -3281,6 +3336,7 @@ static void init_proc_603E (CPUPPCState *env)
 //#define POWERPC_EXCP_G2      (POWERPC_EXCP_G2)
 #define POWERPC_INPUT_G2     (PPC_FLAGS_INPUT_6xx)
 #define POWERPC_BFDM_G2      (bfd_mach_ppc_ec603e)
+#define POWERPC_FLAG_G2      (POWERPC_FLAG_TGPR)
 
 static void init_proc_G2 (CPUPPCState *env)
 {
@@ -3323,6 +3379,7 @@ static void init_proc_G2 (CPUPPCState *env)
 #define POWERPC_EXCP_G2LE    (POWERPC_EXCP_G2)
 #define POWERPC_INPUT_G2LE   (PPC_FLAGS_INPUT_6xx)
 #define POWERPC_BFDM_G2LE    (bfd_mach_ppc_ec603e)
+#define POWERPC_FLAG_G2LE    (POWERPC_FLAG_TGPR)
 
 static void init_proc_G2LE (CPUPPCState *env)
 {
@@ -3365,6 +3422,7 @@ static void init_proc_G2LE (CPUPPCState *env)
 //#define POWERPC_EXCP_604     (POWERPC_EXCP_604)
 #define POWERPC_INPUT_604    (PPC_FLAGS_INPUT_6xx)
 #define POWERPC_BFDM_604     (bfd_mach_ppc_604)
+#define POWERPC_FLAG_604     (POWERPC_FLAG_NONE)
 
 static void init_proc_604 (CPUPPCState *env)
 {
@@ -3399,6 +3457,7 @@ static void init_proc_604 (CPUPPCState *env)
 //#define POWERPC_EXCP_7x0     (POWERPC_EXCP_7x0)
 #define POWERPC_INPUT_7x0    (PPC_FLAGS_INPUT_6xx)
 #define POWERPC_BFDM_7x0     (bfd_mach_ppc_750)
+#define POWERPC_FLAG_7x0     (POWERPC_FLAG_NONE)
 
 static void init_proc_7x0 (CPUPPCState *env)
 {
@@ -3435,6 +3494,7 @@ static void init_proc_7x0 (CPUPPCState *env)
 #define POWERPC_EXCP_750fx   (POWERPC_EXCP_7x0)
 #define POWERPC_INPUT_750fx  (PPC_FLAGS_INPUT_6xx)
 #define POWERPC_BFDM_750fx   (bfd_mach_ppc_750)
+#define POWERPC_FLAG_750fx   (POWERPC_FLAG_NONE)
 
 static void init_proc_750fx (CPUPPCState *env)
 {
@@ -3478,6 +3538,7 @@ static void init_proc_750fx (CPUPPCState *env)
 //#define POWERPC_EXCP_7x5     (POWERPC_EXCP_7x5)
 #define POWERPC_INPUT_7x5    (PPC_FLAGS_INPUT_6xx)
 #define POWERPC_BFDM_7x5     (bfd_mach_ppc_750)
+#define POWERPC_FLAG_7x5     (POWERPC_FLAG_NONE)
 
 static void init_proc_7x5 (CPUPPCState *env)
 {
@@ -3536,6 +3597,7 @@ static void init_proc_7x5 (CPUPPCState *env)
 #define POWERPC_EXCP_7400    (POWERPC_EXCP_74xx)
 #define POWERPC_INPUT_7400   (PPC_FLAGS_INPUT_6xx)
 #define POWERPC_BFDM_7400    (bfd_mach_ppc_7400)
+#define POWERPC_FLAG_7400    (POWERPC_FLAG_VRE)
 
 static void init_proc_7400 (CPUPPCState *env)
 {
@@ -3565,6 +3627,7 @@ static void init_proc_7400 (CPUPPCState *env)
 #define POWERPC_EXCP_7410    (POWERPC_EXCP_74xx)
 #define POWERPC_INPUT_7410   (PPC_FLAGS_INPUT_6xx)
 #define POWERPC_BFDM_7410    (bfd_mach_ppc_7400)
+#define POWERPC_FLAG_7410    (POWERPC_FLAG_VRE)
 
 static void init_proc_7410 (CPUPPCState *env)
 {
@@ -3606,6 +3669,7 @@ static void init_proc_7410 (CPUPPCState *env)
 #define POWERPC_EXCP_7440    (POWERPC_EXCP_74xx)
 #define POWERPC_INPUT_7440   (PPC_FLAGS_INPUT_6xx)
 #define POWERPC_BFDM_7440    (bfd_mach_ppc_7400)
+#define POWERPC_FLAG_7440    (POWERPC_FLAG_VRE)
 
 __attribute__ (( unused ))
 static void init_proc_7440 (CPUPPCState *env)
@@ -3674,6 +3738,7 @@ static void init_proc_7440 (CPUPPCState *env)
 #define POWERPC_EXCP_7450    (POWERPC_EXCP_74xx)
 #define POWERPC_INPUT_7450   (PPC_FLAGS_INPUT_6xx)
 #define POWERPC_BFDM_7450    (bfd_mach_ppc_7400)
+#define POWERPC_FLAG_7450    (POWERPC_FLAG_VRE)
 
 __attribute__ (( unused ))
 static void init_proc_7450 (CPUPPCState *env)
@@ -3744,6 +3809,7 @@ static void init_proc_7450 (CPUPPCState *env)
 #define POWERPC_EXCP_7445    (POWERPC_EXCP_74xx)
 #define POWERPC_INPUT_7445   (PPC_FLAGS_INPUT_6xx)
 #define POWERPC_BFDM_7445    (bfd_mach_ppc_7400)
+#define POWERPC_FLAG_7445    (POWERPC_FLAG_VRE)
 
 __attribute__ (( unused ))
 static void init_proc_7445 (CPUPPCState *env)
@@ -3846,6 +3912,7 @@ static void init_proc_7445 (CPUPPCState *env)
 #define POWERPC_EXCP_7455    (POWERPC_EXCP_74xx)
 #define POWERPC_INPUT_7455   (PPC_FLAGS_INPUT_6xx)
 #define POWERPC_BFDM_7455    (bfd_mach_ppc_7400)
+#define POWERPC_FLAG_7455    (POWERPC_FLAG_VRE)
 
 __attribute__ (( unused ))
 static void init_proc_7455 (CPUPPCState *env)
@@ -3955,6 +4022,7 @@ static void init_proc_7455 (CPUPPCState *env)
 //#define POWERPC_EXCP_970     (POWERPC_EXCP_970)
 #define POWERPC_INPUT_970    (PPC_FLAGS_INPUT_970)
 #define POWERPC_BFDM_970     (bfd_mach_ppc64)
+#define POWERPC_FLAG_970     (POWERPC_FLAG_VRE)
 
 static void init_proc_970 (CPUPPCState *env)
 {
@@ -4008,7 +4076,9 @@ static void init_proc_970 (CPUPPCState *env)
 #if !defined(CONFIG_USER_ONLY)
     env->excp_prefix = 0xFFF00000;
 #endif
+#if !defined(CONFIG_USER_ONLY)
     env->slb_nr = 32;
+#endif
     init_excp_970(env);
     env->dcache_line_size = 128;
     env->icache_line_size = 128;
@@ -4025,6 +4095,7 @@ static void init_proc_970 (CPUPPCState *env)
 #define POWERPC_EXCP_970FX   (POWERPC_EXCP_970)
 #define POWERPC_INPUT_970FX  (PPC_FLAGS_INPUT_970)
 #define POWERPC_BFDM_970FX   (bfd_mach_ppc64)
+#define POWERPC_FLAG_970FX   (POWERPC_FLAG_VRE)
 
 static void init_proc_970FX (CPUPPCState *env)
 {
@@ -4078,7 +4149,9 @@ static void init_proc_970FX (CPUPPCState *env)
 #if !defined(CONFIG_USER_ONLY)
     env->excp_prefix = 0xFFF00000;
 #endif
+#if !defined(CONFIG_USER_ONLY)
     env->slb_nr = 32;
+#endif
     init_excp_970(env);
     env->dcache_line_size = 128;
     env->icache_line_size = 128;
@@ -4095,6 +4168,7 @@ static void init_proc_970FX (CPUPPCState *env)
 #define POWERPC_EXCP_970GX   (POWERPC_EXCP_970)
 #define POWERPC_INPUT_970GX  (PPC_FLAGS_INPUT_970)
 #define POWERPC_BFDM_970GX   (bfd_mach_ppc64)
+#define POWERPC_FLAG_970GX   (POWERPC_FLAG_VRE)
 
 static void init_proc_970GX (CPUPPCState *env)
 {
@@ -4148,7 +4222,9 @@ static void init_proc_970GX (CPUPPCState *env)
 #if !defined(CONFIG_USER_ONLY)
     env->excp_prefix = 0xFFF00000;
 #endif
+#if !defined(CONFIG_USER_ONLY)
     env->slb_nr = 32;
+#endif
     init_excp_970(env);
     env->dcache_line_size = 128;
     env->icache_line_size = 128;
@@ -4164,6 +4240,7 @@ static void init_proc_970GX (CPUPPCState *env)
 #define POWERPC_EXCP_620     (POWERPC_EXCP_970)
 #define POWERPC_INPUT_620    (PPC_FLAGS_INPUT_970)
 #define POWERPC_BFDM_620     (bfd_mach_ppc64)
+#define POWERPC_FLAG_620     (POWERPC_FLAG_NONE)
 
 __attribute__ (( unused ))
 static void init_proc_620 (CPUPPCState *env)
@@ -4197,6 +4274,7 @@ static void init_proc_620 (CPUPPCState *env)
 #define POWERPC_INPUT_PPC32   POWERPC_INPUT_604
 #define init_proc_PPC32       init_proc_604
 #define POWERPC_BFDM_PPC32    POWERPC_BFDM_604
+#define POWERPC_FLAG_PPC32    POWERPC_FLAG_604
 
 /* Default 64 bits PowerPC target will be 970 FX */
 #define CPU_POWERPC_PPC64     CPU_POWERPC_970FX
@@ -4207,6 +4285,7 @@ static void init_proc_620 (CPUPPCState *env)
 #define POWERPC_INPUT_PPC64   POWERPC_INPUT_970FX
 #define init_proc_PPC64       init_proc_970FX
 #define POWERPC_BFDM_PPC64    POWERPC_BFDM_970FX
+#define POWERPC_FLAG_PPC64    POWERPC_FLAG_970FX
 
 /* Default PowerPC target will be PowerPC 32 */
 #if defined (TARGET_PPC64) && 0 // XXX: TODO
@@ -4218,6 +4297,7 @@ static void init_proc_620 (CPUPPCState *env)
 #define POWERPC_INPUT_DEFAULT POWERPC_INPUT_PPC64
 #define init_proc_DEFAULT     init_proc_PPC64
 #define POWERPC_BFDM_DEFAULT  POWERPC_BFDM_PPC64
+#define POWERPC_FLAG_DEFAULT  POWERPC_FLAG_PPC64
 #else
 #define CPU_POWERPC_DEFAULT   CPU_POWERPC_PPC32
 #define POWERPC_INSNS_DEFAULT POWERPC_INSNS_PPC32
@@ -4227,6 +4307,7 @@ static void init_proc_620 (CPUPPCState *env)
 #define POWERPC_INPUT_DEFAULT POWERPC_INPUT_PPC32
 #define init_proc_DEFAULT     init_proc_PPC32
 #define POWERPC_BFDM_DEFAULT  POWERPC_BFDM_PPC32
+#define POWERPC_FLAG_DEFAULT  POWERPC_FLAG_PPC32
 #endif
 
 /*****************************************************************************/
@@ -4724,6 +4805,7 @@ enum {
         .excp_model  = glue(POWERPC_EXCP_,_type),                             \
         .bus_model   = glue(POWERPC_INPUT_,_type),                            \
         .bfd_mach    = glue(POWERPC_BFDM_,_type),                             \
+        .flags       = glue(POWERPC_FLAG_,_type),                             \
         .init_proc   = &glue(init_proc_,_type),                               \
     }
 
@@ -5688,11 +5770,11 @@ static void init_ppc_proc (CPUPPCState *env, ppc_def_t *def)
     env->excp_prefix = 0x00000000;
     env->ivor_mask = 0x00000000;
     env->ivpr_mask = 0x00000000;
-#endif
     /* Default MMU definitions */
     env->nb_BATs = 0;
     env->nb_tlb = 0;
     env->nb_ways = 0;
+#endif
     /* Register SPR common to all PowerPC implementations */
     gen_spr_generic(env);
     spr_register(env, SPR_PVR, "PVR",
@@ -5702,6 +5784,7 @@ static void init_ppc_proc (CPUPPCState *env, ppc_def_t *def)
     /* PowerPC implementation specific initialisations (SPRs, timers, ...) */
     (*def->init_proc)(env);
     /* Allocate TLBs buffer when needed */
+#if !defined(CONFIG_USER_ONLY)
     if (env->nb_tlb != 0) {
         int nb_tlb = env->nb_tlb;
         if (env->id_tlbs != 0)
@@ -5710,7 +5793,6 @@ static void init_ppc_proc (CPUPPCState *env, ppc_def_t *def)
         /* Pre-compute some useful values */
         env->tlb_per_way = env->nb_tlb / env->nb_ways;
     }
-#if !defined(CONFIG_USER_ONLY)
     if (env->irq_inputs == NULL) {
         fprintf(stderr, "WARNING: no internal IRQ controller registered.\n"
                 " Attempt Qemu to crash very soon !\n");
@@ -6016,6 +6098,7 @@ int cpu_ppc_register (CPUPPCState *env, ppc_def_t *def)
     env->mmu_model = def->mmu_model;
     env->excp_model = def->excp_model;
     env->bus_model = def->bus_model;
+    env->flags = def->flags;
     env->bfd_mach = def->bfd_mach;
     if (create_ppc_opcodes(env, def) < 0)
         return -1;
@@ -6129,11 +6212,13 @@ int cpu_ppc_register (CPUPPCState *env, ppc_def_t *def)
         printf("PowerPC %-12s : PVR %08x MSR %016" PRIx64 "\n"
                "    MMU model        : %s\n",
                def->name, def->pvr, def->msr_mask, mmu_model);
+#if !defined(CONFIG_USER_ONLY)
         if (env->tlb != NULL) {
             printf("                       %d %s TLB in %d ways\n",
                    env->nb_tlb, env->id_tlbs ? "splitted" : "merged",
                    env->nb_ways);
         }
+#endif
         printf("    Exceptions model : %s\n"
                "    Bus model        : %s\n",
                excp_model, bus_model);

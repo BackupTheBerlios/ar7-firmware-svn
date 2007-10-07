@@ -1,3 +1,58 @@
+2007-10-07 19:30  j_mayer
+
+	* hw/ppc.c, target-ppc/cpu.h, target-ppc/helper.c, target-ppc/op.c,
+	  target-ppc/op_mem.h, target-ppc/translate.c: PowerPC target
+	  coding style fixes.
+
+2007-10-07 19:13  j_mayer
+
+	* hw/ppc.c, hw/ppc405_uc.c, hw/ppc_prep.c, target-ppc/exec.h,
+	  target-ppc/helper.c, target-ppc/op_helper.c,
+	  target-ppc/op_helper.h, target-ppc/op_helper_mem.h,
+	  target-ppc/op_mem.h, target-ppc/translate.c: PowerPC target
+	  optimisations: make intensive use of always_inline.
+
+2007-10-07 18:07  j_mayer
+
+	* elf.h: Report missing elf_addr_t definition from Linux kernel
+	  header
+
+2007-10-07 18:06  j_mayer
+
+	* linux-user/: main.c, qemu.h: Fix host and target longs confusions
+	  (continued).
+
+2007-10-07 17:59  j_mayer
+
+	* linux-user/elfload.c: Fix confusions between host and target long
+	  types.  Fix start_data computation.  Fix auxiliary infos setup.
+
+2007-10-07 17:43  j_mayer
+
+	* target-ppc/: cpu.h, translate.c, translate_init.c: Reorganize the
+	  CPUPPCState structure to group features.  Add #ifdef to avoid
+	  compiling not relevant resources: - MMU related stuff for
+	  user-mode only targets - PowerPC 64 only resources for PowerPC 32
+	  targets - embedded PowerPC extensions for non-ppcemb targets.
+
+2007-10-07 16:40  j_mayer
+
+	* target-ppc/: cpu.h, helper.c, translate.c, translate_init.c: Add
+	  MSR bits signification per PowerPC implementation flags (to be
+	  continued).  As a side effect, single step and branch step are
+	  available again.  Remove irrelevant MSR bits definitions.
+
+2007-10-07 16:25  j_mayer
+
+	* Makefile.target: Share devices that may be useful for all PowerPC
+	  40x and 440 implementations.
+
+2007-10-07 16:21  j_mayer
+
+	* hw/: ppc4xx.h, ppc4xx_devs.c, ppc405.h, ppc405_uc.c: Share
+	  devices that might be useful for all PowerPC 40x & 440
+	  implementations  (mostly CPU registration and UIC, for now).
+
 2007-10-07 12:00  blueswir1
 
 	* Changelog, hw/slavio_timer.c:  More user timer fixes (Robert

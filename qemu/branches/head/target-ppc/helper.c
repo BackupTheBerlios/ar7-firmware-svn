@@ -67,23 +67,23 @@ target_phys_addr_t cpu_get_phys_page_debug (CPUState *env, target_ulong addr)
 
 #else
 /* Common routines used by software and hardware TLBs emulation */
-static inline int pte_is_valid (target_ulong pte0)
+static always_inline int pte_is_valid (target_ulong pte0)
 {
     return pte0 & 0x80000000 ? 1 : 0;
 }
 
-static inline void pte_invalidate (target_ulong *pte0)
+static always_inline void pte_invalidate (target_ulong *pte0)
 {
     *pte0 &= ~0x80000000;
 }
 
 #if defined(TARGET_PPC64)
-static inline int pte64_is_valid (target_ulong pte0)
+static always_inline int pte64_is_valid (target_ulong pte0)
 {
     return pte0 & 0x0000000000000001ULL ? 1 : 0;
 }
 
-static inline void pte64_invalidate (target_ulong *pte0)
+static always_inline void pte64_invalidate (target_ulong *pte0)
 {
     *pte0 &= ~0x0000000000000001ULL;
 }
@@ -96,9 +96,9 @@ static inline void pte64_invalidate (target_ulong *pte0)
 #define PTE64_CHECK_MASK (TARGET_PAGE_MASK | 0x7F)
 #endif
 
-static inline int _pte_check (mmu_ctx_t *ctx, int is_64b,
-                              target_ulong pte0, target_ulong pte1,
-                              int h, int rw)
+static always_inline int _pte_check (mmu_ctx_t *ctx, int is_64b,
+                                     target_ulong pte0, target_ulong pte1,
+                                     int h, int rw)
 {
     target_ulong ptem, mmask;
     int access, ret, pteh, ptev;
@@ -258,9 +258,10 @@ static void ppc6xx_tlb_invalidate_all (CPUState *env)
     tlb_flush(env, 1);
 }
 
-static inline void __ppc6xx_tlb_invalidate_virt (CPUState *env,
-                                                 target_ulong eaddr,
-                                                 int is_code, int match_epn)
+static always_inline void __ppc6xx_tlb_invalidate_virt (CPUState *env,
+                                                        target_ulong eaddr,
+                                                        int is_code,
+                                                        int match_epn)
 {
 #if !defined(FLUSH_ALL_TLBS)
     ppc6xx_tlb_t *tlb;
@@ -487,7 +488,7 @@ static int get_bat (CPUState *env, mmu_ctx_t *ctx,
 }
 
 /* PTE table lookup */
-static inline int _find_pte (mmu_ctx_t *ctx, int is_64b, int h, int rw)
+static always_inline int _find_pte (mmu_ctx_t *ctx, int is_64b, int h, int rw)
 {
     target_ulong base, pte0, pte1;
     int i, good = -1;
@@ -588,7 +589,8 @@ static int find_pte64 (mmu_ctx_t *ctx, int h, int rw)
 }
 #endif
 
-static inline int find_pte (CPUState *env, mmu_ctx_t *ctx, int h, int rw)
+static always_inline int find_pte (CPUState *env, mmu_ctx_t *ctx,
+                                   int h, int rw)
 {
 #if defined(TARGET_PPC64)
     if (env->mmu_model == POWERPC_MMU_64B)
@@ -624,8 +626,8 @@ static int slb_lookup (CPUPPCState *env, target_ulong eaddr,
         tmp = ldl_phys(sr_base + 8);
 #if defined(DEBUG_SLB)
         if (loglevel != 0) {
-        fprintf(logfile, "%s: seg %d " PADDRX " %016" PRIx64 " %08" PRIx32 "\n",
-                __func__, n, sr_base, tmp64, tmp);
+            fprintf(logfile, "%s: seg %d " PADDRX " %016" PRIx64 " %08"
+                    PRIx32 "\n", __func__, n, sr_base, tmp64, tmp);
         }
 #endif
         if (tmp64 & 0x0000000008000000ULL) {
@@ -720,10 +722,10 @@ void ppc_store_slb (CPUPPCState *env, int slb_nr, target_ulong rs)
 #endif /* defined(TARGET_PPC64) */
 
 /* Perform segment based translation */
-static inline target_phys_addr_t get_pgaddr (target_phys_addr_t sdr1,
-                                             int sdr_sh,
-                                             target_phys_addr_t hash,
-                                             target_phys_addr_t mask)
+static always_inline target_phys_addr_t get_pgaddr (target_phys_addr_t sdr1,
+                                                    int sdr_sh,
+                                                    target_phys_addr_t hash,
+                                                    target_phys_addr_t mask)
 {
     return (sdr1 & ((target_ulong)(-1ULL) << sdr_sh)) | (hash & mask);
 }
@@ -867,25 +869,25 @@ static int get_segment (CPUState *env, mmu_ctx_t *ctx,
                 }
             }
 #if defined (DEBUG_MMU)
-                    if (loglevel != 0) {
-                        target_phys_addr_t curaddr;
-                        uint32_t a0, a1, a2, a3;
+            if (loglevel != 0) {
+                target_phys_addr_t curaddr;
+                uint32_t a0, a1, a2, a3;
+                fprintf(logfile,
+                        "Page table: " PADDRX " len " PADDRX "\n",
+                        sdr, mask + 0x80);
+                for (curaddr = sdr; curaddr < (sdr + mask + 0x80);
+                     curaddr += 16) {
+                    a0 = ldl_phys(curaddr);
+                    a1 = ldl_phys(curaddr + 4);
+                    a2 = ldl_phys(curaddr + 8);
+                    a3 = ldl_phys(curaddr + 12);
+                    if (a0 != 0 || a1 != 0 || a2 != 0 || a3 != 0) {
                         fprintf(logfile,
-                                "Page table: " PADDRX " len " PADDRX "\n",
-                                sdr, mask + 0x80);
-                        for (curaddr = sdr; curaddr < (sdr + mask + 0x80);
-                             curaddr += 16) {
-                            a0 = ldl_phys(curaddr);
-                            a1 = ldl_phys(curaddr + 4);
-                            a2 = ldl_phys(curaddr + 8);
-                            a3 = ldl_phys(curaddr + 12);
-                            if (a0 != 0 || a1 != 0 || a2 != 0 || a3 != 0) {
-                                fprintf(logfile,
-                                        PADDRX ": %08x %08x %08x %08x\n",
-                                        curaddr, a0, a1, a2, a3);
-                            }
-                        }
+                                PADDRX ": %08x %08x %08x %08x\n",
+                                curaddr, a0, a1, a2, a3);
                     }
+                }
+            }
 #endif
         } else {
 #if defined (DEBUG_MMU)
@@ -1183,7 +1185,7 @@ int mmubooke_get_physical_address (CPUState *env, mmu_ctx_t *ctx,
             prot = (tlb->prot >> 4) & 0xF;
         /* Check the address space */
         if (access_type == ACCESS_CODE) {
-            if (msr_is != (tlb->attr & 1))
+            if (msr_ir != (tlb->attr & 1))
                 continue;
             ctx->prot = prot;
             if (prot & PAGE_EXEC) {
@@ -1192,7 +1194,7 @@ int mmubooke_get_physical_address (CPUState *env, mmu_ctx_t *ctx,
             }
             ret = -3;
         } else {
-            if (msr_ds != (tlb->attr & 1))
+            if (msr_dr != (tlb->attr & 1))
                 continue;
             ctx->prot = prot;
             if ((!rw && prot & PAGE_READ) || (rw && (prot & PAGE_WRITE))) {
@@ -1594,8 +1596,9 @@ int cpu_ppc_handle_mmu_fault (CPUState *env, target_ulong address, int rw,
 /*****************************************************************************/
 /* BATs management */
 #if !defined(FLUSH_ALL_TLBS)
-static inline void do_invalidate_BAT (CPUPPCState *env,
-                                      target_ulong BATu, target_ulong mask)
+static always_inline void do_invalidate_BAT (CPUPPCState *env,
+                                             target_ulong BATu,
+                                             target_ulong mask)
 {
     target_ulong base, end, page;
 
@@ -1616,8 +1619,8 @@ static inline void do_invalidate_BAT (CPUPPCState *env,
 }
 #endif
 
-static inline void dump_store_bat (CPUPPCState *env, char ID, int ul, int nr,
-                                   target_ulong value)
+static always_inline void dump_store_bat (CPUPPCState *env, char ID,
+                                          int ul, int nr, target_ulong value)
 {
 #if defined (DEBUG_BATS)
     if (loglevel != 0) {
@@ -1710,7 +1713,6 @@ void do_store_dbatl (CPUPPCState *env, int nr, target_ulong value)
     dump_store_bat(env, 'D', 1, nr, value);
     env->DBAT[1][nr] = value;
 }
-
 
 /*****************************************************************************/
 /* TLB management */
@@ -1840,7 +1842,6 @@ void ppc_slb_invalidate_one (CPUPPCState *env, uint64_t T0)
 }
 #endif
 
-
 /*****************************************************************************/
 /* Special registers manipulation */
 #if defined(TARGET_PPC64)
@@ -1931,7 +1932,7 @@ void ppc_store_xer (CPUPPCState *env, target_ulong value)
 }
 
 /* Swap temporary saved registers with GPRs */
-static inline void swap_gpr_tgpr (CPUPPCState *env)
+static always_inline void swap_gpr_tgpr (CPUPPCState *env)
 {
     ppc_gpr_t tmp;
 
@@ -1964,7 +1965,7 @@ target_ulong do_load_msr (CPUPPCState *env)
         ((target_ulong)msr_sa   << MSR_SA)   |
         ((target_ulong)msr_key  << MSR_KEY)  |
         ((target_ulong)msr_pow  << MSR_POW)  | /* POW / WE */
-        ((target_ulong)msr_tlb  << MSR_TLB)  | /* TLB / TGPE / CE */
+        ((target_ulong)msr_tgpr << MSR_TGPR) | /* TGPR / CE */
         ((target_ulong)msr_ile  << MSR_ILE)  |
         ((target_ulong)msr_ee   << MSR_EE)   |
         ((target_ulong)msr_pr   << MSR_PR)   |
@@ -2000,18 +2001,10 @@ int do_store_msr (CPUPPCState *env, target_ulong value)
         fprintf(logfile, "%s: T0 %08lx\n", __func__, value);
     }
 #endif
-    switch (env->excp_model) {
-    case POWERPC_EXCP_602:
-    case POWERPC_EXCP_603:
-    case POWERPC_EXCP_603E:
-    case POWERPC_EXCP_G2:
-        if (((value >> MSR_TGPR) & 1) != msr_tgpr) {
-            /* Swap temporary saved registers with GPRs */
-            swap_gpr_tgpr(env);
-        }
-        break;
-    default:
-        break;
+    if (unlikely((env->flags & POWERPC_FLAG_TGPR) &&
+                 ((value >> MSR_TGPR) & 1) != msr_tgpr)) {
+        /* Swap temporary saved registers with GPRs */
+        swap_gpr_tgpr(env);
     }
 #if defined (TARGET_PPC64)
     msr_sf   = (value >> MSR_SF)   & 1;
@@ -2024,7 +2017,7 @@ int do_store_msr (CPUPPCState *env, target_ulong value)
     msr_sa   = (value >> MSR_SA)   & 1;
     msr_key  = (value >> MSR_KEY)  & 1;
     msr_pow  = (value >> MSR_POW)  & 1; /* POW / WE */
-    msr_tlb  = (value >> MSR_TLB)  & 1; /* TLB / TGPR / CE */
+    msr_tgpr = (value >> MSR_TGPR) & 1; /* TGPR / CE */
     msr_ile  = (value >> MSR_ILE)  & 1;
     msr_ee   = (value >> MSR_EE)   & 1;
     msr_pr   = (value >> MSR_PR)   & 1;
