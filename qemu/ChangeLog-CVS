@@ -1,3 +1,9 @@
+2007-10-07 20:19  j_mayer
+
+	* target-ppc/: cpu.h, exec.h, op_mem.h, op_template.h, translate.c:
+	  Implement PowerPC Altivec load & stores, used by Apple firmware
+	  for memcpy.
+
 2007-10-07 19:30  j_mayer
 
 	* hw/ppc.c, target-ppc/cpu.h, target-ppc/helper.c, target-ppc/op.c,
