@@ -1964,7 +1964,7 @@ target_ulong do_load_msr (CPUPPCState *env)
         ((target_ulong)msr_ap   << MSR_AP)   |
         ((target_ulong)msr_sa   << MSR_SA)   |
         ((target_ulong)msr_key  << MSR_KEY)  |
-        ((target_ulong)msr_pow  << MSR_POW)  | /* POW / WE */
+        ((target_ulong)msr_pow  << MSR_POW)  |
         ((target_ulong)msr_tgpr << MSR_TGPR) | /* TGPR / CE */
         ((target_ulong)msr_ile  << MSR_ILE)  |
         ((target_ulong)msr_ee   << MSR_EE)   |
@@ -1976,10 +1976,10 @@ target_ulong do_load_msr (CPUPPCState *env)
         ((target_ulong)msr_be   << MSR_BE)   | /* BE / DE */
         ((target_ulong)msr_fe1  << MSR_FE1)  |
         ((target_ulong)msr_al   << MSR_AL)   |
-        ((target_ulong)msr_ip   << MSR_IP)   |
-        ((target_ulong)msr_ir   << MSR_IR)   | /* IR / IS */
-        ((target_ulong)msr_dr   << MSR_DR)   | /* DR / DS */
-        ((target_ulong)msr_pe   << MSR_PE)   | /* PE / EP */
+        ((target_ulong)msr_ep   << MSR_EP)   |
+        ((target_ulong)msr_ir   << MSR_IR)   |
+        ((target_ulong)msr_dr   << MSR_DR)   |
+        ((target_ulong)msr_pe   << MSR_PE)   |
         ((target_ulong)msr_px   << MSR_PX)   | /* PX / PMM */
         ((target_ulong)msr_ri   << MSR_RI)   |
         ((target_ulong)msr_le   << MSR_LE);
@@ -1996,16 +1996,17 @@ int do_store_msr (CPUPPCState *env, target_ulong value)
         tlb_flush(env, 1);
         env->interrupt_request |= CPU_INTERRUPT_EXITTB;
     }
-#if 0
-    if (loglevel != 0) {
-        fprintf(logfile, "%s: T0 %08lx\n", __func__, value);
-    }
-#endif
+#if !defined (CONFIG_USER_ONLY)
     if (unlikely((env->flags & POWERPC_FLAG_TGPR) &&
                  ((value >> MSR_TGPR) & 1) != msr_tgpr)) {
         /* Swap temporary saved registers with GPRs */
         swap_gpr_tgpr(env);
     }
+    if (unlikely((value >> MSR_EP) & 1) != msr_ep) {
+        /* Change the exception prefix on PowerPC 601 */
+        env->excp_prefix = ((value >> MSR_EP) & 1) * 0xFFF00000;
+    }
+#endif
 #if defined (TARGET_PPC64)
     msr_sf   = (value >> MSR_SF)   & 1;
     msr_isf  = (value >> MSR_ISF)  & 1;
@@ -2016,7 +2017,7 @@ int do_store_msr (CPUPPCState *env, target_ulong value)
     msr_ap   = (value >> MSR_AP)   & 1;
     msr_sa   = (value >> MSR_SA)   & 1;
     msr_key  = (value >> MSR_KEY)  & 1;
-    msr_pow  = (value >> MSR_POW)  & 1; /* POW / WE */
+    msr_pow  = (value >> MSR_POW)  & 1;
     msr_tgpr = (value >> MSR_TGPR) & 1; /* TGPR / CE */
     msr_ile  = (value >> MSR_ILE)  & 1;
     msr_ee   = (value >> MSR_EE)   & 1;
@@ -2028,10 +2029,10 @@ int do_store_msr (CPUPPCState *env, target_ulong value)
     msr_be   = (value >> MSR_BE)   & 1; /* BE / DE */
     msr_fe1  = (value >> MSR_FE1)  & 1;
     msr_al   = (value >> MSR_AL)   & 1;
-    msr_ip   = (value >> MSR_IP)   & 1;
-    msr_ir   = (value >> MSR_IR)   & 1; /* IR / IS */
-    msr_dr   = (value >> MSR_DR)   & 1; /* DR / DS */
-    msr_pe   = (value >> MSR_PE)   & 1; /* PE / EP */
+    msr_ep   = (value >> MSR_EP)   & 1;
+    msr_ir   = (value >> MSR_IR)   & 1;
+    msr_dr   = (value >> MSR_DR)   & 1;
+    msr_pe   = (value >> MSR_PE)   & 1;
     msr_px   = (value >> MSR_PX)   & 1; /* PX / PMM */
     msr_ri   = (value >> MSR_RI)   & 1;
     msr_le   = (value >> MSR_LE)   & 1;
@@ -2899,7 +2900,7 @@ void cpu_ppc_reset (void *opaque)
 #endif
     msr_ap = 0; /* TO BE CHECKED */
     msr_sa = 0; /* TO BE CHECKED */
-    msr_ip = 0; /* TO BE CHECKED */
+    msr_ep = 1;
 #if defined (DO_SINGLE_STEP) && 0
     /* Single step trace mode */
     msr_se = 1;
@@ -2910,7 +2911,8 @@ void cpu_ppc_reset (void *opaque)
     msr_pr = 1;
 #else
     env->nip = env->hreset_vector | env->excp_prefix;
-    ppc_tlb_invalidate_all(env);
+    if (env->mmu_model != POWERPC_MMU_REAL_4xx)
+        ppc_tlb_invalidate_all(env);
 #endif
     do_compute_hflags(env);
     env->reserve = -1;

@@ -1,3 +1,70 @@
+2007-10-08 15:40  ths
+
+	* Changelog: Mentione CRIS in Changelog.
+
+2007-10-08 15:38  ths
+
+	* Makefile.target, configure, tests/Makefile: Add CRIS
+	  configuration bits, by Edgar E. Iglesias.
+
+2007-10-08 15:36  ths
+
+	* linux-user/: elfload.c, main.c, syscall.c, syscall_defs.h: CRIS
+	  Linux userland emulation, part 2. By Edgar E. Iglesias.
+
+2007-10-08 15:26  ths
+
+	* hw/: etraxfs.c, etraxfs_ser.c, etraxfs_timer.c: EtraxFS board
+	  support, by Edgar E. Iglesias.
+
+2007-10-08 15:16  ths
+
+	* cpu-exec.c, exec-all.h, exec.c, gdbstub.c, softmmu_header.h,
+	  vl.c, vl.h: CRIS support in toplevel, by Edgar E. Iglesias.
+
+2007-10-08 14:46  ths
+
+	* dis-asm.h, disas.c: Wire up CRIS disassembler, by Edgar E.
+	  Iglesias.
+
+2007-10-08 14:45  ths
+
+	* cris-dis.c: CRIS disassembler, originally from binutils, by Edgar
+	  E. Iglesias.
+
+2007-10-08 05:00  j_mayer
+
+	* target-ppc/STATUS: Update PowerPC emulation status file.
+
+2007-10-08 04:58  j_mayer
+
+	* target-ppc/: cpu.h, helper.c, translate_init.c: Remove synonymous
+	  in PowerPC MSR bits definitions.  Fix MSR EP bit buggy
+	  definition.  Remove unuseful MSR flags.  Fix MSR bits and flags
+	  definitions for most supported PowerPC implementations.  Add MSR
+	  definitions/flags constistency checks and optional dump.
+
+2007-10-08 04:44  j_mayer
+
+	* target-ppc/: helper.c, translate_init.c: Real-mode only PowerPC
+	  40x do not have any TLBs.
+
+2007-10-08 04:35  j_mayer
+
+	* target-ppc/: helper.c, translate_init.c: Implement exception
+	  prefix feature for PowerPC 601.  Fix PowerPC 601 hardware reset
+	  vector.
+
+2007-10-08 04:23  j_mayer
+
+	* target-ppc/translate_init.c: Add missing exception vectors for
+	  PowerPC 7x5.
+
+2007-10-08 01:10  j_mayer
+
+	* target-ppc/: translate.c, translate_init.c: Work-around C89
+	  and/or "old" gcc unspecified behavior (#if in macro calls).
+
 2007-10-07 20:19  j_mayer
 
 	* target-ppc/: cpu.h, exec.h, op_mem.h, op_template.h, translate.c:
