@@ -1,3 +1,50 @@
+2007-10-09 18:34  blueswir1
+
+	* Changelog, Makefile.target, configure, linux-user/elfload.c,
+	  linux-user/elfload32.c, linux-user/linuxload.c,
+	  linux-user/main.c, linux-user/qemu.h,
+	  linux-user/sparc64/syscall_nr.h:  Support for executing 32 bit
+	  SPARC32PLUS files for Sparc64 user emulator
+
+2007-10-09 13:41  ths
+
+	* hw/acpi.c: Match values with the ones documented in the PIIX4
+	  datasheet.
+
+2007-10-09 05:42  ths
+
+	* linux-user/syscall.c: getpriority() shouldn't use libc wrapper,
+	  by Thayne Harbaugh.
+
+2007-10-09 05:39  ths
+
+	* target-mips/: exec.h, op.c, op_helper.c, translate.c: Use
+	  always_inline in the MIPS support where applicable.
+
+2007-10-09 05:19  ths
+
+	* hw/vmport.c: Fix vmmouse for 64bit guest, by Dan Kenigsberg.
+
+2007-10-09 05:17  ths
+
+	* target-mips/op_helper_mem.c: Delete file which should have been
+	  removed in the lst commit.
+
+2007-10-09 05:12  ths
+
+	* Makefile.target, target-mips/exec.h, target-mips/op_helper.c,
+	  target-mips/op_mem.c, target-mips/translate.c: Fix [ls][wd][lr]
+	  instructions, by Aurelien Jarno.
+
+2007-10-09 05:08  ths
+
+	* vl.h, hw/apic.c, hw/pc.c: Don't route PIC interrupts through the
+	  local APIC if the local APIC config says so. By Ari Kivity.
+
+2007-10-09 05:05  ths
+
+	* .cvsignore: Update .cvsignore.
+
 2007-10-08 15:40  ths
 
 	* Changelog: Mentione CRIS in Changelog.
@@ -12,6 +59,42 @@
 	* linux-user/: elfload.c, main.c, syscall.c, syscall_defs.h: CRIS
 	  Linux userland emulation, part 2. By Edgar E. Iglesias.
 
+2007-10-08 15:35  ths
+
+	* linux-user/cris/: syscall.h, syscall_nr.h, target_signal.h,
+	  termbits.h: CRIS Linux usermode emulation, part 1. By Edgar E.
+	  Iglesias.
+
+2007-10-08 15:32  ths
+
+	* tests/cris/: .gdbinit, Makefile, README, check_abs.c,
+	  check_addc.c, check_addcm.c, check_addi.s, check_addiv32.s,
+	  check_addm.s, check_addo.c, check_addoq.c, check_addq.s,
+	  check_addr.s, check_addxc.s, check_addxm.s, check_addxr.s,
+	  check_andc.s, check_andm.s, check_andq.s, check_andr.s,
+	  check_asr.s, check_ba.s, check_bas.s, check_bcc.s, check_bound.c,
+	  check_boundc.s, check_boundr.s, check_btst.s, check_clearfv32.s,
+	  check_clrjmp1.s, check_cmp-2.s, check_cmpc.s, check_cmpm.s,
+	  check_cmpq.s, check_cmpr.s, check_cmpxc.s, check_cmpxm.s,
+	  check_dstep.s, check_gcctorture_pr28634-1.c,
+	  check_gcctorture_pr28634.c, check_glibc_kernelversion.c,
+	  check_hello.c, check_int64.c, check_jsr.s, check_lapc.s,
+	  check_lsl.s, check_lsr.s, check_lz.c, check_mapbrk.c,
+	  check_mcp.s, check_mmap1.c, check_mmap2.c, check_mmap3.c,
+	  check_movdelsr1.s, check_movecr.s, check_movei.s, check_movemr.s,
+	  check_movemrv32.s, check_moveq.c, check_mover.s, check_moverm.s,
+	  check_movmp.s, check_movpmv32.s, check_movpr.s, check_movprv32.s,
+	  check_movscr.s, check_movsm.s, check_movsr.s, check_movucr.s,
+	  check_movum.s, check_movur.s, check_mulv32.s, check_mulx.s,
+	  check_neg.s, check_not.s, check_openpf1.c, check_openpf2.c,
+	  check_openpf3.c, check_openpf4.c, check_openpf5.c, check_orc.s,
+	  check_orm.s, check_orq.s, check_orr.s, check_ret.s, check_scc.s,
+	  check_stat1.c, check_stat2.c, check_stat3.c, check_stat4.c,
+	  check_subc.s, check_subm.s, check_subq.s, check_subr.s,
+	  check_swap.c, check_time1.c, check_time2.c, check_xarith.s,
+	  crisutils.h, crt.s, sys.c, sys.h, testutils.inc: CRIS testsuite,
+	  based on the SIM testsuite, by Edgar E. Iglesias.
+
 2007-10-08 15:26  ths
 
 	* hw/: etraxfs.c, etraxfs_ser.c, etraxfs_timer.c: EtraxFS board
@@ -22,6 +105,31 @@
 	* cpu-exec.c, exec-all.h, exec.c, gdbstub.c, softmmu_header.h,
 	  vl.c, vl.h: CRIS support in toplevel, by Edgar E. Iglesias.
 
+2007-10-08 15:11  ths
+
+	* target-cris/: mmu.c, mmu.h: CRIS MMU emulation, by Edgar E.
+	  Iglesias.
+
+2007-10-08 15:04  ths
+
+	* target-cris/: cpu.h, exec.h, helper.c, op_helper.c, op_mem.c,
+	  op_template.h: The remainder of CRIS CPU emulation files, by
+	  Edgar E. Iglesias.
+
+2007-10-08 14:52  ths
+
+	* target-cris/op.c: CRIS micro-ops, by Edgar E. Iglesias.
+
+2007-10-08 14:50  ths
+
+	* target-cris/crisv32-decode.h: CRIS insn decoding macros, by Edgar
+	  E. Iglesias.
+
+2007-10-08 14:49  ths
+
+	* target-cris/translate.c: CRIS instruction translation, by Edgar
+	  E. Iglesias.
+
 2007-10-08 14:46  ths
 
 	* dis-asm.h, disas.c: Wire up CRIS disassembler, by Edgar E.
@@ -29,8 +137,8 @@
 
 2007-10-08 14:45  ths
 
-	* cris-dis.c: CRIS disassembler, originally from binutils, by Edgar
-	  E. Iglesias.
+	* cris-dis.c, target-cris/opcode-cris.h: CRIS disassembler,
+	  originally from binutils, by Edgar E. Iglesias.
 
 2007-10-08 05:00  j_mayer
 
