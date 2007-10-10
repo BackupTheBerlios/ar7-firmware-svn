@@ -1,3 +1,8 @@
+2007-10-10 21:11  blueswir1
+
+	* target-sparc/: op.c, translate.c:  Fix taddcctv and tsubcctv
+	  (David Matthews)
+
 2007-10-09 18:34  blueswir1
 
 	* Changelog, Makefile.target, configure, linux-user/elfload.c,
