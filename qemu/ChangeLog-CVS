@@ -1,3 +1,90 @@
+2007-10-14 12:21  j_mayer
+
+	* target-ppc/: cpu.h, helper.c: Properly implement non-execute bit
+	  on PowerPC segments and PTEs.  Fix page protection bits for
+	  PowerPC 64 MMU.
+
+2007-10-14 11:35  j_mayer
+
+	* hw/ppc.c: Implement time-base start/stop helpers.  Implement
+	  PowerPC 6xx time-base enable input pin.
+
+2007-10-14 11:27  j_mayer
+
+	* target-ppc/cpu.h: Merge PowerPC 620 input bus definitions with
+	  standard PowerPC 6xx.  Avoid hardcoding PowerPC interrupts
+	  definitions to ease updates.
+
+2007-10-14 11:14  j_mayer
+
+	* target-ppc/: cpu.h, helper.c, translate_init.c: There is no need
+	  of a specific MMU model for PowerPC 601.
+
+2007-10-14 11:06  j_mayer
+
+	* target-ppc/helper.c: Implement PowerPC 64 SLB invalidation
+	  helpers.
+
+2007-10-14 10:52  j_mayer
+
+	* hw/prep_pci.c: Fix memory corruption reported by Julian Seward
+	  (still more bugs to fix in PreP emulation).
+
+2007-10-14 10:50  j_mayer
+
+	* target-alpha/translate.c: Allow Alpha target to use supervisor
+	  and executive mode micro-ops.
+
+2007-10-14 10:48  j_mayer
+
+	* hw/ppc.c, target-ppc/helper.c: Do not allow PowerPC CPU restart
+	  after entering checkstop mode.
+
+2007-10-14 10:38  j_mayer
+
+	* Makefile.target, configure: Provision for PowerPC 64 with
+	  hypervisor mode support - not enabled for now.  For consistency,
+	  group all PowerPC targets.
+
+2007-10-14 10:27  j_mayer
+
+	* target-ppc/: op.c, op_helper.c: Generate micro-ops for PowerPC
+	  hypervisor mode.
+
+2007-10-14 10:18  j_mayer
+
+	* target-alpha/: op.c, op_helper.c: Generate micro-ops for Alpha
+	  executive and supervisor modes.
+
+2007-10-14 09:07  j_mayer
+
+	* cpu-defs.h, cpu-exec.c, exec-all.h, exec.c, softmmu_exec.h,
+	  softmmu_header.h, softmmu_template.h, hw/alpha_palcode.c,
+	  target-alpha/cpu.h, target-alpha/exec.h, target-alpha/helper.c,
+	  target-alpha/op_helper.c, target-arm/cpu.h, target-arm/exec.h,
+	  target-arm/helper.c, target-arm/op_helper.c, target-cris/cpu.h,
+	  target-cris/exec.h, target-cris/helper.c, target-cris/mmu.c,
+	  target-cris/mmu.h, target-cris/op_helper.c, target-i386/cpu.h,
+	  target-i386/exec.h, target-i386/helper.c, target-i386/helper2.c,
+	  target-m68k/cpu.h, target-m68k/exec.h, target-m68k/helper.c,
+	  target-m68k/op_helper.c, target-mips/cpu.h, target-mips/exec.h,
+	  target-mips/helper.c, target-mips/op_helper.c, target-ppc/cpu.h,
+	  target-ppc/exec.h, target-ppc/helper.c, target-ppc/op_helper.c,
+	  target-ppc/translate.c, target-sh4/cpu.h, target-sh4/exec.h,
+	  target-sh4/helper.c, target-sh4/op_helper.c, target-sparc/cpu.h,
+	  target-sparc/exec.h, target-sparc/helper.c,
+	  target-sparc/op_helper.c, target-sparc/translate.c: Replace
+	  is_user variable with mmu_idx in softmmu core,   allowing support
+	  of more than 2 mmu access modes.  Add backward compatibility
+	  is_user variable in targets code when needed.  Implement per
+	  target cpu_mmu_index function, avoiding duplicated code   and
+	  #ifdef TARGET_xxx in softmmu core functions.	Implement per
+	  target mmu modes definitions. As an example, add PowerPC
+	  hypervisor mode definition and Alpha executive and kernel modes
+	  definitions.	Optimize PowerPC case, precomputing mmu_idx when
+	  MSR register changes	 and using the same definition in code
+	  translation code.
+
 2007-10-13 21:00  ths
 
 	* target-mips/TODO: Update TODO.
