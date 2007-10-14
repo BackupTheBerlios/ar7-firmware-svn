@@ -1,3 +1,41 @@
+2007-10-14 22:27  blueswir1
+
+	* target-sparc/op_helper.c:  Fix bug in Sparc32 sta op (Robert
+	  Reif)
+
+2007-10-14 19:07  blueswir1
+
+	* target-sparc/: cpu.h, op.c, op_helper.c, translate.c:  Sparc64
+	  hypervisor mode
+
+2007-10-14 18:29  blueswir1
+
+	* hw/sun4m.c, hw/sun4u.c, linux-user/main.c, target-sparc/cpu.h,
+	  target-sparc/op_helper.c, target-sparc/translate.c:  SuperSparc
+	  MXCC support (Robert Reif)
+
+2007-10-14 18:27  blueswir1
+
+	* Makefile.target, configure, thunk.c, thunk.h,
+	  linux-user/elfload.c, linux-user/elfload32.c, linux-user/flat.h,
+	  linux-user/flatload.c, linux-user/linuxload.c, linux-user/main.c,
+	  linux-user/mmap.c, linux-user/qemu.h, linux-user/signal.c,
+	  linux-user/syscall.c, linux-user/syscall_defs.h,
+	  linux-user/vm86.c, linux-user/alpha/syscall.h,
+	  linux-user/alpha/target_signal.h, linux-user/arm/syscall.h,
+	  linux-user/arm/target_signal.h, linux-user/cris/target_signal.h,
+	  linux-user/i386/syscall.h, linux-user/i386/target_signal.h,
+	  linux-user/m68k/syscall.h, linux-user/m68k/target_signal.h,
+	  linux-user/mips/syscall.h, linux-user/mips/target_signal.h,
+	  linux-user/mips64/syscall.h, linux-user/mips64/target_signal.h,
+	  linux-user/ppc/syscall.h, linux-user/ppc/target_signal.h,
+	  linux-user/ppc64/syscall.h, linux-user/ppc64/target_signal.h,
+	  linux-user/sh4/target_signal.h, linux-user/sparc/syscall.h,
+	  linux-user/sparc/target_signal.h, linux-user/sparc64/syscall.h,
+	  linux-user/sparc64/target_signal.h, linux-user/x86_64/syscall.h,
+	  linux-user/x86_64/target_signal.h, target-sparc/op_mem.h:
+	  Support for 32 bit ABI on 64 bit targets (only enabled Sparc64)
+
 2007-10-14 12:21  j_mayer
 
 	* target-ppc/: cpu.h, helper.c: Properly implement non-execute bit
