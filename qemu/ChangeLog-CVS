@@ -1,3 +1,17 @@
+2007-10-17 15:43  ths
+
+	* target-mips/TODO: Update TODO.
+
+2007-10-17 15:39  ths
+
+	* qemu-doc.texi, hw/mips_mipssim.c, hw/mipsnet.c: Second half of
+	  mipssim support, plus documentation improvements.
+
+2007-10-17 15:08  ths
+
+	* Makefile.target, qemu-doc.texi, vl.c, vl.h: MIPSsim pseudo
+	  machine emulation.
+
 2007-10-14 22:27  blueswir1
 
 	* target-sparc/op_helper.c:  Fix bug in Sparc32 sta op (Robert
