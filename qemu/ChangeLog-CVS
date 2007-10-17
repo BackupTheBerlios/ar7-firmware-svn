@@ -1,3 +1,22 @@
+2007-10-17 19:42  blueswir1
+
+	* pc-bios/openbios-sparc32:  Really update the image
+
+2007-10-17 19:37  blueswir1
+
+	* target-sparc/: op_helper.c, op_mem.h:  Use ldq and stq for 8 byte
+	  accesses (original patch by Robert Reif)
+
+2007-10-17 19:34  blueswir1
+
+	* target-sparc/translate.c:  Enable all alignment checks
+
+2007-10-17 19:34  blueswir1
+
+	* pc-bios/README: Update Sparc32 OpenBIOS image to SVN revision
+	  171. Changes: r170: Fix exception handling and printout r171: Fix
+	  8 byte alignment problems
+
 2007-10-17 15:43  ths
 
 	* target-mips/TODO: Update TODO.
