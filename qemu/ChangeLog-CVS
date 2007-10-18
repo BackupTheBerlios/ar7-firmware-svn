@@ -1,3 +1,13 @@
+2007-10-18 17:05  ths
+
+	* hw/mips_mipssim.c: Only map BIOS space when it was actually
+	  loaded.
+
+2007-10-18 01:07  ths
+
+	* elf_ops.h, loader.c: Cast ELF datatypes properly to host 64bit
+	  types.
+
 2007-10-17 19:42  blueswir1
 
 	* pc-bios/openbios-sparc32:  Really update the image
