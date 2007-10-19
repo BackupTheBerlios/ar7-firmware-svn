@@ -1,3 +1,17 @@
+2007-10-18 22:51  j_mayer
+
+	* configure, linux-user/ppc/syscall.h, linux-user/ppc/syscall_nr.h:
+	  Use TARGET_ABI_DIR feature to unify PowerPC and PowerPC 64
+	  definitions.
+
+2007-10-18 21:59  j_mayer
+
+	* configure, linux-user/elfload.c, linux-user/main.c: Use the new
+	  TARGET_ABI32 feature to implement a ppc64abi32-linux-user target
+	  (PowerPC 64 running in 32 bits mode).  Use the new
+	  TARGET_ABI_DIR feature to implement a ppcemb-linux-user target
+	  (PowerPC 32 with 64 bits GPRs and vector extensions).
+
 2007-10-18 17:05  ths
 
 	* hw/mips_mipssim.c: Only map BIOS space when it was actually
@@ -72,7 +86,6 @@
 	  linux-user/mips/syscall.h, linux-user/mips/target_signal.h,
 	  linux-user/mips64/syscall.h, linux-user/mips64/target_signal.h,
 	  linux-user/ppc/syscall.h, linux-user/ppc/target_signal.h,
-	  linux-user/ppc64/syscall.h, linux-user/ppc64/target_signal.h,
 	  linux-user/sh4/target_signal.h, linux-user/sparc/syscall.h,
 	  linux-user/sparc/target_signal.h, linux-user/sparc64/syscall.h,
 	  linux-user/sparc64/target_signal.h, linux-user/x86_64/syscall.h,
@@ -918,11 +931,6 @@
 	* target-mips/op_helper.c: Fix MIPS FP underflow handling, spotted
 	  by Daniel Jacobowitz.
 
-2007-09-28 20:45  ths
-
-	* linux-user/ppc64/target_signal.h: Build fix, ppc64 needs also a
-	  get_sp_from_cpustate function now.
-
 2007-09-27 18:44  ths
 
 	* linux-user/syscall.c, linux-user/alpha/target_signal.h,
@@ -940,8 +948,7 @@
 	  linux-user/alpha/target_signal.h, linux-user/arm/target_signal.h,
 	  linux-user/i386/target_signal.h, linux-user/m68k/target_signal.h,
 	  linux-user/mips/target_signal.h, linux-user/ppc/target_signal.h,
-	  linux-user/ppc64/target_signal.h, linux-user/sh4/target_signal.h,
-	  linux-user/sparc/target_signal.h,
+	  linux-user/sh4/target_signal.h, linux-user/sparc/target_signal.h,
 	  linux-user/sparc64/target_signal.h,
 	  linux-user/x86_64/target_signal.h, target-alpha/cpu.h,
 	  target-arm/cpu.h, target-i386/cpu.h, target-mips/cpu.h,
@@ -978,9 +985,9 @@
 2007-09-27 03:14  j_mayer
 
 	* configure, linux-user/elfload.c, linux-user/qemu.h,
-	  linux-user/ppc64/syscall.h, target-ppc/translate_init.c: New
-	  ppc64-linux-user target.  Allow use of PowerPC 970 for debugging
-	  (softmmu would not run, for now).
+	  target-ppc/translate_init.c: New ppc64-linux-user target.  Allow
+	  use of PowerPC 970 for debugging (softmmu would not run, for
+	  now).
 
 2007-09-27 01:55  j_mayer
 
@@ -1144,15 +1151,14 @@
 
 	* linux-user/: alpha/syscall_nr.h, arm/syscall_nr.h,
 	  i386/syscall_nr.h, m68k/syscall_nr.h, ppc/syscall_nr.h,
-	  ppc64/syscall_nr.h, sh4/syscall_nr.h, sparc/syscall_nr.h,
-	  sparc64/syscall_nr.h, x86_64/syscall_nr.h: Update Linux kernel
-	  syscall list.
+	  sh4/syscall_nr.h, sparc/syscall_nr.h, sparc64/syscall_nr.h,
+	  x86_64/syscall_nr.h: Update Linux kernel syscall list.
 
 2007-09-24 01:27  ths
 
 	* linux-user/: arm/termbits.h, i386/termbits.h, m68k/termbits.h,
-	  ppc/termbits.h, ppc64/termbits.h, sparc/termbits.h,
-	  sparc64/termbits.h: Sync termbits.h with current Linux kernel.
+	  ppc/termbits.h, sparc/termbits.h, sparc64/termbits.h: Sync
+	  termbits.h with current Linux kernel.
 
 2007-09-23 20:07  ths
 
@@ -1475,15 +1481,14 @@
 	  linux-user/qemu.h, linux-user/signal.c, linux-user/syscall.c,
 	  linux-user/syscall_defs.h, linux-user/syscall_types.h,
 	  linux-user/vm86.c, linux-user/alpha/syscall_nr.h,
-	  linux-user/ppc/syscall.h, linux-user/ppc64/syscall.h,
-	  linux-user/sh4/termbits.h, linux-user/sparc/termbits.h,
-	  linux-user/sparc64/termbits.h, linux-user/x86_64/syscall_nr.h,
-	  slirp/COPYRIGHT, slirp/bootp.c, slirp/cksum.c, slirp/debug.c,
-	  slirp/debug.h, slirp/if.c, slirp/if.h, slirp/ip_icmp.c,
-	  slirp/ip_input.c, slirp/ip_output.c, slirp/libslirp.h,
-	  slirp/main.h, slirp/mbuf.c, slirp/mbuf.h, slirp/misc.c,
-	  slirp/misc.h, slirp/sbuf.c, slirp/sbuf.h, slirp/slirp.c,
-	  slirp/socket.c, slirp/socket.h, slirp/tcp_input.c,
+	  linux-user/ppc/syscall.h, linux-user/sh4/termbits.h,
+	  linux-user/sparc/termbits.h, linux-user/sparc64/termbits.h,
+	  linux-user/x86_64/syscall_nr.h, slirp/COPYRIGHT, slirp/bootp.c,
+	  slirp/cksum.c, slirp/debug.c, slirp/debug.h, slirp/if.c,
+	  slirp/if.h, slirp/ip_icmp.c, slirp/ip_input.c, slirp/ip_output.c,
+	  slirp/libslirp.h, slirp/main.h, slirp/mbuf.c, slirp/mbuf.h,
+	  slirp/misc.c, slirp/misc.h, slirp/sbuf.c, slirp/sbuf.h,
+	  slirp/slirp.c, slirp/socket.c, slirp/socket.h, slirp/tcp_input.c,
 	  slirp/tcp_output.c, slirp/tcp_subr.c, slirp/tcp_timer.c,
 	  slirp/tftp.c, slirp/tftp.h, slirp/udp.c, slirp/udp.h,
 	  target-alpha/cpu.h, target-alpha/exec.h, target-alpha/helper.c,
@@ -3808,8 +3813,8 @@
 
 2007-04-19 09:17  j_mayer
 
-	* linux-user/: ppc/termbits.h, ppc64/termbits.h: termios structure
-	  definition fix by Stuart Anderson.
+	* linux-user/ppc/termbits.h: termios structure definition fix by
+	  Stuart Anderson.
 
 2007-04-19 09:16  j_mayer
 
@@ -4278,10 +4283,8 @@
 
 2007-04-06 08:40  j_mayer
 
-	* linux-user/: ppc64/syscall.h, ppc64/syscall_nr.h,
-	  ppc64/termbits.h, x86_64/syscall.h, x86_64/syscall_nr.h,
-	  x86_64/termbits.h: Code provision for 64 bits linux user-mode
-	  targets support.
+	* linux-user/x86_64/: syscall.h, syscall_nr.h, termbits.h: Code
+	  provision for 64 bits linux user-mode targets support.
 
 2007-04-06 01:21  ths
 
