@@ -1,3 +1,26 @@
+2007-10-20 20:29  ths
+
+	* Makefile: Don't install tools if $(TOOLS) is empty, by Thayne
+	  Harbaugh.
+
+2007-10-20 11:13  j_mayer
+
+	* hw/i8259.c: Avoid PreP target kernel freeze waiting for IRQs.
+
+2007-10-20 10:09  blueswir1
+
+	* qemu-doc.texi, qemu-tech.texi:  Update Sparc parts in
+	  documentation
+
+2007-10-20 09:09  blueswir1
+
+	* target-sparc/op_helper.c:  Avoid gcc warnings
+
+2007-10-20 09:07  blueswir1
+
+	* target-sparc/: op.c, op_helper.c:  Fix compiling Sparc64 on PPC
+	  host
+
 2007-10-18 22:51  j_mayer
 
 	* configure, linux-user/ppc/syscall.h, linux-user/ppc/syscall_nr.h:
