@@ -1,3 +1,44 @@
+2007-10-21 17:53  j_mayer
+
+	* hw/ppc_prep.c: Bugfix: now PCI NICs really work on PowerPC PreP
+	  platform.
+
+2007-10-21 14:29  j_mayer
+
+	* hw/ppc_prep.c: Allow use of PCI NICs on PowerPC PreP platform.
+
+2007-10-21 11:46  j_mayer
+
+	* target-alpha/STATUS: New status file for Alpha emulation target.
+
+2007-10-20 22:48  ths
+
+	* hw/pckbd.c: "QEMU keyboard issue with Gujin-2.2", by Etienne
+	  Lorrain.
+
+2007-10-20 22:40  ths
+
+	* block-raw.c: Physical hard disk drive for win32, by Stefan Weil.
+
+2007-10-20 22:36  ths
+
+	* hw/piix_pci.c: Enable ACPI interrupts, by Igor Lvovsky.
+
+2007-10-20 22:23  ths
+
+	* linux-user/: signal.c, syscall.c: Syscall target errno fixes, by
+	  Thayne Harbaugh.
+
+2007-10-20 21:47  ths
+
+	* hw/gt64xxx.c: Check the Galilleo config register instead of
+	  hardcoding the endianness.
+
+2007-10-20 21:45  ths
+
+	* exec-all.h, target-mips/cpu.h, target-mips/op_helper.c: Handle
+	  IBE on MIPS properly.
+
 2007-10-20 20:29  ths
 
 	* Makefile: Don't install tools if $(TOOLS) is empty, by Thayne
