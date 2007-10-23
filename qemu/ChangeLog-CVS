@@ -1,3 +1,17 @@
+2007-10-23 19:04  ths
+
+	* target-mips/: mips-defs.h, translate.c, translate_init.c: Use the
+	  standard ASE check for MIPS-3D and MT.
+
+2007-10-23 15:15  ths
+
+	* target-mips/translate.c: Switch bc1any* instructions off if no
+	  MIPS-3D is implemented.
+
+2007-10-22 01:20  ths
+
+	* vl.c: Support tap down script, by Wolfram Gloger.
+
 2007-10-21 17:53  j_mayer
 
 	* hw/ppc_prep.c: Bugfix: now PCI NICs really work on PowerPC PreP
