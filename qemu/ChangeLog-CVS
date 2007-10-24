@@ -1,3 +1,35 @@
+2007-10-24 18:11  ths
+
+	* qemu-img.c: Fix typo, spotted by Edivaldo de Araujo Pereira.
+
+2007-10-24 02:52  ths
+
+	* target-mips/translate.c: Remove bogus instruction decode.
+
+2007-10-24 02:10  ths
+
+	* target-mips/op.c: Force proper sign extension for mfc0/mfhc0 on
+	  MIPS64.
+
+2007-10-24 01:58  ths
+
+	* target-mips/op.c: Fix writable length of the index register.
+
+2007-10-24 01:23  ths
+
+	* target-mips/op_mem.c: Enforce proper sign extension for lwl/lwr
+	  on MIPS64.
+
+2007-10-24 01:22  ths
+
+	* host-utils.c: Fix overflow when multiplying two large positive
+	  numbers.
+
+2007-10-24 01:22  ths
+
+	* target-mips/op.c: Fix CLO calculation for MIPS64. And a small
+	  code cleanup.
+
 2007-10-23 19:04  ths
 
 	* target-mips/: mips-defs.h, translate.c, translate_init.c: Use the
