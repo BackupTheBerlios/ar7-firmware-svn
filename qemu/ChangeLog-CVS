@@ -1,3 +1,88 @@
+2007-10-26 02:55  j_mayer
+
+	* target-ppc/op_helper_mem.h: For consistency, align the address to
+	  the cache line before using it,   when invalidating the
+	  instruction cache.
+
+2007-10-26 02:48  j_mayer
+
+	* target-ppc/translate.c: Bugfix in PowerPC dcbi instruction:  we
+	  must do a load before the store, or we'll store random data.
+	  Update cache instructions comments.
+
+2007-10-26 02:46  j_mayer
+
+	* target-ppc/translate.c: Pretty dump for specific PowerPC
+	  instructions names.
+
+2007-10-26 02:38  j_mayer
+
+	* target-ppc/helper.c: Make PowerPC hypervisor resources able to
+	  compile, even if not enabled for now.
+
+2007-10-26 02:37  j_mayer
+
+	* target-ppc/helper.c: Bugfix: PowerPC 64 slbia never invalidates
+	  the first segment entry.
+
+2007-10-26 01:36  j_mayer
+
+	* target-ppc/op_helper.c: Fix PowerPC 64x64 bits multiplication
+	  overflow check.
+
+2007-10-26 01:34  j_mayer
+
+	* target-alpha/: op.c, op_helper.c, op_helper.h: Use host-utils for
+	  Alpha 64x64 bits multiplications.
+
+2007-10-26 01:28  j_mayer
+
+	* target-ppc/: op.c, op_helper.c, op_helper.h: Use host-utils for
+	  PowerPC 64 64x64 bits multiplications.
+
+2007-10-26 01:27  j_mayer
+
+	* target-ppc/cpu.h: Add PowerPC power-management state check
+	  callback.
+
+2007-10-26 01:14  j_mayer
+
+	* target-ppc/: helper_regs.h, translate_init.c: Implement
+	  power-management for all defined PowerPC CPUs.  Fix PowerPC 970MP
+	  definition.
+
+2007-10-26 01:00  ths
+
+	* host-utils.c: Restore a more maintainable version of the 64bit
+	  multiply code.
+
+2007-10-25 23:38  j_mayer
+
+	* target-ppc/STATUS: Update PowerPC emulation status file.
+
+2007-10-25 23:37  j_mayer
+
+	* target-ppc/translate_init.c: Allow selection of all defined
+	  PowerPC 74xx (aka G4) CPUs.
+
+2007-10-25 23:35  j_mayer
+
+	* gdbstub.c, monitor.c, linux-user/main.c, target-ppc/cpu.h,
+	  target-ppc/exec.h, target-ppc/helper.c, target-ppc/helper_regs.h,
+	  target-ppc/op.c, target-ppc/op_helper.c, target-ppc/op_helper.h,
+	  target-ppc/translate.c: Gprof prooved the PowerPC emulation spent
+	  too much time in MSR load and store routines. Coming back to a
+	  raw MSR storage model then speed-up the emulation.  Improve fast
+	  MSR updates (wrtee wrteei and mtriee cases).	Share rfi family
+	  instructions helpers code to avoid bug in duplicated code.  Allow
+	  entering halt mode as the result of a rfi instruction.  Add a new
+	  helper_regs.h file to avoid duplication of special registers
+	  manipulation routines (currently XER and MSR).
+
+2007-10-25 23:30  ths
+
+	* gdbstub.c: Fix gdb stub for MIPS64.
+
 2007-10-24 18:11  ths
 
 	* qemu-img.c: Fix typo, spotted by Edivaldo de Araujo Pereira.
