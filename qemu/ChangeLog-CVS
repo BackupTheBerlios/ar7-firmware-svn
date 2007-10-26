@@ -1,3 +1,33 @@
+2007-10-26 21:34  blueswir1
+
+	* slirp/: if.c, if.h, ip_icmp.c, ip_output.c, slirp.h, tcp_subr.c:
+	  Add const etc. to places forgotten from the previous commit
+
+2007-10-26 21:01  blueswir1
+
+	* slirp/: bootp.c, debug.c, if.c, if.h, ip.h, ip_icmp.c,
+	  ip_input.c, ip_output.c, main.h, mbuf.c, mbuf.h, misc.c, misc.h,
+	  sbuf.c, sbuf.h, slirp.c, slirp.h, socket.c, socket.h, tcp.h,
+	  tcp_input.c, tcp_output.c, tcp_subr.c, tcp_timer.c, tcp_timer.h,
+	  tftp.c, udp.c, udp.h:  Use const and static as needed, disable
+	  unused code
+
+2007-10-26 20:42  blueswir1
+
+	* monitor.c, vl.c, vl.h, slirp/debug.c, slirp/debug.h,
+	  slirp/icmp_var.h, slirp/if.h, slirp/ip.h, slirp/ip_icmp.c,
+	  slirp/ip_input.c, slirp/ip_output.c, slirp/libslirp.h,
+	  slirp/misc.c, slirp/slirp.c, slirp/slirp.h, slirp/tcp_input.c,
+	  slirp/tcp_output.c, slirp/tcp_subr.c, slirp/tcp_timer.c,
+	  slirp/tcp_var.h, slirp/udp.c, slirp/udp.h: Make Slirp statistics
+	  gathering and output conditional to LOG_ENABLED Add 'info slirp'
+	  command to monitor to display statistics Disable Slirp debugging
+	  code by default
+
+2007-10-26 19:21  ths
+
+	* vl.c: Fix Windows build failure, by Stefan Weil.
+
 2007-10-26 02:55  j_mayer
 
 	* target-ppc/op_helper_mem.h: For consistency, align the address to
