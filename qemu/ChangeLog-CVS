@@ -1,3 +1,38 @@
+2007-10-27 19:59  j_mayer
+
+	* target-ppc/op_helper.c: PowerPC float bugfix: 64 bits float
+	  mantissa is 52 bits long.
+
+2007-10-27 19:54  j_mayer
+
+	* darwin-user/main.c, linux-user/main.c, target-ppc/cpu.h,
+	  target-ppc/helper.c, target-ppc/op.c, target-ppc/op_helper.c,
+	  target-ppc/op_helper.h, target-ppc/op_template.h,
+	  target-ppc/translate.c: Fix PowerPC FPSCR update and
+	  floating-point exception generation  in most useful cases.
+
+2007-10-27 19:29  j_mayer
+
+	* linux-user/: elfload.c, main.c: PowerPC user-mode fix: MSR is now
+	  entirelly set-up in the cpu_reset routine.
+
+2007-10-27 19:18  j_mayer
+
+	* target-ppc/op_mem.h: Fix endianness bug for PowerPC stfiwx
+	  instruction.
+
+2007-10-27 15:05  ths
+
+	* host-utils.h, target-mips/exec.h, target-mips/op.c,
+	  target-mips/op_helper.c: Add sharable clz/clo inline functions
+	  and use them for the mips target.
+
+2007-10-27 00:35  ths
+
+	* host-utils.c, target-i386/helper.c, target-mips/op.c: The other
+	  half of the mul64 rework. Sorry for the breakage, I committed an
+	  incomplete version of what I tested.
+
 2007-10-26 21:34  blueswir1
 
 	* slirp/: if.c, if.h, ip_icmp.c, ip_output.c, slirp.h, tcp_subr.c:
