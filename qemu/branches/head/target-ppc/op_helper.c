@@ -18,6 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 #include "exec.h"
+#include "host-utils.h"
 
 #include "helper_regs.h"
 #include "op_helper.h"
@@ -381,6 +382,18 @@ void do_subfzeo_64 (void)
 }
 #endif
 
+void do_cntlzw (void)
+{
+    T0 = clz32(T0);
+}
+
+#if defined(TARGET_PPC64)
+void do_cntlzd (void)
+{
+    T0 = clz64(T0);
+}
+#endif
+
 /* shift right arithmetic helper */
 void do_sraw (void)
 {
@@ -438,16 +451,6 @@ void do_srad (void)
 }
 #endif
 
-static always_inline int popcnt (uint32_t val)
-{
-    int i;
-
-    for (i = 0; val != 0;)
-        val = val ^ (val - 1);
-
-    return i;
-}
-
 void do_popcntb (void)
 {
     uint32_t ret;
@@ -455,7 +458,7 @@ void do_popcntb (void)
 
     ret = 0;
     for (i = 0; i < 32; i += 8)
-        ret |= popcnt((T0 >> i) & 0xFF) << i;
+        ret |= ctpop8((T0 >> i) & 0xFF) << i;
     T0 = ret;
 }
 
@@ -467,14 +470,14 @@ void do_popcntb_64 (void)
 
     ret = 0;
     for (i = 0; i < 64; i += 8)
-        ret |= popcnt((T0 >> i) & 0xFF) << i;
+        ret |= ctpop8((T0 >> i) & 0xFF) << i;
     T0 = ret;
 }
 #endif
 
 /*****************************************************************************/
 /* Floating point operations helpers */
-static inline int fpisneg (float64 f)
+static always_inline int fpisneg (float64 f)
 {
     union {
         float64 f;
@@ -486,7 +489,7 @@ static inline int fpisneg (float64 f)
     return u.u >> 63 != 0;
 }
 
-static inline int isden (float f)
+static always_inline int isden (float f)
 {
     union {
         float64 f;
@@ -498,7 +501,7 @@ static inline int isden (float f)
     return ((u.u >> 52) & 0x7FF) == 0;
 }
 
-static inline int iszero (float64 f)
+static always_inline int iszero (float64 f)
 {
     union {
         float64 f;
@@ -510,7 +513,7 @@ static inline int iszero (float64 f)
     return (u.u & ~0x8000000000000000ULL) == 0;
 }
 
-static inline int isinfinity (float64 f)
+static always_inline int isinfinity (float64 f)
 {
     union {
         float64 f;
@@ -661,7 +664,6 @@ static always_inline void float_zero_divide_excp (void)
         float64 f;
         uint64_t u;
     } u0, u1;
-    
 
     env->fpscr |= 1 << FPSCR_ZX;
     env->fpscr &= ~((1 << FPSCR_FR) | (1 << FPSCR_FI));
@@ -974,8 +976,8 @@ void do_fmul (void)
                  float64_is_signaling_nan(FT1))) {
         /* sNaN multiplication */
         fload_invalid_op_excp(POWERPC_EXCP_FP_VXSNAN);
-    } else if (unlikely((ifinf(FT0) && iszero(FT1)) ||
-                        (inzero(FT0) && isinfinity(FT1)))) {
+    } else if (unlikely((isinfinity(FT0) && iszero(FT1)) ||
+                        (iszero(FT0) && isinfinity(FT1)))) {
         /* Multiplication of zero by infinity */
         fload_invalid_op_excp(POWERPC_EXCP_FP_VXIMZ);
     } else {
@@ -1925,14 +1927,14 @@ static always_inline uint32_t _do_eaddw (uint32_t op1, uint32_t op2)
 static always_inline int _do_ecntlsw (uint32_t val)
 {
     if (val & 0x80000000)
-        return _do_cntlzw(~val);
+        return clz32(~val);
     else
-        return _do_cntlzw(val);
+        return clz32(val);
 }
 
 static always_inline int _do_ecntlzw (uint32_t val)
 {
-    return _do_cntlzw(val);
+    return clz32(val);
 }
 
 static always_inline uint32_t _do_eneg (uint32_t val)
@@ -2825,12 +2827,12 @@ void do_load_74xx_tlb (int is_code)
                      way, is_code, CMP, RPN);
 }
 
-static target_ulong booke_tlb_to_page_size (int size)
+static always_inline target_ulong booke_tlb_to_page_size (int size)
 {
     return 1024 << (2 * size);
 }
 
-static int booke_page_size_to_tlb (target_ulong page_size)
+static always_inline int booke_page_size_to_tlb (target_ulong page_size)
 {
     int size;
 

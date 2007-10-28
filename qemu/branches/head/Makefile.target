@@ -24,7 +24,7 @@ TARGET_BASE_ARCH:=sparc
 endif
 TARGET_PATH=$(SRC_PATH)/target-$(TARGET_BASE_ARCH)
 VPATH=$(SRC_PATH):$(TARGET_PATH):$(SRC_PATH)/hw:$(SRC_PATH)/audio
-CPPFLAGS=-I. -I.. -I$(TARGET_PATH) -I$(SRC_PATH)
+CPPFLAGS=-I. -I.. -I$(TARGET_PATH) -I$(SRC_PATH) -MMD -MP
 ifdef CONFIG_DARWIN_USER
 VPATH+=:$(SRC_PATH)/darwin-user
 CPPFLAGS+=-I$(SRC_PATH)/darwin-user -I$(SRC_PATH)/darwin-user/$(TARGET_ARCH)
@@ -39,7 +39,6 @@ endif
 BASE_CFLAGS=
 BASE_LDFLAGS=
 #CFLAGS+=-Werror
-BASE_CFLAGS += -MMD -MP
 BASE_LDFLAGS += -g
 LIBS=
 HELPER_CFLAGS=$(CFLAGS)
@@ -119,8 +118,6 @@ OP_CFLAGS+=$(call cc-option, -fno-align-labels, "")
 OP_CFLAGS+=$(call cc-option, -fno-align-jumps, "")
 OP_CFLAGS+=$(call cc-option, -fno-align-functions, $(call cc-option, -malign-functions=0, ""))
 OP_CFLAGS+=$(call cc-option, -fno-section-anchors, "")
-
-OP_CFLAGS += -MMD -MP
 
 ifeq ($(ARCH),i386)
 HELPER_CFLAGS+=-fomit-frame-pointer
@@ -659,7 +656,7 @@ signal.o: signal.c
 	$(CC) $(CPPFLAGS) -c -o $@ $<
 
 clean:
-	rm -f *.o  *.a *~ $(PROGS) gen-op.h opc.h op.h nwfpe/*.o slirp/*.o fpu/*.o
+	rm -f *.o *.a *~ $(PROGS) gen-op.h opc.h op.h nwfpe/*.o slirp/*.o fpu/*.o
 	rm -f *.d */*.d
 
 install: all
@@ -671,11 +668,11 @@ ifneq ($(wildcard .depend),)
 include .depend
 endif
 
--include *.d
--include */*.d
-
 ifeq (1, 0)
 audio.o sdlaudio.o dsoundaudio.o ossaudio.o wavaudio.o noaudio.o \
 fmodaudio.o alsaaudio.o mixeng.o sb16.o es1370.o gus.o adlib.o: \
 CFLAGS := $(CFLAGS) -Wall -Werror -W -Wsign-compare
 endif
+
+# Include automatically generated dependency files
+-include $(wildcard *.d */*.d)

@@ -1,3 +1,46 @@
+2007-10-28 15:35  blueswir1
+
+	* target-sparc/op_helper.c:  Use shared ctpop64 helper
+
+2007-10-28 14:07  j_mayer
+
+	* Makefile.target: Use cpp to generate correct build dependencies
+	  for target objects  instead of using incomplete hardcoded ones.
+
+2007-10-28 13:54  j_mayer
+
+	* target-alpha/op_helper.c, target-ppc/op.c,
+	  target-ppc/op_helper.c, target-ppc/op_helper.h: Make Alpha and
+	  PowerPC targets use shared helpers  for clz, clo, ctz, cto and
+	  ctpop.
+
+2007-10-28 13:52  j_mayer
+
+	* host-utils.h: Add shared ctz32, cto32, ctz64, cto64,	ctpop8,
+	  ctpop16, ctpop32 and ctpop64 helpers.
+
+2007-10-28 02:44  ths
+
+	* target-cris/: helper.c, op.c: Use the shiny new clz helpers.
+
+2007-10-28 02:43  ths
+
+	* hw/mipsnet.c: Less debug noise from the mipsnet driver.
+
+2007-10-28 02:56  j_mayer
+
+	* target-alpha/: cpu.h, exec.h, op_helper.c, op_mem.h, translate.c:
+	  Alpha coding style and inlining fixes.
+
+2007-10-28 02:55  j_mayer
+
+	* target-ppc/: helper.c, op_helper.c, translate.c: PowerPC coding
+	  style and inlining fixes.
+
+2007-10-28 01:34  j_mayer
+
+	* target-ppc/op_helper.c: PowerPC floating-point helper typo.
+
 2007-10-27 19:59  j_mayer
 
 	* target-ppc/op_helper.c: PowerPC float bugfix: 64 bits float
