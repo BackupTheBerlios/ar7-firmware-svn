@@ -252,6 +252,7 @@ static CPUReadMemoryFunc *PPC_XCSR_read[] = {
 
 /* Fake super-io ports for PREP platform (Intel 82378ZB) */
 typedef struct sysctrl_t {
+    qemu_irq reset_irq;
     m48t59_t *nvram;
     uint8_t state;
     uint8_t syscontrol;
@@ -293,7 +294,9 @@ static void PREP_io_800_writeb (void *opaque, uint32_t addr, uint32_t val)
         /* Special port 92 */
         /* Check soft reset asked */
         if (val & 0x01) {
-            //            cpu_interrupt(first_cpu, PPC_INTERRUPT_RESET);
+            qemu_irq_raise(sysctrl->reset_irq);
+        } else {
+            qemu_irq_lower(sysctrl->reset_irq);
         }
         /* Check LE mode */
         if (val & 0x02) {
@@ -527,7 +530,8 @@ static void ppc_prep_init (int ram_size, int vga_ram_size, int boot_device,
 {
     CPUState *env, *envs[MAX_CPUS];
     char buf[1024];
-    m48t59_t *nvram;
+    nvram_t nvram;
+    m48t59_t *m48t59;
     int PPC_io_memory;
     int linux_boot, i, nb_nics1, bios_size;
     unsigned long bios_offset;
@@ -572,6 +576,9 @@ static void ppc_prep_init (int ram_size, int vga_ram_size, int boot_device,
     if (bios_size < 0 || bios_size > BIOS_SIZE) {
         cpu_abort(env, "qemu: could not load PPC PREP bios '%s'\n", buf);
         exit(1);
+    }
+    if (env->nip < 0xFFF80000 && bios_size < 0x00100000) {
+        cpu_abort(env, "PowerPC 601 / 620 / 970 need a 1MB BIOS\n");
     }
     bios_size = (bios_size + 0xfff) & ~0xfff;
     cpu_register_physical_memory((uint32_t)(-bios_size),
@@ -656,6 +663,7 @@ static void ppc_prep_init (int ram_size, int vga_ram_size, int boot_device,
     register_ioport_read(0x61, 1, 1, speaker_ioport_read, NULL);
     register_ioport_write(0x61, 1, 1, speaker_ioport_write, NULL);
     /* Register fake IO ports for PREP */
+    sysctrl->reset_irq = first_cpu->irq_inputs[PPC6xx_INPUT_HRESET];
     register_ioport_read(0x398, 2, 1, &PREP_io_read, sysctrl);
     register_ioport_write(0x398, 2, 1, &PREP_io_write, sysctrl);
     /* System control ports */
@@ -678,13 +686,16 @@ static void ppc_prep_init (int ram_size, int vga_ram_size, int boot_device,
         usb_ohci_init_pci(pci_bus, 3, -1);
     }
 
-    nvram = m48t59_init(i8259[8], 0, 0x0074, NVRAM_SIZE, 59);
-    if (nvram == NULL)
+    m48t59 = m48t59_init(i8259[8], 0, 0x0074, NVRAM_SIZE, 59);
+    if (m48t59 == NULL)
         return;
-    sysctrl->nvram = nvram;
+    sysctrl->nvram = m48t59;
 
     /* Initialise NVRAM */
-    PPC_NVRAM_set_params(nvram, NVRAM_SIZE, "PREP", ram_size, boot_device,
+    nvram.opaque = m48t59;
+    nvram.read_fn = &m48t59_read;
+    nvram.write_fn = &m48t59_write;
+    PPC_NVRAM_set_params(&nvram, NVRAM_SIZE, "PREP", ram_size, boot_device,
                          kernel_base, kernel_size,
                          kernel_cmdline,
                          initrd_base, initrd_size,

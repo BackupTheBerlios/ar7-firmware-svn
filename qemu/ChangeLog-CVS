@@ -1,3 +1,107 @@
+2007-10-29 15:39  ths
+
+	* target-alpha/op_helper.c, target-arm/op_helper.c,
+	  target-cris/op_helper.c, target-i386/helper.c,
+	  target-m68k/op_helper.c, target-mips/op_helper.c,
+	  target-ppc/op_helper.c, target-sh4/op_helper.c,
+	  target-sparc/op_helper.c: Adjust s390 addresses (the MSB is
+	  defined as "to be ignored").
+
+2007-10-29 11:59  balrog
+
+	* hw/: irq.c, irq.h, palm.c: Add a qemu_irq_invert() shortcut for
+	  inverting a signal.
+
+2007-10-29 11:34  balrog
+
+	* Makefile.target, vl.h, hw/omap.c, hw/palm.c, hw/pxa.h,
+	  hw/tsc210x.c: Add a TI TSC2102 chip (touchscreen/ADC/audio-CODEC
+	  controller).	Fix GPIO memory mapping address and register width.
+
+2007-10-29 11:24  j_mayer
+
+	* hw/prep_pci.c: Fix PreP PCI IRQ mapping.
+
+2007-10-29 11:22  j_mayer
+
+	* hw/: ppc.c, ppc405_uc.c: Temporary hack to avoid Qemu crash at
+	  PowerPC reset time.
+
+2007-10-29 11:21  j_mayer
+
+	* hw/ppc_prep.c: Implement PreP reset port.
+
+2007-10-29 11:19  j_mayer
+
+	* vl.h, hw/ppc_chrp.c, hw/ppc_oldworld.c, hw/ppc_prep.c: PowerPC
+	  601 / 620 / 970 need a 1MB firmware.	This option is not allowed
+	  for PowerMac, as it would overlap with NVRAM.
+
+2007-10-29 10:38  ths
+
+	* target-mips/translate_init.c: Preliminary MIPS64R2 mode.
+
+2007-10-29 03:57  ths
+
+	* target-mips/helper.c: Fix logic bug which broke TLBL/TLBS
+	  handling somewhat.
+
+2007-10-29 02:50  balrog
+
+	* hw/: omap.c, omap.h, palm.c: Implement OMAP MicroWire controller.
+	  Fix GPIO interrupt number.  Reorder a couple of variables.
+
+2007-10-29 01:49  ths
+
+	* target-mips/op.c: Restrict CP0_PerfCnt to legal values.
+
+2007-10-29 00:42  j_mayer
+
+	* Makefile.target, vl.h, hw/cuda.c, hw/grackle_pci.c,
+	  hw/heathrow_pic.c, hw/mac_dbdma.c, hw/mac_nvram.c, hw/macio.c,
+	  hw/ppc.c, hw/ppc_chrp.c, hw/ppc_mac.h, hw/ppc_oldworld.c,
+	  hw/ppc_prep.c: * sort the PowerPC target object files * make
+	  PowerPC NVRAM accessors generic to be able to use a MacIO NVRAM
+	  instead of the M48T59 one * split PowerMac targets code:  - move
+	  all PowerMac related definitions and prototypes into hw/ppc_mac.h
+	  - add hw/mac_dbdma.c, hw/mac_nvram.c and macio.c    which
+	  implements shared PowerMac devices  - define the g3bw machine in
+	  a new hw/ppc_oldworld.c file * Fix the g3bw target:  - fix the
+	  Grackle host PCI device  - connect the Heathrow PIC to the
+	  PowerPC 6xx bus pins
+
+2007-10-29 00:33  j_mayer
+
+	* hw/: m48t59.c, m48t59.h: Give an opaque to the m48t59 direct
+	  access routines to make it easier  to use another NVRAM with the
+	  same API.
+
+2007-10-28 22:02  balrog
+
+	* hw/: omap.c, omap.h, palm.c: Add OMAP Shared GPIO module.
+
+2007-10-28 20:45  ths
+
+	* cpu-defs.h, linux-user/elfload.c, target-mips/cpu.h,
+	  target-mips/exec.h, target-mips/helper.c, target-mips/op.c,
+	  target-mips/op_helper.c, target-mips/translate.c: Implement
+	  missing MIPS supervisor mode bits.
+
+2007-10-28 20:24  balrog
+
+	* hw/: omap.c, omap.h, omap_mmc.c, palm.c: Handle MMC card
+	  insertion/removal/readonly signals.  Hook them up to Palm T|E
+	  GPIOs.
+
+2007-10-28 19:29  balrog
+
+	* hw/: omap.c, palm.c: Add PalmT|E matrix keypad connected to OMAP
+	  GPIOs.
+
+2007-10-28 17:45  balrog
+
+	* hw/: omap.c, omap.h: Implement OMAP1 MPU I/O module.
+
 2007-10-28 15:35  blueswir1
 
 	* target-sparc/op_helper.c:  Use shared ctpop64 helper
