@@ -1,3 +1,11 @@
+2007-10-31 23:02  j_mayer
+
+	* target-ppc/: op.c, op_template.h, translate.c: Fix CR ops with
+	  complement, thanks to Julian Seward for testing
+		    and reporting the bug : * remove bugged CR ops specific
+	  micro-ops * use standard and / or / shift operations instead *
+	  comment not-used-anymore op_store_T1_crf_crf micro-op template.
+
 2007-10-31 18:14  ths
 
 	* hw/mips_mipssim.c: Add copyright and license header.
