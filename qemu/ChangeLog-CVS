@@ -1,3 +1,79 @@
+2007-10-31 18:14  ths
+
+	* hw/mips_mipssim.c: Add copyright and license header.
+
+2007-10-31 03:01  balrog
+
+	* target-i386/translate.c: Correct the WBINVD intercept in SVM
+	  (Alexander Graf).
+
+2007-10-31 02:58  balrog
+
+	* vnc.c: Handle 3.7 VNC clients authentication correctly (Dan
+	  Kenigsberg).
+
+2007-10-31 02:54  balrog
+
+	* vl.c, vl.h, hw/an5206.c, hw/etraxfs.c, hw/integratorcp.c,
+	  hw/mcf5208.c, hw/mips_malta.c, hw/mips_mipssim.c,
+	  hw/mips_pica61.c, hw/mips_r4k.c, hw/palm.c, hw/pc.c,
+	  hw/ppc405_boards.c, hw/ppc_chrp.c, hw/ppc_oldworld.c,
+	  hw/ppc_prep.c, hw/r2d.c, hw/realview.c, hw/shix.c, hw/spitz.c,
+	  hw/sun4m.c, hw/sun4u.c, hw/versatilepb.c: Set boot sequence from
+	  command line (Dan Kenigsberg).
+
+2007-10-31 02:11  balrog
+
+	* qemu-img.c: Support multipart images as input to qemu-img
+	  (Salvador Fandino).
+
+2007-10-31 02:03  balrog
+
+	* configure: Add gcc-3.4.6 to the list of gcc3 versions (Carlo
+	  Marcelo Arenas Belon).  Add --disable-sdl to configure's help
+	  (Carlo Marcelo Arenas Belon).
+
+2007-10-31 01:47  balrog
+
+	* target-arm/helper.c: Invalidate TLBs when domains are changed
+	  (Matthew Warton).  Legalise cp15 pid register writes (Matthew
+	  Warton).
+
+2007-10-31 01:34  balrog
+
+	* hw/usb-ohci.c: OHCI USB isochronous transfers support (Arnon
+	  Gilboa).
+
+2007-10-31 01:27  balrog
+
+	* usb-linux.c: Use a O_NONBLOCK pipe for iso completion signals for
+	  thread-safety, by Arnon Gilboa.
+
+2007-10-31 01:21  balrog
+
+	* gdbstub.c: x86_64 support in cpu_gdb_read_registers(), by Goran
+	  Weinholt.
+
+2007-10-31 00:19  ths
+
+	* slirp/misc.c: Declare function before use, reduces compiler
+	  warning noise.
+
+2007-10-30 23:38  balrog
+
+	* console.c, keymaps.c, vl.h, vnc.c, vnc_keysym.h: Miscellaneous
+	  VNC related fixes from Xen forwarded by Matthew Kent.
+
+2007-10-30 22:06  balrog
+
+	* linux-user/syscall.c: Do not make NETLINK socket connections
+	  possible (Alexander Graf).
+
+2007-10-29 22:54  j_mayer
+
+	* target-ppc/op_helper.c: Fix two PowerPC FPU emulation bugs
+	  (thanks to Aurelien Jarno)
+
 2007-10-29 15:39  ths
 
 	* target-alpha/op_helper.c, target-arm/op_helper.c,

@@ -559,7 +559,7 @@ static const struct tos_t tcptos[] = {
 	  {0, 0, 0, 0}
 };
 
-static struct emu_t *tcpemu = 0;
+struct emu_t *tcpemu;
 
 /*
  * Return TOS according to the above table
