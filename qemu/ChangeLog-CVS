@@ -1,3 +1,8 @@
+2007-11-01 20:23  blueswir1
+
+	* slirp/: misc.h, tcp_subr.c:  Fix slirp compilation failure when
+	  using a newer gcc
+
 2007-11-01 01:13  ths
 
 	* linux-user/: strace.c, strace.list: Add new files fir strace
