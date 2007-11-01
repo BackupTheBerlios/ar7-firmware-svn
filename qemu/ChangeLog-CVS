@@ -1,3 +1,19 @@
+2007-11-01 01:13  ths
+
+	* linux-user/: strace.c, strace.list: Add new files fir strace
+	  support, missed in earlier commit.
+
+2007-11-01 01:11  ths
+
+	* Changelog: Mention userland strace support, and mipssim machine
+	  emulation.
+
+2007-11-01 01:07  ths
+
+	* Makefile.target, linux-user/main.c, linux-user/qemu.h,
+	  linux-user/syscall.c: Strace for userland emulation, by Stuart
+	  Anderson and Thayne Harbaugh.
+
 2007-10-31 23:02  j_mayer
 
 	* target-ppc/: op.c, op_template.h, translate.c: Fix CR ops with
