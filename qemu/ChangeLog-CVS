@@ -1,3 +1,50 @@
+2007-11-03 01:51  balrog
+
+	* hw/: i2c.c, omap.c, omap.h: Initial OMAP I^2C controller
+	  implementation (communication not tested).  Correct an
+	  i2c_start_transfer comment.
+
+2007-11-03 01:48  balrog
+
+	* hw/: omap.c, omap.h: Add OMAP Pulse-width Tone module.
+
+2007-11-03 01:46  balrog
+
+	* hw/: omap.c, omap.h: Implement OMAP PWL (backlight) module.  Fix
+	  GPIO clock name and output level change notifications.
+
+2007-11-03 01:41  balrog
+
+	* hw/: palm.c, tsc210x.c: The PINT/DAV pin is active low in the
+	  chip spec, not inverted on the board.  Make changes on known GPIO
+	  lines be verbose, initialise GPIO levels.
+
+2007-11-02 23:47  j_mayer
+
+	* target-ppc/translate.c: Don't print any message when a priviledge
+	  exception occurs on mfpvr as the Linux allows applications to
+	  read this register.
+
+2007-11-02 23:35  j_mayer
+
+	* target-ppc/helper.c: Fix PowerPC program exception that was
+	  broken by FPU exception patches   (bug reported by  Jason Wessel)
+
+2007-11-02 21:24  ths
+
+	* linux-user/qemu.h: EFAULT - update __get_user() __put_user(), by
+	  Thayne Harbaugh.
+
+2007-11-02 20:08  ths
+
+	* linux-user/mmap.c, target-i386/helper2.c: Fix compiler warnings,
+	  by Stefan Weil.
+
+2007-11-02 20:02  ths
+
+	* cpu-all.h, exec.c, linux-user/qemu.h: EFAULT - verify pages are
+	  in cache and are read/write, by Thayne Harbaugh.
+
 2007-11-01 20:23  blueswir1
 
 	* slirp/: misc.h, tcp_subr.c:  Fix slirp compilation failure when

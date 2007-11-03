@@ -475,6 +475,11 @@ struct omap_uwire_s *omap_uwire_init(target_phys_addr_t base,
 void omap_uwire_attach(struct omap_uwire_s *s,
                 struct uwire_slave_s *slave, int chipselect);
 
+struct omap_i2c_s;
+struct omap_i2c_s *omap_i2c_init(target_phys_addr_t base,
+                qemu_irq irq, qemu_irq *dma, omap_clk clk);
+i2c_bus *omap_i2c_bus(struct omap_i2c_s *s);
+
 /* omap_lcdc.c */
 struct omap_lcd_panel_s;
 void omap_lcdc_reset(struct omap_lcd_panel_s *s);
@@ -533,6 +538,24 @@ struct omap_mpu_state_s {
     struct omap_mpuio_s *mpuio;
 
     struct omap_uwire_s *microwire;
+
+    struct {
+        target_phys_addr_t base;
+        uint8_t output;
+        uint8_t level;
+        uint8_t enable;
+        int clk;
+    } pwl;
+
+    struct {
+        target_phys_addr_t base;
+        uint8_t frc;
+        uint8_t vrc;
+        uint8_t gcr;
+        omap_clk clk;
+    } pwt;
+
+    struct omap_i2c_s *i2c;
 
     /* MPU private TIPB peripherals */
     struct omap_intr_handler_s *ih[2];
@@ -614,6 +637,9 @@ void omap_badwidth_write32(void *opaque, target_phys_addr_t addr,
         printf("%s: Bad register " OMAP_FMT_plx "\n", __FUNCTION__, paddr)
 # define OMAP_RO_REG(paddr)		\
         printf("%s: Read-only register " OMAP_FMT_plx "\n",	\
+                        __FUNCTION__, paddr)
+# define OMAP_8B_REG(paddr)		\
+        printf("%s: 8-bit register " OMAP_FMT_plx "\n",	\
                         __FUNCTION__, paddr)
 # define OMAP_16B_REG(paddr)		\
         printf("%s: 16-bit register " OMAP_FMT_plx "\n",	\
