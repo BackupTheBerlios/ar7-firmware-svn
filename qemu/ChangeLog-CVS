@@ -1,3 +1,18 @@
+2007-11-04 18:27  blueswir1
+
+	* hw/slavio_misc.c:  Change sysctrl register to 32 bits (original
+	  patch by Robert Reif)
+
+2007-11-04 18:17  j_mayer
+
+	* hw/fdc.c: Fix memory corruption: bdrv_read/write API has been
+	  changed to take   nb_sectors instead of len in bytes but the fdc
+	  driver has never been fixed.
+
+2007-11-04 17:58  blueswir1
+
+	* hw/fdc.c:  Fix Solaris breakage
+
 2007-11-04 13:19  balrog
 
 	* hw/: omap.c, omap.h, omap_i2c.c, omap_mmc.c: Add register
