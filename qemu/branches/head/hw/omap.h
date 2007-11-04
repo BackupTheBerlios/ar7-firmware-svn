@@ -546,7 +546,6 @@ struct omap_mpu_state_s {
     struct omap_uwire_s *microwire;
 
     struct {
-        target_phys_addr_t base;
         uint8_t output;
         uint8_t level;
         uint8_t enable;
@@ -554,7 +553,6 @@ struct omap_mpu_state_s {
     } pwl;
 
     struct {
-        target_phys_addr_t base;
         uint8_t frc;
         uint8_t vrc;
         uint8_t gcr;
@@ -646,14 +644,25 @@ void omap_badwidth_write32(void *opaque, target_phys_addr_t addr,
 # define OMAP_RO_REG(paddr)		\
         printf("%s: Read-only register " OMAP_FMT_plx "\n",	\
                         __FUNCTION__, paddr)
-# define OMAP_8B_REG(paddr)		\
+
+# define TCMI_VERBOSE			1
+
+# ifdef TCMI_VERBOSE
+#  define OMAP_8B_REG(paddr)		\
         printf("%s: 8-bit register " OMAP_FMT_plx "\n",	\
                         __FUNCTION__, paddr)
-# define OMAP_16B_REG(paddr)		\
+#  define OMAP_16B_REG(paddr)		\
         printf("%s: 16-bit register " OMAP_FMT_plx "\n",	\
                         __FUNCTION__, paddr)
-# define OMAP_32B_REG(paddr)		\
+#  define OMAP_32B_REG(paddr)		\
         printf("%s: 32-bit register " OMAP_FMT_plx "\n",	\
                         __FUNCTION__, paddr)
+# else
+#  define OMAP_8B_REG(paddr)
+#  define OMAP_16B_REG(paddr)
+#  define OMAP_32B_REG(paddr)
+# endif
+
+# define OMAP_MPUI_REG_MASK		0x000007ff
 
 #endif /* hw_omap_h */

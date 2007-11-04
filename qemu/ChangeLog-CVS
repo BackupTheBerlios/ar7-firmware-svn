@@ -1,3 +1,32 @@
+2007-11-04 13:19  balrog
+
+	* hw/: omap.c, omap.h, omap_i2c.c, omap_mmc.c: Add register
+	  mappings in DSP space (must be accessible for MPU too).  Don't
+	  set microwire CSR-busy bit too early.
+
+2007-11-04 13:00  blueswir1
+
+	* hw/fdc.c:  Constification
+
+2007-11-04 12:59  blueswir1
+
+	* vl.h, hw/fdc.c, hw/sun4m.c:  Remove target dependent code
+
+2007-11-04 12:42  balrog
+
+	* hw/: omap.c, omap.h, omap1_clk.c: Make accesses with wrong width
+	  also work as apparently real hardware allows them when the fault
+	  is disabled.	Fix DMA register writes if target_phys_addr_t is
+	  64-bit.  Make more functions static.	A timer hack to make PalmOS
+	  run in finite time (uses very short timer periods, much shorter
+	  than clocksource tick).  Re-calculate internal clock rates on
+	  start-up.
+
+2007-11-04 09:49  j_mayer
+
+	* hw/grackle_pci.c: Fix grackle (in fact MPC106) PCI host bridge
+	  header  to avoid confusing firmwares and OSes.
+
 2007-11-04 08:31  blueswir1
 
 	* exec.c:  Fix debug statements

@@ -27,38 +27,51 @@ uint32_t omap_badwidth_read8(void *opaque, target_phys_addr_t addr)
     uint8_t ret;
 
     OMAP_8B_REG(addr);
-    cpu_physical_memory_read(addr, &ret, 1);
+    cpu_physical_memory_read(addr, (void *) &ret, 1);
     return ret;
 }
 
 void omap_badwidth_write8(void *opaque, target_phys_addr_t addr,
                 uint32_t value)
 {
+    uint8_t val8 = value;
+
     OMAP_8B_REG(addr);
+    cpu_physical_memory_write(addr, (void *) &val8, 1);
 }
 
 uint32_t omap_badwidth_read16(void *opaque, target_phys_addr_t addr)
 {
+    uint16_t ret;
+
     OMAP_16B_REG(addr);
-    return 0;
+    cpu_physical_memory_read(addr, (void *) &ret, 2);
+    return ret;
 }
 
 void omap_badwidth_write16(void *opaque, target_phys_addr_t addr,
                 uint32_t value)
 {
+    uint16_t val16 = value;
+
     OMAP_16B_REG(addr);
+    cpu_physical_memory_write(addr, (void *) &val16, 2);
 }
 
 uint32_t omap_badwidth_read32(void *opaque, target_phys_addr_t addr)
 {
+    uint32_t ret;
+
     OMAP_32B_REG(addr);
-    return 0;
+    cpu_physical_memory_read(addr, (void *) &ret, 4);
+    return ret;
 }
 
 void omap_badwidth_write32(void *opaque, target_phys_addr_t addr,
                 uint32_t value)
 {
     OMAP_32B_REG(addr);
+    cpu_physical_memory_write(addr, (void *) &value, 4);
 }
 
 /* Interrupt Handlers */
@@ -787,7 +800,7 @@ static int omap_dma_ch_reg_write(struct omap_dma_s *s,
 
     case 0x0a:	/* SYS_DMA_CSSA_U_CH0 */
         s->ch[ch].addr[0] &= 0x0000ffff;
-        s->ch[ch].addr[0] |= value << 16;
+        s->ch[ch].addr[0] |= (uint32_t) value << 16;
         break;
 
     case 0x0c:	/* SYS_DMA_CDSA_L_CH0 */
@@ -797,7 +810,7 @@ static int omap_dma_ch_reg_write(struct omap_dma_s *s,
 
     case 0x0e:	/* SYS_DMA_CDSA_U_CH0 */
         s->ch[ch].addr[1] &= 0x0000ffff;
-        s->ch[ch].addr[1] |= value << 16;
+        s->ch[ch].addr[1] |= (uint32_t) value << 16;
         break;
 
     case 0x10:	/* SYS_DMA_CEN_CH0 */
@@ -1033,37 +1046,37 @@ struct omap_dma_s *omap_dma_init(target_phys_addr_t base,
 }
 
 /* DMA ports */
-int omap_validate_emiff_addr(struct omap_mpu_state_s *s,
+static int omap_validate_emiff_addr(struct omap_mpu_state_s *s,
                 target_phys_addr_t addr)
 {
     return addr >= OMAP_EMIFF_BASE && addr < OMAP_EMIFF_BASE + s->sdram_size;
 }
 
-int omap_validate_emifs_addr(struct omap_mpu_state_s *s,
+static int omap_validate_emifs_addr(struct omap_mpu_state_s *s,
                 target_phys_addr_t addr)
 {
     return addr >= OMAP_EMIFS_BASE && addr < OMAP_EMIFF_BASE;
 }
 
-int omap_validate_imif_addr(struct omap_mpu_state_s *s,
+static int omap_validate_imif_addr(struct omap_mpu_state_s *s,
                 target_phys_addr_t addr)
 {
     return addr >= OMAP_IMIF_BASE && addr < OMAP_IMIF_BASE + s->sram_size;
 }
 
-int omap_validate_tipb_addr(struct omap_mpu_state_s *s,
+static int omap_validate_tipb_addr(struct omap_mpu_state_s *s,
                 target_phys_addr_t addr)
 {
     return addr >= 0xfffb0000 && addr < 0xffff0000;
 }
 
-int omap_validate_local_addr(struct omap_mpu_state_s *s,
+static int omap_validate_local_addr(struct omap_mpu_state_s *s,
                 target_phys_addr_t addr)
 {
     return addr >= OMAP_LOCALBUS_BASE && addr < OMAP_LOCALBUS_BASE + 0x1000000;
 }
 
-int omap_validate_tipb_mpui_addr(struct omap_mpu_state_s *s,
+static int omap_validate_tipb_mpui_addr(struct omap_mpu_state_s *s,
                 target_phys_addr_t addr)
 {
     return addr >= 0xe1010000 && addr < 0xe1020004;
@@ -1110,9 +1123,23 @@ static inline void omap_timer_update(struct omap_mpu_timer_s *timer)
 
     if (timer->enable && timer->st && timer->rate) {
         timer->val = timer->reset_val;	/* Should skip this on clk enable */
-        expires = timer->time + muldiv64(timer->val << (timer->ptv + 1),
+        expires = muldiv64(timer->val << (timer->ptv + 1),
                         ticks_per_sec, timer->rate);
-        qemu_mod_timer(timer->timer, expires);
+
+        /* If timer expiry would be sooner than in about 1 ms and
+         * auto-reload isn't set, then fire immediately.  This is a hack
+         * to make systems like PalmOS run in acceptable time.  PalmOS
+         * sets the interval to a very low value and polls the status bit
+         * in a busy loop when it wants to sleep just a couple of CPU
+         * ticks.  */
+        if (expires > (ticks_per_sec >> 10) || timer->ar)
+            qemu_mod_timer(timer->timer, timer->time + expires);
+        else {
+            timer->val = 0;
+            timer->st = 0;
+            if (timer->it_ena)
+                qemu_irq_raise(timer->irq);
+        }
     } else
         qemu_del_timer(timer->timer);
 }
@@ -1374,7 +1401,7 @@ struct omap_32khz_timer_s {
 static uint32_t omap_os_timer_read(void *opaque, target_phys_addr_t addr)
 {
     struct omap_32khz_timer_s *s = (struct omap_32khz_timer_s *) opaque;
-    int offset = addr - s->timer.base;
+    int offset = addr & OMAP_MPUI_REG_MASK;
 
     switch (offset) {
     case 0x00:	/* TVR */
@@ -1397,7 +1424,7 @@ static void omap_os_timer_write(void *opaque, target_phys_addr_t addr,
                 uint32_t value)
 {
     struct omap_32khz_timer_s *s = (struct omap_32khz_timer_s *) opaque;
-    int offset = addr - s->timer.base;
+    int offset = addr & OMAP_MPUI_REG_MASK;
 
     switch (offset) {
     case 0x00:	/* TVR */
@@ -2867,7 +2894,7 @@ static void omap_mpuio_kbd_update(struct omap_mpuio_s *s)
 static uint32_t omap_mpuio_read(void *opaque, target_phys_addr_t addr)
 {
     struct omap_mpuio_s *s = (struct omap_mpuio_s *) opaque;
-    int offset = addr - s->base;
+    int offset = addr & OMAP_MPUI_REG_MASK;
     uint16_t ret;
 
     switch (offset) {
@@ -2923,7 +2950,7 @@ static void omap_mpuio_write(void *opaque, target_phys_addr_t addr,
                 uint32_t value)
 {
     struct omap_mpuio_s *s = (struct omap_mpuio_s *) opaque;
-    int offset = addr - s->base;
+    int offset = addr & OMAP_MPUI_REG_MASK;
     uint16_t diff;
     int ln;
 
@@ -3115,7 +3142,7 @@ static void omap_gpio_set(void *opaque, int line, int level)
 static uint32_t omap_gpio_read(void *opaque, target_phys_addr_t addr)
 {
     struct omap_gpio_s *s = (struct omap_gpio_s *) opaque;
-    int offset = addr - s->base;
+    int offset = addr & OMAP_MPUI_REG_MASK;
 
     switch (offset) {
     case 0x00:	/* DATA_INPUT */
@@ -3145,7 +3172,7 @@ static void omap_gpio_write(void *opaque, target_phys_addr_t addr,
                 uint32_t value)
 {
     struct omap_gpio_s *s = (struct omap_gpio_s *) opaque;
-    int offset = addr - s->base;
+    int offset = addr & OMAP_MPUI_REG_MASK;
     uint16_t diff;
     int ln;
 
@@ -3295,7 +3322,7 @@ static void omap_uwire_transfer_start(struct omap_uwire_s *s)
 static uint32_t omap_uwire_read(void *opaque, target_phys_addr_t addr)
 {
     struct omap_uwire_s *s = (struct omap_uwire_s *) opaque;
-    int offset = addr - s->base;
+    int offset = addr & OMAP_MPUI_REG_MASK;
 
     switch (offset) {
     case 0x00:	/* RDR */
@@ -3325,16 +3352,17 @@ static void omap_uwire_write(void *opaque, target_phys_addr_t addr,
                 uint32_t value)
 {
     struct omap_uwire_s *s = (struct omap_uwire_s *) opaque;
-    int offset = addr - s->base;
+    int offset = addr & OMAP_MPUI_REG_MASK;
 
     switch (offset) {
     case 0x00:	/* TDR */
         s->txbuf = value;				/* TD */
-        s->control |= 1 << 14;				/* CSRB */
         if ((s->setup[4] & (1 << 2)) &&			/* AUTO_TX_EN */
                         ((s->setup[4] & (1 << 3)) ||	/* CS_TOGGLE_TX_EN */
-                         (s->control & (1 << 12))))	/* CS_CMD */
+                         (s->control & (1 << 12)))) {	/* CS_CMD */
+            s->control |= 1 << 14;			/* CSRB */
             omap_uwire_transfer_start(s);
+        }
         break;
 
     case 0x04:	/* CSR */
@@ -3435,7 +3463,7 @@ void omap_pwl_update(struct omap_mpu_state_s *s)
 static uint32_t omap_pwl_read(void *opaque, target_phys_addr_t addr)
 {
     struct omap_mpu_state_s *s = (struct omap_mpu_state_s *) opaque;
-    int offset = addr - s->pwl.base;
+    int offset = addr & OMAP_MPUI_REG_MASK;
 
     switch (offset) {
     case 0x00:	/* PWL_LEVEL */
@@ -3451,7 +3479,7 @@ static void omap_pwl_write(void *opaque, target_phys_addr_t addr,
                 uint32_t value)
 {
     struct omap_mpu_state_s *s = (struct omap_mpu_state_s *) opaque;
-    int offset = addr - s->pwl.base;
+    int offset = addr & OMAP_MPUI_REG_MASK;
 
     switch (offset) {
     case 0x00:	/* PWL_LEVEL */
@@ -3502,12 +3530,11 @@ static void omap_pwl_init(target_phys_addr_t base, struct omap_mpu_state_s *s,
 {
     int iomemtype;
 
-    s->pwl.base = base;
     omap_pwl_reset(s);
 
     iomemtype = cpu_register_io_memory(0, omap_pwl_readfn,
                     omap_pwl_writefn, s);
-    cpu_register_physical_memory(s->pwl.base, 0x800, iomemtype);
+    cpu_register_physical_memory(base, 0x800, iomemtype);
 
     omap_clk_adduser(clk, qemu_allocate_irqs(omap_pwl_clk_update, s, 1)[0]);
 }
@@ -3516,7 +3543,7 @@ static void omap_pwl_init(target_phys_addr_t base, struct omap_mpu_state_s *s,
 static uint32_t omap_pwt_read(void *opaque, target_phys_addr_t addr)
 {
     struct omap_mpu_state_s *s = (struct omap_mpu_state_s *) opaque;
-    int offset = addr - s->pwt.base;
+    int offset = addr & OMAP_MPUI_REG_MASK;
 
     switch (offset) {
     case 0x00:	/* FRC */
@@ -3534,7 +3561,7 @@ static void omap_pwt_write(void *opaque, target_phys_addr_t addr,
                 uint32_t value)
 {
     struct omap_mpu_state_s *s = (struct omap_mpu_state_s *) opaque;
-    int offset = addr - s->pwt.base;
+    int offset = addr & OMAP_MPUI_REG_MASK;
 
     switch (offset) {
     case 0x00:	/* FRC */
@@ -3597,13 +3624,12 @@ static void omap_pwt_init(target_phys_addr_t base, struct omap_mpu_state_s *s,
 {
     int iomemtype;
 
-    s->pwt.base = base;
     s->pwt.clk = clk;
     omap_pwt_reset(s);
 
     iomemtype = cpu_register_io_memory(0, omap_pwt_readfn,
                     omap_pwt_writefn, s);
-    cpu_register_physical_memory(s->pwt.base, 0x800, iomemtype);
+    cpu_register_physical_memory(base, 0x800, iomemtype);
 }
 
 /* Real-time Clock module */
@@ -3654,7 +3680,7 @@ static inline int omap_rtc_bin(uint8_t num)
 static uint32_t omap_rtc_read(void *opaque, target_phys_addr_t addr)
 {
     struct omap_rtc_s *s = (struct omap_rtc_s *) opaque;
-    int offset = addr - s->base;
+    int offset = addr & OMAP_MPUI_REG_MASK;
     uint8_t i;
 
     switch (offset) {
@@ -3732,7 +3758,7 @@ static void omap_rtc_write(void *opaque, target_phys_addr_t addr,
                 uint32_t value)
 {
     struct omap_rtc_s *s = (struct omap_rtc_s *) opaque;
-    int offset = addr - s->base;
+    int offset = addr & OMAP_MPUI_REG_MASK;
     struct tm new_tm;
     time_t ti[2];
 
@@ -4069,6 +4095,47 @@ static void omap_mpu_reset(void *opaque)
     cpu_reset(mpu->env);
 }
 
+static const struct omap_map_s {
+    target_phys_addr_t phys_dsp;
+    target_phys_addr_t phys_mpu;
+    uint32_t size;
+    const char *name;
+} omap15xx_dsp_mm[] = {
+    /* Strobe 0 */
+    { 0xe1010000, 0xfffb0000, 0x800, "UART1 BT" },		/* CS0 */
+    { 0xe1010800, 0xfffb0800, 0x800, "UART2 COM" },		/* CS1 */
+    { 0xe1011800, 0xfffb1800, 0x800, "McBSP1 audio" },		/* CS3 */
+    { 0xe1012000, 0xfffb2000, 0x800, "MCSI2 communication" },	/* CS4 */
+    { 0xe1012800, 0xfffb2800, 0x800, "MCSI1 BT u-Law" },	/* CS5 */
+    { 0xe1013000, 0xfffb3000, 0x800, "uWire" },			/* CS6 */
+    { 0xe1013800, 0xfffb3800, 0x800, "I^2C" },			/* CS7 */
+    { 0xe1014000, 0xfffb4000, 0x800, "USB W2FC" },		/* CS8 */
+    { 0xe1014800, 0xfffb4800, 0x800, "RTC" },			/* CS9 */
+    { 0xe1015000, 0xfffb5000, 0x800, "MPUIO" },			/* CS10 */
+    { 0xe1015800, 0xfffb5800, 0x800, "PWL" },			/* CS11 */
+    { 0xe1016000, 0xfffb6000, 0x800, "PWT" },			/* CS12 */
+    { 0xe1017000, 0xfffb7000, 0x800, "McBSP3" },		/* CS14 */
+    { 0xe1017800, 0xfffb7800, 0x800, "MMC" },			/* CS15 */
+    { 0xe1019000, 0xfffb9000, 0x800, "32-kHz timer" },		/* CS18 */
+    { 0xe1019800, 0xfffb9800, 0x800, "UART3" },			/* CS19 */
+    { 0xe101c800, 0xfffbc800, 0x800, "TIPB switches" },		/* CS25 */
+    /* Strobe 1 */
+    { 0xe101e000, 0xfffce000, 0x800, "GPIOs" },			/* CS28 */
+
+    { 0 }
+};
+
+static void omap_setup_dsp_mapping(const struct omap_map_s *map)
+{
+    int io;
+
+    for (; map->phys_dsp; map ++) {
+        io = cpu_get_physical_page_desc(map->phys_mpu);
+
+        cpu_register_physical_memory(map->phys_dsp, map->size, io);
+    }
+}
+
 static void omap_mpu_wakeup(void *opaque, int irq, int req)
 {
     struct omap_mpu_state_s *mpu = (struct omap_mpu_state_s *) opaque;
@@ -4207,6 +4274,7 @@ struct omap_mpu_state_s *omap310_mpu_init(unsigned long sdram_size,
      * USB Host		fffba000 - fffba7ff
      * FAC		fffba800 - fffbafff
      * HDQ/1-Wire	fffbc000 - fffbc7ff
+     * TIPB switches	fffbc800 - fffbcfff
      * LED1		fffbd000 - fffbd7ff
      * LED2		fffbd800 - fffbdfff
      * Mailbox		fffcf000 - fffcf7ff
@@ -4214,6 +4282,8 @@ struct omap_mpu_state_s *omap310_mpu_init(unsigned long sdram_size,
      * Local bus MMU	fffec200 - fffec2ff
      * DSP MMU		fffed200 - fffed2ff
      */
+
+    omap_setup_dsp_mapping(omap15xx_dsp_mm);
 
     qemu_register_reset(omap_mpu_reset, s);
 
