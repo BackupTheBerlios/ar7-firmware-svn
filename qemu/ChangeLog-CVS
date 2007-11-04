@@ -1,3 +1,73 @@
+2007-11-04 08:31  blueswir1
+
+	* exec.c:  Fix debug statements
+
+2007-11-04 03:55  j_mayer
+
+	* target-ppc/: cpu.h, helper.c, helper_regs.h, op.c, op_helper.c,
+	  op_helper.h, translate.c, translate_init.c: PowerPC 601 need
+	  specific callbacks for its BATs setup.  Implement PowerPC 601
+	  HID0 register, needed for little-endian mode support.  As a
+	  consequence, we need to merge hflags coming from MSR with other
+	  ones.  Use little-endian mode from hflags instead of MSR during
+	  code translation.
+
+2007-11-04 03:24  j_mayer
+
+	* exec-all.h, host-utils.c, host-utils.h, target-alpha/op.c,
+	  target-i386/helper.c: For consistency, move muls64 / mulu64
+	  prototypes to host-utils.h Make x86_64 optimized versions inline.
+
+2007-11-04 02:57  j_mayer
+
+	* target-ppc/translate.c: Improve PowerPC CPU state dump.  Dump NIP
+	  on SPR access faults.
+
+2007-11-04 02:16  j_mayer
+
+	* hw/: mac_nvram.c, macio.c, ppc_chrp.c, ppc_mac.h, ppc_oldworld.c:
+	  Fix PowerMac NVRAM device.
+
+2007-11-03 16:12  ths
+
+	* linux-user/: qemu.h, strace.c: Fix some compiler warnings.
+
+2007-11-03 15:23  j_mayer
+
+	* target-ppc/translate_init.c: Fix PowerPC high BATs access: BAT
+	  number was incorrect.
+
+2007-11-03 14:37  j_mayer
+
+	* target-ppc/: cpu.h, exec.h, helper.c, op_helper.c,
+	  translate_init.c: PowerPC MMU and exception fixes: * PowerPC 601
+	  (and probably POWER/POWER2) uses a different BAT format than
+	  later PowerPC implementation.  * Bugfix in BATs check: must not
+	  stop after 4 BATs when more are provided.  * Enable POWER 'rac'
+	  instruction.	* Fix exception prefix for all supported PowerPC
+	  implementations.  * Fix exceptions, MMU model and bus model for
+	  PowerPC 601 & 620.  * Enable PowerPC 620 as it could mostly boot
+	  a PreP target.
+
+2007-11-03 14:22  j_mayer
+
+	* linux-user/main.c: Fix incorrect PowerPC instruction fetch
+	  exception dump.
+
+2007-11-03 13:50  balrog
+
+	* Changelog, Makefile.target, qemu-doc.texi, hw/omap.c, hw/omap.h,
+	  hw/omap_i2c.c: Split I^2C controller out of hw/omap.c.  Insert a
+	  list of missing memory mappings from OMAP310 datasheet.  Add
+	  missing "rtc" field for RTC.	Correct PWL and PWT register
+	  read/write handler pointers.	Add a Changelog entry about OMAP
+	  emulation.  Add a qemu-doc snippet about Palm T|E platform.
+
+2007-11-03 13:44  balrog
+
+	* hw/: omap.c, omap.h: Implement OMAP on-chip RTC (Linux guest
+	  date/time now matches with host).
+
 2007-11-03 01:51  balrog
 
 	* hw/: i2c.c, omap.c, omap.h: Initial OMAP I^2C controller
