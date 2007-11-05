@@ -1,3 +1,34 @@
+2007-11-05 14:27  ths
+
+	* configure: Add -lpthread flag.
+
+2007-11-05 14:16  j_mayer
+
+	* host-utils.h: Fix muls64 prototype to match the actual
+	  implementation.
+
+2007-11-05 14:01  j_mayer
+
+	* host-utils.c: Code used by the linux-user targets should not use
+	  vl.h.  Include exec.h instead.
+
+2007-11-05 04:11  j_mayer
+
+	* hw/fdc.c: No functional changes: remove dead code and fix
+	  indentation & wrapping lines.
+
+2007-11-04 23:53  balrog
+
+	* vl.h, hw/omap.c, hw/omap.h, hw/omap1_clk.c, hw/palm.c,
+	  hw/tsc210x.c: Zeroing ITR shouldn't ack irq zero.  Fix PWT & PWL
+	  clocks, fix user refcounting for clocks, add 'hsab_ck' and
+	  'usb_w2fc_ck'.  Fix TCMI register addresses.	Implement OMAP
+	  McBSP controller and connection to I2S-compatible CODECs.  Add
+	  audio support for TSC2102 as an I2S CODEC.  Connect TSC2102 I2S
+	  interface to CPU's McBSP1 interface in the Palm Tungsten|E.
+	  Correct '>' instead of '>>' typos.  Implement GPIO PIN_CONTROL
+	  register (not in OMAP310 TRM, from OMAP1510).
+
 2007-11-04 18:27  blueswir1
 
 	* hw/slavio_misc.c:  Change sysctrl register to 32 bits (original
