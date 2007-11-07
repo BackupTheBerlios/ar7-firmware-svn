@@ -1,3 +1,22 @@
+2007-11-07 18:03  blueswir1
+
+	* cpu-exec.c, target-sparc/cpu.h, target-sparc/helper.c,
+	  target-sparc/op_helper.c, target-sparc/translate.c:  CPU specific
+	  boot mode (Robert Reif)
+
+2007-11-07 17:54  bellard
+
+	* hw/pc.c: removed traces
+
+2007-11-07 17:24  bellard
+
+	* qemu-doc.texi, vl.c, vl.h, hw/mc146818rtc.c: added -startdate
+	  option
+
+2007-11-07 17:07  bellard
+
+	* dyngen.c: moved declarations
+
 2007-11-05 14:27  ths
 
 	* configure: Add -lpthread flag.
