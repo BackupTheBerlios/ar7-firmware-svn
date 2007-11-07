@@ -1,3 +1,21 @@
+2007-11-07 20:26  bellard
+
+	* audio/audio.h, slirp/slirp.h: use config-host.h instead of
+	  config.h
+
+2007-11-07 20:26  bellard
+
+	* vl.h: fixed QEMU_TOOL tests
+
+2007-11-07 20:25  bellard
+
+	* configure: SDL and COCA are no longer target dependent - support
+	  for common code compilation
+
+2007-11-07 20:24  bellard
+
+	* Makefile, Makefile.target: compile common code once
+
 2007-11-07 18:03  blueswir1
 
 	* cpu-exec.c, target-sparc/cpu.h, target-sparc/helper.c,
