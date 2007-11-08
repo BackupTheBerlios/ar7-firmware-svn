@@ -1,3 +1,57 @@
+2007-11-08 19:05  ths
+
+	* configure, linux-user/main.c, linux-user/signal.c,
+	  linux-user/syscall_defs.h, target-mips/exec.h,
+	  target-mips/helper.c, target-mips/mips-defs.h, target-mips/op.c,
+	  target-mips/op_helper.c, target-mips/op_mem.c,
+	  target-mips/op_template.c, target-mips/translate.c,
+	  target-mips/translate_init.c: Clean out the N32 macros from
+	  target-mips, and introduce MIPS ABI specific defines for
+	  linux-user.
+
+2007-11-08 17:44  ths
+
+	* audio/.cvsignore, slirp/.cvsignore: More .cvsignore.
+
+2007-11-08 17:44  ths
+
+	* target-mips/translate.c: Formatting fix.
+
+2007-11-08 17:43  ths
+
+	* .cvsignore: .cvsignore dependency files.
+
+2007-11-08 17:38  ths
+
+	* hw/ide.c: Revert "Last AIO Patch" as requested by Fabrice, it is
+	  incomplete and breaks other (non-Windows) systems.
+
+2007-11-08 15:25  bellard
+
+	* Makefile.target, cpu-exec.c, exec.c, translate-all.c, vl.c,
+	  darwin-user/main.c, darwin-user/signal.c, linux-user/main.c,
+	  linux-user/signal.c, target-i386/cpu.h, target-i386/helper2.c,
+	  target-i386/translate.c, tests/qruncom.c: removed obsolete x86
+	  code copy support
+
+2007-11-08 15:24  bellard
+
+	* target-i386/translate-copy.c: removed
+
+2007-11-08 15:01  bellard
+
+	* linux-user/main.c: removed unused code
+
+2007-11-08 14:56  bellard
+
+	* linux-user/main.c: added -cpu option for x86 - fixed glibc hack
+	  in case the global variables are moved
+
+2007-11-08 14:28  bellard
+
+	* hw/pc.c, target-i386/cpu.h, target-i386/helper2.c: added -cpu
+	  option for x86 (initial patch by Dan Kenigsberg)
+
 2007-11-07 20:26  bellard
 
 	* audio/audio.h, slirp/slirp.h: use config-host.h instead of
