@@ -1,3 +1,13 @@
+2007-11-09 19:17  ths
+
+	* hw/rtl8139.c: Fix typo, spotted by Samuel Thibault.
+
+2007-11-09 18:52  ths
+
+	* hw/mips_malta.c, hw/mips_mipssim.c, hw/mips_r4k.c,
+	  target-mips/cpu.h: Move kernel loader parameters from the cpu
+	  state to being board specific.
+
 2007-11-08 19:05  ths
 
 	* configure, linux-user/main.c, linux-user/signal.c,
