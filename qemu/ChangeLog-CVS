@@ -1,3 +1,70 @@
+2007-11-10 20:36  bellard
+
+	* vl.c, vl.h, cutils.c: always use mktimegm
+
+2007-11-10 20:30  pbrook
+
+	* Makefile: Fix Makefile dependencies.
+
+2007-11-10 20:21  pbrook
+
+	* hw/dummy_m68k.c: Fix build failure.
+
+2007-11-10 19:03  pbrook
+
+	* Makefile.target, vl.c, vl.h, hw/dummy_m68k.c: Add dummy m68k
+	  board.
+
+2007-11-10 18:43  pbrook
+
+	* target-m68k/translate.c: Fix m68k FP register debug dumps.
+
+2007-11-10 18:38  pbrook
+
+	* arm-dis.c, dis-asm.h: Update ARM disassembler.
+
+2007-11-10 17:34  pbrook
+
+	* hw/: integratorcp.c, pl011.c, pl050.c, pl080.c, pl110.c, pl181.c,
+	  pl190.c, smc91c111.c: Fix 64-bit host printf format mismatches.
+
+2007-11-10 16:36  bellard
+
+	* vl.h: exported display init functions to common code
+
+2007-11-10 16:15  bellard
+
+	* exec.c, darwin-user/main.c, hw/an5206.c, hw/etraxfs.c,
+	  hw/integratorcp.c, hw/mcf5208.c, hw/mips_malta.c,
+	  hw/mips_mipssim.c, hw/mips_pica61.c, hw/mips_r4k.c, hw/omap.c,
+	  hw/pc.c, hw/ppc4xx_devs.c, hw/ppc_chrp.c, hw/ppc_oldworld.c,
+	  hw/ppc_prep.c, hw/pxa2xx.c, hw/r2d.c, hw/realview.c, hw/shix.c,
+	  hw/sun4m.c, hw/sun4u.c, hw/versatilepb.c, linux-user/main.c,
+	  target-alpha/cpu.h, target-alpha/translate.c, target-arm/cpu.h,
+	  target-arm/helper.c, target-cris/cpu.h, target-cris/translate.c,
+	  target-i386/cpu.h, target-i386/helper2.c, target-m68k/cpu.h,
+	  target-m68k/helper.c, target-m68k/translate.c, target-mips/cpu.h,
+	  target-mips/translate.c, target-mips/translate_init.c,
+	  target-ppc/cpu.h, target-ppc/helper.c,
+	  target-ppc/translate_init.c, target-sh4/cpu.h,
+	  target-sh4/translate.c, target-sparc/cpu.h,
+	  target-sparc/translate.c, tests/qruncom.c: added cpu_model
+	  parameter to cpu_init()
+
+2007-11-10 10:32  blueswir1
+
+	* target-sparc/translate.c:  More Sparc64 CPU definitions
+
+2007-11-10 00:09  ths
+
+	* target-mips/: exec.h, fop_template.c, op.c, op_mem.c,
+	  op_template.c: Use FORCE_RET, scrap RETURN which was implemented
+	  in target-specific code.
+
+2007-11-09 20:08  blueswir1
+
+	* target-sparc/translate.c:  More CPU definitions
+
 2007-11-09 19:17  ths
 
 	* hw/rtl8139.c: Fix typo, spotted by Samuel Thibault.
