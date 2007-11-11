@@ -1,3 +1,66 @@
+2007-11-11 04:33  pbrook
+
+	* qemu-img.c: Cleanup qemu-img.c.
+
+2007-11-11 03:51  pbrook
+
+	* Makefile, Makefile.target, aes.c, block-bochs.c, block-cloop.c,
+	  block-cow.c, block-dmg.c, block-parallels.c, block-qcow.c,
+	  block-qcow2.c, block-raw.c, block-vmdk.c, block-vpc.c,
+	  block-vvfat.c, block.c, block.h, block_int.h, cutils.c,
+	  qemu-common.h, qemu-img.c, vl.h: Split block API from vl.h.
+	  Remove QEMU_TOOL. Replace with QEMU_IMG and NEED_CPU_H.  Avoid
+	  linking qemu-img against whole system emulatior.
+
+2007-11-11 02:50  j_mayer
+
+	* vl.c, hw/pc.c, hw/ppc_chrp.c, hw/ppc_oldworld.c, hw/ppc_prep.c:
+	  More generic boot devices specification, allowing more devices to
+	  be specified and avoiding per-target hardcoded limitations.  The
+	  machine implementations can then check if the given devices match
+	  the actual hardware implementation and firmware API.
+
+2007-11-11 02:18  pbrook
+
+	* Makefile.target: Remove duplicate i2c.o.
+
+2007-11-11 01:33  j_mayer
+
+	* target-ppc/: op.c, op_helper.c: Fix POWER abs & abso computation.
+	  Fix PowerPC SPE evabs & evneg (thanks to Fabrice Bellard for
+	  reporting the bug)
+
+2007-11-11 01:18  j_mayer
+
+	* target-ppc/: op.c, op_helper.c, op_helper.h, translate.c:
+	  Optimize PowerPC overflow flag computation in most useful cases.
+	  Use the same routines to check overflow for addo, subfo and
+	  PowerPC 405	multiply and add cases.  Fix carry reset in
+	  addme(o) and subfme(o) cases.
+
+2007-11-11 01:16  ths
+
+	* Changelog: Fix typo.
+
+2007-11-11 01:04  pbrook
+
+	* Changelog, Makefile.target, cpu-exec.c, qemu-doc.texi, vl.c,
+	  vl.h, fpu/softfloat-native.h, fpu/softfloat.c, fpu/softfloat.h,
+	  hw/arm_boot.c, hw/arm_gic.c, hw/arm_sysctl.c, hw/armv7m.c,
+	  hw/armv7m_nvic.c, hw/integratorcp.c, hw/mpcore.c, hw/pl011.c,
+	  hw/pl022.c, hw/pl061.c, hw/pxa2xx.c, hw/realview.c,
+	  hw/realview_gic.c, hw/ssd0303.c, hw/ssd0323.c, hw/stellaris.c,
+	  hw/versatilepb.c, target-arm/cpu.h, target-arm/exec.h,
+	  target-arm/helper.c, target-arm/op.c, target-arm/op_addsub.h,
+	  target-arm/op_helper.c, target-arm/op_mem.h,
+	  target-arm/op_neon.h, target-arm/translate.c: ARMv7 support.
+
+2007-11-11 00:51  j_mayer
+
+	* target-ppc/: cpu.h, translate_init.c: Allow selection of PowerPC
+	  CPU giving a PVR.  Remove unused pvr_mask field from CPU
+	  definition.
+
 2007-11-10 20:36  bellard
 
 	* vl.c, vl.h, cutils.c: always use mktimegm
