@@ -1,3 +1,233 @@
+2007-11-12 02:56  j_mayer
+
+	* configure, darwin-user/main.c, linux-user/main.c,
+	  target-ppc/cpu.h, target-ppc/helper.c, target-ppc/op.c,
+	  target-ppc/op_helper.c, target-ppc/op_helper.h,
+	  target-ppc/op_mem.h, target-ppc/op_template.h,
+	  target-ppc/translate.c: Allow use of SPE extension by all PowerPC
+	  targets,   adding gprh registers to store GPR MSBs when GPRs are
+	  32 bits.  Remove not-needed-anymore ppcemb-linux-user target.
+	  Keep ppcemb-softmmu target, which provides 1kB pages support
+	  and 36 bits physical address space.
+
+2007-11-12 01:50  j_mayer
+
+	* target-ppc/: op.c, op_mem.h: More PowerPC target -1 usage fixes
+	  (reservation address).
+
+2007-11-12 01:04  j_mayer
+
+	* target-ppc/: helper.c, op.c, op_helper.c, translate.c: Fix usage
+	  of the -1 constant in the PowerPC target code: fix invalid size
+	  casts and/or sign-extensions.
+
+2007-11-12 00:11  bellard
+
+	* linux-user/syscall.c: 64 bit cast for dirent64
+
+2007-11-12 00:03  bellard
+
+	* linux-user/signal.c: fixed more invalid pointer usage
+
+2007-11-11 23:23  bellard
+
+	* linux-user/signal.c: user access fixes
+
+2007-11-11 23:22  bellard
+
+	* linux-user/vm86.c: 64 bit compilation fixes
+
+2007-11-11 23:16  bellard
+
+	* cpu-exec.c, target-i386/cpu.h: consistent types for cpu_x86_fsave
+	  and cpu_x86_frstor
+
+2007-11-11 21:24  bellard
+
+	* configure: better to disable -Werror by default as 64 bit hosts
+	  still have warnings
+
+2007-11-11 21:17  bellard
+
+	* VERSION: update
+
+2007-11-11 21:17  bellard
+
+	* configure: options to enable or disable -Werror. Enable -Werror
+	  for builds from CVS by default
+
+2007-11-11 21:14  bellard
+
+	* cpu-exec.c, vl.c: removed warning
+
+2007-11-11 20:50  bellard
+
+	* hw/gt64xxx.c: removed warning
+
+2007-11-11 20:49  bellard
+
+	* target-sh4/translate.c: fixed FPU rounding init
+
+2007-11-11 20:49  bellard
+
+	* hw/: mips_mipssim.c, mips_pica61.c: removed unused variable
+
+2007-11-11 20:48  bellard
+
+	* hw/omap.c: fixed cast
+
+2007-11-11 20:48  bellard
+
+	* hw/pxa2xx.c: removed unused variables
+
+2007-11-11 20:47  bellard
+
+	* hw/: pxa.h, pxa2xx_dma.c, spitz.c: use correct printf format
+
+2007-11-11 20:47  bellard
+
+	* hw/slavio_timer.c: fixed invalid constant
+
+2007-11-11 20:46  bellard
+
+	* hw/usb-uhci.c: removed unused code
+
+2007-11-11 20:45  bellard
+
+	* target-i386/exec.h, target-sparc/op_helper.c: removed warning
+
+2007-11-11 20:45  bellard
+
+	* linux-user/signal.c: removed warnings - improved sparc32/64
+	  signal frame setup - disabled x86 frame setup for x86_64
+
+2007-11-11 20:34  bellard
+
+	* linux-user/syscall.c: removed warning
+
+2007-11-11 20:32  bellard
+
+	* linux-user/main.c: sparc64_[get|set]_context are not meaningful
+	  in abi32 mode
+
+2007-11-11 20:31  bellard
+
+	* thunk.c: better than nothing 64 bit support - added sign
+	  extension for TYPE_LONG
+
+2007-11-11 18:56  blueswir1
+
+	* qemu-doc.texi, vl.c, vl.h, hw/slavio_misc.c, hw/sun4m.c:  Add
+	  SPARCserver 600MP emulation (original patch by Robert Reif)
+
+2007-11-11 18:55  bellard
+
+	* linux-user/strace.c: hex numbers must have a leading 0x
+
+2007-11-11 18:51  bellard
+
+	* hw/sh7750.c: removed invalid use of _INTC_ARRAY
+
+2007-11-11 18:39  bellard
+
+	* linux-user/syscall_defs.h: suppressed invalid
+	  TARGET_CMSG_FIRSTHDR macro
+
+2007-11-11 18:39  bellard
+
+	* linux-user/syscall.c: improved cmsg handling - improved shm
+	  memory code
+
+2007-11-11 18:26  bellard
+
+	* translate-all.c: removed warning
+
+2007-11-11 18:26  bellard
+
+	* tests/Makefile: use -fno-strict-aliasing
+
+2007-11-11 18:25  bellard
+
+	* linux-user/m68k-sim.c: fixed invalid cast
+
+2007-11-11 18:23  bellard
+
+	* linux-user/: qemu.h, strace.c: use correct types
+
+2007-11-11 18:22  bellard
+
+	* linux-user/main.c: printf format fixes
+
+2007-11-11 17:51  blueswir1
+
+	* hw/sun4u.c:  Fix Sun4u compile
+
+2007-11-11 17:22  bellard
+
+	* linux-user/signal.c: removed warnings - fixed arm stack copy bug
+
+2007-11-11 17:05  bellard
+
+	* slirp/misc.c: removed warning
+
+2007-11-11 16:11  bellard
+
+	* linux-user/syscall.c: move get_errno() inside do_fcntl()
+
+2007-11-11 15:57  bellard
+
+	* linux-user/syscall.c: no longer use get_errno for do_modify_ldt()
+
+2007-11-11 15:52  pbrook
+
+	* gdbstub.c: Fix format mismatch.
+
+2007-11-11 15:50  bellard
+
+	* linux-user/vm86.c: fixed error codes
+
+2007-11-11 15:46  bellard
+
+	* linux-user/main.c: -strace option
+
+2007-11-11 15:44  j_mayer
+
+	* hw/: ppc_chrp.c, ppc_oldworld.c, ppc_prep.c: Fix PowerPC boot
+	  device selection.  Fix gcc warning in PowerPC PreP machine init
+	  routine.  Add second IDE channel to Heathrow Mac machine (still
+	  not handled by OHW).
+
+2007-11-11 15:43  bellard
+
+	* tests/test-i386.c: compilation fixes
+
+2007-11-11 15:36  pbrook
+
+	* target-arm/translate.c: Fix msr_mask.
+
+2007-11-11 15:26  bellard
+
+	* Makefile.target, arm-semi.c, exec.c, m68k-semi.c, softmmu-semi.h,
+	  linux-user/elfload.c, linux-user/flatload.c,
+	  linux-user/linuxload.c, linux-user/qemu.h, linux-user/signal.c,
+	  linux-user/strace.c, linux-user/syscall.c, linux-user/uaccess.c,
+	  linux-user/vm86.c: Linux user memory access API change (initial
+	  patch by Thayne Harbaugh)
+
+2007-11-11 13:35  bellard
+
+	* target-alpha/op_helper.c, target-arm/op_helper.c,
+	  target-cris/op_helper.c, target-m68k/op_helper.c,
+	  target-ppc/op_helper.c: fixed invalid type
+
+2007-11-11 13:02  pbrook
+
+	* hw/mips_r4k.c: mips_r4k warning fixes.
+
+2007-11-11 12:43  pbrook
+
+	* block-raw.c: block-raw/kqemu fix.
+
 2007-11-11 04:33  pbrook
 
 	* qemu-img.c: Cleanup qemu-img.c.

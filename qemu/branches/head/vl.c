@@ -6287,7 +6287,7 @@ int cpu_load(QEMUFile *f, void *opaque, int version_id)
 
 #else
 
-#warning No CPU save/restore functions
+//#warning No CPU save/restore functions
 
 #endif
 
@@ -7421,6 +7421,7 @@ void register_machines(void)
 #else
     qemu_register_machine(&ss5_machine);
     qemu_register_machine(&ss10_machine);
+    qemu_register_machine(&ss600mp_machine);
 #endif
 #elif defined(TARGET_ARM)
     qemu_register_machine(&integratorcp_machine);

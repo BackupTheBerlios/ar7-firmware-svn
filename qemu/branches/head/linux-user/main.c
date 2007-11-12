@@ -641,6 +641,7 @@ void cpu_loop (CPUSPARCState *env)
                 queue_signal(info.si_signo, &info);
             }
             break;
+#ifndef TARGET_ABI32
         case 0x16e:
             flush_windows(env);
             sparc64_get_context(env);
@@ -649,6 +650,7 @@ void cpu_loop (CPUSPARCState *env)
             flush_windows(env);
             sparc64_set_context(env);
             break;
+#endif
 #endif
         case EXCP_INTERRUPT:
             /* just indicate that signals should be handled asap */
@@ -974,7 +976,6 @@ void cpu_loop(CPUPPCState *env)
                   }
             }
             break;
-#if defined(TARGET_PPCEMB)
         case POWERPC_EXCP_SPEU:     /* SPE/embedded floating-point unavail.  */
             EXCP_DUMP(env, "No SPE/floating-point instruction allowed\n");
             info.si_signo = TARGET_SIGILL;
@@ -1004,7 +1005,6 @@ void cpu_loop(CPUPPCState *env)
             cpu_abort(env, "Reset interrupt while in user mode. "
                       "Aborting\n");
             break;
-#endif /* defined(TARGET_PPCEMB) */
 #if defined(TARGET_PPC64) && !defined(TARGET_ABI32) /* PowerPC 64 */
         case POWERPC_EXCP_DSEG:     /* Data segment exception                */
             cpu_abort(env, "Data segment exception while in user mode. "
@@ -1856,7 +1856,8 @@ void usage(void)
            "\n"
            "debug options:\n"
            "-d options   activate log (logfile=%s)\n"
-           "-p pagesize  set the host page size to 'pagesize'\n",
+           "-p pagesize  set the host page size to 'pagesize'\n"
+           "-strace      log system calls\n",
            TARGET_ARCH,
            interp_prefix,
            x86_stack_size,
@@ -1952,6 +1953,8 @@ int main(int argc, char **argv)
             }
         } else if (!strcmp(r, "drop-ld-preload")) {
             drop_ld_preload = 1;
+        } else if (!strcmp(r, "strace")) {
+            do_strace = 1;
         } else
         {
             usage();
@@ -2008,8 +2011,8 @@ int main(int argc, char **argv)
     }
     global_env = env;
 
-    if(getenv("QEMU_STRACE") ){
-      do_strace=1;
+    if (getenv("QEMU_STRACE")) {
+        do_strace = 1;
     }
 
     wrk = environ;
@@ -2040,17 +2043,17 @@ int main(int argc, char **argv)
     if (loglevel) {
         page_dump(logfile);
 
-        fprintf(logfile, "start_brk   0x" TARGET_FMT_lx "\n", info->start_brk);
-        fprintf(logfile, "end_code    0x" TARGET_FMT_lx "\n", info->end_code);
-        fprintf(logfile, "start_code  0x" TARGET_FMT_lx "\n",
+        fprintf(logfile, "start_brk   0x" TARGET_ABI_FMT_lx "\n", info->start_brk);
+        fprintf(logfile, "end_code    0x" TARGET_ABI_FMT_lx "\n", info->end_code);
+        fprintf(logfile, "start_code  0x" TARGET_ABI_FMT_lx "\n",
                 info->start_code);
-        fprintf(logfile, "start_data  0x" TARGET_FMT_lx "\n",
+        fprintf(logfile, "start_data  0x" TARGET_ABI_FMT_lx "\n",
                 info->start_data);
-        fprintf(logfile, "end_data    0x" TARGET_FMT_lx "\n", info->end_data);
-        fprintf(logfile, "start_stack 0x" TARGET_FMT_lx "\n",
+        fprintf(logfile, "end_data    0x" TARGET_ABI_FMT_lx "\n", info->end_data);
+        fprintf(logfile, "start_stack 0x" TARGET_ABI_FMT_lx "\n",
                 info->start_stack);
-        fprintf(logfile, "brk         0x" TARGET_FMT_lx "\n", info->brk);
-        fprintf(logfile, "entry       0x" TARGET_FMT_lx "\n", info->entry);
+        fprintf(logfile, "brk         0x" TARGET_ABI_FMT_lx "\n", info->brk);
+        fprintf(logfile, "entry       0x" TARGET_ABI_FMT_lx "\n", info->entry);
     }
 
     target_set_brk(info->brk);
