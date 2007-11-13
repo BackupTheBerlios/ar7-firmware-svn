@@ -1,3 +1,32 @@
+2007-11-13 02:56  balrog
+
+	* slirp/misc.c: Revert an accidental change in previous commit.
+
+2007-11-13 02:50  balrog
+
+	* slirp/misc.c, target-arm/cpu.h, target-arm/helper.c: Prevent
+	  cpsr_write/_read be put out of line in op.o (fixes a segfault on
+	  some platforms).
+
+2007-11-13 00:40  j_mayer
+
+	* target-ppc/translate_init.c: Add PVR and SPR definition for most
+	  embedded PowerPC from Freescale.
+
+2007-11-13 00:29  j_mayer
+
+	* target-ppc/: cpu.h, op_template.h, translate.c: PowerPC SPE
+	  extension fix: must always preserve GPR high bits when   running
+	  in 32 bits mode.
+
+2007-11-13 00:12  bellard
+
+	* target-m68k/helper.c: added missing return
+
+2007-11-12 22:16  bellard
+
+	* target-alpha/op_mem.h: reduce verbosity
+
 2007-11-12 02:56  j_mayer
 
 	* configure, darwin-user/main.c, linux-user/main.c,
