@@ -945,7 +945,7 @@ Change the medium for a removable disk device to point to @var{filename}. eg
 (qemu) change cdrom /path/to/some.iso
 @end example
 
-@item change vnc @var{display,options}
+@item change vnc @var{display},@var{options}
 Change the configuration of the VNC server. The valid syntax for @var{display}
 and @var{options} are described at @ref{sec_invocation}. eg
 
@@ -966,24 +966,24 @@ Password: ********
 
 @end table
 
-@item screendump filename
+@item screendump @var{filename}
 Save screen into PPM image @var{filename}.
 
-@item mouse_move dx dy [dz]
+@item mouse_move @var{dx} @var{dy} [@var{dz}]
 Move the active mouse to the specified coordinates @var{dx} @var{dy}
 with optional scroll axis @var{dz}.
 
-@item mouse_button val
+@item mouse_button @var{val}
 Change the active mouse button state @var{val} (1=L, 2=M, 4=R).
 
-@item mouse_set index
+@item mouse_set @var{index}
 Set which mouse device receives events at given @var{index}, index
 can be obtained with
 @example
 info mice
 @end example
 
-@item wavcapture filename [frequency [bits [channels]]]
+@item wavcapture @var{filename} [@var{frequency} [@var{bits} [@var{channels}]]]
 Capture audio into @var{filename}. Using sample rate @var{frequency}
 bits per sample @var{bits} and number of channels @var{channels}.
 
@@ -994,7 +994,7 @@ Defaults:
 @item Number of channels = 2 - Stereo
 @end itemize
 
-@item stopcapture index
+@item stopcapture @var{index}
 Stop capture with a given @var{index}, index can be obtained with
 @example
 info capture
@@ -1003,17 +1003,17 @@ info capture
 @item log item1[,...]
 Activate logging of the specified items to @file{/tmp/qemu.log}.
 
-@item savevm [tag|id]
+@item savevm [@var{tag}|@var{id}]
 Create a snapshot of the whole virtual machine. If @var{tag} is
 provided, it is used as human readable identifier. If there is already
 a snapshot with the same tag or ID, it is replaced. More info at
 @ref{vm_snapshots}.
 
-@item loadvm tag|id
+@item loadvm @var{tag}|@var{id}
 Set the whole virtual machine to the snapshot identified by the tag
 @var{tag} or the unique snapshot ID @var{id}.
 
-@item delvm tag|id
+@item delvm @var{tag}|@var{id}
 Delete the snapshot identified by @var{tag} or @var{id}.
 
 @item stop
@@ -1025,10 +1025,10 @@ Resume emulation.
 @item gdbserver [port]
 Start gdbserver session (default port=1234)
 
-@item x/fmt addr
+@item x/fmt @var{addr}
 Virtual memory dump starting at @var{addr}.
 
-@item xp /fmt addr
+@item xp /fmt @var{addr}
 Physical memory dump starting at @var{addr}.
 
 @var{fmt} is a format which tells the command how to format the
