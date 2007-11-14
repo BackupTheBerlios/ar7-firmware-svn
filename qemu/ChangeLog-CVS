@@ -1,3 +1,51 @@
+2007-11-14 16:18  bellard
+
+	* linux-user/: main.c, syscall.c, i386/syscall.h, x86_64/syscall.h:
+	  i386 TLS support
+
+2007-11-14 16:16  bellard
+
+	* linux-user/qemu.h: always define TARGET_ABI32 if 32 bit user
+
+2007-11-14 12:29  bellard
+
+	* linux-user/mmap.c: fixed target_mmap() if host page size <
+	  TARGET_PAGE_SIZE
+
+2007-11-14 11:51  bellard
+
+	* cpu-all.h, exec.c, linux-user/qemu.h, linux-user/syscall.c:
+	  suppressed page_unprotect_range() - fixed access_ok()
+
+2007-11-14 11:34  bellard
+
+	* Makefile, tests/Makefile: removed obsolete test2 target
+
+2007-11-14 11:17  bellard
+
+	* linux-user/uaccess.c: added lock_user() in target_strlen()
+
+2007-11-14 06:26  j_mayer
+
+	* target-ppc/translate.c: Fix invalid PowerPC 64 rldimi optimized
+	  case.
+
+2007-11-14 04:11  ths
+
+	* target-mips/translate_init.c: Introduce 4KEm configuration with
+	  fixed MMU mapping. Delete bogus INSN_DSP flags.
+
+2007-11-14 02:08  j_mayer
+
+	* target-ppc/: translate.c, translate_init.c: Reorganize PowerPC
+	  instructions categories, add icbi separate case.  Fix frsqrtes
+	  instruction opcode.
+
+2007-11-13 23:52  balrog
+
+	* hw/: ads7846.c, usb-ohci.c: Fix signed/unsigned comparisons in
+	  OHCI host.  ADS7846 is partially compatible with TSC2046.
+
 2007-11-13 02:56  balrog
 
 	* slirp/misc.c: Revert an accidental change in previous commit.
