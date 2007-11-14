@@ -1,3 +1,35 @@
+2007-11-14 20:41  blueswir1
+
+	* pc-bios/: README, openbios-sparc32, openbios-sparc64: Update
+	  OpenBIOS image to SVN revision 176. Changes: r172: Enable boot
+	  mode in the exception handler for both SuperSparc and TurboSparc
+	  r173: More CPU definitions r174: Add Sparc64 CPU identification
+	  r175: Add SPARCserver 600MP emulation r176: Update OHW interface
+	  to version 3.
+
+2007-11-14 20:35  blueswir1
+
+	* hw/: firmware_abi.h, sun4m.c, sun4u.c: Update OHW interface to
+	  version 3.  Use common ABI description file with OpenBIOS.
+
+2007-11-14 19:45  j_mayer
+
+	* target-ppc/: cpu.h, exec.h: Fix PowerPC targets compilation on 32
+	  bits hosts: now that the SPE extension is available for all
+	  targets,  we always need to have some 64 bits temporary
+	  registers.
+
+2007-11-14 19:08  bellard
+
+	* linux-user/main.c, linux-user/syscall.c,
+	  linux-user/syscall_defs.h, linux-user/x86_64/syscall.h,
+	  target-i386/cpu.h, target-i386/helper.c: x86_64 linux user
+	  emulation
+
+2007-11-14 19:04  bellard
+
+	* linux-user/strace.c: printf format fix
+
 2007-11-14 16:18  bellard
 
 	* linux-user/: main.c, syscall.c, i386/syscall.h, x86_64/syscall.h:
