@@ -1,3 +1,15 @@
+2007-11-15 20:04  pbrook
+
+	* vl.c: Init dumb display if no others available.
+
+2007-11-15 16:37  bellard
+
+	* linux-user/main.c: force correct ppc64 cpu
+
+2007-11-15 16:27  bellard
+
+	* linux-user/main.c: x86_64 fixes
+
 2007-11-14 20:41  blueswir1
 
 	* pc-bios/: README, openbios-sparc32, openbios-sparc64: Update
