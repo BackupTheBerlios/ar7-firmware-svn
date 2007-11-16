@@ -1,3 +1,25 @@
+2007-11-16 15:57  ths
+
+	* fpu/softfloat-specialize.h: Fix NaN handling for MIPS and HPPA.
+
+2007-11-16 15:11  j_mayer
+
+	* translate-all.c, target-ppc/cpu.h, target-ppc/op.c,
+	  target-ppc/op_helper.c, target-ppc/op_helper.h,
+	  target-ppc/translate.c: Always make PowerPC hypervisor mode
+	  memory accesses and instructions   available for full system
+	  emulation, then removing all #if TARGET_PPC64H   from micro-ops
+	  and code translator.	Add new macros to dramatically simplify
+	  memory access tables definitions   in target-ppc/translate.c.
+
+2007-11-16 11:46  bellard
+
+	* arm-semi.c, m68k-semi.c, softmmu-semi.h, linux-user/elfload.c,
+	  linux-user/flatload.c, linux-user/linuxload.c, linux-user/main.c,
+	  linux-user/qemu.h, linux-user/syscall.c,
+	  target-arm/nwfpe/fpa11_cpdt.c: suppressed tgetx and tputx
+	  (initial patch by Thayne Harbaugh)
+
 2007-11-15 20:04  pbrook
 
 	* vl.c: Init dumb display if no others available.
