@@ -1,3 +1,175 @@
+2007-11-17 22:01  blueswir1
+
+	* hw/slavio_intctl.c:  Name the magic constants, fix a hex number
+	  without 0x
+
+2007-11-17 19:43  balrog
+
+	* hw/: pxa2xx_dma.c, pxa2xx_gpio.c, pxa2xx_mmci.c, sd.c: Better
+	  STOPINTR bit semantics in the PXA2xx DMA.  Don't error out on
+	  reading GPCR register, just warn (Thorsten Zitterell).  Don't
+	  zero a memory that's already zeroed.
+
+2007-11-17 18:35  pbrook
+
+	* audio/: alsaaudio.c, coreaudio.c, dsoundaudio.c, fmodaudio.c:
+	  Remove stray uses of vl.h.
+
+2007-11-17 18:14  pbrook
+
+	* Makefile, Makefile.target, arm-semi.c, block-raw.c, block.c,
+	  block.h, cocoa.m, console.c, console.h, cpu-defs.h, gdbstub.c,
+	  loader.c, m68k-semi.c, monitor.c, net.h, osdep.c, qemu-char.h,
+	  qemu-common.h, qemu-timer.h, readline.c, sdl.c, sysemu.h,
+	  tap-win32.c, usb-linux.c, vl.c, vl.h, vnc.c, x_keymap.c,
+	  audio/audio.c, audio/audio.h, audio/mixeng.c, audio/noaudio.c,
+	  audio/ossaudio.c, audio/sdlaudio.c, audio/wavaudio.c,
+	  audio/wavcapture.c, hw/acpi.c, hw/adb.c, hw/adlib.c,
+	  hw/ads7846.c, hw/an5206.c, hw/apb_pci.c, hw/apic.c,
+	  hw/arm-misc.h, hw/arm_boot.c, hw/arm_pic.c, hw/arm_pic.h,
+	  hw/arm_sysctl.c, hw/arm_timer.c, hw/armv7m.c, hw/armv7m_nvic.c,
+	  hw/audiodev.h, hw/boards.h, hw/cdrom.c, hw/cirrus_vga.c,
+	  hw/cs4231.c, hw/cuda.c, hw/devices.h, hw/dma.c, hw/ds1225y.c,
+	  hw/dummy_m68k.c, hw/ecc.c, hw/eepro100.c, hw/eeprom93xx.c,
+	  hw/eeprom93xx.h, hw/es1370.c, hw/esp.c, hw/etraxfs.c,
+	  hw/etraxfs_ser.c, hw/etraxfs_timer.c, hw/fdc.c, hw/fdc.h,
+	  hw/flash.h, hw/grackle_pci.c, hw/gt64xxx.c, hw/gumstix.c,
+	  hw/heathrow_pic.c, hw/hw.h, hw/i2c.c, hw/i2c.h, hw/i8254.c,
+	  hw/i8259.c, hw/ide.c, hw/integratorcp.c, hw/iommu.c, hw/irq.c,
+	  hw/irq.h, hw/isa.h, hw/isa_mmio.c, hw/jazz_led.c,
+	  hw/lsi53c895a.c, hw/m48t59.c, hw/m48t59.h, hw/mac_dbdma.c,
+	  hw/mac_nvram.c, hw/macio.c, hw/max111x.c, hw/max7310.c,
+	  hw/mc146818rtc.c, hw/mcf.h, hw/mcf5206.c, hw/mcf5208.c,
+	  hw/mcf_fec.c, hw/mcf_intc.c, hw/mcf_uart.c, hw/mips.h,
+	  hw/mips_int.c, hw/mips_malta.c, hw/mips_mipssim.c,
+	  hw/mips_pica61.c, hw/mips_r4k.c, hw/mips_timer.c, hw/mipsnet.c,
+	  hw/mpcore.c, hw/nand.c, hw/ne2000.c, hw/nvram.h, hw/omap.c,
+	  hw/omap.h, hw/omap1_clk.c, hw/omap_i2c.c, hw/omap_lcdc.c,
+	  hw/omap_mmc.c, hw/openpic.c, hw/palm.c, hw/parallel.c, hw/pc.c,
+	  hw/pc.h, hw/pci.c, hw/pci.h, hw/pckbd.c, hw/pcmcia.h, hw/pcnet.c,
+	  hw/pcspk.c, hw/pflash_cfi01.c, hw/pflash_cfi02.c, hw/piix_pci.c,
+	  hw/pl011.c, hw/pl022.c, hw/pl031.c, hw/pl050.c, hw/pl061.c,
+	  hw/pl080.c, hw/pl110.c, hw/pl181.c, hw/pl190.c, hw/ppc.c,
+	  hw/ppc.h, hw/ppc405_boards.c, hw/ppc405_uc.c, hw/ppc4xx_devs.c,
+	  hw/ppc_chrp.c, hw/ppc_mac.h, hw/ppc_oldworld.c, hw/ppc_prep.c,
+	  hw/prep_pci.c, hw/primecell.h, hw/ps2.c, hw/ps2.h, hw/ptimer.c,
+	  hw/pxa.h, hw/pxa2xx.c, hw/pxa2xx_dma.c, hw/pxa2xx_gpio.c,
+	  hw/pxa2xx_lcd.c, hw/pxa2xx_mmci.c, hw/pxa2xx_pcmcia.c,
+	  hw/pxa2xx_pic.c, hw/pxa2xx_timer.c, hw/r2d.c, hw/realview.c,
+	  hw/realview_gic.c, hw/rtl8139.c, hw/sb16.c, hw/scsi-disk.c,
+	  hw/scsi-disk.h, hw/sd.c, hw/sd.h, hw/serial.c, hw/sh.h,
+	  hw/sh7750.c, hw/sh7750_regnames.c, hw/sh_intc.c, hw/sh_serial.c,
+	  hw/sh_timer.c, hw/shix.c, hw/slavio_intctl.c, hw/slavio_misc.c,
+	  hw/slavio_serial.c, hw/slavio_timer.c, hw/smbus.c, hw/smbus.h,
+	  hw/smbus_eeprom.c, hw/smc91c111.c, hw/sparc32_dma.c,
+	  hw/sparc32_dma.h, hw/spitz.c, hw/ssd0303.c, hw/ssd0323.c,
+	  hw/stellaris.c, hw/sun4m.c, hw/sun4m.h, hw/sun4u.c, hw/tc58128.c,
+	  hw/tcx.c, hw/tsc210x.c, hw/unin_pci.c, hw/usb-hid.c,
+	  hw/usb-hub.c, hw/usb-msd.c, hw/usb-ohci.c, hw/usb-uhci.c,
+	  hw/usb-wacom.c, hw/usb.c, hw/usb.h, hw/versatile_pci.c,
+	  hw/versatilepb.c, hw/vga.c, hw/vmmouse.c, hw/vmport.c,
+	  hw/vmware_vga.c, hw/wm8750.c, target-sparc/helper.c,
+	  target-sparc/op_helper.c: Break up vl.h.
+
+2007-11-17 16:32  pbrook
+
+	* hw/sd.c: sd.c build fix.
+
+2007-11-17 15:53  pbrook
+
+	* target-mips/: fop_template.c, op.c, op_helper.c: Fix int/float
+	  inconsistencies.
+
+2007-11-17 15:34  balrog
+
+	* hw/: omap_mmc.c, pxa.h, pxa2xx_mmci.c, sd.c, sd.h, spitz.c:
+	  Convert SD cards code to use qemu_irq too.
+
+2007-11-17 15:07  balrog
+
+	* vl.h, hw/gumstix.c, hw/pxa.h, hw/pxa2xx.c, hw/pxa2xx_gpio.c,
+	  hw/pxa2xx_lcd.c, hw/spitz.c: Convert PXA2xx GPIOs and SCOOP GPIOs
+	  to a qemu_irq based api (similar to omap, max7310 and s3c gpios).
+	  Convert spitz and gumstix boards to use new api.  Remove now
+	  obsolete gpio_handler_t definition.
+
+2007-11-17 13:12  balrog
+
+	* softmmu_template.h, vl.c: Don't compare '\0' against pointers.
+	  Add a note from Fabrice in slow_st template.
+
+2007-11-17 13:01  j_mayer
+
+	* target-ppc/translate.c: Fix collision in PowerPC instructions
+	  definitions.
+
+2007-11-17 12:50  balrog
+
+	* Makefile.target, vl.c, vl.h, hw/gumstix.c, hw/pflash_cfi01.c:
+	  Gumstix 'connex' board support by Thorsten Zitterell.
+
+2007-11-17 11:24  balrog
+
+	* configure: Show usage and abort if an unknown option is passed to
+	  configure (Carlo Marcelo Arenas Belon).
+
+2007-11-17 10:53  balrog
+
+	* softmmu_template.h: Check permissions for the last byte first in
+	  unaligned slow_st accesses (patch from TeLeMan).
+
+2007-11-17 10:04  blueswir1
+
+	* vl.h, hw/iommu.c, hw/sun4m.c:  Machine specific IOMMU version
+	  (Robert Reif)
+
+2007-11-17 09:21  blueswir1
+
+	* target-sparc/op_helper.c:  Remove unnecessary register masking
+	  (Robert Reif)
+
+2007-11-17 09:19  blueswir1
+
+	* target-sparc/op_helper.c:  Fix MXCC error register (Robert Reif)
+
+2007-11-17 09:18  blueswir1
+
+	* target-sparc/op_helper.c:  Add MXCC module reset register (Robert
+	  Reif)
+
+2007-11-17 03:16  j_mayer
+
+	* target-ppc/: cpu.h, translate_init.c: Make the PowerPC MMU model,
+	  exception model and input bus model  typedefed enums.
+
+2007-11-17 03:04  j_mayer
+
+	* hw/ppc.c, target-ppc/cpu.h: Add missing definition for number of
+	  input pins for the PowerPC 970 bus.  Use proper INPUT_NB
+	  definitions to allocate PowerPC input pins structure,   fixing a
+	  buffer overflow in the 6xx bus case.
+
+2007-11-17 02:54  j_mayer
+
+	* configure: Remove ppc64h CPUs definitions from the configure
+	  script.
+
+2007-11-17 02:52  j_mayer
+
+	* darwin-user/main.c: Resynchronize darwin-user target with
+	  linux-user: add CPU selection feature, choose the correct default
+	  CPU and set the 32/64 bits computation mode properly.
+
+2007-11-17 02:37  j_mayer
+
+	* darwin-user/main.c, hw/ppc.c, linux-user/main.c,
+	  target-ppc/cpu.h, target-ppc/helper.c, target-ppc/helper_regs.h,
+	  target-ppc/translate_init.c: Always make all PowerPC exception
+	  definitions visible.	Always make the hypervisor timers
+	  available.  Remove all TARGET_PPC64H checks, keeping a few if (0)
+	  tests for cases that cannot be properly handled with the current
+	  PowerPC CPU definition.
+
 2007-11-16 15:57  ths
 
 	* fpu/softfloat-specialize.h: Fix NaN handling for MIPS and HPPA.

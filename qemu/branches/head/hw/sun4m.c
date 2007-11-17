@@ -21,8 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#include "vl.h"
-#include "m48t59.h"
+#include "hw.h"
+#include "qemu-timer.h"
+#include "sun4m.h"
+#include "nvram.h"
+#include "sparc32_dma.h"
+#include "fdc.h"
+#include "sysemu.h"
+#include "net.h"
+#include "boards.h"
 #include "firmware_abi.h"
 
 //#define DEBUG_IRQ
@@ -72,6 +79,7 @@ struct hwdef {
     int intctl_g_intr, esp_irq, le_irq, clock_irq, clock1_irq;
     int ser_irq, ms_kb_irq, fd_irq, me_irq, cs_irq;
     int machine_id; // For NVRAM
+    uint32_t iommu_version;
     uint32_t intbit_to_level[32];
 };
 
@@ -302,7 +310,7 @@ static void *sun4m_hw_init(const struct hwdef *hwdef, int RAM_size,
     /* allocate RAM */
     cpu_register_physical_memory(0, RAM_size, 0);
 
-    iommu = iommu_init(hwdef->iommu_base);
+    iommu = iommu_init(hwdef->iommu_base, hwdef->iommu_version);
     slavio_intctl = slavio_intctl_init(hwdef->intctl_base,
                                        hwdef->intctl_base + 0x10000ULL,
                                        &hwdef->intbit_to_level[0],
@@ -468,6 +476,7 @@ static const struct hwdef hwdefs[] = {
         .me_irq = 30,
         .cs_irq = 5,
         .machine_id = 0x80,
+        .iommu_version = 0x04000000,
         .intbit_to_level = {
             2, 3, 5, 7, 9, 11, 0, 14,   3, 5, 7, 9, 11, 13, 12, 12,
             6, 0, 4, 10, 8, 0, 11, 0,   0, 0, 0, 0, 15, 0, 15, 0,
@@ -501,6 +510,7 @@ static const struct hwdef hwdefs[] = {
         .me_irq = 30,
         .cs_irq = -1,
         .machine_id = 0x72,
+        .iommu_version = 0x03000000,
         .intbit_to_level = {
             2, 3, 5, 7, 9, 11, 0, 14,   3, 5, 7, 9, 11, 13, 12, 12,
             6, 0, 4, 10, 8, 0, 11, 0,   0, 0, 0, 0, 15, 0, 15, 0,
@@ -534,6 +544,7 @@ static const struct hwdef hwdefs[] = {
         .me_irq = 30,
         .cs_irq = -1,
         .machine_id = 0x71,
+        .iommu_version = 0x01000000,
         .intbit_to_level = {
             2, 3, 5, 7, 9, 11, 0, 14,   3, 5, 7, 9, 11, 13, 12, 12,
             6, 0, 4, 10, 8, 0, 11, 0,   0, 0, 0, 0, 15, 0, 15, 0,

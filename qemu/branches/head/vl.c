@@ -21,7 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#include "vl.h"
+#include "hw/hw.h"
+#include "hw/boards.h"
+#include "hw/usb.h"
+#include "hw/pcmcia.h"
+#include "hw/pc.h"
+#include "hw/fdc.h"
+#include "hw/audiodev.h"
+#include "hw/isa.h"
+#include "net.h"
+#include "console.h"
+#include "sysemu.h"
+#include "gdbstub.h"
+#include "qemu-timer.h"
+#include "qemu-char.h"
+#include "block.h"
+#include "audio/audio.h"
 
 #include <unistd.h>
 #include <fcntl.h>
@@ -7435,6 +7450,7 @@ void register_machines(void)
     qemu_register_machine(&palmte_machine);
     qemu_register_machine(&lm3s811evb_machine);
     qemu_register_machine(&lm3s6965evb_machine);
+    qemu_register_machine(&connex_machine);
 #elif defined(TARGET_SH4)
     qemu_register_machine(&shix_machine);
     qemu_register_machine(&r2d_machine);
@@ -8255,19 +8271,20 @@ int main(int argc, char **argv)
 #endif
     linux_boot = (kernel_filename != NULL);
     net_boot = (boot_devices_bitmap >> ('n' - 'a')) && 0xF;
-    
+
     /* XXX: this should not be: some embedded targets just have flash */
     if (!linux_boot && net_boot == 0 &&
-        hd_filename[0] == '\0' &&
-        (cdrom_index >= 0 && hd_filename[cdrom_index] == '\0') &&
-        fd_filename[0] == '\0')
+        hd_filename[0] == NULL &&
+        (cdrom_index >= 0 && hd_filename[cdrom_index] == NULL) &&
+        fd_filename[0] == NULL &&
+        pflash_filename[0] == NULL)
         help(1);
 
     /* boot to floppy or the default cd if no hard disk defined yet */
     if (!boot_devices[0]) {
-        if (hd_filename[0] != '\0')
+        if (hd_filename[0] != NULL)
             boot_devices = "c";
-        else if (fd_filename[0] != '\0')
+        else if (fd_filename[0] != NULL)
             boot_devices = "a";
         else
             boot_devices = "d";

@@ -35,10 +35,9 @@ struct ppc_def_t {
     uint32_t pvr;
     uint64_t insns_flags;
     uint64_t msr_mask;
-    uint8_t mmu_model;
-    uint8_t excp_model;
-    uint8_t bus_model;
-    uint8_t pad;
+    powerpc_mmu_t   mmu_model;
+    powerpc_excp_t  excp_model;
+    powerpc_input_t bus_model;
     uint32_t flags;
     int bfd_mach;
     void (*init_proc)(CPUPPCState *env);
@@ -2609,9 +2608,7 @@ static void init_excp_970 (CPUPPCState *env)
     env->excp_vectors[POWERPC_EXCP_PROGRAM]  = 0x00000700;
     env->excp_vectors[POWERPC_EXCP_FPU]      = 0x00000800;
     env->excp_vectors[POWERPC_EXCP_DECR]     = 0x00000900;
-#if defined(TARGET_PPC64H) /* PowerPC 64 with hypervisor mode support */
     env->excp_vectors[POWERPC_EXCP_HDECR]    = 0x00000980;
-#endif
     env->excp_vectors[POWERPC_EXCP_SYSCALL]  = 0x00000C00;
     env->excp_vectors[POWERPC_EXCP_TRACE]    = 0x00000D00;
     env->excp_vectors[POWERPC_EXCP_PERFM]    = 0x00000F00;
