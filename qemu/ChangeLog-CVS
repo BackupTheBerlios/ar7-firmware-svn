@@ -1,3 +1,46 @@
+2007-11-18 22:54  pbrook
+
+	* hw/ssd0323.c: SSD0323 vertical incrememnt mode.
+
+2007-11-18 22:37  ths
+
+	* configure: Add -m64 to OS_LDFLAGS for Solaris/x86_64. Use
+	  OS_CFLAGS when looking for libSDL. Patch by Ben Taylor.
+
+2007-11-18 22:33  ths
+
+	* Makefile: Use CONFIG_VNC_TLS_CFLAGS for building vnc.o.
+
+2007-11-18 22:22  ths
+
+	* check_ops.sh, configure, dyngen-exec.h, dyngen.c, exec-all.h:
+	  Fixes for s/390 host support, by Bastian Blank.
+
+2007-11-18 22:12  pbrook
+
+	* Makefile: Fix out of tree builds.
+
+2007-11-18 16:50  j_mayer
+
+	* dyngen.h: Fix for ISO C compliance:  function qualifiers must
+	  always come before the return type.
+
+2007-11-18 15:40  pbrook
+
+	* hw/gumstix.c: Fix connex board init routine.
+
+2007-11-18 15:36  pbrook
+
+	* Makefile, hw/devices.h, hw/irq.c, hw/stellaris.c,
+	  hw/stellaris_input.c: Luminary board input support.
+
+2007-11-18 15:33  pbrook
+
+	* fpu/softfloat-specialize.h, fpu/softfloat.c, fpu/softfloat.h,
+	  target-arm/nwfpe/double_cpdo.c, target-arm/nwfpe/single_cpdo.c,
+	  target-m68k/helper.c, target-m68k/op.c, target-mips/op_helper.c:
+	  Add strict checking mode for softfp code.
+
 2007-11-18 09:46  blueswir1
 
 	* vl.c, hw/an5206.c, hw/boards.h, hw/dummy_m68k.c, hw/etraxfs.c,

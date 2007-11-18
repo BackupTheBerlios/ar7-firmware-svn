@@ -1,11 +1,11 @@
 # Makefile for QEMU.
 
-VPATH=$(SRC_PATH):$(SRC_PATH)/hw
-
 include config-host.mak
 
 .PHONY: all clean distclean dvi info install install-doc tar tarbin \
 	speed test html dvi info
+
+VPATH=$(SRC_PATH):$(SRC_PATH)/hw
 
 BASE_CFLAGS=
 BASE_LDFLAGS=
@@ -54,7 +54,7 @@ OBJS+=block.o
 
 OBJS+=irq.o
 OBJS+=i2c.o smbus.o smbus_eeprom.o max7310.o max111x.o wm8750.o
-OBJS+=ssd0303.o ssd0323.o ads7846.o 
+OBJS+=ssd0303.o ssd0323.o ads7846.o stellaris_input.o
 OBJS+=scsi-disk.o cdrom.o
 OBJS+=usb.o usb-hub.o usb-linux.o usb-hid.o usb-msd.o usb-wacom.o
 
@@ -109,7 +109,7 @@ sdl.o: sdl.c keymaps.c sdl_keysym.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(SDL_CFLAGS) $(BASE_CFLAGS) -c -o $@ $<
 
 vnc.o: vnc.c keymaps.c sdl_keysym.h vnchextile.h d3des.c d3des.h
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(BASE_CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(BASE_CFLAGS) $(CONFIG_VNC_TLS_CFLAGS) -c -o $@ $<
 
 audio/sdlaudio.o: audio/sdlaudio.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(SDL_CFLAGS) $(BASE_CFLAGS) -c -o $@ $<
