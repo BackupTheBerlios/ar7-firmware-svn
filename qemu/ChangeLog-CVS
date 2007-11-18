@@ -1,3 +1,76 @@
+2007-11-18 09:46  blueswir1
+
+	* vl.c, hw/an5206.c, hw/boards.h, hw/dummy_m68k.c, hw/etraxfs.c,
+	  hw/integratorcp.c, hw/mcf5208.c, hw/mips_malta.c,
+	  hw/mips_mipssim.c, hw/mips_pica61.c, hw/mips_r4k.c, hw/palm.c,
+	  hw/pc.c, hw/ppc405_boards.c, hw/ppc_chrp.c, hw/ppc_oldworld.c,
+	  hw/ppc_prep.c, hw/r2d.c, hw/realview.c, hw/shix.c, hw/spitz.c,
+	  hw/stellaris.c, hw/sun4m.c, hw/sun4u.c, hw/versatilepb.c:  Remove
+	  unused parameters from QEMUMachineInitFunc (Laurent Vivier)
+
+2007-11-18 04:36  ths
+
+	* target-mips/: op.c, op_helper.c, translate.c: Fix MIPS64 R2
+	  instructions.
+
+2007-11-18 04:19  ths
+
+	* target-mips/translate_init.c: Use a valid PRid.
+
+2007-11-18 03:09  balrog
+
+	* vl.c, hw/pflash_cfi01.c: Fix a && -> & typo.	Catch wrong/unknown
+	  NOR flash command sequences, by Thorsten Zitterell.
+
+2007-11-18 02:44  pbrook
+
+	* block-vvfat.c, block.c, console.c, dyngen.c, elf_ops.h,
+	  i386-dis.c, loader.c, monitor.c, osdep.c, qemu-char.h,
+	  translate-op.c, usb-linux.c, vl.c, vnc.c, x_keymap.c,
+	  audio/audio.c, hw/arm_sysctl.c, hw/arm_timer.c, hw/gt64xxx.c,
+	  hw/i8259.c, hw/ide.c, hw/mc146818rtc.c, hw/mcf_fec.c,
+	  hw/mips_malta.c, hw/ne2000.c, hw/nvram.h, hw/omap.c, hw/omap.h,
+	  hw/omap_lcdc.c, hw/parallel.c, hw/pc.c, hw/pci.c, hw/pckbd.c,
+	  hw/piix_pci.c, hw/pl061.c, hw/pl190.c, hw/pxa2xx_lcd.c,
+	  hw/pxa2xx_pcmcia.c, hw/realview_gic.c, hw/rtl8139.c, hw/sd.c,
+	  hw/sh_serial.c, hw/sh_timer.c, hw/smbus.c, hw/stellaris.c,
+	  hw/usb-ohci.c, hw/wm8750.c, target-i386/helper.c: Add statics and
+	  missing #includes for prototypes.
+
+2007-11-18 00:14  j_mayer
+
+	* target-ppc/: cpu.h, translate_init.c: Improve PowerPC
+	  instructions set dump.  Remove meaningless define from cpu.h Misc
+	  cleanups.
+
+2007-11-18 00:02  j_mayer
+
+	* target-ppc/: cpu.h, translate_init.c: Add definitions for
+	  Freescale PowerPC implementations,   ie MPC5xx, MPC8xx, e200,
+	  e300, e500 and e600 cores.  Make those CPUs and PowerPC 440
+	  available for user-mode emulation,   thus providing a way of
+	  testing their implementation specific instructions.
+
+2007-11-17 23:42  j_mayer
+
+	* target-ppc/: cpu.h, helper.c, translate_init.c: Define Freescale
+	  cores specific MMU model, exceptions and input bus.	 (but do
+	  not provide any actual implementation).
+
+2007-11-17 23:26  j_mayer
+
+	* target-ppc/: translate.c, translate_init.c: A little more
+	  granularity in PowerPC instructions definition is needed   in
+	  order to implement Freescale cores.  Fix efsadd / efssub opcodes.
+
+2007-11-17 22:14  j_mayer
+
+	* target-ppc/: cpu.h, helper.c, helper_regs.h, op_helper.c: PowerPC
+	  hypervisor mode is not fundamentally available only for PowerPC
+	  64.  Remove TARGET_PPC64 dependency and add code provision to be
+	  able	 to define a fake 32 bits CPU with hypervisor feature
+	  support.
+
 2007-11-17 22:01  blueswir1
 
 	* hw/slavio_intctl.c:  Name the magic constants, fix a hex number
