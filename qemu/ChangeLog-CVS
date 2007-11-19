@@ -1,3 +1,47 @@
+2007-11-19 04:43  balrog
+
+	* hw/: omap.c, omap.h, tsc210x.c: Clean-up/rewrite audio over I^2S
+	  support.
+
+2007-11-19 03:38  pbrook
+
+	* hw/stellaris.c: Fix typo in error message.
+
+2007-11-19 02:48  j_mayer
+
+	* target-ppc/translate.c: Fix another collision in PowerPC
+	  instructions definitions.
+
+2007-11-19 02:48  j_mayer
+
+	* hw/ppc_prep.c, target-ppc/cpu.h, target-ppc/translate_init.c: New
+	  PowerPC CPU flag to define the decrementer and time-base source
+	  clock.  Use it to properly initialize the clock for the PreP
+	  target.
+
+2007-11-19 02:06  j_mayer
+
+	* thunk.c, thunk.h: Fix attempt to inline recursive functions.
+
+2007-11-19 02:05  j_mayer
+
+	* vl.c: Mark hex_dump as unused to avoid compilation warnings.
+
+2007-11-19 01:38  j_mayer
+
+	* exec-all.h, osdep.h, qemu-common.h, translate-op.c,
+	  darwin-user/qemu.h: Avoid duplicated definitions: move common
+	  definitions from exec-all.h	and qemu-common.h to osdep.h.
+	  Include this header in translate-op.c.  Make sure it's included
+	  first in darwin-user/qemu.h.	To avoid discarded inlining bug,
+	  define inline as always_inline and always_inline as (( attribute
+	  (always_inline) )) __inline__.
+
+2007-11-18 23:34  ths
+
+	* Makefile.target: Solaris build fixes, based on a patch by Ben
+	  Taylor.
+
 2007-11-18 22:54  pbrook
 
 	* hw/ssd0323.c: SSD0323 vertical incrememnt mode.
