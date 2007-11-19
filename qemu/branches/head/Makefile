@@ -1,6 +1,6 @@
 # Makefile for QEMU.
 
-include config-host.mak
+-include config-host.mak
 
 .PHONY: all clean distclean dvi info install install-doc tar tarbin \
 	speed test html dvi info
@@ -132,6 +132,15 @@ qemu-img-%.o: %.c
 # dyngen host tool
 dyngen$(EXESUF): dyngen.c
 	$(HOST_CC) $(CFLAGS) $(CPPFLAGS) $(BASE_CFLAGS) -o $@ $^
+
+config-host.mak: configure
+ifneq ($(wildcard config-host.mak),)
+	@echo $@ is out-of-date, running configure
+	@fgrep "Configured with:" $@ | sed s/.*Configured.with:.// | sh
+else
+	@echo "Please call configure before running make!"
+	@exit 1
+endif
 
 clean:
 # avoid old build problems by removing potentially incorrect old files
