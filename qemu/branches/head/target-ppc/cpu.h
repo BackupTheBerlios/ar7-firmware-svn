@@ -93,30 +93,33 @@ typedef uint32_t ppc_gpr_t;
 /* MMU model                                                                 */
 typedef enum powerpc_mmu_t powerpc_mmu_t;
 enum powerpc_mmu_t {
-    POWERPC_MMU_UNKNOWN    = 0,
+    POWERPC_MMU_UNKNOWN    = 0x00000000,
     /* Standard 32 bits PowerPC MMU                            */
-    POWERPC_MMU_32B,
+    POWERPC_MMU_32B        = 0x00000001,
     /* PowerPC 6xx MMU with software TLB                       */
-    POWERPC_MMU_SOFT_6xx,
+    POWERPC_MMU_SOFT_6xx   = 0x00000002,
     /* PowerPC 74xx MMU with software TLB                      */
-    POWERPC_MMU_SOFT_74xx,
+    POWERPC_MMU_SOFT_74xx  = 0x00000003,
     /* PowerPC 4xx MMU with software TLB                       */
-    POWERPC_MMU_SOFT_4xx,
+    POWERPC_MMU_SOFT_4xx   = 0x00000004,
     /* PowerPC 4xx MMU with software TLB and zones protections */
-    POWERPC_MMU_SOFT_4xx_Z,
+    POWERPC_MMU_SOFT_4xx_Z = 0x00000005,
     /* PowerPC MMU in real mode only                           */
-    POWERPC_MMU_REAL,
+    POWERPC_MMU_REAL       = 0x00000006,
     /* Freescale MPC8xx MMU model                              */
-    POWERPC_MMU_MPC8xx,
+    POWERPC_MMU_MPC8xx     = 0x00000007,
     /* BookE MMU model                                         */
-    POWERPC_MMU_BOOKE,
+    POWERPC_MMU_BOOKE      = 0x00000008,
     /* BookE FSL MMU model                                     */
-    POWERPC_MMU_BOOKE_FSL,
+    POWERPC_MMU_BOOKE_FSL  = 0x00000009,
     /* PowerPC 601 MMU model (specific BATs format)            */
-    POWERPC_MMU_601,
+    POWERPC_MMU_601        = 0x0000000A,
 #if defined(TARGET_PPC64)
+#define POWERPC_MMU_64       0x00010000
     /* 64 bits PowerPC MMU                                     */
-    POWERPC_MMU_64B,
+    POWERPC_MMU_64B        = POWERPC_MMU_64 | 0x00000001,
+    /* 620 variant (no segment exceptions)                     */
+    POWERPC_MMU_620        = POWERPC_MMU_64 | 0x00000002,
 #endif /* defined(TARGET_PPC64) */
 };
 
@@ -1037,9 +1040,11 @@ static inline int cpu_mmu_index (CPUState *env)
 #define SPR_RCPU_MI_RBA2      (0x302)
 #define SPR_MPC_MI_AP         (0x302)
 #define SPR_PERF3             (0x303)
+#define SPR_620_PMC1R         (0x303)
 #define SPR_RCPU_MI_RBA3      (0x303)
 #define SPR_MPC_MI_EPN        (0x303)
 #define SPR_PERF4             (0x304)
+#define SPR_620_PMC2R         (0x304)
 #define SPR_PERF5             (0x305)
 #define SPR_MPC_MI_TWC        (0x305)
 #define SPR_PERF6             (0x306)
@@ -1055,6 +1060,7 @@ static inline int cpu_mmu_index (CPUState *env)
 #define SPR_RCPU_L2U_RBA2     (0x30A)
 #define SPR_MPC_MD_AP         (0x30A)
 #define SPR_PERFB             (0x30B)
+#define SPR_620_MMCR0R        (0x30B)
 #define SPR_RCPU_L2U_RBA3     (0x30B)
 #define SPR_MPC_MD_EPN        (0x30B)
 #define SPR_PERFC             (0x30C)
@@ -1069,7 +1075,9 @@ static inline int cpu_mmu_index (CPUState *env)
 #define SPR_UPERF1            (0x311)
 #define SPR_UPERF2            (0x312)
 #define SPR_UPERF3            (0x313)
+#define SPR_620_PMC1W         (0x313)
 #define SPR_UPERF4            (0x314)
+#define SPR_620_PMC2W         (0x314)
 #define SPR_UPERF5            (0x315)
 #define SPR_UPERF6            (0x316)
 #define SPR_UPERF7            (0x317)
@@ -1077,6 +1085,7 @@ static inline int cpu_mmu_index (CPUState *env)
 #define SPR_UPERF9            (0x319)
 #define SPR_UPERFA            (0x31A)
 #define SPR_UPERFB            (0x31B)
+#define SPR_620_MMCR0W        (0x31B)
 #define SPR_UPERFC            (0x31C)
 #define SPR_UPERFD            (0x31D)
 #define SPR_UPERFE            (0x31E)
@@ -1242,13 +1251,14 @@ static inline int cpu_mmu_index (CPUState *env)
 #define SPR_LDSTCR            (0x3F8)
 #define SPR_L2PMCR            (0x3F8)
 #define SPR_750_HID2          (0x3F8)
-#define SPR_620_HID8          (0x3F8)
+#define SPR_620_BUSCSR        (0x3F8)
 #define SPR_Exxx_L1FINV0      (0x3F8)
 #define SPR_L2CR              (0x3F9)
-#define SPR_620_HID9          (0x3F9)
+#define SPR_620_L2CR          (0x3F9)
 #define SPR_L3CR              (0x3FA)
 #define SPR_IABR2             (0x3FA)
 #define SPR_40x_DCCR          (0x3FA)
+#define SPR_620_L2SR          (0x3FA)
 #define SPR_ICTC              (0x3FB)
 #define SPR_40x_ICCR          (0x3FB)
 #define SPR_THRM1             (0x3FC)

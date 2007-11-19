@@ -1,3 +1,26 @@
+2007-11-19 17:10  ths
+
+	* target-mips/translate_init.c: Add older 4Km variants.
+
+2007-11-19 14:22  j_mayer
+
+	* target-ppc/: cpu.h, translate_init.c: Remove shared macro used to
+	  define PowerPC implementations instructions sets:   tend more to
+	  propagate bugged definition than simplify the code.  Check and
+	  fix PowerPC 6xx implementations definitions.	Misc fixes in
+	  PowerPC CPU list.
+
+2007-11-19 12:41  j_mayer
+
+	* target-ppc/: cpu.h, helper.c, translate_init.c: PowerPC 620 MMU
+	  do not have the same exact behavior as standard   64 bits PowerPC
+	  ones.
+
+2007-11-19 12:39  j_mayer
+
+	* target-ppc/: op_mem.h, translate.c: PowerPC instruction fixes: -
+	  hrfid is part of the hypervisor extension - fix stfiwx naming
+
 2007-11-19 04:43  balrog
 
 	* hw/: omap.c, omap.h, tsc210x.c: Clean-up/rewrite audio over I^2S
