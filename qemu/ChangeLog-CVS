@@ -1,3 +1,18 @@
+2007-11-20 16:22  ths
+
+	* linux-user/main.c: SH4 Fix missing 6th arg of syscall, by
+	  "takasi-y".
+
+2007-11-20 12:15  balrog
+
+	* hw/: omap.c, omap.h: OMAP LPGs (LED pulse generators).  OMAP MPUI
+	  bridge config register.
+
+2007-11-19 20:14  blueswir1
+
+	* target-sparc/op_helper.c:  Fix MXCC register 64 bit read word
+	  order (Robert Reif)
+
 2007-11-19 17:10  ths
 
 	* target-mips/translate_init.c: Add older 4Km variants.
