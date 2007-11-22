@@ -1,3 +1,50 @@
+2007-11-22 16:10  ths
+
+	* target-mips/translate.c: Optimize the conventional move
+	  operation.
+
+2007-11-22 12:00  j_mayer
+
+	* target-ppc/: op_helper.h, op_helper_mem.h, op_mem.h,
+	  op_mem_access.h, translate.c: Add new sane low-level memory
+	  accessors for PowerPC that do proper	 size or zero extension,
+	  with homogenous names.  Fix load & store strings: those are now
+	  endian-sensitive, by definition.  Fix dcbz: must always align the
+	  target address to a cache line boundary.
+
+2007-11-22 01:34  ths
+
+	* target-mips/helper.c: Fix off-by-one address checks in MIPS64
+	  MMU, by Aurelien Jarno.
+
+2007-11-21 23:38  ths
+
+	* qemu-doc.texi: Documentation formatting improvements, by Stefan
+	  Weil.
+
+2007-11-21 19:57  blueswir1
+
+	* fpu/softfloat.c:  Fix more typos in softloat code (Eduardo
+	  Felipe)
+
+2007-11-21 17:18  bellard
+
+	* target-i386/helper2.c: typo fix
+
+2007-11-21 16:32  pbrook
+
+	* fpu/softfloat.c: Fix typo in softfloat code.
+
+2007-11-21 14:08  j_mayer
+
+	* target-ppc/: cpu.h, translate_init.c: Fix PowerPC 7xx
+	  definitions.
+
+2007-11-21 14:06  j_mayer
+
+	* linux-user/syscall_defs.h: Fix PowerPC 64 stat and statfs
+	  structures definitions.
+
 2007-11-20 16:22  ths
 
 	* linux-user/main.c: SH4 Fix missing 6th arg of syscall, by
