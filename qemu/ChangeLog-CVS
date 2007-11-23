@@ -1,3 +1,8 @@
+2007-11-23 23:16  j_mayer
+
+	* hw/ppc_oldworld.c, target-ppc/cpu.h, target-ppc/helper.c,
+	  target-ppc/op_helper.c: Revert foolish patch.
+
 2007-11-23 18:33  pbrook
 
 	* hw/ppc_oldworld.c, target-ppc/cpu.h, target-ppc/helper.c,
