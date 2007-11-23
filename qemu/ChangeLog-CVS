@@ -1,3 +1,16 @@
+2007-11-23 18:33  pbrook
+
+	* hw/ppc_oldworld.c, target-ppc/cpu.h, target-ppc/helper.c,
+	  target-ppc/op_helper.c: Fix ppc32 register dumps on 64-bit hosts.
+
+2007-11-23 17:53  pbrook
+
+	* exec.c: Fix va_list reuse in cpu_abort.
+
+2007-11-23 03:11  pbrook
+
+	* cpu-exec.c: Fix TB chaining for exceptions.
+
 2007-11-22 16:10  ths
 
 	* target-mips/translate.c: Optimize the conventional move
