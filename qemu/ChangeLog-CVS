@@ -1,3 +1,26 @@
+2007-11-24 04:13  pbrook
+
+	* Makefile.target, hw/arm-misc.h, hw/armv7m_nvic.c, hw/stellaris.c,
+	  hw/stellaris_enet.c: Stellaris ethernet support.
+
+2007-11-24 04:09  pbrook
+
+	* hw/: arm-misc.h, arm_gic.c, armv7m_nvic.c, stellaris.c: ARMv7-M
+	  SysTick fix.
+
+2007-11-24 03:56  j_mayer
+
+	* hw/: ppc.c, ppc405_uc.c, ppc4xx_devs.c, ppc_chrp.c,
+	  ppc_oldworld.c, ppc_prep.c: More PowerPC debug print fixes -
+	  hardware emulation pass.
+
+2007-11-24 03:03  j_mayer
+
+	* target-ppc/: cpu.h, exec.h, helper.c, op_helper.c, translate.c:
+	  Fix incorrect debug prints (reported by Paul Brook).	Remove
+	  obsolete / duplicated debug prints and improve output
+	  consistency.
+
 2007-11-23 23:16  j_mayer
 
 	* hw/ppc_oldworld.c, target-ppc/cpu.h, target-ppc/helper.c,

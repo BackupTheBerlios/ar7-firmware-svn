@@ -13,6 +13,7 @@
 #include "devices.h"
 #include "qemu-timer.h"
 #include "i2c.h"
+#include "net.h"
 #include "sysemu.h"
 #include "boards.h"
 
@@ -41,10 +42,6 @@ typedef const struct {
 } stellaris_board_info;
 
 /* General purpose timer module.  */
-
-/* Multiplication factor to convert from GPTM timer ticks to qemu timer
-   ticks.  */
-static int stellaris_clock_scale;
 
 typedef struct gptm_state {
     uint32_t config;
@@ -90,7 +87,7 @@ static void gptm_reload(gptm_state *s, int n, int reset)
         /* 32-bit CountDown.  */
         uint32_t count;
         count = s->load[0] | (s->load[1] << 16);
-        tick += (int64_t)count * stellaris_clock_scale;
+        tick += (int64_t)count * system_clock_scale;
     } else if (s->config == 1) {
         /* 32-bit RTC.  1Hz tick.  */
         tick += ticks_per_sec;
@@ -323,6 +320,8 @@ typedef struct {
     uint32_t dcgc[3];
     uint32_t clkvclr;
     uint32_t ldoarst;
+    uint32_t user0;
+    uint32_t user1;
     qemu_irq irq;
     stellaris_board_info *board;
 } ssys_state;
@@ -442,6 +441,10 @@ static uint32_t ssys_read(void *opaque, target_phys_addr_t offset)
         return s->clkvclr;
     case 0x160: /* LDOARST */
         return s->ldoarst;
+    case 0x1e0: /* USER0 */
+        return s->user0;
+    case 0x1e4: /* USER1 */
+        return s->user1;
     default:
         cpu_abort(cpu_single_env, "ssys_read: Bad offset 0x%x\n", (int)offset);
         return 0;
@@ -480,7 +483,7 @@ static void ssys_write(void *opaque, target_phys_addr_t offset, uint32_t value)
             s->int_status |= (1 << 6);
         }
         s->rcc = value;
-        stellaris_clock_scale = 5 * (((s->rcc >> 23) & 0xf) + 1);
+        system_clock_scale = 5 * (((s->rcc >> 23) & 0xf) + 1);
         break;
     case 0x100: /* RCGC0 */
         s->rcgc[0] = value;
@@ -545,7 +548,8 @@ static void ssys_reset(void *opaque)
 }
 
 static void stellaris_sys_init(uint32_t base, qemu_irq irq,
-                               stellaris_board_info * board)
+                               stellaris_board_info * board,
+                               uint8_t *macaddr)
 {
     int iomemtype;
     ssys_state *s;
@@ -554,6 +558,9 @@ static void stellaris_sys_init(uint32_t base, qemu_irq irq,
     s->base = base;
     s->irq = irq;
     s->board = board;
+    /* Most devices come preprogrammed with a MAC address in the user data. */
+    s->user0 = macaddr[0] | (macaddr[1] << 8) | (macaddr[2] << 16);
+    s->user1 = macaddr[3] | (macaddr[4] << 8) | (macaddr[5] << 16);
 
     iomemtype = cpu_register_io_memory(0, ssys_readfn,
                                        ssys_writefn, s);
@@ -1052,7 +1059,7 @@ static void stellaris_init(const char *kernel_filename, const char *cpu_model,
         }
     }
 
-    stellaris_sys_init(0x400fe000, pic[28], board);
+    stellaris_sys_init(0x400fe000, pic[28], board, nd_table[0].macaddr);
 
     for (i = 0; i < 7; i++) {
         if (board->dc4 & (1 << i)) {
@@ -1084,6 +1091,10 @@ static void stellaris_init(const char *kernel_filename, const char *cpu_model,
         } else {
             pl022_init(0x40008000, pic[7], NULL, NULL);
         }
+    }
+    if (board->dc4 & (1 << 28)) {
+        /* FIXME: Obey network model.  */
+        stellaris_enet_init(&nd_table[0], 0x40048000, pic[42]);
     }
     if (board->peripherals & BP_GAMEPAD) {
         qemu_irq gpad_irq[5];
