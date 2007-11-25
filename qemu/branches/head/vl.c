@@ -160,7 +160,6 @@ int inet_aton(const char *cp, struct in_addr *ia);
 
 const char *bios_dir = CONFIG_QEMU_SHAREDIR;
 const char *bios_name = NULL;
-char phys_ram_file[1024];
 void *ioport_opaque[MAX_IOPORTS];
 IOPortReadFunc *ioport_read_table[3][MAX_IOPORTS];
 IOPortWriteFunc *ioport_write_table[3][MAX_IOPORTS];
@@ -1595,6 +1594,11 @@ void qemu_chr_read(CharDriverState *s, uint8_t *buf, int len)
     s->chr_read(s->handler_opaque, buf, len);
 }
 
+void qemu_chr_accept_input(CharDriverState *s)
+{
+    if (s->chr_accept_input)
+        s->chr_accept_input(s);
+}
 
 void qemu_chr_printf(CharDriverState *s, const char *fmt, ...)
 {
@@ -1646,12 +1650,17 @@ static CharDriverState *qemu_chr_open_null(void)
 static int term_timestamps;
 static int64_t term_timestamps_start;
 #define MAX_MUX 4
+#define MUX_BUFFER_SIZE 32	/* Must be a power of 2.  */
+#define MUX_BUFFER_MASK (MUX_BUFFER_SIZE - 1)
 typedef struct {
     IOCanRWHandler *chr_can_read[MAX_MUX];
     IOReadHandler *chr_read[MAX_MUX];
     IOEventHandler *chr_event[MAX_MUX];
     void *ext_opaque[MAX_MUX];
     CharDriverState *drv;
+    unsigned char buffer[MUX_BUFFER_SIZE];
+    int prod;
+    int cons;
     int mux_cnt;
     int term_got_escape;
     int max_size;
@@ -1780,12 +1789,28 @@ static int mux_proc_byte(CharDriverState *chr, MuxDriver *d, int ch)
     return 0;
 }
 
+static void mux_chr_accept_input(CharDriverState *chr)
+{
+    int m = chr->focus;
+    MuxDriver *d = chr->opaque;
+
+    while (d->prod != d->cons &&
+           d->chr_can_read[m] &&
+           d->chr_can_read[m](d->ext_opaque[m])) {
+        d->chr_read[m](d->ext_opaque[m],
+                       &d->buffer[d->cons++ & MUX_BUFFER_MASK], 1);
+    }
+}
+
 static int mux_chr_can_read(void *opaque)
 {
     CharDriverState *chr = opaque;
     MuxDriver *d = chr->opaque;
+
+    if ((d->prod - d->cons) < MUX_BUFFER_SIZE)
+        return 1;
     if (d->chr_can_read[chr->focus])
-       return d->chr_can_read[chr->focus](d->ext_opaque[chr->focus]);
+        return d->chr_can_read[chr->focus](d->ext_opaque[chr->focus]);
     return 0;
 }
 
@@ -1793,10 +1818,20 @@ static void mux_chr_read(void *opaque, const uint8_t *buf, int size)
 {
     CharDriverState *chr = opaque;
     MuxDriver *d = chr->opaque;
+    int m = chr->focus;
     int i;
+
+    mux_chr_accept_input (opaque);
+
     for(i = 0; i < size; i++)
-        if (mux_proc_byte(chr, d, buf[i]))
-            d->chr_read[chr->focus](d->ext_opaque[chr->focus], &buf[i], 1);
+        if (mux_proc_byte(chr, d, buf[i])) {
+            if (d->prod == d->cons &&
+                d->chr_can_read[m] &&
+                d->chr_can_read[m](d->ext_opaque[m]))
+                d->chr_read[m](d->ext_opaque[m], &buf[i], 1);
+            else
+                d->buffer[d->prod++ & MUX_BUFFER_MASK] = buf[i];
+        }
 }
 
 static void mux_chr_event(void *opaque, int event)
@@ -1851,6 +1886,7 @@ static CharDriverState *qemu_chr_open_mux(CharDriverState *drv)
     chr->focus = -1;
     chr->chr_write = mux_chr_write;
     chr->chr_update_read_handler = mux_chr_update_read_handler;
+    chr->chr_accept_input = mux_chr_accept_input;
     return chr;
 }
 
@@ -7451,6 +7487,8 @@ static void register_machines(void)
     qemu_register_machine(&lm3s811evb_machine);
     qemu_register_machine(&lm3s6965evb_machine);
     qemu_register_machine(&connex_machine);
+    qemu_register_machine(&verdex_machine);
+    qemu_register_machine(&mainstone2_machine);
 #elif defined(TARGET_SH4)
     qemu_register_machine(&shix_machine);
     qemu_register_machine(&r2d_machine);

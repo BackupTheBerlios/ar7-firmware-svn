@@ -1,3 +1,75 @@
+2007-11-25 21:27  blueswir1
+
+	* target-sparc/translate.c:  Fix floating point register decoding
+
+2007-11-25 19:46  balrog
+
+	* hw/: mainstone.c, omap.c, sd.c, tsc210x.c: Scale TSC2102
+	  touchscreen pressure value more realistically (still could be
+	  better).  PalmOS 5.2.1 now fully boots.
+
+2007-11-25 19:40  blueswir1
+
+	* cpu-all.h, qemu-tech.texi, fpu/softfloat.c, fpu/softfloat.h,
+	  target-sparc/cpu.h, target-sparc/exec.h,
+	  target-sparc/fop_template.h, target-sparc/op.c,
+	  target-sparc/op_helper.c, target-sparc/op_mem.h,
+	  target-sparc/translate.c:  128-bit float support for user mode
+
+2007-11-25 13:44  blueswir1
+
+	* hw/iommu.c:  Set initial value of AFSR register properly (Robert
+	  Reif)
+
+2007-11-25 13:43  blueswir1
+
+	* target-sparc/: cpu.h, op_helper.c:  More MMU registers (Robert
+	  Reif)
+
+2007-11-25 09:48  blueswir1
+
+	* hw/slavio_serial.c:  Fix buffer mux handling for unconnected
+	  serial ports
+
+2007-11-25 02:57  balrog
+
+	* Makefile.target, vl.c, hw/boards.h, hw/mainstone.c: Intel
+	  Mainstone II (ARM) machine by Armin Kuster.
+
+2007-11-25 01:55  balrog
+
+	* qemu-char.h, vl.c, hw/mcf_uart.c, hw/pl011.c, hw/serial.c,
+	  hw/slavio_serial.c: Add input buffer to mux chr (patch by Tristan
+	  Gingold).
+
+2007-11-25 01:29  balrog
+
+	* hw/gumstix.c: Fix board init arg list (spotted by pbrook),
+	  clean-up NOR flash parameters.
+
+2007-11-25 00:55  pbrook
+
+	* hw/pxa2xx_mmci.c: Fix SD init arguments.
+
+2007-11-25 00:47  balrog
+
+	* vl.c, hw/boards.h, hw/gumstix.c: Gumstix Verdex (ARM) board
+	  support by Thorsten Zitterell.
+
+2007-11-25 00:35  pbrook
+
+	* Makefile, Makefile.target, hw/omap_mmc.c, hw/pl061.c, hw/pl181.c,
+	  hw/primecell.h, hw/pxa2xx_mmci.c, hw/sd.c, hw/sd.h, hw/ssd0323.c,
+	  hw/ssi-sd.c, hw/stellaris.c: Partial SD card SPI mode support.
+
+2007-11-25 00:27  balrog
+
+	* vl.c: Drop an unused variable (Samuel Thibault).
+
+2007-11-25 00:22  pbrook
+
+	* target-arm/helper.c: Thumb semihosting fixes.
+
 2007-11-24 04:13  pbrook
 
 	* Makefile.target, hw/arm-misc.h, hw/armv7m_nvic.c, hw/stellaris.c,
