@@ -1,3 +1,17 @@
+2007-11-26 19:46  blueswir1
+
+	* qemu-doc.texi:  Document -M SS-600MP
+
+2007-11-26 15:52  ths
+
+	* hw/mips_malta.c: Add floppy support, tested to work with
+	  www.linux-mips.org GIT head.
+
+2007-11-26 10:01  ths
+
+	* target-mips/translate.c: Micro-optimize back-to-back store-load
+	  sequences.
+
 2007-11-25 21:27  blueswir1
 
 	* target-sparc/translate.c:  Fix floating point register decoding
