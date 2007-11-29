@@ -1,3 +1,17 @@
+2007-11-29 18:08  blueswir1
+
+	* target-sparc/helper.c:  Increase prom size for boot mode
+
+2007-11-28 21:54  blueswir1
+
+	* hw/sun4m.c, target-sparc/cpu.h, target-sparc/helper.c: Use slavio
+	  base as boot prom address, rearrange sun4m init code
+
+2007-11-28 19:08  blueswir1
+
+	* target-sparc/: exec.h, op_helper.c:  Fix compilation and warnings
+	  on PPC host
+
 2007-11-26 19:46  blueswir1
 
 	* qemu-doc.texi:  Document -M SS-600MP
