@@ -1,3 +1,42 @@
+2007-12-01 16:58  blueswir1
+
+	* hw/slavio_timer.c:  Name the magic constants, wrap long lines
+
+2007-12-01 16:02  blueswir1
+
+	* hw/slavio_misc.c:  Fix SS-600MP led device typos
+
+2007-12-01 15:54  blueswir1
+
+	* hw/slavio_misc.c:  Improve power management device addressing
+
+2007-12-01 15:53  blueswir1
+
+	* hw/slavio_misc.c:  Name the magic constants, use correct value
+	  for AUX2_PWRFAIL
+
+2007-12-01 15:50  blueswir1
+
+	* hw/iommu.c:  Allow IOMMU tables above 2G
+
+2007-12-01 15:49  blueswir1
+
+	* hw/iommu.c:  Prevent overwriting fixed bits in AFSR
+
+2007-12-01 15:48  blueswir1
+
+	* hw/: iommu.c, esp.c:	Name the magic constants, wrap long lines
+
+2007-12-01 09:18  blueswir1
+
+	* target-alpha/: op_helper.c, op_helper.h, op_template.h:  Fix
+	  Sparc host compile problem reported by Shaddy Baddah
+
+2007-11-30 17:45  blueswir1
+
+	* monitor.c:  Fix a crash with monitor input arriving before
+	  readline_start has been called
+
 2007-11-29 18:08  blueswir1
 
 	* target-sparc/helper.c:  Increase prom size for boot mode
