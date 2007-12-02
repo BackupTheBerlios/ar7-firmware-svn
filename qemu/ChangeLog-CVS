@@ -1,3 +1,59 @@
+2007-12-02 18:47  ths
+
+	* hw/adlib.c: Include qemu-timer.h iff DEBUG is defined.
+
+2007-12-02 18:17  ths
+
+	* hw/adlib.c: Add missing include, by Sylvain Petreolle.
+
+2007-12-02 08:14  ths
+
+	* target-mips/mips-defs.h: Larger physical address space for 32-bit
+	  MIPS.
+
+2007-12-02 07:31  ths
+
+	* linux-user/main.c, linux-user/signal.c,
+	  linux-user/sh4/target_signal.h, target-sh4/helper.c: SH4: Signal
+	  handling for the user space emulator, by Magnus Damm.
+
+2007-12-02 07:28  ths
+
+	* linux-user/syscall.c: Fix for execve syscall, by Kirill A.
+	  Shutemov.
+
+2007-12-02 07:18  ths
+
+	* cpu-exec.c, hw/sh7750.c, hw/sh_intc.c, hw/sh_intc.h,
+	  target-sh4/cpu.h, target-sh4/helper.c, target-sh4/op.c: SH4:
+	  system emulator interrupt update, by Magnus Damm.
+
+2007-12-02 07:10  ths
+
+	* cpu-exec.c, translate-all.c, target-sh4/cpu.h, target-sh4/op.c,
+	  target-sh4/translate.c: SH4 delay slot code update, by Magnus
+	  Damm.
+
+2007-12-02 06:18  ths
+
+	* block.c, block.h, block_int.h, monitor.c: Collecting block device
+	  statistics, by Richard W.M. Jones.
+
+2007-12-02 05:51  ths
+
+	* monitor.c, sysemu.h, vl.c, hw/esp.c, hw/gumstix.c,
+	  hw/integratorcp.c, hw/lsi53c895a.c, hw/mainstone.c,
+	  hw/mips_malta.c, hw/mips_pica61.c, hw/mips_r4k.c, hw/nand.c,
+	  hw/omap.c, hw/pc.c, hw/pci.h, hw/ppc405_boards.c, hw/ppc_chrp.c,
+	  hw/ppc_oldworld.c, hw/ppc_prep.c, hw/pxa2xx.c, hw/realview.c,
+	  hw/spitz.c, hw/stellaris.c, hw/sun4m.c, hw/sun4m.h, hw/sun4u.c,
+	  hw/versatilepb.c: Add -drive parameter, by Laurent Vivier.
+
+2007-12-02 03:20  ths
+
+	* Makefile.target, hw/mainstone.c, hw/mainstone.h, hw/mst_fpga.c:
+	  Mainstone re-org, by Armin Kuster.
+
 2007-12-01 16:58  blueswir1
 
 	* hw/slavio_timer.c:  Name the magic constants, wrap long lines

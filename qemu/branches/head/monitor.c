@@ -215,16 +215,11 @@ static void do_commit(const char *device)
     int i, all_devices;
 
     all_devices = !strcmp(device, "all");
-    for (i = 0; i < MAX_DISKS; i++) {
-        if (bs_table[i]) {
+    for (i = 0; i < nb_drives; i++) {
             if (all_devices ||
-                !strcmp(bdrv_get_device_name(bs_table[i]), device))
-                bdrv_commit(bs_table[i]);
-        }
+                !strcmp(bdrv_get_device_name(drives_table[i].bdrv), device))
+                bdrv_commit(drives_table[i].bdrv);
     }
-    if (mtd_bdrv)
-        if (all_devices || !strcmp(bdrv_get_device_name(mtd_bdrv), device))
-            bdrv_commit(mtd_bdrv);
 }
 
 static void do_info(const char *item)
@@ -258,6 +253,11 @@ static void do_info_name(void)
 static void do_info_block(void)
 {
     bdrv_info();
+}
+
+static void do_info_blockstats(void)
+{
+    bdrv_info_stats();
 }
 
 /* get the current CPU defined by the user */
@@ -1332,6 +1332,8 @@ static term_cmd_t info_cmds[] = {
       "", "show the network state" },
     { "block", "", do_info_block,
       "", "show the block devices" },
+    { "blockstats", "", do_info_blockstats,
+      "", "show block device statistics" },
     { "registers", "", do_info_registers,
       "", "show the cpu registers" },
     { "cpus", "", do_info_cpus,
