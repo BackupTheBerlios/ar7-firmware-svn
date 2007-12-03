@@ -1,3 +1,15 @@
+2007-12-03 18:05  ths
+
+	* monitor.c: The profiler need qemu-timer.h
+
+2007-12-03 04:01  balrog
+
+	* vl.c: Ensure a SIGALRM results in a break out from the cpu loop.
+
+2007-12-03 03:17  ths
+
+	* hw/mips_pica61.c: Fix floppy initialization, by Laurent Vivier.
+
 2007-12-02 18:47  ths
 
 	* hw/adlib.c: Include qemu-timer.h iff DEBUG is defined.
