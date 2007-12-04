@@ -1,3 +1,20 @@
+2007-12-04 21:58  blueswir1
+
+	* hw/: slavio_serial.c, sun4m.c, sun4m.h:  No keyboard mode (Robert
+	  Reif)
+
+2007-12-04 01:11  balrog
+
+	* hw/sd.c: Don't claim SD card supports voltages linux claims are
+	  below defined voltage range.
+
+2007-12-04 01:10  balrog
+
+	* vl.c, hw/omap.c: Always create an SD bdrv, so that PXA and OMAP
+	  boards can boot with no card inserted again.	Eventually SD,
+	  CDROM and floppy should all be registered conditionally depending
+	  on machine.
+
 2007-12-03 18:05  ths
 
 	* monitor.c: The profiler need qemu-timer.h
