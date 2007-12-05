@@ -1,3 +1,9 @@
+2007-12-05 04:23  balrog
+
+	* hw/: irq.h, omap.c, omap.h: Rework OMAP1 interrupt handling to
+	  allow multiple interrupt banks, by Lauro Ramos Venancio.  Add irq
+	  pulse shortcut, by Lauro Ramos Venancio.
+
 2007-12-04 21:58  blueswir1
 
 	* hw/: slavio_serial.c, sun4m.c, sun4m.h:  No keyboard mode (Robert
