@@ -1,3 +1,17 @@
+2007-12-07 02:13  ths
+
+	* hw/mips_r4k.c: Remove broken ds1225y init, it is useless on this
+	  machine anyway.  Spotted by Atsushi Nemoto.
+
+2007-12-06 23:11  balrog
+
+	* vl.c: Give emulated drives more monitor-friendly name strings.
+
+2007-12-06 23:05  balrog
+
+	* hw/omap.c: Correct my 'thinko' in OMAP interrupt handler commit,
+	  fix by Lauro Ramos Venancio.
+
 2007-12-05 04:23  balrog
 
 	* hw/: irq.h, omap.c, omap.h: Rework OMAP1 interrupt handling to
