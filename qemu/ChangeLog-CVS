@@ -1,3 +1,38 @@
+2007-12-09 06:10  ths
+
+	* Makefile, configure: SH4 big endian configuration, by Tomoyoshi
+	  Asano.
+
+2007-12-09 06:01  ths
+
+	* hw/ide.c: Fix Win98SE MyComputer regression, by Ben Taylor.
+
+2007-12-09 03:43  ths
+
+	* target-i386/helper2.c: Fix spelling typo, by Dan Kenigsberg.
+
+2007-12-09 03:38  ths
+
+	* hw/: mainstone.c, mainstone.h: Mainstone mmc support, by Armin
+	  Kuster.
+
+2007-12-09 03:37  ths
+
+	* linux-user/syscall.c: copy_{to,from}_user_timeval() update, by
+	  Thayne Harbaugh.
+
+2007-12-09 03:25  ths
+
+	* linux-user/syscall.c: copy_from_user_fdset() update, by Thayne
+	  Harbaugh.
+
+2007-12-09 03:22  ths
+
+	* cpu-defs.h, exec.c, target-arm/helper.c, target-i386/helper2.c,
+	  target-m68k/helper.c, target-mips/translate.c,
+	  target-ppc/helper.c, target-sparc/translate.c: Handle cpu_model
+	  in copy_cpu(), by Kirill A. Shutemov.
+
 2007-12-07 02:13  ths
 
 	* hw/mips_r4k.c: Remove broken ds1225y init, it is useless on this
