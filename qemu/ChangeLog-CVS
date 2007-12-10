@@ -1,3 +1,85 @@
+2007-12-10 09:24  j_mayer
+
+	* linux-user/: socket.h, syscall_defs.h, ppc/syscall.h,
+	  ppc/target_signal.h: Various linux-user structures and
+	  definitions fixes for PowerPC targets.
+
+2007-12-10 09:13  j_mayer
+
+	* target-ppc/cpu.h: Cleanup: remove useless TARGET_GPR_BITS
+	  definition.
+
+2007-12-10 08:40  j_mayer
+
+	* target-ppc/: cpu.h, translate_init.c: Fix PowerPC 74xx
+	  definitions.
+
+2007-12-10 03:58  ths
+
+	* hw/: esp.c, lsi53c895a.c, scsi-disk.c, scsi-disk.h, usb-msd.c:
+	  SCSI cleanup, by Laurent Vivier.
+
+2007-12-10 02:07  balrog
+
+	* hw/: flash.h, omap.c, pflash_cfi02.c: Fix OMAP1 MPUI/O keyboard
+	  interrupt masking.
+
+2007-12-10 01:33  balrog
+
+	* hw/flash.h: Fix incompatible declaration in previous commit.
+
+2007-12-10 01:28  balrog
+
+	* hw/: flash.h, gumstix.c, mainstone.c, pflash_cfi01.c,
+	  pflash_cfi02.c, ppc405_boards.c: Desambiguate pflash_register().
+	  pflash_t is still ambiguous... perhaps both emulations should sit
+	  in a single file.
+
+2007-12-10 00:56  balrog
+
+	* hw/: pci.c, piix_pci.c: Save/load PCI-device, PCI-bus and PIIX3
+	  irq-related state (patches by Uri Lublin.  Note that other PCI
+	  bridges are not fixed here.
+
+2007-12-10 00:39  balrog
+
+	* target-i386/helper.c: Make SVM IOIO intercept check all needed
+	  bits, by Bernhard Kauer.
+
+2007-12-10 00:35  balrog
+
+	* target-i386/: exec.h, helper.c, op.c, translate.c: Add rdpmc SVM
+	  intercept, by Bernhard Kauer.
+
+2007-12-10 00:29  balrog
+
+	* hw/mainstone.c: No write-protect detect diode on Mainstone II.
+
+2007-12-10 00:23  balrog
+
+	* hw/omap.c: Use pointers to channels rather than channel numbers
+	  in the DMA.
+
+2007-12-10 00:12  ths
+
+	* linux-user/syscall.c: Fix execve argc/envc counting, by Takashi
+	  Yoshii.
+
+2007-12-10 00:02  ths
+
+	* hw/piix_pci.c: Remove leftover support for 82371FB (Step A1), by
+	  Carlo Marcelo Arenas Belon.
+
+2007-12-09 23:32  balrog
+
+	* hw/: omap.c, omap.h: OMAP DMA 3.2 support by Lauro Ramos
+	  Venancio.
+
+2007-12-09 18:03  blueswir1
+
+	* Makefile.target, hw/eccmemctl.c, hw/sun4m.c, hw/sun4m.h:  Add
+	  support for eccmemctl (Robert Reif)
+
 2007-12-09 06:10  ths
 
 	* Makefile, configure: SH4 big endian configuration, by Tomoyoshi
