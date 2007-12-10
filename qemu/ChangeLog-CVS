@@ -1,3 +1,12 @@
+2007-12-10 21:00  blueswir1
+
+	* vl.c, hw/boards.h, hw/sun4m.c:  Add SPARCstation 20 machine type
+	  (Robert Reif)
+
+2007-12-10 20:58  blueswir1
+
+	* target-sparc/op_helper.c:  Add ASIs (Robert Reif)
+
 2007-12-10 09:24  j_mayer
 
 	* linux-user/: socket.h, syscall_defs.h, ppc/syscall.h,
