@@ -1,3 +1,36 @@
+2007-12-11 23:15  balrog
+
+	* hw/ide.c: IDE should send irq after WIN_DIAGNOSE (Tristan
+	  Gingold).
+
+2007-12-11 22:56  balrog
+
+	* qemu-doc.texi: Update documention with '-drive' usage (Laurent
+	  Vivier).
+
+2007-12-11 20:39  blueswir1
+
+	* Makefile.target, cpu-exec.c, target-sparc/op.c:  Partial fix to
+	  Sparc32 Linux host global register mangling problem
+
+2007-12-11 20:35  blueswir1
+
+	* cpu-exec.c, exec-all.h, exec.c, translate-all.c:  Fix code
+	  generation buffer overflow reported by TeLeMan
+
+2007-12-11 20:33  blueswir1
+
+	* pc-bios/: README, openbios-sparc32, openbios-sparc64: Update
+	  OpenBIOS images to SVN revision 181. Changes: r177: Reset fixes:
+	  * recalculate CRC to avoid error message and halt after reset  *
+	  fix bug that crashed SS10/SMP when reset r178: Remove unused
+	  variable r179: Improved Module ID generation r180: Add support
+	  for eccmemctl r181: Add support for SPARCstation 20 machine type
+
+2007-12-10 21:05  blueswir1
+
+	* hw/slavio_serial.c:  Name the magic constants, wrap long lines
+
 2007-12-10 21:00  blueswir1
 
 	* vl.c, hw/boards.h, hw/sun4m.c:  Add SPARCstation 20 machine type
