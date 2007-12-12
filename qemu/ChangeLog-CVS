@@ -1,3 +1,28 @@
+2007-12-12 02:16  balrog
+
+	* cpu-all.h, exec.c, linux-user/mmap.c: Mark host pages as reserved
+	  (Magnus Damm).
+
+2007-12-12 02:11  balrog
+
+	* hw/: sh.h, sh7750.c, sh_timer.c: Adds interrupt support to the sh
+	  specific timer code (Magnus Damm).
+
+2007-12-12 01:40  balrog
+
+	* hw/sh_serial.c, linux-user/syscall.c: sh_serial: enable tx after
+	  reset (Magnus Damm).
+
+2007-12-12 00:23  balrog
+
+	* vl.c, linux-user/syscall.c: Add missing break just before execve,
+	  by Takashi Yoshii.  Fix a comment typo.
+
+2007-12-11 23:31  balrog
+
+	* vnc.c: Fix fragments due to incomplete dirty tracking in CGA mode
+	  (Anthony Liguori).
+
 2007-12-11 23:15  balrog
 
 	* hw/ide.c: IDE should send irq after WIN_DIAGNOSE (Tristan
