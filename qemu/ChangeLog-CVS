@@ -1,3 +1,40 @@
+2007-12-16 13:39  balrog
+
+	* vl.c, hw/pxa2xx_keypad.c: Work around a crash when timer signal
+	  occurs before main loop, original patch by 武田 俊也.
+
+2007-12-16 13:19  balrog
+
+	* hw/: mainstone.c, pxa2xx_keypad.c: Mainstone keypad support, by
+	  Armin Kuster.
+
+2007-12-16 13:13  balrog
+
+	* Makefile.target, hw/pxa.h, hw/pxa2xx.c, hw/pxa2xx_keypad.c:
+	  Initial PXA27x keypad support, by Armin Kuster.
+
+2007-12-16 12:48  balrog
+
+	* vl.c: Support alternative formats for MAC addresses, by Balazs
+	  Attila-Mihaly.
+
+2007-12-16 04:16  ths
+
+	* block-vpc.c, block-vvfat.c, gdbstub.c, vl.c, hw/pc.c: Fix char*
+	  signedness, by Andre Przywara.
+
+2007-12-16 04:02  ths
+
+	* block-vvfat.c, gdbstub.c, monitor.c, vl.c, vnc.c, vnchextile.h,
+	  audio/alsaaudio.c, hw/fdc.c, hw/ide.c, hw/ne2000.c, hw/rtl8139.c,
+	  hw/usb-uhci.c: Fix wrong signedness, by Andre Przywara.
+
+2007-12-15 18:28  ths
+
+	* Makefile, Makefile.target, block-raw-posix.c, block-raw-win32.c,
+	  block-raw.c: Split block-raw.c into block-raw-posix.c and
+	  block-raw-win32.c, by Anthony Liguori.
+
 2007-12-12 02:16  balrog
 
 	* cpu-all.h, exec.c, linux-user/mmap.c: Mark host pages as reserved
