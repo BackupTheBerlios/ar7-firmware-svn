@@ -822,6 +822,7 @@ struct qemu_alarm_timer {
 };
 
 #define ALARM_FLAG_DYNTICKS  0x1
+#define ALARM_FLAG_MODIFIED  0x2
 
 static inline int alarm_has_dynticks(struct qemu_alarm_timer *t)
 {
@@ -832,6 +833,11 @@ static void qemu_rearm_alarm_timer(struct qemu_alarm_timer *t)
 {
     if (!alarm_has_dynticks(t))
         return;
+
+    if (!(t->flags & ALARM_FLAG_MODIFIED))
+        return;
+
+    t->flags &= ~(ALARM_FLAG_MODIFIED);
 
     t->rearm(t);
 }
@@ -995,6 +1001,8 @@ void qemu_del_timer(QEMUTimer *ts)
 {
     QEMUTimer **pt, *t;
 
+    alarm_timer->flags |= ALARM_FLAG_MODIFIED;
+
     /* NOTE: this code must be signal safe because
        qemu_timer_expired() can be called from a signal. */
     pt = &active_timers[ts->clock->type];
@@ -1067,7 +1075,6 @@ static void qemu_run_timers(QEMUTimer **ptimer_head, int64_t current_time)
         /* run the callback (the timer list can be modified) */
         ts->cb(ts->opaque);
     }
-    qemu_rearm_alarm_timer(alarm_timer);
 }
 
 int64_t qemu_get_clock(QEMUClock *clock)
@@ -1186,13 +1193,16 @@ static void host_alarm_handler(int host_signum)
 #endif
         CPUState *env = next_cpu;
 
-        /* stop the currently executing cpu because a timer occured */
-        cpu_interrupt(env, CPU_INTERRUPT_EXIT);
+        if (env) {
+            alarm_timer->flags |= ALARM_FLAG_MODIFIED;
+            /* stop the currently executing cpu because a timer occured */
+            cpu_interrupt(env, CPU_INTERRUPT_EXIT);
 #ifdef USE_KQEMU
-        if (env->kqemu_enabled) {
-            kqemu_cpu_interrupt(env);
-        }
+            if (env->kqemu_enabled) {
+                kqemu_cpu_interrupt(env);
+            }
 #endif
+        }
         event_pending = 1;
     }
 }
@@ -7361,6 +7371,8 @@ void main_loop_wait(int timeout)
     /* real time timers */
     qemu_run_timers(&active_timers[QEMU_TIMER_REALTIME],
                     qemu_get_clock(rt_clock));
+
+    qemu_rearm_alarm_timer(alarm_timer);
 
     /* Check bottom-halves last in case any of the earlier events triggered
        them.  */

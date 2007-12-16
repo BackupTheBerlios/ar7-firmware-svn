@@ -1,3 +1,17 @@
+2007-12-16 14:17  balrog
+
+	* vl.c: Redundant timer rearm optimisation by Anders Melchiorsen.
+
+2007-12-16 14:05  balrog
+
+	* qemu-doc.texi, linux-user/main.c: QEMU_STRACE documentation bit
+	  by Thayne Harbaugh.
+
+2007-12-16 13:55  balrog
+
+	* osdep.h: Add missing ffs() declaration for Win32 hosts, by Stefan
+	  Weil.
+
 2007-12-16 13:39  balrog
 
 	* vl.c, hw/pxa2xx_keypad.c: Work around a crash when timer signal
