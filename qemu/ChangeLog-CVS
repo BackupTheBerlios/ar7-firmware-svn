@@ -1,3 +1,48 @@
+2007-12-17 05:42  ths
+
+	* exec.c, kqemu.c, osdep.c, qemu-common.h, qemu-img.c,
+	  qemu_socket.h, tap-win32.c, vl.c, audio/dsoundaudio.c,
+	  slirp/slirp.h: Use WIN32_LEAN_AND_MEAN, by Stefan Weil.
+
+2007-12-17 04:55  ths
+
+	* sysemu.h, vl.c: Fix compilation with Cygwin, by Herve Poussineau.
+
+2007-12-17 04:53  ths
+
+	* target-mips/TODO: MIPS TODO: mention unimplemented system
+	  controllers.
+
+2007-12-17 04:50  ths
+
+	* target-mips/TODO: Update MIPS TODO. The mipsnet failure is caused
+	  by a kernel bug.
+
+2007-12-17 04:47  ths
+
+	* qemu-doc.texi: Update MIPS specific documentation.
+
+2007-12-17 04:38  ths
+
+	* qemu-doc.texi: Add closing table tag.
+
+2007-12-17 04:15  ths
+
+	* aes.c, monitor.c, vl.c, hw/adlib.c, hw/ide.c, hw/pcnet.c: Fix
+	  miscellaneous minor things, by Andre Przywara.
+
+2007-12-17 02:35  ths
+
+	* block.c, block.h, qemu-img.c, hw/fdc.c, hw/ide.c, hw/scsi-disk.c:
+	  Fix bdrv_get_geometry to return uint64_t, by Andre Przywara.
+
+2007-12-17 00:41  ths
+
+	* vl.c, hw/acpi.c, hw/apic.c, hw/cirrus_vga.c, hw/dma.c,
+	  hw/i8254.c, hw/ide.c, hw/mc146818rtc.c, hw/pcnet.c, hw/ps2.c,
+	  hw/rtl8139.c, hw/sb16.c, hw/vga.c, hw/vmware_vga.c: qemu_put
+	  signedness fixes, by Andre Przywara.
+
 2007-12-16 14:17  balrog
 
 	* vl.c: Redundant timer rearm optimisation by Anders Melchiorsen.
