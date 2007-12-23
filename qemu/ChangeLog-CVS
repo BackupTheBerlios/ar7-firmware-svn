@@ -1,3 +1,45 @@
+2007-12-19 18:59  blueswir1
+
+	* hw/slavio_timer.c:  All registers are set to 0 on reset (Robert
+	  Reif)
+
+2007-12-19 18:58  blueswir1
+
+	* hw/slavio_timer.c:  Fix count calculation when counter limit set
+	  to 0 (Robert Reif)
+
+2007-12-18 03:41  ths
+
+	* linux-user/syscall.c: Correct errno return for setsockopt(), by
+	  Thayne Harbaugh.
+
+2007-12-18 03:39  ths
+
+	* linux-user/syscall.c: Correct errno return for getsockopt(), by
+	  Thayne Harbaugh.
+
+2007-12-18 02:58  ths
+
+	* host-utils.h: Code formatting.
+
+2007-12-18 02:46  ths
+
+	* linux-user/m68k/target_signal.h: m68k missing
+	  get_sp_from_cpustate(), by Thayne Harbaugh.
+
+2007-12-17 21:31  ths
+
+	* readline.c: Handle history additions properly, by Andreas Schwab.
+
+2007-12-17 19:21  blueswir1
+
+	* hw/slavio_timer.c:  Fix setting counter limit to 0 (Robert Reif)
+
+2007-12-17 19:17  blueswir1
+
+	* hw/: slavio_timer.c, sun4m.c, sun4m.h:  Only create as many per
+	  CPU timers as there are CPUs. (Robert Reif)
+
 2007-12-17 05:42  ths
 
 	* exec.c, kqemu.c, osdep.c, qemu-common.h, qemu-img.c,
