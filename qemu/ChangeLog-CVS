@@ -1,3 +1,99 @@
+2007-12-26 00:59  ths
+
+	* fpu/softfloat-specialize.h: Assortment of soft-float fixes, by
+	  Aurelien Jarno.
+
+2007-12-25 21:46  ths
+
+	* target-mips/: exec.h, mips-defs.h, op.c, op_helper.c,
+	  translate.c, translate_init.c: Support for VR5432, and some of
+	  its special instructions. Original patch by Dirk Behme.
+
+2007-12-25 18:32  ths
+
+	* target-mips/translate_init.c: 5K and 20K are Release 1 CPUs.
+
+2007-12-25 08:49  blueswir1
+
+	* target-sparc/helper.c:  Enforce context table alignment
+
+2007-12-25 04:18  ths
+
+	* target-mips/op_helper.c: Avoid host FPE for overflowing division
+	  on MIPS, by Richard Sandiford.
+
+2007-12-25 04:13  ths
+
+	* target-mips/: cpu.h, helper.c, op.c, translate_init.c: Improved
+	  PABITS handling, and config register fixes.
+
+2007-12-25 01:26  ths
+
+	* disas.c, dyngen-exec.h: One more bit of alpha support.
+
+2007-12-24 17:24  ths
+
+	* target-mips/translate.c: Update debug code to match new
+	  accumulator register layout.
+
+2007-12-24 17:11  ths
+
+	* hw/scsi-generic.c: scsi-generic implemnentation, missing in last
+	  commit.
+
+2007-12-24 17:10  ths
+
+	* Makefile, block-raw-posix.c, block.c, block.h, block_int.h,
+	  hw/esp.c, hw/lsi53c895a.c, hw/scsi-disk.h: Real SCSI device
+	  passthrough (v4), by Laurent Vivier.
+
+2007-12-24 15:41  balrog
+
+	* hw/sd.c: Implement SD CMD8 and R7 from the newer SD Physical Spec
+	  Version 2.00.  Remove bogus setting of bits 63 of R2 type
+	  responses.  Make some constants static to allow definitions by
+	  the same name for SDIO.
+
+2007-12-24 15:33  ths
+
+	* target-mips/translate_init.c: Fix CCRes value for 20Kc.
+
+2007-12-24 15:33  balrog
+
+	* block-raw-posix.c, block-raw-win32.c, block.c, block.h, osdep.c,
+	  osdep.h, qemu-doc.texi, vl.c, hw/fdc.c, hw/ide.c, hw/scsi-disk.c,
+	  hw/sd.c: Add "cache" parameter to "-drive" (Laurent Vivier).
+
+2007-12-24 15:04  balrog
+
+	* target-i386/helper2.c: Correct the max cpuid level for each x86
+	  cpu model (Dan Kenigsberg).
+
+2007-12-24 14:58  balrog
+
+	* vl.c: Avoid the use of $ in format strings because it's
+	  system-specific - fixes drive names under Win32 (Eduardo Felipe).
+
+2007-12-24 14:47  balrog
+
+	* linux-user/qemu.h: Fix a compiler error with DEBUG_REMAP enabled
+	  (Thayne Harbaugh).
+
+2007-12-24 14:36  balrog
+
+	* target-i386/: helper.c, helper2.c: SVM enabled processor should
+	  provide cpuid Fn8000_000A (Bernhard Kauer).
+
+2007-12-24 14:29  balrog
+
+	* target-i386/translate.c: Fix cmpxchg8b translation (Bernhard
+	  Kauer).
+
+2007-12-24 14:26  balrog
+
+	* block-vvfat.c: Fix number_of_entries for filename of length [13]
+	  (Tristan Gingold).
+
 2007-12-19 18:59  blueswir1
 
 	* hw/slavio_timer.c:  All registers are set to 0 on reset (Robert
