@@ -1,3 +1,15 @@
+2007-12-27 21:26  blueswir1
+
+	* hw/sun4m.c:  Add ID register
+
+2007-12-27 21:24  blueswir1
+
+	* hw/slavio_serial.c:  Reset status contains all sent flag
+
+2007-12-27 21:23  blueswir1
+
+	* hw/slavio_timer.c:  Remove unused timers
+
 2007-12-26 20:34  ths
 
 	* target-mips/: cpu.h, helper.c: De-cruft exception definitions,
