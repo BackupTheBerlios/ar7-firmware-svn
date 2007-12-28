@@ -1,3 +1,20 @@
+2007-12-28 19:50  blueswir1
+
+	* target-sparc/op_helper.c:  Improved ASI debugging (Robert Reif)
+
+2007-12-28 19:48  blueswir1
+
+	* hw/slavio_intctl.c:  Fix master interrupt register masking
+
+2007-12-28 19:46  blueswir1
+
+	* hw/slavio_intctl.c:  Fix system read address mask (Robert Reif)
+
+2007-12-28 13:35  ths
+
+	* target-mips/translate_init.c: Set FCR0.F64 for MIPS64R2-generic,
+	  by Richard Sandiford.
+
 2007-12-27 21:26  blueswir1
 
 	* hw/sun4m.c:  Add ID register
