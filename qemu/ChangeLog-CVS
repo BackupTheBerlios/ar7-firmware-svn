@@ -1,3 +1,43 @@
+2007-12-29 21:09  blueswir1
+
+	* hw/: slavio_intctl.c, slavio_timer.c, sun4m.c:  Fix CPU timer
+	  interrupts
+
+2007-12-29 19:45  blueswir1
+
+	* pc-bios/: README, openbios-sparc32: Update Sparc32 OpenBIOS image
+	  to SVN revision 183. Changes: r182: Add handlers for timer
+	  interrupts r183: Print a message and halt if Sun4c or Sun4d
+
+2007-12-29 19:34  blueswir1
+
+	* hw/sun4m.c:  Fix SS-2 boot mode
+
+2007-12-29 10:07  blueswir1
+
+	* hw/sun4m.c:  Set SS-5 IOMMU version to Turbosparc to match
+	  default CPU (Robert Reif)
+
+2007-12-29 10:05  blueswir1
+
+	* hw/: m48t59.c, sun4m.c:  M48T02 support (Robert Reif)
+
+2007-12-29 10:03  blueswir1
+
+	* hw/m48t59.c:	Make debug printing consistent (Robert Reif)
+
+2007-12-28 21:59  blueswir1
+
+	* Makefile.target, qemu-doc.texi, vl.c, hw/boards.h,
+	  hw/sun4c_intctl.c, hw/sun4m.c, hw/sun4m.h:  Initial support for
+	  SS-2 (Sun4c)
+
+2007-12-28 21:57  blueswir1
+
+	* Makefile.target, qemu-doc.texi, vl.c, hw/boards.h, hw/sbi.c,
+	  hw/sun4m.c, hw/sun4m.h, target-sparc/op_helper.c:  Initial
+	  support for Sun4d machines (SS-1000, SS-2000)
+
 2007-12-28 19:50  blueswir1
 
 	* target-sparc/op_helper.c:  Improved ASI debugging (Robert Reif)
