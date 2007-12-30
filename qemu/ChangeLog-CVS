@@ -1,3 +1,12 @@
+2007-12-30 18:13  blueswir1
+
+	* target-sparc/op_helper.c:  Nicer debug output for exceptions
+
+2007-12-30 16:36  ths
+
+	* target-mips/: cpu.h, exec.h, translate.c: MIPS COP1X (and
+	  related) instructions, by Richard Sandiford.
+
 2007-12-29 21:09  blueswir1
 
 	* hw/: slavio_intctl.c, slavio_timer.c, sun4m.c:  Fix CPU timer
