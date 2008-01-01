@@ -1,3 +1,24 @@
+2008-01-01 18:07  blueswir1
+
+	* target-sparc/op_helper.c:  More ASIs
+
+2008-01-01 18:06  blueswir1
+
+	* hw/: eccmemctl.c, esp.c, fdc.c, iommu.c, pcnet.c, sbi.c,
+	  slavio_intctl.c, slavio_misc.c, slavio_serial.c, slavio_timer.c,
+	  sparc32_dma.c, sun4c_intctl.c, tcx.c:  Register only valid
+	  register access widths
+
+2008-01-01 18:04  blueswir1
+
+	* hw/: iommu.c, sun4m.c, sun4m.h:  DVMA translation errors raise a
+	  module error irq (NMI)
+
+2008-01-01 17:57  blueswir1
+
+	* cpu-all.h, exec.c:  Support for registering address space only
+	  for some access widths
+
 2007-12-30 18:13  blueswir1
 
 	* target-sparc/op_helper.c:  Nicer debug output for exceptions
