@@ -1,3 +1,13 @@
+2008-01-02 20:45  blueswir1
+
+	* exec.c:  Fix dynamically changed memory callbacks and passed
+	  opaque parameter
+
+2008-01-01 21:57  blueswir1
+
+	* hw/: slavio_intctl.c, sun4m.c:  Fix Debian serial console boot
+	  problem reported by Aurelien Jarno
+
 2008-01-01 18:07  blueswir1
 
 	* target-sparc/op_helper.c:  More ASIs
