@@ -1,3 +1,7 @@
+2008-01-03 22:26  ths
+
+	* target-mips/helper.c: Fix exception debug output.
+
 2008-01-02 20:45  blueswir1
 
 	* exec.c:  Fix dynamically changed memory callbacks and passed
