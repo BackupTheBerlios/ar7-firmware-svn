@@ -1,3 +1,7 @@
+2008-01-04 18:52  ths
+
+	* target-mips/helper.c: Handle some more exception types.
+
 2008-01-03 22:26  ths
 
 	* target-mips/helper.c: Fix exception debug output.
