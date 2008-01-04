@@ -1,3 +1,8 @@
+2008-01-04 20:11  ths
+
+	* Makefile.target, hw/mips_malta.c, hw/pflash_cfi01.c: Malta flash
+	  support.
+
 2008-01-04 18:52  ths
 
 	* target-mips/helper.c: Handle some more exception types.
