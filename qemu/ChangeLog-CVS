@@ -1,3 +1,21 @@
+2008-01-06 08:50  blueswir1
+
+	* hw/sun4m.c:  Make error messages consistent (Robert Reif)
+
+2008-01-05 20:41  balrog
+
+	* vl.c: Rearm timers in qemu_mod_timer when needed (Anders
+	  Melchiorsen).
+
+2008-01-05 20:29  balrog
+
+	* Changelog, hw/mainstone.c: Fix memory allocation on mainstone2
+	  and convert to qemu_ram_alloc.
+
+2008-01-05 19:53  balrog
+
+	* Changelog: Update Changelog with new Xscale platforms and vmsvga.
+
 2008-01-04 20:11  ths
 
 	* Makefile.target, hw/mips_malta.c, hw/pflash_cfi01.c: Malta flash
