@@ -696,7 +696,11 @@ static void pci_bios_init_device(PCIDevice *d)
         if (vendor_id != 0x1234)
             goto default_map;
         /* VGA: map frame buffer to default Bochs VBE address */
+#if 1
         pci_set_io_region_addr(d, 0, 0xE0000000);
+#else
+        pci_set_io_region_addr(d, 0, 0xa0000000);
+#endif
         break;
     case 0x0800:
         /* PIC */
@@ -785,7 +789,11 @@ void pci_for_each_device(void (*init_func)(PCIDevice *d))
 void pci_bios_init(void)
 {
     pci_bios_io_addr = 0xc000;
+#if 1
     pci_bios_mem_addr = 0xf0000000;
+#else
+    pci_bios_mem_addr = 0xb0000000;
+#endif
 
     pci_for_each_device(pci_bios_init_bridges);
 
