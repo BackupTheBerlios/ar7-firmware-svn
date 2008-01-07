@@ -1,3 +1,24 @@
+2008-01-06 19:53  bellard
+
+	* block-raw-posix.c: restore original values for ai.aio_threads and
+	  ai.aio_num
+
+2008-01-06 19:27  bellard
+
+	* Makefile.target, configure: fixed ppc64abi32 executable name
+
+2008-01-06 19:27  bellard
+
+	* Makefile: update binary distribution
+
+2008-01-06 18:21  bellard
+
+	* qemu-img.c, vl.c, linux-user/main.c: copyright update
+
+2008-01-06 18:10  bellard
+
+	* Changelog, VERSION: version change
+
 2008-01-06 08:50  blueswir1
 
 	* hw/sun4m.c:  Make error messages consistent (Robert Reif)
