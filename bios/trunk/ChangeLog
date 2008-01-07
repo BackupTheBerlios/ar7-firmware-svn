@@ -1,0 +1,2662 @@
+2008-01-06 22:00  sshwarts
+
+	* BIOS-bochs-latest, BIOS-bochs-legacy, rombios.c: Merge SF tracker
+	  BIOS patches
+
+2008-01-06 21:57  sshwarts
+
+	* rombios32.c: Save CPUID signature BIOS patch from @SF tracker
+
+2007-12-23 20:46  sshwarts
+
+	* rombios.c: Define IPL values patch from #SF tracker
+
+2007-12-20 19:12  vruppert
+
+	* rombios.c, BIOS-bochs-latest, BIOS-bochs-legacy: - don't abort
+	  ATA reset for not existing slave drive. The reset bit must
+	  always be cleared to avoid blocking existing master drive.
+
+2007-12-09 16:37  vruppert
+
+	* rombios32.c, BIOS-bochs-latest, BIOS-bochs-legacy: - skip SMM
+	  init if already done at first boot time (fixes reboot failure)
+
+2007-12-06 17:56  sshwarts
+
+	* BIOS-bochs-latest, BIOS-bochs-legacy, rombios.c: Fixed my BIOS
+	  optimization
+
+2007-12-01 20:26  vruppert
+
+	* rombios.c, rombios32.c, BIOS-bochs-latest, BIOS-bochs-legacy: -
+	  inline asm optimizations by Stanislav - initialize PAM register
+	  for ROM-to-RAM copy even after reboot
+
+2007-11-18 11:21  vruppert
+
+	* BIOS-bochs-latest, BIOS-bochs-legacy: - updated after latest
+	  changes
+
+2007-11-12 21:58  sshwarts
+
+	* rombios.c: Merge patch from #SF patches tracker: 1830658  Fix
+	  >32GB disk banner
+
+2007-11-04 16:39  vruppert
+
+	* rombios.c, BIOS-bochs-latest, BIOS-bochs-legacy: - applied
+	  rombios patches from SF patches section by Sebastian	 * save PnP
+	  Option ROM Product Name string in IPL Boot Table   * move the
+	  #define IPL_* lines to top of the file and change	struct
+	  ipl_entry to ipl_entry_t by using typedef
+
+2007-10-19 12:26  sshwarts
+
+	* rombios.c: Fixed comments for bios_printf (patch from #SF
+	  tracker)
+
+2007-10-14 10:11  vruppert
+
+	* rombios.c, BIOS-bochs-latest, BIOS-bochs-legacy: - improved HD
+	  recognition and CD boot (patches by Myles Watson)   * fixed minor
+	  error from printf patch confusion (negation based on wrong word)
+	  * added helper function await_ide   * changed lba calculation to
+	  not corrupt lba (for debugging and clarity)	* added support for
+	  partial completions of ata_cmd_packet (never happens in     the
+	  simulator, but happens all the time in hardware)   * update
+	  atapi_request_sense and atapi_is_ready - based on FILO   *
+	  correct an int 15 call that should have been int 0x15   * trivial
+	  fix when BX_PCIBIOS and BX_ROMBIOS32 not defined - implemented %X
+	  in bios_printf (patch by Sebastian)
+
+2007-10-10 19:11  vruppert
+
+	* rombios.c, BIOS-bochs-latest, BIOS-bochs-legacy: - reverted
+	  removal of one DPTE checksum bugfix - fixed %ld and %lu padding
+	  (now only using it for %lx)
+
+2007-10-09 18:49  vruppert
+
+	* rombios.c, BIOS-bochs-latest, BIOS-bochs-legacy: - rombios
+	  patches by Myles Watson <mylesgw@gmail.com>	* corrects a
+	  spelling error and removes the lba_capable comment   * moves
+	  dpte_segment after dpte_offset (endian problem) in the struct   *
+	  changes int13 0x15 to use the logical geometry instead of
+	  physical to	  return sectors   * clips cylinders in Int13DPT
+	  * fixes bit shift problem in options (parens in the wrong place)
+	  * returns the correct offset for dpte.iobase2   * fixes a
+	  pointer arithmetic error in calculating the checksum of the dpte
+	  * moves #if BX_SUPPORT_FLOPPY to include more floppy code   *
+	  added support for %lx %ld and %lu for bios_printf()
+
+2007-10-07 23:09  sshwarts
+
+	* rombios.c: Merge checksum patch from mailing list -> need to
+	  recompile BIOS
+
+2007-09-27 22:17  sshwarts
+
+	* Makefile.in: Enable BIOS compilation on amd64 host (patch from
+	  developers mailing list + SF tracker)
+
+2007-09-22 15:02  sshwarts
+
+	* Makefile.in: Applied patch [ 1799877 ] Fix for parallel build
+	  (make -j2)
+
+2007-09-15 09:24  vruppert
+
+	* rombios32.c, BIOS-bochs-latest: - fixed the memory allocation for
+	  the ACPI tables in situations when less than	 16MB are present
+	  (patch by Bernhard Kauer)
+
+2007-09-10 22:00  vruppert
+
+	* rombios.c, BIOS-bochs-latest, BIOS-bochs-legacy: - INT 15h AH=86h
+	  was reading the wrong stack frame (SF patch #1791000)
+
+2007-09-10 21:25  vruppert
+
+	* BIOS-bochs-latest: - regerated after latest updates
+
+2007-09-10 17:10  sshwarts
+
+	* rombios32.c: Added missed param to BX_INFO
+
+2007-08-30 23:05  sshwarts
+
+	* rombios32.c: patch for ACPI header - ability to have different
+	  rev number for different ACPI tables
+
+2007-08-19 09:50  vruppert
+
+	* rombios32.c, BIOS-bochs-latest: - clear out RSDT memory on init
+	  (patch by Bernhard Kauer from the ML)
+
+2007-08-03 15:56  vruppert
+
+	* rombios32.c, BIOS-bochs-latest: - change ACPI table revision
+	  number to 1
+
+2007-08-01 19:09  vruppert
+
+	* rombios.c, BIOS-bochs-latest, BIOS-bochs-legacy: - fixed floppy
+	  boot signature check switch - added network boot ROM support in
+	  the main Bochs code (already present in BIOS)
+
+2007-06-30 09:14  vruppert
+
+	* rombios.c, BIOS-bochs-latest, BIOS-bochs-legacy: - added
+	  expansion-ROM boot support to the ROMBIOS (SF patch #1741153
+	  ported from	the XenSource project)
+
+2007-06-17 09:38  vruppert
+
+	* BIOS-bochs-latest, BIOS-bochs-legacy: - implemented INT15h, fn
+	  0xC2 (mouse), subfn 3, set resolution (SF patch #1734159) -
+	  support for large PCI memory regions (>=64Mb) added (patch by
+	  Paul Brook)
+
+2007-06-17 09:37  vruppert
+
+	* rombios32.c: - support for large PCI memory regions (>=64Mb)
+	  added (patch by Paul Brook)
+
+2007-06-17 09:36  vruppert
+
+	* rombios.c: - implemented INT15h, fn 0xC2 (mouse), subfn 3, set
+	  resolution (SF patch #1734159)
+
+2007-05-28 10:09  vruppert
+
+	* biossums.c: [no log message]
+
+2007-05-28 10:01  vruppert
+
+	* BIOS-bochs-latest, BIOS-bochs-legacy: - bios_printf() fix for %s
+	  format (from VirtualBox) - removed lots of trailing spaces
+
+2007-05-28 09:54  vruppert
+
+	* rombios.c: - bios_printf() fix for %s format (from VirtualBox) -
+	  removed lots of trailing spaces
+
+2007-04-02 22:35  vruppert
+
+	* rombios.c, BIOS-bochs-latest, BIOS-bochs-legacy: - INT 13h:
+	  sector number 0 is invalid
+
+2007-02-20 10:36  vruppert
+
+	* rombios.h, rombios32.c, BIOS-bochs-latest, BIOS-bochs-legacy: -
+	  initial ACPI SMBus support added (ported from Qemu, TODO:
+	  register devices,   bus transactions)
+
+2007-02-10 18:05  vruppert
+
+	* rombios.c, BIOS-bochs-latest, BIOS-bochs-legacy: - reset the
+	  memory after 32 bit protected mode init (patch from the Qemu
+	  project   by Fabrice Bellard)
+
+2006-12-30 18:13  vruppert
+
+	* rombios.c, BIOS-bochs-latest, BIOS-bochs-legacy: - the
+	  int13_harddisk() function modifies the high word of EAX in EDD
+	  read/write   functions, but it shouldn't, so it must be saved on
+	  stack
+
+2006-11-04 19:06  vruppert
+
+	* rombios.c, BIOS-bochs-latest, BIOS-bochs-legacy: - PCI BIOS
+	  function 'find class code' implemented for real and protected
+	  mode
+
+2006-10-17 18:48  vruppert
+
+	* rombios.c, BIOS-bochs-latest, BIOS-bochs-legacy: - added stub for
+	  real mode PCIBIOS function 'find class code' - improved real mode
+	  PCIBIOS error reporting
+
+2006-10-04 20:59  vruppert
+
+	* rombios.c, BIOS-bochs-latest, BIOS-bochs-legacy: - clear
+	  registers using the XOR instruction
+
+2006-10-03 23:03  vruppert
+
+	* rombios.c, BIOS-bochs-latest, BIOS-bochs-legacy: - clear upper 16
+	  bit of the stack pointer when returning to real mode (fixes
+	  booting of Ubuntu 6.06)
+
+2006-10-03 22:27  vruppert
+
+	* Makefile.in, rombios.h, rombios32.c, BIOS-bochs-latest,
+	  BIOS-bochs-legacy: - build an additional BIOS image without the
+	  new 32-bit extensions. It can be   used when the new BIOS fails -
+	  use wbinvd instruction in the 32-bit init code
+
+2006-10-02 22:29  vruppert
+
+	* rombios32.c, BIOS-bochs-latest: - SMRAME bit must be always set
+	  for SMRAM access
+
+2006-10-02 08:29  vruppert
+
+	* rombios32.c, rombios32start.S, BIOS-bochs-latest: - improved SMM
+	  init (Fabrice Bellard)
+
+2006-10-01 18:39  vruppert
+
+	* rombios.c, rombios.h, rombios32.c, rombios32start.S,
+	  BIOS-bochs-latest: - applied patch from the Qemu project (Fabrice
+	  Bellard)   * use 32 bit pushf/popf in 32 bit PCI bios   * moved
+	  some useful defines in rombios - minor cleanups
+
+2006-09-30 13:22  vruppert
+
+	* rombios.c, rombios.h, rombios32.c, BIOS-bochs-latest: - fixed
+	  number of MP table entries (caused FreeBSD 5.3 boot failure) -
+	  moved shared defines to new file rombios.h (could be used to show
+	  features   on the screen after detection by rombios32)
+
+2006-09-29 19:37  vruppert
+
+	* rombios.c, rombios32.c, BIOS-bochs-latest: - always generate MP
+	  tables (WinXP guest needs this) - new code is now enabled again
+
+2006-09-29 14:23  vruppert
+
+	* rombios.c, rombios32.c, BIOS-bochs-latest: - disabled rombios32
+	  call until the critical bugs are fixed - more accurate delay loop
+	  using the port 0x61 refresh clock bit - fixed capabilties
+	  reported in BIOS banner
+
+2006-09-28 21:01  vruppert
+
+	* BIOS-bochs-latest: - initial revision of the 32-bit init code for
+	  the Bochs BIOS   * CPU, PCI, ACPI and SMM init   * MP and ACPI
+	  table generation - MP table generation hack in the Bochs memory
+	  code disabled (should be removed) - don't test the checksum of
+	  large BIOS images (for now) - existing 16-bit PCIBIOS init
+	  disabled for now
+
+2006-09-28 20:56  vruppert
+
+	* Makefile.in, acpi-dsdt.dsl, acpi-dsdt.hex, rombios.c,
+	  rombios32.c, rombios32.ld, rombios32start.S: - initial revision
+	  of the 32-bit init code for the Bochs BIOS   * CPU, PCI, ACPI and
+	  SMM init   * MP and ACPI table generation - MP table generation
+	  hack in the Bochs memory code disabled (should be removed) -
+	  don't test the checksum of large BIOS images (for now) - existing
+	  16-bit PCIBIOS init disabled for now
+
+2006-09-28 19:39  vruppert
+
+	* biossums.c: - biossums now supports padding binary files to 64k.
+	  This is useful for BIOS   extensions at 0xE0000 to be
+	  concatenated with the Bochs BIOS core.  - CR/LF to LF conversion,
+	  license and CVS id added
+
+2006-08-19 18:58  vruppert
+
+	* VGABIOS-lgpl-README, VGABIOS-lgpl-latest,
+	  VGABIOS-lgpl-latest-cirrus, VGABIOS-lgpl-latest-cirrus-debug,
+	  VGABIOS-lgpl-latest-debug: - LGPL'd VGABIOS updated to version
+	  0.6a (see VGABIOS-lgpl-README for details)
+
+2006-08-11 19:34  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - INT 15 AH=88h now returns max.
+	  63M extended memory (Ralf Brown's interrupt	list says the limit
+	  should be 15M, but real machines are reporting more)
+
+2006-08-07 22:26  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - INT 09h: fixed handling of
+	  extended keys (asciicode = 0xe0) - left backslash key added in
+	  keycode table
+
+2006-07-30 11:37  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - fixed keyboard LED flag handling
+	  and added setting of LEDs (makes keyboard   indicators work in
+	  Win 3.x, Win 9x and at the boot prompt)
+
+2006-07-07 18:10  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - fixed ATA device detection in
+	  case of one drive only connected to controller - applied patch
+	  from the qemu project (Fabrice Bellard)   * improved INT 15h
+	  function AX=E820h   * real mode PCI BIOS now returns IRQ routing
+	  information (function 0Eh)
+
+2006-07-06 09:27  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - enable interrupts before
+	  executing INT 19h and revert previous change
+
+2006-07-05 11:19  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - enable interrupts before
+	  executing boot sector code (untested)
+
+2006-05-22 19:09  vruppert
+
+	* apmbios.S: - sync with the main trunk
+
+2006-05-14 19:42  sshwarts
+
+	* asus_p6np5.bin: Removed file until permission from ASUS (again)
+
+2006-05-07 12:40  vruppert
+
+	* apmbios.S, BIOS-bochs-latest: - APM cpu idle function fixed (from
+	  qemu)
+
+2006-04-29 11:34  sshwarts
+
+	* asus_p6np5.bin: Added real i440FX BIOS image working well with
+	  Bochs
+
+2006-01-25 18:51  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - PCI BIOS: improved error message
+	  for function 'find PCI device'
+
+2006-01-14 09:30  vruppert
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors: - removed obsolete SMP BIOS images
+
+2006-01-13 18:36  vruppert
+
+	* Makefile.in, rombios.c: - removed static MP tables from rombios.c
+	  and MP bios images from Makefile
+
+2005-12-29 10:37  vruppert
+
+	* VGABIOS-lgpl-README, VGABIOS-lgpl-latest,
+	  VGABIOS-lgpl-latest-cirrus, VGABIOS-lgpl-latest-cirrus-debug,
+	  VGABIOS-lgpl-latest-debug: - LGPL'd VGABIOS updated to version
+	  0.5d (minor bugfixes)
+
+2005-12-26 11:35  vruppert
+
+	* apmbios.S, rombios.c, BIOS-bochs-2-processors,
+	  BIOS-bochs-4-processors, BIOS-bochs-8-processors,
+	  BIOS-bochs-latest: - APM function 0x05 (cpu idle) implemented
+	  (tested with Win98) - unused commented stuff removed
+
+2005-12-25 10:11  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - fixed disk size
+	  reporting > 64 GB (SF patch #1389776)
+
+2005-11-06 17:48  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - enabled support for
+	  harddisks with up to 127 GB in Bochs and bximage - BIOS harddisk
+	  detection message is now okay if size is < 64 GB
+
+2005-10-27 09:37  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - end-of-track (EOT)
+	  condition implemented - set valid EOT value in BIOS floppy
+	  read/write functions - added hack to make older Bochs BIOS
+	  version work with EOT feature
+
+2005-10-24 13:14  vruppert
+
+	* BIOS-bochs-latest: - APM function 0x10 (get capabilities)
+	  implemented - stubs for APM functions 0x08 and 0x0f added -
+	  rebuild bios images if apmbios.S is modified
+
+2005-10-24 13:11  vruppert
+
+	* Makefile.in, apmbios.S, BIOS-bochs-2-processors,
+	  BIOS-bochs-4-processors, BIOS-bochs-8-processors: - APM function
+	  0x10 (get capabilities) implemented - stubs for APM functions
+	  0x08 and 0x0f added - rebuild bios images if apmbios.S is
+	  modified
+
+2005-09-24 10:09  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - disable i/o and
+	  memory space access while initializing PCI base address registers
+
+2005-09-19 23:09  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - fixed PCI i/o base
+	  address initialization
+
+2005-09-18 23:44  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - PCI i/o and memory
+	  base address initialization added
+
+2005-09-17 19:43  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - pause key detection
+	  implemented - preparing PCI i/o and memory init function
+
+2005-09-16 18:04  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - keyboard interrupt
+	  handler fixes (patch by japheth)   * pass all keycodes received
+	  by INT 09h to keyboard intercept   * don't wait for second
+	  keycode if an extended keycode is detected (set flag only)
+
+2005-09-15 20:06  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - fixed enhanced
+	  keycode flag for key releases - modified bios startup messages
+
+2005-09-09 20:56  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - fixed flag for
+	  enhanced keycode 0xE0 (final part)
+
+2005-09-09 18:33  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - fixed flag for
+	  enhanced keycode 0xE0
+
+2005-09-04 11:37  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - new function
+	  floppy_prepare_controller() simplifies some floppy functions and
+	  makes panic no longer necessary - bios banner now shows active
+	  features - indent mode fixed in modified sections
+
+2005-09-02 17:38  vruppert
+
+	* rombios.c: - fixed URLs for mtools on win32 and rombios
+	  documentation
+
+2005-08-26 19:46  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - fixed floppy return
+	  status if media not present (MS-DOS expects value 0x80) - more
+	  accurate handling of the floppy recalibrate function (removed
+	  panic) - small code cleanups and optimizations in the floppy code
+	  (e.g. do .. while loops,   always using 0040:003e for the floppy
+	  interrupt flag) - small updates ported from the PC BIOS project
+
+2005-08-24 22:44  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - fixes for OS/2 in
+	  the floppy and rombios code (patch from Robin Kay)   * support
+	  for XDF images added	 * floppy controller should hang if media
+	  not present	* rombios has to reset the floppy controller after
+	  read/write failure
+
+2005-08-14 19:19  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - fixed INT 09h
+	  keyboard flags handling
+
+2005-08-13 10:53  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - INT 70h has
+	  destroyed the upper word of EAX; save/restore all 32-bit
+	  registers now
+
+2005-08-12 21:49  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - fixed segment and
+	  offset in int70h and modify the high bit only
+
+2005-07-07 20:12  vruppert
+
+	* VGABIOS-lgpl-README, VGABIOS-lgpl-latest,
+	  VGABIOS-lgpl-latest-cirrus, VGABIOS-lgpl-latest-cirrus-debug,
+	  VGABIOS-lgpl-latest-debug:
+	  - LGPL'd VGABIOS updated to version 0.5c
+
+2005-07-07 20:05  vruppert
+
+	* VGABIOS-lgpl-README, VGABIOS-lgpl-latest,
+	  VGABIOS-lgpl-latest-cirrus, VGABIOS-lgpl-latest-cirrus-debug,
+	  VGABIOS-lgpl-latest-debug:
+	  - LGPL'd VGABIOS updated to version 0.5c
+
+2005-07-06 21:34  vruppert
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest:
+	  - updated bios images after backport
+
+2005-07-06 21:30  vruppert
+
+	* rombios.c:
+	  - backported rombios.c, rev 1.139
+
+2005-06-14 20:21  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - missing scancodes
+	  for F11 and F12 added to translation table - unknown scancode
+	  info message improved
+
+2005-05-24 21:18  vruppert
+
+	* VGABIOS-lgpl-README, VGABIOS-lgpl-latest,
+	  VGABIOS-lgpl-latest-cirrus, VGABIOS-lgpl-latest-cirrus-debug,
+	  VGABIOS-lgpl-latest-debug: - LGPL'd VGABIOS updated to version
+	  0.5b (minor bugfixes)
+
+2005-05-07 17:55  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - applied patches by
+	  Alex Beregszaszi   * serial debug output to COM1 for the rombios
+	  (disabled by default)   * added missing trailing newlines in
+	  info/panic messages - log_bios_start() must initialize serial
+	  port for the serial debug feature - comments for the parallel and
+	  serial detection code added
+
+2005-05-04 18:05  sshwarts
+
+	* rombios.c: Update MP tables comments in rombios
+
+2005-04-30 13:10  vruppert
+
+	* Makefile.in, rombios.c, BIOS-bochs-2-processors,
+	  BIOS-bochs-4-processors, BIOS-bochs-8-processors,
+	  BIOS-bochs-latest: - applied patches by Alex Beregszaszi   *
+	  cross-compilation support for the bios   * "user-settable" bios
+	  build date string   * hexadecimal nuber cosmetics, #0x instead #$
+	  - use real build date for the bios build date string - simplified
+	  printer status handling
+
+2005-04-28 19:53  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - applied patches by
+	  Alex Beregszaszi   * function INT 15h AH=88h implemented   *
+	  added stub for function INT 16h AX=6f02h   * writes to
+	  debug/info/error/panic ports can be disabled now
+
+2005-04-27 20:29  sshwarts
+
+	* rombios.c: added sanity checks from patch [Bochs-developers]
+	  [PATCH] some sanity checks in bios by Alex Beregszaszi
+	  [alex@fsn.hu]
+
+2005-04-27 20:09  sshwarts
+
+	* rombios.c: Fixed highest_priority_int calculation function Fixed
+	  I/O APIC ID for 8CPU configuration to match BIOS tables Remove
+	  I/O APIC initialization when INIT IPI received
+
+2005-04-26 22:22  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - 4-cpu SMP table
+	  fixed (patch by jermar@itbs.cz)
+
+2005-04-06 20:05  vruppert
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - APM support for 16
+	  bit protected mode added (patch from Struan Bartlett)
+
+2005-04-06 20:01  vruppert
+
+	* apmbios.S, rombios.c: - APM support for 16 bit protected mode
+	  added (patch from Struan Bartlett)
+
+2005-03-07 22:53  vruppert
+
+	* VGABIOS-lgpl-README, VGABIOS-lgpl-latest,
+	  VGABIOS-lgpl-latest-cirrus, VGABIOS-lgpl-latest-cirrus-debug,
+	  VGABIOS-lgpl-latest-debug: - LGPL'd VGABIOS updated to version
+	  0.5a (including Cirrus support)
+
+2005-02-13 09:47  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - using fixed values
+	  for the diskette parameter table instead of int vector 0x1E
+	  fixes floppy problems in Win9x guests
+
+2005-02-06 00:10  vruppert
+
+	* rombios.c: - fixed macros for debug output - string memory now
+	  starts at 0xcc00 to have enough space for all debug messages
+
+2005-02-02 20:12  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - pcibios fixes by
+	  lukewarm (SF patch #1114826)	* pcibios: preserve esi and edi  *
+	  pcibios: ignore high-word of edx when calling FIND_PCI_DEVICE  *
+	  pcibios_real: set readable descriptor to ds when error (for 16bit
+	  PM)  * bios_printf: replace immediate value 0xf000 with get_CS
+	  (for 16bit PM) - Win98 cdrom boot fixed (patch by Magnus Damm)
+
+2005-01-31 19:35  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - fixed real mode PCI
+	  BIOS error reporting
+
+2005-01-27 19:03  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - don't panic when an
+	  unsupported mouse packet size is requested
+
+2005-01-02 10:45  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - PS/2 mouse scaling
+	  functions implemented - int15_function_mouse(): removed unused
+	  variables
+
+2004-12-20 18:00  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - Win9x CD boot fixed
+	  (SF patch #1087537 by lukewarm)
+
+2004-12-07 22:13  vruppert
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - mouse type 'none'
+	  added (no mouse connected) - added emulation of the PS/2 mouse
+	  port without a mouse connected (some OS's   still detect a mouse)
+	  - fixes for the mouse type 'serial_wheel' (the wheel still
+	  doesn't work in Win98)
+
+2004-12-07 22:06  vruppert
+
+	* rombios.c: - mouse type 'none' added (no mouse connected) - added
+	  emulation of the PS/2 mouse port without a mouse connected (some
+	  OS's	 still detect a mouse) - fixes for the mouse type
+	  'serial_wheel' (the wheel still doesn't work in Win98)
+
+2004-12-05 17:41  vruppert
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - PS/2 mouse
+	  functions "set sample rate" and "get device id" implemented -
+	  presence of the EBDA segment doesn't depend on the PS/2 mouse
+	  option
+
+2004-12-05 17:38  vruppert
+
+	* rombios.c: - PS/2 mouse functions "set sample rate" and "get
+	  device id" implemented - presence of the EBDA segment doesn't
+	  depend on the PS/2 mouse option
+
+2004-10-15 17:34  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - boot sequence with
+	  up to 3 boot devices inplemented. The sequence is stored   in the
+	  CMOS regs 0x3d and 0x38. TODO: change config option "boot" to use
+	  this	 feature.
+
+2004-10-04 21:28  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - extented floppy
+	  parameter table (floppy fix for NT4 from qemu written by Mike
+	  Nordell and Derek Fawcus) - int 13h diskette function 08h should
+	  return the pointer to the floppy parameter   table stored in int
+	  1Eh
+
+2004-10-02 14:27  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - PCI IRQs must
+	  always be level sensitive (setup ELCR1/ELCR2 in pcibios init)
+
+2004-09-25 19:21  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - pci irq
+	  initialisation added (TODO: initialize pci memory + i/o space)
+
+2004-09-13 19:53  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - int 15 / ah=87h
+	  should not clear cr0 when setting bit 0 (SF patch #969967   by
+	  Ben Lunt)
+
+2004-09-05 19:55  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - modified the bios /
+	  vgabios panic handling. BX_PANIC messages sent by the bios   now
+	  appear correctly as the Bochs panic message. Now we can get rid
+	  of messages	with the line number in the source file.  - updated
+	  / fixed description in biosdev.cc
+
+2004-09-03 21:49  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - calculate checksum
+	  of expansion rom (must be 0)
+
+2004-09-02 19:14  vruppert
+
+	* VGABIOS-elpin-2.40, VGABIOS-lgpl-latest,
+	  VGABIOS-lgpl-latest-debug: - changed the size of the vgabios
+	  files to exactly 32k with a checksum at the	last byte. This
+	  change is required for a correct checksum in the rom scan loop.
+
+2004-08-21 15:31  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - implement int15,
+	  ah=83 Start/Stop Wait Timer (patch.rombios.markevich from Kory
+	  Markevich) - applied patch from sava (t.ebisawa /
+	  http://ebisa.hp.infoseek.co.jp/bochs/arcs/bochs-2.1.1-jpfix-20040214.zip)
+	  * int09_handler: pusha before int15, ah=4f	    (for "jis_a01"
+	  japanese keybord driver, which breaks some registers)   *
+	  int15_function: add new functions int15_function32,
+	  int15_function_mouse	    (to avoid stack overflow ... DOS/Win9x
+	  works better)   * int16, ah=00/01/10/11 ignore special key code
+	  (F0) - set missing return value and flag for unimplemented EISA
+	  BIOS
+
+2004-08-20 12:01  vruppert
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - A20 gate control
+	  implemented (int 15h, ah = 24h) - debug message for unsupported
+	  EISA bus features added (int 15h, ah = d8h) - moving rom scan
+	  loop to a separate function saves space in the main post code
+	  (TODO: add code for rom checksum) - interrupt vector 0x79 set to
+	  0 (TODO: some other vectors seem to be 0, too)
+
+2004-08-20 11:59  vruppert
+
+	* rombios.c: - gate A20 control implemented (int 15h, ah = 24h) -
+	  debug message for unsupported EISA bus features added (int 15h,
+	  ah = d8h) - moving rom scan loop to a separate function saves
+	  space in the main post code	(TODO: add code for rom checksum) -
+	  interrupt vector 0x79 set to 0 (TODO: some other vectors seem to
+	  be 0, too)
+
+2004-07-04 19:07  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - pci irq routing
+	  fixed and initialization added (BUG: ne2k-pci only works with
+	  irq 11 in Win95) - bios: irq routing table fixed and updated for
+	  5 slots - ne2k: unnecessary reset call in init() removed - usb:
+	  don't execute reset if disabled
+
+2004-06-20 20:25  vruppert
+
+	* rombios.c, apmbios.S, BIOS-bochs-2-processors,
+	  BIOS-bochs-4-processors, BIOS-bochs-8-processors,
+	  BIOS-bochs-latest: - APM and system shutdown support for 16-bit
+	  real mode and 32-bit protected mode	(patch from Fabrice
+	  Bellard)
+
+2004-05-31 15:11  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - int13_cdrom / 32
+	  bit register update fix (aka FreeBSD cdrom boot) (patch from
+	  Fabrice Bellard found in LGPL'd VGABIOS patches section)
+
+2004-04-28 18:59  cbothamy
+
+	* rombios.c: - remove old commented code
+
+2004-02-09 17:48  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - turn floppy motor
+	  off 2 seconds after last read/write/recalibrate command   (patch
+	  from Ben Lunt)
+
+2004-02-03 01:57  danielg4
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: backport rombios.c
+	  rev1.106
+
+2004-02-02 23:39  cbothamy
+
+	* rombios.c: - backport rombios.c rev1.106
+
+2004-01-28 20:13  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - int17_function
+	  updated for multiple parallel ports - detection of serial port 3
+	  + 4 added
+
+2004-01-25 23:15  vruppert
+
+	* BIOS-bochs-8-processors, BIOS-bochs-latest: - fixed
+	  int13_harddisk function 10h
+
+2004-01-25 23:10  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors: -
+	  fixed int13_harddisk function 10h
+
+2004-01-19 20:07  danielg4
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: Rebuilt BIOS from
+	  Christophe's patch.
+
+2004-01-18 14:30  cbothamy
+
+	* rombios.c: - backport changes from rombios.c rev1.104
+
+2004-01-15 04:32  danielg4
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: Rebuilt BIOS from
+	  latest rombios.c
+
+2004-01-15 03:08  danielg4
+
+	* biossums.c, rombios.c: Introduced Frank Cornelis's PCIDEV patch.
+
+2004-01-15 00:09  cbothamy
+
+	* rombios.c: - apply patch #874517 Bugfix in int15h function 0xe820
+	  by flashburn
+
+2003-12-18 17:48  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - INT 16h function
+	  05h implemented (grabbed from patch #707931)
+
+2003-12-08 21:35  cbothamy
+
+	* Makefile.in: - apply patch from Frank Cornelis to have bcc able
+	  to compile gcc-3.2-preprocessed rombios.c
+
+2003-11-27 01:35  cbothamy
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - recompile rombios.c
+	  rev1.102
+
+2003-11-25 23:56  cbothamy
+
+	* rombios.c: - remove hlt from BX_PANIC function, because the user
+	  can choose to   continue after a panic.  - add the hlt
+	  instruction in int18 handler. This should stop the   simulation
+	  if the boot disk can not be read
+
+2003-11-25 23:46  cbothamy
+
+	* rombios.c: - stop execution with an 'hlt' if the bios can not
+	  read the boot disk
+
+2003-11-15 01:03  cbothamy
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - recompiled with
+	  rombios.c rev1.100
+
+2003-11-15 01:00  cbothamy
+
+	* rombios.c: - add fix to get v2os to boot : preserve eax top
+	  16bits on int1A function B101 call
+
+2003-11-11 19:18  vruppert
+
+	* Makefile.in: - biossums added to make target 'clean'
+
+2003-11-06 01:17  cbothamy
+
+	* VGABIOS-lgpl-README, VGABIOS-lgpl-latest,
+	  VGABIOS-lgpl-latest-debug: - update with vgabios v0.4c
+
+2003-11-05 00:08  cbothamy
+
+	* VGABIOS-lgpl-README, VGABIOS-lgpl-latest,
+	  VGABIOS-lgpl-latest-debug: - update with vgabios v0.4b
+
+2003-11-02 13:39  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - detect_serial:
+	  detection simplified using IER and IIR - detect_parport: save
+	  base address and timeout using push/pop
+
+2003-10-24 13:16  danielg4
+
+	* VGABIOS-lgpl-latest-debug: [no log message]
+
+2003-10-17 14:01  cbothamy
+
+	* Makefile.in: - make now runs biossums on generated bios files
+
+2003-10-17 13:59  cbothamy
+
+	* biossums.c: - add biossums utility, to set various checksums in
+	  bios files, written by Eike W.
+
+2003-10-16 21:29  vruppert
+
+	* rombios.c, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - int 0x16 function
+	  0x0A implemented (GET KEYBOARD ID) - int 0x16 functions 0x10/0x11
+	  fixed (don't change the ascii code to 0xE0)
+
+2003-10-07 03:44  danielg4
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest, usage.cc: Fix
+	  ATA/Serial ioport conflict
+
+2003-10-07 02:21  danielg4
+
+	* rombios.c: Fix ATA/Serial ioport conflict
+
+2003-10-06 01:15  danielg4
+
+	* VGABIOS-lgpl-latest: Update to coincide with Volker's adjustment
+	  to VGA-BIOS upstream.
+
+2003-08-17 23:48  cbothamy
+
+	* rombios.c: - remove the comment about 8x8 font.    Volker
+	  confirmed that the whole 8x8 font should be present in the
+	  vgabios.
+
+2003-08-17 17:41  cbothamy
+
+	* VGABIOS-lgpl-README, VGABIOS-lgpl-latest: - update LGPL'd vgabios
+	  with release 0.4a
+
+2003-08-16 22:13  cbothamy
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - regen from
+	  rombios.c rev1.95
+
+2003-08-16 22:11  cbothamy
+
+	* rombios.c: - add 128 first 8x8 chars at 0xfa6e (fixes bug #787138
+	  No ROM BIOS character map)
+
+2003-08-07 02:04  cbothamy
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - recompile rombios.c
+	  rev1.94
+
+2003-08-07 02:02  cbothamy
+
+	* rombios.c: - fix sf bug #764473 Freesco Linux crashes on boot
+	  Syslinux 1.48 that is used to boot freesco, did not like the
+	  latest   int15 function e801 returning AX=0 and BX=0, although my
+	  real	 system does, and Ralph Brown list allow it.
+
+	    Interestingly enough, the symptoms were floppy accesses with a
+	  track
+	    number > 100. Funny.
+
+	    Now int15 function e801 returns both extended and configured
+	  memory.
+
+2003-08-05 15:03  cbothamy
+
+	* VGABIOS-elpin-2.40: - Fix Elpin VGAbios size. It can't really be
+	  32769 bytes.	  I stripped the last byte, it seems to work ok.
+
+2003-04-26 00:15  cbothamy
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - compile rombios
+	  rev1.93
+
+2003-04-26 00:13  cbothamy
+
+	* rombios.c: - fix int15 function e801 (get memory size)
+
+2003-03-09 00:00  cbothamy
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - compile rombios.c
+	  rev 1.92
+
+2003-03-08 23:59  cbothamy
+
+	* rombios.c: - apply patch "[ 682539 ] Fix CapsLock and NumLock
+	  behavior" from rock at gimp.org
+
+2003-02-07 00:19  cbothamy
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - compile rombios.c
+	  rev1.91
+
+2003-02-07 00:16  cbothamy
+
+	* rombios.c: - apply Ben Lunt's 160k, 180k, 320k floppy patch
+
+2003-01-18 20:23  cbothamy
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - compile rombios.c
+	  rev1.90
+
+2003-01-18 20:20  cbothamy
+
+	* rombios.c: - add int15 function 86 support
+
+2003-01-16 23:02  cbothamy
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - compile rombios.c
+	  rev 1.85.2.1
+
+2003-01-16 23:00  cbothamy
+
+	* Makefile.in: - backport Makefile.in rev 1.18 (fix [ 651158 ]
+	  rombios does not build with make -j2)
+
+2003-01-16 22:58  cbothamy
+
+	* rombios.c: - backport rombios.c rev 1.87  (fix for NetBSD boot
+	  from cdrom)
+
+2003-01-15 18:44  cbothamy
+
+	* VGABIOS-lgpl-latest: - update with latest current-cvs version. It
+	  fixes, at least the WinNT4 install bug
+
+2003-01-14 19:04  cbothamy
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - compile rombios.c
+	  rev 1.89
+
+2003-01-14 19:03  cbothamy
+
+	* rombios.c: - move the extended key check in int09, now int15/4f
+	  is empty.    I did not see any bug, but maybe some code hooking
+	  int15/4f could be    disoriented when receiving extented E0
+	  scancode.
+
+2003-01-14 18:59  cbothamy
+
+	* rombios.c: - add support for ElTorito Harddisk emulation. Darwin
+	  iso boots now.    The Harddisk emulation still needs some polish
+	  though.
+
+2003-01-13 13:55  cbothamy
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - compile rombios.c
+	  rev 1.87
+
+2003-01-13 13:51  cbothamy
+
+	* rombios.c: - fix NetBSD not booting from cdrom. AH was not set to
+	  0 after a   successful read through int13/AH=2 when emulation
+	  floppy from cdrom.
+
+2003-01-06 03:03  cbothamy
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - compile from
+	  rombios rev1.86
+
+2003-01-06 03:02  cbothamy
+
+	* rombios.c: - create two new asm functions to send eoi to the
+	  master pic and to both pics - add int75_handler, for msdos
+	  compatbility fpu exception   This handler calls int 2 (nmi). The
+	  NMI handler should really be aware   of this and should iret in
+	  case of FPU exception (to be implemented)
+
+2002-12-25 13:25  cbothamy
+
+	* Makefile.in: - fix [ 651158 ] rombios does not build with make
+	  -j2	don't let each rombios compile overwrite temporary file of
+	  another
+
+2002-12-13 17:32  cbothamy
+
+	* BIOS-bochs-8-processors, BIOS-bochs-latest: - compile reombios.c
+	  revision 1.85
+
+2002-12-13 17:28  cbothamy
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors: - compile
+	  reombios.c revision 1.85
+
+2002-12-13 17:26  cbothamy
+
+	* rombios.c: - refix [ 642031 ] FATAL: Keyboard RESET error:993
+	  With Bryce we identified that this code will successfully   flush
+	  the keyboard input buffer as long as ips <= 15000000.
+
+2002-12-13 00:55  bdenney
+
+	* Makefile.in: - now "make dist-clean" no longer removes the
+	  compiled BIOSes.  This   is important because many people don't
+	  have the tools to rebuild them.    They will only be removed if
+	  you type "make bios-clean", which people    are unlikely to do by
+	  accident.
+
+2002-12-09 14:24  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - recompile bioses
+	  for rombios.c 1.84
+
+2002-12-09 14:23  bdenney
+
+	* rombios.c: - apply 8CPU bios patch from Zwane Mwaikambo, who
+	  writes:   > This simplifies things for operating systems which
+	  don't do   > paranoia/sanity checks. This BIOS image has been
+	  tested on Linux-2.4.19
+
+2002-11-26 12:09  cbothamy
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - compile from
+	  rombios.c r1.83
+
+2002-11-26 12:04  cbothamy
+
+	* rombios.c:  - fix [ 642031 ] FATAL: Keyboard RESET error:993
+	  again: rewrote keyboard
+	     buffer cleanup
+	  - add BX_DEBUG_INT1A macro - change two "mov ax, #0000" to "xor
+	  ax, ax", so int70_handler does not overlap int08_handler
+
+2002-11-25 22:32  cbothamy
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - compile from
+	  rombios.c r1.82
+
+2002-11-25 22:30  cbothamy
+
+	* rombios.c: - fix [ 629810 ] int 16/ah=01 broken?   added sti at
+	  start of int16_handler - add some notes about int09 / int15/4f
+
+2002-11-24 23:45  bdenney
+
+	* Makefile.in, makesym.perl: - use perl script "makesym.perl" to
+	  produce a symbol table that the   Bochs debugger can read
+
+2002-11-23 22:02  cbothamy
+
+	* Makefile.in: - rename rombios.txt for 2, 4, 8 processors
+
+2002-11-23 11:05  cbothamy
+
+	* VGABIOS-lgpl-latest: - update with latest released LGPL VGABios
+	  (v0.3b)
+
+2002-11-22 15:41  cbothamy
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - compile BIOSes from
+	  rombios.c r1.81
+
+2002-11-22 15:40  cbothamy
+
+	* rombios.c: - fix [ 642031 ] FATAL: Keyboard RESET error:993
+	  Clear the incoming keys before reseting the keyboard.
+
+2002-11-21 20:09  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest, rombios.c: - fix a
+	  bug reported on ML by Scott Duplichan.  Unimplemented int15 calls
+	  should return AH=0x86 and CF set.  The new AH=E8 calls did not
+	  return   0x86 in some cases where the call was not implemented.
+
+2002-11-21 07:41  bdenney
+
+	* VGABIOS-elpin-LICENSE: [no log message]
+
+2002-11-14 21:05  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-8-processors, BIOS-bochs-latest: - update all bioses
+	  to current rombios.c - since rombios.c also supports 8
+	  processors, go ahead and build an 8 cpu   bios as well.
+
+	  Modified Files:   BIOS-bochs-2-processors BIOS-bochs-4-processors
+	    BIOS-bochs-latest Added Files:   BIOS-bochs-8-processors
+
+2002-11-14 21:04  bdenney
+
+	* rombios.c, Makefile.in: - no longer create biosconfig.h with one
+	  line extracted from config.h.    Instead, just build all 4 bioses
+	  for 1,2,4,8 processors all the time.	  Now they should all stay
+	  in sync without any special effort.
+
+	  Modified Files:   rombios.c Makefile.in
+
+2002-11-07 22:58  cbothamy
+
+	* BIOS-bochs-latest: - compile rombios.c r1.78
+
+2002-11-07 22:57  cbothamy
+
+	* rombios.c: - clean up in and out keyboard buffer before self test
+
+2002-11-05 00:57  cbothamy
+
+	* BIOS-bochs-latest: - compile rombios.s r1.77
+
+2002-11-05 00:56  cbothamy
+
+	* rombios.c: - remove patch.keyboard-biosinit-asulmicki - add new
+	  keyboard init code from Adam Sulmicki - changed last cli() to
+	  #asm cli #endasm - remove unused cli() function - don't panic on
+	  shutdown status 0x09. just do the normal post
+
+2002-10-30 23:42  cbothamy
+
+	* rombios.c: - fix type of the counter used when waiting for
+	  signals in ata_reset. It may be > 0xff
+
+2002-10-30 22:47  cbothamy
+
+	* rombios.c: - add wait states during disks reset, so the BIOS can
+	  reliably detect them.    patch from Adam Sulmicki.
+
+2002-10-28 01:18  cbothamy
+
+	* BIOS-bochs-latest: - compile rombios.c r1.74
+
+2002-10-28 00:04  cbothamy
+
+	* rombios.c: - change offset of the answer to the identify device
+	  query where current disk geometry is read.	Thanks to Adam
+	  Sulmicki
+
+2002-10-27 22:27  cbothamy
+
+	* BIOS-bochs-latest: - compile rombios.c r1.73
+
+2002-10-27 22:17  cbothamy
+
+	* rombios.c: - remove tabs from source code - implement "large"
+	  "r-echs" "lba" disk translations - fix if ( (sc==0x01) &&
+	  (sn=0x01) ) bug - fix option field in int13 function 0x48 for
+	  harddisks - fix option field in int13 function 0x48 for cdrom -
+	  add "%u" in printf to handle unsigned values - remove UDIV - asm
+	  helper asm function ldivul idiv_ and idiv_u
+
+2002-10-25 13:44  bdenney
+
+	* rombios.c: - Apply patch.replace-Boolean rev 1.3.  Every
+	  "Boolean" is now changed to a   "bx_bool" which is always defined
+	  as Bit32u on all platforms.  In Carbon   specific code, Boolean
+	  is still used because the Carbon header files   define it to
+	  unsigned char.  - this fixes bug [ 623152 ] MacOSX: Triple
+	  Exception Booting win95.    The bug was that some code in Bochs
+	  depends on Boolean to be a	32 bit value.  (This should be
+	  fixed, but I don't know all the places    where it needs to be
+	  fixed yet.)  Because Carbon defined Boolean as    an unsigned
+	  char, Bochs just followed along and used the unsigned char
+	  definition to avoid compile problems.  This exposed the
+	  dependency	on 32 bit Boolean on MacOS X only and led to major
+	  simulation problems,	  that could only be reproduced and
+	  debugged on that platform.  - On the mailing list we debated
+	  whether to make all Booleans into "bool" or	our own type.  I
+	  chose bx_bool for several reasons.	1. Unlike C++'s bool, we
+	  can guarantee that bx_bool is the same size on all
+	  platforms, which makes it much less likely to have more
+	  platform-specific	  simulation differences in the future.  (I
+	  spent hours on a borrowed	  MacOSX machine chasing bug 618388
+	  before discovering that different sized	Booleans were the
+	  problem, and I don't want to repeat that.)	2. We still have at
+	  least one dependency on 32 bit Booleans which must be       fixed
+	  some time, but I don't want to risk introducing new bugs into the
+		simulation just before the 2.0 release.
+
+	  Modified Files:     bochs.h config.h.in gdbstub.cc logio.cc
+	  main.cc pc_system.cc	   pc_system.h plugin.cc plugin.h
+	  bios/rombios.c cpu/apic.cc	 cpu/arith16.cc cpu/arith32.cc
+	  cpu/arith64.cc cpu/arith8.cc	   cpu/cpu.cc cpu/cpu.h
+	  cpu/ctrl_xfer16.cc cpu/ctrl_xfer32.cc     cpu/ctrl_xfer64.cc
+	  cpu/data_xfer16.cc cpu/data_xfer32.cc     cpu/data_xfer64.cc
+	  cpu/debugstuff.cc cpu/exception.cc	 cpu/fetchdecode.cc
+	  cpu/flag_ctrl_pro.cc cpu/init.cc     cpu/io_pro.cc
+	  cpu/lazy_flags.cc cpu/lazy_flags.h cpu/mult16.cc
+	  cpu/mult32.cc cpu/mult64.cc cpu/mult8.cc cpu/paging.cc
+	  cpu/proc_ctrl.cc cpu/segment_ctrl_pro.cc cpu/stack_pro.cc
+	  cpu/tasking.cc debug/dbg_main.cc debug/debug.h debug/sim2.cc
+	  disasm/dis_decode.cc disasm/disasm.h doc/docbook/Makefile
+	  docs-html/cosimulation.html fpu/wmFPUemu_glue.cc
+	  gui/amigaos.cc gui/beos.cc gui/carbon.cc gui/gui.cc gui/gui.h
+	  gui/keymap.cc gui/keymap.h gui/macintosh.cc gui/nogui.cc
+	  gui/rfb.cc gui/sdl.cc gui/siminterface.cc gui/siminterface.h
+	  gui/term.cc gui/win32.cc gui/wx.cc gui/wxmain.cc gui/wxmain.h
+	  gui/x.cc instrument/example0/instrument.cc
+	  instrument/example0/instrument.h
+	  instrument/example1/instrument.cc
+	  instrument/example1/instrument.h
+	  instrument/stubs/instrument.cc instrument/stubs/instrument.h
+	  iodev/cdrom.cc iodev/cdrom.h iodev/cdrom_osx.cc iodev/cmos.cc
+	  iodev/devices.cc iodev/dma.cc iodev/dma.h iodev/eth_arpback.cc
+	   iodev/eth_packetmaker.cc iodev/eth_packetmaker.h
+	  iodev/floppy.cc iodev/floppy.h iodev/guest2host.h
+	  iodev/harddrv.cc iodev/harddrv.h iodev/ioapic.cc
+	  iodev/ioapic.h iodev/iodebug.cc iodev/iodev.h
+	  iodev/keyboard.cc iodev/keyboard.h iodev/ne2k.h
+	  iodev/parallel.h iodev/pci.cc iodev/pci.h iodev/pic.h
+	  iodev/pit.cc iodev/pit.h iodev/pit_wrap.cc iodev/pit_wrap.h
+	  iodev/sb16.cc iodev/sb16.h iodev/serial.cc iodev/serial.h
+	  iodev/vga.cc iodev/vga.h memory/memory.h memory/misc_mem.cc
+
+2002-10-24 23:05  bdenney
+
+	* Makefile.in, rombios.c: Add plugin support to Bochs by merging
+	  all the changes from the BRANCH_PLUGINS branch!
+
+	  Authors:   Bryce Denney   Christophe Bothamy	 Kevin Lawton (we
+	  grabbed a lot of plugin code from plex86) Testing help from:
+	  Volker Ruppert   Don Becker (Psyon)	Jeremy Parsons (Br'fin)
+
+	  The change log is too long to paste in here.	To read the change
+	  log, do   cvs log patches/patch.final-from-BRANCH_PLUGINS.gz
+
+	  All the changes and a detailed description are contained in a
+	  patch called patch.final-from-BRANCH_PLUGINS.gz.  To look at the
+	  complete patch, do   cvs upd -r1.1
+	  patches/patch.final-from-BRANCH_PLUGINS.gz
+
+	  Then you will have a local copy of the patch, which you can
+	  gunzip and play with however you want.
+
+	  Modified Files:     .bochsrc Makefile.in aclocal.m4 bochs.h
+	  config.h.in configure     configure.in gdbstub.cc logio.cc
+	  main.cc pc_system.cc	   pc_system.h state_file.h
+	  bios/Makefile.in bios/rombios.c     cpu/Makefile.in cpu/access.cc
+	  cpu/apic.cc cpu/arith16.cc	 cpu/arith32.cc cpu/arith8.cc
+	  cpu/cpu.cc cpu/cpu.h	   cpu/ctrl_xfer32.cc cpu/exception.cc
+	  cpu/fetchdecode.cc	 cpu/fetchdecode64.cc cpu/flag_ctrl.cc
+	  cpu/flag_ctrl_pro.cc	   cpu/init.cc cpu/io.cc cpu/logical16.cc
+	  cpu/logical32.cc     cpu/logical8.cc cpu/paging.cc
+	  cpu/proc_ctrl.cc     cpu/protect_ctrl.cc cpu/segment_ctrl_pro.cc
+	  cpu/shift16.cc     cpu/shift32.cc cpu/stack64.cc cpu/string.cc
+	  cpu/tasking.cc     debug/Makefile.in debug/dbg_main.cc
+	  disasm/Makefile.in	 doc/docbook/user/user.dbk
+	  dynamic/Makefile.in fpu/Makefile.in	  gui/Makefile.in
+	  gui/amigaos.cc gui/beos.cc gui/carbon.cc     gui/control.cc
+	  gui/control.h gui/gui.cc gui/gui.h	 gui/keymap.cc gui/keymap.h
+	  gui/macintosh.cc gui/nogui.cc     gui/rfb.cc gui/sdl.cc
+	  gui/sdlkeys.h gui/siminterface.cc	gui/siminterface.h
+	  gui/term.cc gui/win32.cc gui/wx.cc	 gui/wxdialog.cc
+	  gui/wxdialog.h gui/wxmain.cc gui/wxmain.h	gui/x.cc
+	  gui/keymaps/sdl-pc-de.map gui/keymaps/sdl-pc-us.map
+	  gui/keymaps/x11-pc-de.map instrument/example0/instrument.h
+	  instrument/example1/instrument.h
+	  instrument/stubs/instrument.cc instrument/stubs/instrument.h
+	  iodev/Makefile.in iodev/biosdev.cc iodev/biosdev.h
+	  iodev/cdrom.cc iodev/cmos.cc iodev/cmos.h iodev/devices.cc
+	  iodev/dma.cc iodev/dma.h iodev/eth_fbsd.cc iodev/eth_linux.cc
+	  iodev/eth_null.cc iodev/eth_tap.cc iodev/floppy.cc
+	  iodev/floppy.h iodev/guest2host.cc iodev/guest2host.h
+	  iodev/harddrv.cc iodev/harddrv.h iodev/iodebug.cc
+	  iodev/iodebug.h iodev/iodev.h iodev/keyboard.cc
+	  iodev/keyboard.h iodev/ne2k.cc iodev/ne2k.h iodev/parallel.cc
+	  iodev/parallel.h iodev/pci.cc iodev/pci.h iodev/pci2isa.cc
+	  iodev/pci2isa.h iodev/pic.cc iodev/pic.h iodev/pit.cc
+	  iodev/pit.h iodev/pit_wrap.cc iodev/pit_wrap.h iodev/sb16.cc
+	  iodev/sb16.h iodev/scancodes.cc iodev/scancodes.h
+	  iodev/serial.cc iodev/serial.h iodev/slowdown_timer.cc
+	  iodev/slowdown_timer.h iodev/unmapped.cc iodev/unmapped.h
+	  iodev/vga.cc iodev/vga.h memory/Makefile.in memory/memory.cc
+	  memory/memory.h memory/misc_mem.cc misc/bximage.c
+	  misc/niclist.c Added Files:	  README-plugins extplugin.h ltdl.c
+	  ltdl.h ltdlconf.h.in	   ltmain.sh plugin.cc plugin.h
+
+2002-10-23 21:31  bdenney
+
+	* BIOS-bochs-latest, rombios.c: BRANCH_PLUGINS - in the plugins
+	  branch, merge in all changes between BRANCH_PLUGINS_BASE and
+	  BRANCH_PLUGINS_BASE2, a tag that I created today.  Of course this
+	  caused   some conflicts, which I cleaned up.	- this brings the
+	  plugins branch up to date with the main trunk, so that   merging
+	  it into the main trunk should be conflict-free.
+
+	  Modified Files:     .bochsrc .conf.beos .conf.macosx Makefile.in
+	  bochs.h     config.h.in configure configure.in gdbstub.cc main.cc
+	      pc_system.cc pc_system.h bios/BIOS-bochs-latest
+	  bios/rombios.c     cpu/Makefile.in cpu/access.cc cpu/apic.cc
+	  cpu/arith16.cc     cpu/arith32.cc cpu/arith8.cc cpu/cpu.cc
+	  cpu/cpu.h	cpu/ctrl_xfer32.cc cpu/debugstuff.cc
+	  cpu/exception.cc     cpu/fetchdecode.cc cpu/fetchdecode64.cc
+	  cpu/flag_ctrl.cc     cpu/flag_ctrl_pro.cc cpu/i387.h cpu/init.cc
+	  cpu/io.cc	cpu/logical16.cc cpu/logical32.cc cpu/logical8.cc
+	  cpu/mmx.cc	 cpu/paging.cc cpu/proc_ctrl.cc cpu/protect_ctrl.cc
+	      cpu/segment_ctrl_pro.cc cpu/shift16.cc cpu/shift32.cc
+	  cpu/stack64.cc cpu/string.cc cpu/tasking.cc debug/dbg_main.cc
+	  doc/docbook/user/user.dbk gui/carbon.cc gui/control.cc
+	  gui/gui.cc gui/keymap.cc gui/keymap.h gui/sdl.cc
+	  gui/siminterface.cc gui/siminterface.h gui/wx.cc
+	  gui/wxdialog.cc gui/wxdialog.h gui/wxmain.cc gui/wxmain.h
+	  gui/x.cc gui/keymaps/x11-pc-de.map
+	  instrument/example0/instrument.h
+	  instrument/example1/instrument.h
+	  instrument/stubs/instrument.cc instrument/stubs/instrument.h
+	  iodev/cdrom.cc iodev/cmos.cc iodev/devices.cc
+	  iodev/eth_fbsd.cc iodev/eth_linux.cc iodev/eth_null.cc
+	  iodev/eth_tap.cc iodev/floppy.cc iodev/harddrv.cc
+	  iodev/keyboard.cc iodev/ne2k.cc iodev/parallel.cc
+	  iodev/pit_wrap.cc iodev/sb16.cc iodev/serial.cc
+	  iodev/slowdown_timer.cc iodev/vga.cc iodev/vga.h
+	  misc/bximage.c misc/niclist.c
+	  patches/patch.sysenterexit-mrieker Added Files:
+	  build/macosx/bochs.applescript build/macosx/script.data
+	  build/macosx/script.r cpu/sse.cc cpu/sse2.cc cpu/xmm.h
+	  gui/sdlkeys.h gui/keymaps/sdl-pc-de.map
+	  gui/keymaps/sdl-pc-us.map patches/patch.replace-Boolean.gz
+	  patches/patch.tekram-dc280e-vlb-ide Removed Files:
+	  Bochs.proj.hqx patches/patch.4ata-channels
+	  patches/patch.apic-ppr-try patches/patch.blkdevsize
+	  patches/patch.eflags-bitfield patches/patch.optional-romimages
+	   patches/patch.programmatic-shutdown
+	  patches/patch.wx-raw-keycodes
+
+2002-10-21 00:25  zwane
+
+	* BIOS-bochs-latest, rombios.c:
+	  20021020 -preTora merge against 20021019 HEAD plus compile fixes,
+	  possible changes in timer semantics.
+
+2002-10-19 19:09  cbothamy
+
+	* BIOS-bochs-latest: - compile bios from rombios.c r1.70
+
+2002-10-19 19:08  cbothamy
+
+	* rombios.c: - add a pushad_regs_t structure, similar to
+	  pusha_regs_t - change int 15 function to get a pushad_regs_t
+	  parameter   instead of the registers enumeration - change in int
+	  15 references to 32bits,16bits and 8 bits   registers to their
+	  pushad_regs_t counterpart
+
+2002-10-16 16:05  cbothamy
+
+	* BIOS-bochs-latest: - compiled rombios.c rev1.69
+
+2002-10-16 16:04  cbothamy
+
+	* rombios.c: - limit the logical chs heads count for disks > 8GiB
+	  to 256 - limit the logical chs cylinders count for disks > 8GiB
+	  to 1024 - fix a missing parameter in a BX_INFO
+
+2002-10-16 09:40  cbothamy
+
+	* BIOS-bochs-latest: - compiled rombios.c rev 1.68
+
+2002-10-16 09:38  cbothamy
+
+	* rombios.c: - add int15 function 0xe820 (from osmaker) - add int15
+	  function 0xe801 (from Hartmut Birr) - add amount of extended
+	  memory in 64KiB block to cmos regs 0x34 and 0x35
+
+2002-10-10 19:25  bdenney
+
+	* Makefile.in: BRANCH_PLUGINS I applied patch.ltdl with a few minor
+	  changes. Patch description is:
+
+	  Switch over to using Libtool's ltdl library instead of the
+	  nonportable -ldl.  There are several methods of including ltdl in
+	  one's distribution.  I chose the method where you copy ltdl.c and
+	  ltdl.h into the Bochs source code because it causes the least
+	  disruption (doesn't add any new directories, adds a small amount
+	  of code to the source tree).	Here's what I did to integrate the
+	  ltdl library: - copied ltdl.c and ltdl.h from libtool 1.4.2
+	  sources - created a ltdlconf.h file, which is like a config.h
+	  except specific to   ltdl.c.	- to make the configure script
+	  detect all the right settings for ltdl, added   the macro
+	  AC_LIB_LTDL.	It must go AFTER the AC_PROG_LIBTOOL or else bad
+	  things happen: libtool thinks it can't make shared libs anymore.
+	  - for the autoconf command to work, you need to add some things
+	  to aclocal.m4.    As the libtoolize command told me to, I pasted
+	  together libtool.m4 and    ltdl.m4.  But then I had errors
+	  because AM_CONDITIONAL was not defined,    so I rewrote a few
+	  lines to avoid that missing macro.  These changes    are
+	  described at the top of aclocal.m4 in case we have to recreate
+	  it,	 after another libtool release for example.
+
+	  Getting ltdl to configure and compile was the hard part.  The
+	  easiest part was changing the dlopen() code to use ltdl calls.
+	  Basically, you just have to add "lt_" to each function call and
+	  it is nearly correct.  The mods in plugin.h and plugin.cc are
+	  very straightforward.
+
+	  Modified Files:   Makefile.in aclocal.m4 configure configure.in
+	  plugin.cc   plugin.h bios/Makefile.in cpu/Makefile.in
+	  debug/Makefile.in   disasm/Makefile.in dynamic/Makefile.in
+	  fpu/Makefile.in   gui/Makefile.in iodev/Makefile.in
+	  memory/Makefile.in Added Files:   ltdl.c ltdl.h ltdlconf.h.in
+
+2002-10-07 18:15  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - harddisk controller interrupt
+	  must be enabled after a reset and the   completion of a read or
+	  write operation - int13_harddisk function 0x00 calls ata_reset()
+
+2002-10-04 18:47  cbothamy
+
+	* rombios.c: - fixed size mismatch
+
+2002-10-04 08:08  bdenney
+
+	* Makefile.in: - surely I didn't mean to put GUI_CFLAGS into the
+	  bios compile line!
+
+2002-10-02 01:37  bdenney
+
+	* Makefile.in: - add -lwinmm to the link lines anytime you use
+	  --enable-sb16=win.  Now   instead of winmm being a part of
+	  GUI_LINK_OPTS_WIN32 only, it is   placed in @DEVICE_LINE_OPTS@ so
+	  that it will be used for sdl, rfb, wx,   etc.  - solve compile
+	  problems when building bximage, niclist, and any other   console
+	  based program.  The compile flags returned by wx-config and
+	  sdl-config did strange things to these console programs, for
+	  example   redefining main to SDL_main.  Because I wanted to use
+	  the	configure-generated CFLAGS to compile the programs, but I
+	  wanted to   avoid including GUI specific compile options, I split
+	  up the configure's   @CFLAGS@ variable into @CFLAGS@ and
+	  @GUI_CFLAGS@, and split   @CXXFLAGS@ into @CXXFLAGS@ and
+	  @GUI_CXXFLAGS@.  All programs in the	 Bochs binary will use
+	  both, but the console programs will just use	 @CFLAGS@ or
+	  @CXXFLAGS@.  - gui/Makefile.in, I no longer use the gui specific
+	  CFLAGS variables,   SDL_CFLAGS and WX_CXXFLAGS.  These values are
+	  included in CFLAGS and   CXXFLAGS now.  - modified: configure.in,
+	  configure, all Makefile.in's
+
+2002-09-28 17:02  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - serial port detection for two
+	  ports added to the POST code - parallel port detection fixed:   *
+	  write the value of AX to 0x0410, not BX   * the timeout value is
+	  a byte and now stored in CL	* the offset of the port address
+	  list is 2 bytes
+
+2002-09-28 14:27  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - parallel port detection for two
+	  ports added to the POST code
+
+2002-09-24 23:56  cbothamy
+
+	* BIOS-bochs-latest, BIOS-bochs-new-ata: - merged rombios-new-ata.c
+	  in rombios.c - compiled BIOS-bochs-latest from latest rombios.c
+
+2002-09-24 23:52  cbothamy
+
+	* rombios.c: - merged rombios-new-ata.c in rombios.c. New features
+	  :   . 4 ata interfaces support   . devices auto-detection   .
+	  16bits/32bits device access	. EDD3.0 support   . ata/atapi
+	  layer rewrite   . added verious DEBUG_XXX to debug only parts of
+	  the bios, because we're running low on data space in debug mode
+	  . moved ata data at offset 0x121 in EBDA. Previously, data was
+	  being overwritten by keyboard.sys   . added jump to [0x40:0x67]
+	  after reset if shutdown status is 0x05. Fixes bug [ 601166 ] CMOS
+	  Problem @ "0x0F Index 0x05 data"   . DMA controller init on POST
+	  entry
+
+2002-09-24 23:44  cbothamy
+
+	* rombios-new-ata.c: - merged rombios-new-ata.c in rombios.c. This
+	  one is not needed any more
+
+2002-09-23 14:49  cbothamy
+
+	* BIOS-bochs-new-ata: - updated from rombios-new-ata.c rev 1.6
+
+2002-09-23 14:47  cbothamy
+
+	* rombios-new-ata.c: - moved ata data at offset 0x121 in EBDA.
+	  Previously data was being overwritten by keyboard.sys - added
+	  jump to [0x40:0x67] after reset if shutdown status is 0x05. Fixes
+	  bug [ 601166 ] CMOS Problem @ "0x0F Index 0x05 data" - changed
+	  various occurences of "mov ax, #0000" by "xor ax, ax" - fixed
+	  serious bugs in EDD function 0x48 - included Volker's rombios
+	  recent changes to PCIBIOS - initialization of DMA controller on
+	  POST entry
+
+2002-09-20 21:35  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - real mode PCI BIOS modifies the
+	  iret flags on stack if no error is present - bug in the 'find PCI
+	  device' functions fixed - register for the PCI i/o addresses is
+	  always DX
+
+2002-09-20 15:23  cbothamy
+
+	* VGABIOS-lgpl-latest, VGABIOS-lgpl-0.3a: - VGABIOS-lgpl name
+	  change   . removed VGABIOS-lgpl-0.3	. added VGABIOS-lgpl-latest
+	  (current cvs version)   . updated configuration file
+
+2002-09-13 16:31  cbothamy
+
+	* BIOS-bochs-new-ata: - updated from rombios-new-ata.c rev 1.5
+
+2002-09-13 15:37  cbothamy
+
+	* rombios-new-ata.c: - fixed missing casts on write_dwords.
+	  Cyl/Heads/Spt were not reported correctly by EDD
+
+2002-09-12 05:38  bdenney
+
+	* .cvsignore, BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-latest, BIOS-bochs-new-ata, Makefile.in,
+	  rombios-new-ata.c, rombios.c: This massive checkin is on
+	  BRANCH_X86_64.
+
+	  The BRANCH_X86_64 branch began from REL_1_4_FINAL.  Then I
+	  applied all the changes from Peter Tattam's x86-64 work.  Then I
+	  added the necessary configure script stuff, checked it in and
+	  tagged it x86-64-works.  Then I used cvs update -j REL_1_4_FINAL
+	  -j HEAD to bring in all the changes that we have made in the main
+	  CVS branch since release 1.4.  That produced some very minor
+	  conflicts, which I resolved by hand.	This revision is the result
+	  of that merge, and will be tagged x86-64-merge1.  The cpu64
+	  directory is not changed during this checkin.
+
+	  Modified files: basically everything, except for the new cpu64/*.
+
+2002-09-10 21:07  bdenney
+
+	* rombios.c: - bug fixes from Peter Tattam
+
+2002-09-07 00:24  kevinlawton
+
+	* .cvsignore: Added ".cvsignore" files, to ignore a few extra file
+	  names which are not being ignored by default, like Makefile and
+	  other generated files.
+
+2002-09-05 10:20  cbothamy
+
+	* BIOS-bochs-new-ata: - updated with rombios-new-ata.c rev 1.4 :
+	  - fixed stupid "#if #elif" bug in ata paramaters   - added
+	  debug/screen message if device detection fails.
+
+2002-09-05 10:18  cbothamy
+
+	* rombios-new-ata.c: - fixed stupid "#if #elif" bug in ata
+	  paramaters - added debug/screen message if device detection
+	  fails.
+
+2002-08-19 19:12  cbothamy
+
+	* BIOS-bochs-new-ata: - recompiled from rombios-new-ata.c rev 1.3
+
+2002-08-19 19:08  cbothamy
+
+	* rombios-new-ata.c: - fixed bug reported by Volker.  - fixed bug
+	  reported by tld.  - changed sectors to spt to avoid confusion -
+	  changed detected devices message
+
+2002-08-10 23:30  cbothamy
+
+	* Makefile.in: - updated from pex86 Makefile.in. Uses bcc instead
+	  of bcc-cc1.
+
+2002-08-09 18:58  cbothamy
+
+	* BIOS-bochs-new-ata: - updated with rombios-new-ata.c revision 1.2
+	  - added atapi layer   - updated int13_cdrom, int13_eltorito and
+	  int13_cdemu	- added verious DEBUG_XXX to debug only parts of
+	  the bios, because we're running low on data space in debug mode
+	  - added a fix so bcc generates good code when #asm follows if or
+	  while statements
+
+2002-08-09 18:35  cbothamy
+
+	* rombios-new-ata.c: - added atapi layer - updated int13_cdrom,
+	  int13_eltorito and int13_cdemu - added verious DEBUG_XXX to debug
+	  only parts of the bios, because we're running low on data space
+	  in debug mode - added a fix so bcc generates good code when #asm
+	  follows if or while statements
+
+2002-08-06 18:08  cbothamy
+
+	* BIOS-bochs-new-ata, rombios-new-ata.c: - added new-ata BIOS for
+	  people to test out. New features :   - 4 ata interfaces support
+	  (1)	- devices auto-detection   - 16bits/32bits device access
+	  - EDD3.0 support
+
+	    This is nearly the same BIOS I offered for download on July
+	  12th,
+	    but I hope to get more feedback with the CVS.
+	    I will update this bios with the atapi bit and fixes, and
+	    I'll eventually merge the changes in the main BIOS.
+
+	   Added Files:
+		  BIOS-bochs-new-ata rombios-new-ata.c
+
+2002-08-01 09:34  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - added support for 360k floppy
+	  images   * new floppy type 360k can be used in .bochsrc and the
+	  config interface   * media type and geometry can be set for the
+	  floppy type	* BIOS changes to make 360k floppy drives work	 *
+	  bximage can create 360k images now
+
+2002-07-23 20:45  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - jump to POST entry point must be
+	  a far jump (MS-DOS and Win95 reboots now) - keyboard init: read
+	  output buffer and enable keyboard before self test
+
+2002-06-22 18:57  cbothamy
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors: - updated the 2
+	  and 4 processors bioses
+
+2002-06-22 17:22  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - real mode PCI BIOS functions
+	  rewritten in assembler - new real mode PCI BIOS functions: find
+	  device, read/write byte/dword - C code for PCI BIOS handles
+	  errors and prints messages only - function setPCIaddr() no longer
+	  needed - functions inw() and outw() no longer used by the PCI
+	  BIOS - BIOS32 checksum calculation rewriten to prevent errors -
+	  labels of protected mode PCI BIOS renamed
+
+2002-06-19 16:33  cbothamy
+
+	* BIOS-bochs-latest: - updated with r1.42.2.1
+
+2002-06-04 19:43  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - most important functions of the
+	  protected mode PCI BIOS added.    Linux (kernel 2.2.18) is able
+	  to use the new features.    Here is the list of changes:
+
+	    * BIOS32 data structure added
+	    * BIOS32 and protected mode PCI BIOS functions added. The
+	  BIOS32 function
+	      returns a pointer to the PCI BIOS entry point when the
+	  service $PCI is
+	      requested and the PCI hardware is present.
+	    * Supported 32 bit functions: installation check, find pci
+	  device,
+	      read configuration byte/word/dword, write configuration
+	  byte/word/dword
+	    * real mode PCI BIOS installation check rewritten in assembler
+	  to use 32 bit
+	      registers for the protected mode entry point and the 'PCI '
+	  signature.
+
+	    TODO:
+
+	    * add missing functions of the PCI BIOS (if necessary)
+	    * add missing features of the i440FX PCI bridge
+	    * implement the other parts of the i440FX chipset (PCI-to-ISA
+	  bridge,
+	      PCI IDE controller, USB controller)
+
+2002-05-15 15:41  cbothamy
+
+	* rombios.c: - backport changes to rombios rev 1.43, 1.44, 1.45,
+	  1.47, 1.49, 1.50   in REL_1_4 branch. This fixes :   - win2k boot
+	  - emm386 problem   - cs=0 at boot time   - kbd failure in
+	  scandisk
+
+2002-05-11 15:43  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - added error message: PCI BIOS can
+	  only be used with 386+ cpu - functions inw() and outw() are
+	  required for the ATA driver too - real mode PCI BIOS installation
+	  check returns revision level 2.10 - unsupported real mode PCI
+	  BIOS functions return the error code 0x81
+
+2002-05-04 18:56  cbothamy
+
+	* BIOS-bochs-latest: - updated with rombios.c v1.56
+
+2002-05-04 18:09  cbothamy
+
+	* rombios.c: - adapted rombios for floppy boot signature check flag
+	  change - added ASM_START / ASM_END instead of #asm / #endasm.
+	  Now we are (tested) able to compile with both gcc2 and gcc3
+	  compiler (Eventually!) Aren't you happy Jeroen ? ;-)	- fixed [
+	  549815 ]. I included back int19_relocated at the bios   space
+	  could not hold the new mov ex, ax - int19 calls int18 if the boot
+	  has failed. I hope this is the   right behavior.
+
+2002-04-24 15:49  cbothamy
+
+	* rombios.c:
+	  - fixed bug [ 547603 ] - added int16 functions AX=09h and AX=0Ah
+
+2002-04-24 09:54  cbothamy
+
+	* BIOS-bochs-latest: - compiled rombios.c 1.54	 - added BX_DEBUG,
+	  BX_INFO, BX_PANIC macros   - BX_DEBUG outputs to the INFO port
+	  till we can easily choose debug output on a per-device basis	 -
+	  BX_DEBUG are only generated if DEBUG_ROMBIOS is defined to 1	 -
+	  do not panic on unsupported function in int13, only output info
+	  message   - fixed a bug on boot signature check never done on
+	  floppy/harddisk and always on floppy images on cd   - the boot
+	  signature check on harddisks is always done	- the boot
+	  signature check on cdroms (either direct boot or floppy images)
+	  is never done   - the boot signature check on floppies is
+	  conditionnal to CMOS reg 0x38 (configuration
+	  floppy_bootsig_check)   - moved PIC initialization before calling
+	  optional rombios init functions (feature request [ 541908 ])
+
+2002-04-24 09:52  cbothamy
+
+	* rombios.c: - added BX_DEBUG, BX_INFO, BX_PANIC macros - BX_DEBUG
+	  outputs to the INFO port till we can easily choose debug output
+	  on a per-device basis - BX_DEBUG are only generated if
+	  DEBUG_ROMBIOS is defined to 1 - do not panic on unsupported
+	  function in int13, only output info message - fixed a bug on boot
+	  signature check never done on floppy/harddisk and always on
+	  floppy images on cd - the boot signature check on harddisks is
+	  always done - the boot signature check on cdroms (either direct
+	  boot or floppy images) is never done - the boot signature check
+	  on floppies is conditionnal to CMOS reg 0x38 (configuration
+	  floppy_bootsig_check) - moved PIC initialization before calling
+	  optional rombios init functions (feature request [ 541908 ])
+
+2002-04-21 15:04  japj
+
+	* Makefile.in, rombios.c: - reverting ##asm/##endasm patch for
+	  preprocessing with gcc3
+
+2002-04-20 18:46  japj
+
+	* Makefile.in, rombios.c: - make sure the rombios can be
+	  preprocessed with latest gcc (from Mandrake 8.2)
+
+2002-04-11 22:17  japj
+
+	* rombios.c: - moving DEBUG_ROMBIOS more to the top of the file
+	  (since it's sort of a configuration option and was 'well hidden'
+	  atm)
+
+2002-04-11 02:20  cbothamy
+
+	* BIOS-bochs-latest: - fixed win2k boot from cd bug
+
+2002-04-11 01:25  cbothamy
+
+	* rombios.c: - fixed Win2k boot from cd - included provisional code
+	  for two ATA interfaced
+
+2002-04-11 01:25  instinc
+
+	* BIOS-bochs-latest: with bug 433003 fix
+
+2002-04-11 01:23  instinc
+
+	* rombios.c: Fixed the bug 433003 related to function 87h of int
+	  15h
+
+2002-04-10 08:16  bdenney
+
+	* dataseghack: - this was removed from the main branch, so remove
+	  from the BRANCH-cpanel   branch too
+
+2002-04-10 07:55  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-latest, dataseghack, rombios.c: - synchronize
+	  wxWindows branch with all changes from 1.4 to the present
+
+2002-04-08 03:41  bdenney
+
+	* rombios.c: - this patch from William Lee Irwin III
+	  <wli@holomorphy.com> makes it easy to   configure and compile a
+	  BIOS for 8 CPUs.
+
+2002-04-08 03:24  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-latest: - Dave Poirier fixed bug #466292: kbd fails in
+	  scandisk, freedos edit.    I recompiled the BIOS with the fix.
+
+2002-04-08 03:19  instinc
+
+	* rombios.c: Fixes bug report 466292
+
+2002-04-06 17:59  cbothamy
+
+	* rombios.c: - fixed keyboard not working with DOS6.2 keyb.com :
+	  . int16 function 92 :  keyboard capability check for keyb.com
+	  (enhanced keyboard) : supported   . int16 function A2 :  keyboard
+	  capability check for keyb.com (122keys keyboard) : not supported
+
+2002-04-05 23:08  cbothamy
+
+	* rombios.c: - redo the freebsd fix.	I should know better the
+	  16bits segmentation model.
+
+2002-04-05 20:30  bdenney
+
+	* usage.cc: - change BX_EXITs back to exit().  These aren't part of
+	  the main binary,   so they should not have ever been changed.
+	  Thanks Volker. :)
+
+2002-04-05 08:53  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-latest, rombios.c: - update the wxwindows branch
+	  (BRANCH-cpanel) to Bochs 1.4.    Before this revision it was
+	  based on Bochs 1.4.pre2.
+
+2002-04-04 18:58  cbothamy
+
+	* BIOS-bochs-latest: - added fix for freeBSD boot
+
+2002-04-04 18:57  cbothamy
+
+	* rombios.c: - real fix for freeBSD boot
+
+2002-04-04 05:50  instinc
+
+	* rombios.c: Khorev Sergey's patch allowing FreeBSD to boot
+
+2002-03-28 08:10  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-latest, rombios.c: - change a few keyboard panics into
+	  printfs (warnings).  I got a bug report   about this, #535432:
+	  Emu panics when pressing ">"-key.  The user did not	report
+	  exactly what the exact message was, but these sound like the
+	  correct ones.  BIOS panics are permanent fatal errors, so I don't
+	  want them to show up accidently, especially for something as
+	  trivial   as bumping the wrong key.
+
+2002-03-26 14:17  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-latest, rombios.c: - apply Christophe's
+	  patch.rombios-no-gpl - update binary bioses - remove the patch
+	  from patches
+
+2002-03-25 00:15  cbothamy
+
+	* BIOS-bochs-latest: - update to rombios.c 1.40, with right version
+	  number this time!
+
+2002-03-25 00:10  cbothamy
+
+	* BIOS-bochs-latest: - update to rombios.c 1.40
+
+2002-03-25 00:04  cbothamy
+
+	* rombios.c: - included Peter Tattam's fix for read error when
+	  installing win95
+
+2002-03-24 06:49  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors: - update to
+	  rombios.c 1.39
+
+2002-03-20 22:08  cbothamy
+
+	* BIOS-bochs-latest: [no log message]
+
+2002-03-20 22:06  cbothamy
+
+	* rombios.c: - fix from gnutchar@hotmail.com.  cmp ax, 0x0000 sould
+	  be cmp ax, #0x0000
+
+2002-03-17 09:57  bdenney
+
+	* usage.cc: - update BRANCH-cpanel to 1.4.pre2
+
+2002-03-17 09:51  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-latest, Makefile.in, VGABIOS-lgpl-0.3a,
+	  VGABIOS-lgpl-README, rombios.c: - update BRANCH-cpanel to
+	  1.4.pre2
+
+2002-03-12 19:43  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - removed unnecessary delay loop
+	  after keyboard reset in POST
+
+2002-03-11 01:27  cbothamy
+
+	* VGABIOS-cbothamy-README: - renamed in VGABIOS-lgpl-README
+
+2002-03-11 01:21  cbothamy
+
+	* BIOS-bochs-eltorito: - removed the specific ElTorito version, as
+	  it is included in main bios
+
+2002-03-11 01:17  cbothamy
+
+	* rombios.c, BIOS-bochs-latest: - fixed a unnecessary check on the
+	  bootsegment - renamed int13_function to int13 harddisk - the
+	  default is now to have the ATA driver and ElTorito boot
+
+2002-03-10 20:52  cbothamy
+
+	* VGABIOS-lgpl-0.3a: - uploaded new VGABios with VBE support
+
+2002-03-10 20:51  cbothamy
+
+	* VGABIOS-cbothamy-0.2a, VGABIOS-cbothamy-0.2b,
+	  VGABIOS-lgpl-README: - uploaded new VGABIOS with VBE support
+
+2002-03-09 02:55  cbothamy
+
+	* BIOS-bochs-eltorito: - recompiled rombios version 1.36 with
+	  El-Torito capability
+
+2002-03-09 02:50  cbothamy
+
+	* rombios.c: - fixed OAK driver problem in win98 - CDs can boot at
+	  segment != 0x7c0 - reworked int19 in a C function - "no
+	  emulation" CDs can be booted (Win2k, XP).    No more 000E failure
+	  code. Win2k fails though  - started to implement int13 for cdrom
+	  - started to mutualize string constants - changed a little bit
+	  the Bios Config Table address   so the new int19 handler fits
+	  whithout relocation
+
+2002-02-06 22:01  cbothamy
+
+	* BIOS-bochs-eltorito: - increased speed during cdrom booting
+
+2002-02-06 21:57  cbothamy
+
+	* rombios.c: - increased speed during cdrom booting
+
+2002-02-06 09:49  cbothamy
+
+	* BIOS-bochs-eltorito: - This version works now with Win98 bootable
+	  CD
+
+2002-02-06 09:45  cbothamy
+
+	* rombios.c: - Changes for Win98 CD-ROM booting
+
+2002-01-30 11:30  cbothamy
+
+	* rombios.c: . changes to enable El-Torito boot. It is disabled by
+	  default in rombios.c
+
+2002-01-30 11:27  cbothamy
+
+	* BIOS-bochs-eltorito: . BIOS image with El-Torito boot compiled in
+
+2002-01-27 10:25  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - keyboard self test reads the
+	  status register to clear IRQ line - PS/2 mouse hack removed -
+	  unmask IRQ in PIC setup - commented keyboard buffer
+	  initialisation removed
+
+2002-01-24 21:31  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - floppy hardware interrupt handler
+	  issues 'sense interrupt status' if there   are no result bytes to
+	  read
+
+2002-01-20 01:25  vruppert
+
+	* rombios.c, BIOS-bochs-latest: - INT 13: number of drives is not 0
+	  if there is only a diskd present - hard_drive_post: DS must point
+	  to EBDA segment when initialising   parameters for diskd - unmask
+	  only necessary IRQs at boot time
+
+2002-01-15 22:22  vruppert
+
+	* BIOS-bochs-latest, rombios.c:
+	  - romscan routine from plex86 BIOS integrated
+
+2002-01-02 10:59  vruppert
+
+	* BIOS-bochs-latest, rombios.c:
+	  - DMA initialisation complete: unmask cascade channel
+
+2002-01-01 22:39  vruppert
+
+	* BIOS-bochs-latest, rombios.c: - INT 13 diskette funktion 5 uses
+	  the "format track" function of the FDC - added initialisation of
+	  PIC and DMA in POST - reboot of linux works now
+
+2001-12-26 15:53  vruppert
+
+	* BIOS-bochs-latest, rombios.c:
+	  - int 13 floppy function 08 returns always the pointer to the
+	  param table in ROM
+
+2001-12-22 00:41  cbothamy
+
+	* VGABIOS-cbothamy-0.2a-README, VGABIOS-cbothamy-0.2b,
+	  VGABIOS-cbothamy-README: - updated version of LGPL'd vgabios
+
+2001-12-06 05:50  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-latest: - update to rombios.c version 1.25
+
+2001-12-06 05:28  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors: - compile SMP
+	  bioses for the first time since June!
+
+2001-12-05 21:38  vruppert
+
+	* BIOS-bochs-latest, rombios.c:
+	  - extended keyboard funktion waits for a key, too - don't panic
+
+2001-11-26 08:26  vruppert
+
+	* BIOS-bochs-latest, rombios.c:
+	  - serial functions added, MF-II keyboard functions added, parport
+	  updates
+
+2001-11-21 03:33  bdenney
+
+	* BIOS-bochs-latest, rombios.c: - this revision is based on a patch
+	  from Cliff Hones <cliff@aonix.co.uk>.    Cliff added to
+	  bios_printf the ability to print onto the console.  Bryce made
+	  some further changes.  Now when a panic occurs, the message is
+	  reported both    to the Bochs log file and to the screen, and
+	  then it goes into an infinite    busy loop.  Why an inf loop?  If
+	  I do a HLT in BIOS code, current bochs    versions will panic
+	  immediately and the user will never see the real panic
+	  message.  I have mostly tested the new panic behavior by booting
+	  nonbootable	 and nonreadable disks.
+
+2001-11-19 15:35  bdenney
+
+	* VGABIOS-cbothamy-0.2a, VGABIOS-cbothamy-0.2a-README: - add LGPL
+	  bios by Christophe Bothamy <cbbochs@free.fr>.  When new versions
+	  are released, I will remove VGABIOS-cbothamy-0.2a and add a file
+	  with	 the other version number.  I decided not to use the
+	  "-latest" naming   scheme because there is no synchronization
+	  between bochs releases and   LGPL VGA BIOS releases.	Anything
+	  that's called "latest" is bound to   go obsolete eventually.
+
+2001-11-18 17:40  bdenney
+
+	* rombios.c: - fix bug I created in rev 1.15 which caused all boot
+	  problems to be   reported as "not a bootable disk" even if it was
+	  "not a readable disk".
+
+2001-11-14 02:39  bdenney
+
+	* BIOS-bochs-latest, rombios.c: - apply patch.pci from Volker
+	  Ruppert.  See   [ #481546 ] pci patch (Volker Ruppert) for any
+	  followups.
+
+2001-11-12 02:34  bdenney
+
+	* BIOS-bochs-latest: - in sync with rombios.c 1.20.  The change is
+	  from patch.parport by   Volker Ruppert which fixes parallel port
+	  access.
+
+2001-11-12 02:33  bdenney
+
+	* rombios.c: - commit patch.parport from Volker Ruppert.  I tested
+	  it by running   "copy FILE prn" in a freedos image.
+
+2001-10-06 10:48  bdenney
+
+	* BIOS-bochs-latest, rombios.c: - print "read error" when hard disk
+	  cannot read the disk image, or   seeks beyond the end
+
+2001-10-06 01:58  bdenney
+
+	* rombios.c: - don't panic on int 0x13, AH=0x42 through 0x49.
+	  These are valid   MS/IBM extensions but they aren't supported.
+	  Return an error code instead.
+
+2001-10-03 15:10  bdenney
+
+	* rombios.c, usage.cc: - add RCS Id to header of every file.  This
+	  makes it easier to know what's   going on when someone sends in a
+	  modified file.
+
+2001-09-19 17:30  bdenney
+
+	* BIOS-bochs-latest, rombios.c: - apply patch from
+	  patches/patch.lba.  This is taken from plex86 cvs   and modified
+	  for bochs.  Minimal testing so far...
+
+2001-09-14 06:19  bdenney
+
+	* Makefile.in: - apply VPATH patch from Edouard G. Parmelan, posted
+	  to list on September 1
+
+2001-08-15 06:56  bdenney
+
+	* BIOS-bochs-latest, rombios.c: - apply BIOS patch from Barry
+	  Allard to check the boot signature - fiddle with I/O handler for
+	  port 0x401 to allow BIOS to write a	complete panic message
+
+2001-06-24 23:29  bdenney
+
+	* usage.cc: - change all exit calls to BX_EXIT(n).  Eventually we
+	  will need to call   wxExit instead of exit when wxWindows is in
+	  use.
+
+2001-06-13 09:23  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-latest: - in int13_diskette_function, return the right
+	  error code (AH=3) if a   write fails because the floppy disk was
+	  write protected.  Before, the   floppy.cc model was unable to
+	  return this error, but now it can.
+
+2001-06-13 09:06  bdenney
+
+	* rombios.c: - now floppy controller returns a proper error
+	  response if you try to write	 a read-only disk image.  For
+	  systems such as DOS that actually use the   BIOS services, it was
+	  also necessary to add code in int13_diskette_function   to
+	  recognize a write-protected error and return the correct error
+	  status code (AH=3, Carry Set).
+
+2001-06-07 20:08  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors,
+	  BIOS-bochs-latest: - compiled bioses for rombios.c revision 1.13
+
+2001-06-07 20:03  bdenney
+
+	* rombios.c: - This should fix the bug	 [ #430472 ] DOS HIMEM "A20
+	  line" error	All I've done is moved the call to
+	  print_bios_banner later in the   boot process, and the A20
+	  problem goes away.  I wanted it early so   that it would get
+	  printed before any panic or halt could happen.    Oh well.
+
+2001-06-07 15:35  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors: - fix bugs in
+	  SMP structure - this file now corresponds with rombios.c version
+	  1.12.
+
+2001-06-07 15:33  bdenney
+
+	* rombios.c: - fixed the entry count for 2 and 4 processor MP
+	  structure, and the   checksum.  - at the same time, I removed my
+	  initials from the OEM id field and changed   it to "BOCHSCPU"  :)
+
+2001-06-07 14:29  bdenney
+
+	* rombios.c: - fixed bug introduced in 1.6 which caused MP
+	  structures to be overwritten	 by BCC generated data.  This was
+	  pointed out by Tom Lindström	 <tom@debet.shh.fi>, and I took his
+	  suggestion of moving the MP structures   to the end of the file.
+
+2001-06-04 05:56  bdenney
+
+	* VGABIOS-elpin-2.20: - replaced with 2.40
+
+2001-06-02 08:55  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors: - update the
+	  SMP roms
+
+2001-06-02 03:34  bdenney
+
+	* Makefile.in: - clean up rombios.txt when done
+
+2001-05-31 22:36  bdenney
+
+	* BIOS-bochs-latest: - print messages in log on boot failure
+
+2001-05-31 22:34  bdenney
+
+	* rombios.c: - print messages on boot failure
+
+2001-05-31 17:34  bdenney
+
+	* BIOS-bochs-2001_0529, BIOS-bochs-latest: - point to
+	  BIOS-bochs-latest (and remove BIOS-bochs-2001_0529)
+
+2001-05-31 17:32  bdenney
+
+	* VGABIOS-elpin-2.20: - not needed in 1.2 branch
+
+2001-05-31 17:30  bdenney
+
+	* BIOS-bochs-2001_0529, BIOS-bochs-latest: - update bios again, but
+	  this time move to a standard filename   BIOS-bochs-latest.
+	  Different versions of the BIOS can now be   distinguished because
+	  they print the RCS ID into the log file   using bios_printf.
+
+2001-05-31 17:25  bdenney
+
+	* rombios.c: - do not call HALT if a hard disk cannot be found -
+	  print BIOS version (RCS Id actually) into the log file.
+
+2001-05-31 17:23  bdenney
+
+	* rombios.c: - removed panic that I had used in debugging.  Oops.
+
+2001-05-31 17:21  bdenney
+
+	* rombios.c: - do not HALT if hard drives cannot be found
+
+2001-05-29 16:43  bdenney
+
+	* BIOS-bochs-2001_0529: - add to version 1.2
+
+2001-05-29 16:42  bdenney
+
+	* BIOS-bochs-2001_0517, BIOS-bochs-2001_0524: - don't distribute in
+	  version 1.2
+
+2001-05-29 16:35  bdenney
+
+	* Makefile.in: - clean up rombios.txt when done
+
+2001-05-29 16:33  bdenney
+
+	* BIOS-bochs-2001_0517, BIOS-bochs-2001_0524: - fixed bugs in HALT
+	  macro, so that now it triggers a BX_PANIC message   in
+	  iodev/unmapped.cc.
+
+2001-05-29 16:32  bdenney
+
+	* BIOS-bochs-2001_0529: - corresponds to rombios.c revision 1.7
+	  (fixed up HALT macro)
+
+2001-05-29 16:27  bdenney
+
+	* rombios.c: - now I/O writes to 0x400 (panic_port) actually cause
+	  a BX_PANIC message - now the HALT macro in rombios.c writes to
+	  panic port but does not actually   execute a "hlt" instruction.
+	  This allows the .bochsrc to control	whether the BIOS panic is
+	  fatal or not.
+
+2001-05-25 03:32  bdenney
+
+	* BIOS-bochs-2001_0524: - this BIOS was made after applying Cliff
+	  Hones' patches
+
+2001-05-25 01:24  bdenney
+
+	* dataseghack: - applied Cliff Hones's bios patches
+	  <cliff@aonix.co.uk>	- Makefile simplified - no longer uses
+	  tools86, dataseghack or ld86.      Also enables warnings (-w-)
+	  and checks for undefined labels (-u-).
+
+2001-05-25 00:27  bdenney
+
+	* Makefile.in, rombios.c: - applied Cliff Hones's bios patches
+	  <cliff@aonix.co.uk>	His change log says:   - Makefile
+	  simplified - no longer uses tools86, dataseghack or ld86.
+	  Also enables warnings (-w-) and checks for undefined labels
+	  (-u-).    - Macros used in place of multi-line #defines (so !!!
+	  conversion by      tools86 not needed).    - HALT() fixed
+	  [previously used ';' instead of '!!!'].  Needs port 400 to
+	  be added to iodev to be useful?    - isru removed - doesn't seem
+	  to be needed now.    - added UDIV16 (for use by bios_printf).
+	  - bios_printf %d implemented.    - set_enable_a20 changed to use
+	  PS2 method, since bochs emulates this.    - Keyboard intercept
+	  (int 15h/42h) fixed - should set CF, not assume that	    caller
+	  already has.	[The DOS keyb driver for example doesn't!]    -
+	  Memory is scanned from C000 to F4000 for extension ROMs - this
+	  picks up VGA BIOS as before, and allows others to be included.
+	  - Comments improved for bios config table, and bit indicating
+	  RTC	   present is now set.	  - Int 9 (keyboard) now calls Int
+	  15h/42h for key releases too.      [Again, this is what the DOS
+	  keyb driver does.]
+
+2001-05-24 17:30  fries
+
+	* VGABIOS-elpin-2.40: Kevin said to change to 'bochs' all things
+	  'plex86'.. change this too.
+
+2001-05-23 17:38  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors: - recompiled
+	  bios with new features (multiple hd, etc.)
+
+2001-05-23 10:16  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors, Makefile.in,
+	  rombios.c: - merged BRANCH-smp-bochs into main branch.  For
+	  details see comments	 in BRANCH-smp-bochs revisions.  - The
+	  general task was to make multiple CPU's which communicate
+	  through their APICs.	So instead of BX_CPU and BX_MEM, we now
+	  have	 BX_CPU(x) and BX_MEM(y).  For an SMP simulation you have
+	  several   processors in a shared memory space, so there might be
+	  processors   BX_CPU(0..3) but only one memory space BX_MEM(0).
+	  For cosimulation,   you could have BX_CPU(0) with BX_MEM(0), then
+	  BX_CPU(1) with   BX_MEM(1).  WARNING: Cosimulation is almost
+	  certainly broken by the   SMP changes.  - to simulate multiple
+	  CPUs, you have to give each CPU time to execute   in turn.  This
+	  is currently implemented using debugger guards.  The	 cpu loop
+	  steps one CPU for a few instructions, then steps the	 next CPU
+	  for a few instructions, etc.	- there is some limited support in
+	  the debugger for two CPUs, for   example printing information
+	  from each CPU when single stepping.
+
+2001-05-23 07:30  bdenney
+
+	* VGABIOS-elpin-2.20: - replaced by 2.40
+
+2001-05-23 07:12  bdenney
+
+	* BIOS-bochs-2001_0509: - no longer current
+
+2001-05-21 18:32  bdenney
+
+	* Makefile.in: - only grab BX_SMP_PROCESSORS from config.h, not
+	  everything.	 This was producing redefinition of symbols and
+	  other ugliness.
+
+2001-05-21 18:29  bdenney
+
+	* Makefile.in: - remove TOOLPATH idea, since it just makes it less
+	  likely to work for   other people.  Maybe if configure searched
+	  for the tools it would be   better.
+
+2001-05-21 18:12  bdenney
+
+	* BIOS-bochs-2001_0509, BIOS-bochs-2001_0517, BIOS-bochs-990925a,
+	  Makefile.in, VGABIOS-elpin-2.40, VGABIOS-elpin-LICENSE,
+	  rombios.c: - applied updates from the main branch.  Now SMP bochs
+	  is in sync with   main up to 5/21/2001.
+
+2001-05-17 23:51  bdenney
+
+	* BIOS-bochs-2001_0509, BIOS-bochs-990925a: - switch to new BIOS
+	  from 5/17/2001
+
+2001-05-17 23:50  bdenney
+
+	* BIOS-bochs-2001_0517: - this bios is from rev1.4 of rombios.c,
+	  which fixes	[ #424904 ] rombios bug: both hds claim same
+	  geometry
+
+2001-05-17 23:47  bdenney
+
+	* rombios.c: - fixed bug in int13 code that returned disk0's
+	  geometry for either disk.    This fixes [ #424904 ] rombios bug:
+	  both hds claim same geom
+
+2001-05-16 08:35  bdenney
+
+	* VGABIOS-elpin-2.20, VGABIOS-elpin-2.40, VGABIOS-elpin-LICENSE: -
+	  replace Elpin VGABIOS with version 2.40, and update license
+
+2001-05-16 08:32  bdenney
+
+	* Makefile.in: - since dataseghack was checked in with permission
+	  664 (not executable),   run it using "csh dataseghack"
+
+2001-05-14 08:11  bdenney
+
+	* VGABIOS-elpin-2.40, VGABIOS-elpin-LICENSE: - updated Elpin VGA
+	  BIOS to version 2.40, same as plex86.  Kevin wrote   to plex86 on
+	  5/14/2001 and said that it was okay:	 > Yes, thanks to
+	  MandrakeSoft, the Elpin VGA BIOS 2.40 was licensed   > for use in
+	  _both_ plex86 and bochs.  So you can distribute 2.40.    >	>
+	  Replace the text in 'bios/VGABIOS-elpin-LICENSE', with the	>
+	  same file from the plex86 CVS tree.  Substitute bochs wherever
+	  > plex86 occurs.
+
+2001-05-09 06:52  bdenney
+
+	* BIOS-bochs-2000_0509: - oops, I mistyped the year.  This should
+	  be from the year 2001.
+
+2001-05-09 06:51  bdenney
+
+	* BIOS-bochs-2001_0509: - add BIOS binary that supports 2 hard
+	  drive support
+
+2001-05-09 06:47  bdenney
+
+	* BIOS-bochs-2000_0509: - add BIOS that supports 2 hard disks
+
+2001-05-08 08:33  bdenney
+
+	* Makefile.in: - since dataseghack was checked in with permission
+	  664 (not executable),   run it using "csh dataseghack"
+
+2001-05-08 07:59  bdenney
+
+	* rombios.c: - brought SMP branch up to date with main branch.
+	  This required applying   a patch created by diffs between
+	  REL-bugfix-20010409-beta and	 smp-bochs-updated-to-05-08-2001.
+	  Changes include: split hard disk image,   diskd (second hard
+	  disk), Suboner@aol.com's X windows timing patch.
+
+2001-05-04 09:02  bdenney
+
+	* Makefile.in: - since dataseghack was checked in with permission
+	  664 (not executable),   run it using "csh dataseghack"
+
+2001-05-03 23:13  bdenney
+
+	* rombios.c: - This revision makes the BIOS code understand that
+	  there can be either	1 or 2 hard disks.  - int13: check how many
+	  disks first, and only return an error if DL exceeds	the number
+	  of disks (ignoring bit 7 of course) - added drive number arg to
+	  get_hd_geometry, so that get_hd_geometry can	 retrieve the
+	  numbers corresponding to hard drive 0 or 1 - hard_drive_post will
+	  now set up the EBDA area for drive 0 if it exists,   then for
+	  drive 1 if it exists.
+
+2001-04-10 14:28  bdenney
+
+	* BIOS-bochs-2-processors, BIOS-bochs-4-processors: - added
+	  compiled binary for 2-uP and 4-uP simulations.  This saves
+	  people the trouble of finding tools86, etc.
+
+2001-04-10 14:27  bdenney
+
+	* .cvsignore: - added .cvsignore files in smp-bochs branch
+
+2001-04-10 13:21  bdenney
+
+	* rombios.c: - use BX_SMP_PROCESSORS to decide whether to include
+	  the mp_config table at all.	 eliminate BX_SIMULATE_SMP
+
+2001-04-10 13:21  bdenney
+
+	* rombios.c: - look at BX_SMP_PROCESSORS and decide which MP
+	  configuration table to   include.
+
+2001-04-10 13:21  bdenney
+
+	* rombios.c: - oops, the interrupt source was in the wrong column
+	  for ints 1-15.    fixed!
+
+2001-04-10 13:21  bdenney
+
+	* rombios.c: - added entries to MP config structure for ISA bus,
+	  one I/O APIC, and   16 interrupts
+
+2001-04-10 13:21  bdenney
+
+	* rombios.c: - fix checksum slightly
+
+2001-04-10 13:21  bdenney
+
+	* rombios.c: - made CPU#2 the bootstrap processor, to flush out
+	  bugs in which the   CPU number was hardcoded to 0.
+
+2001-04-10 13:20  bdenney
+
+	* rombios.c: - I had misunderstood the cpu flags bits before.  Now
+	  all 4 are marked   as enabled, and processor 0 is the bootstrap.
+	  - added cpu signature and feature flags for all - fixed checksum
+	  accordingly
+
+2001-04-10 13:20  bdenney
+
+	* rombios.c: - first try at MP configuration table, causes linux to
+	  crash!
+
+2001-04-10 13:20  bdenney
+
+	* rombios.c: - added (conditional) MP structure that indicates a
+	  multiprocessor machine.
+
+2001-04-10 13:20  bdenney
+
+	* Makefile.in, rombios.c, usage.cc: - brought up to date with
+	  REL-bugfix-20010406-beta
+
+2001-04-10 13:20  bdenney
+
+	* Makefile.in: - make biosconfig.h while building.  biosconfig.h
+	  contains only the   lines of ../config.h that contain a #define
+	  command.  Since it   has to compile with bcc, not g++, much of
+	  config.h will never compile	if included directly.
+
+2001-04-10 13:20  bdenney
+
+	* Makefile.in: - added TOOLPATH variable where we expect to find
+	  as86, ld86, bcc-cc1, etc.
+
+2001-04-10 13:20  bdenney
+
+	* Makefile.in: - added paths to tools so that they work on dante -
+	  make as86 and ld86 produce symbol tables for debugging
+
+2001-04-10 04:19  bdenney
+
+	* Makefile.in, rombios.c, usage.cc: - update copyright dates to
+	  2001 for all mandrake headers - for bochs files with other
+	  header, replaced with current mandrake header
+
+2001-04-10 03:04  cvs
+
+	* BIOS-bochs-990925a, Makefile.in, VGABIOS-elpin-2.20,
+	  VGABIOS-elpin-LICENSE, bios_usage, dataseghack, notes, rombios.c,
+	  usage.cc: - entered original Bochs snapshot
+	  bochs-2000_0325a.tar.gz from	 ftp.bochs.com
+

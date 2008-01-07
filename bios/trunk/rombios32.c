@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////////////////////
-// $Id: rombios32.c,v 1.8 2006/10/03 20:27:30 vruppert Exp $
+// $Id: rombios32.c,v 1.18 2008/01/06 20:57:24 sshwarts Exp $
 /////////////////////////////////////////////////////////////////////////
 //
 //  32 bit Bochs BIOS init code
@@ -376,6 +376,7 @@ void delay_ms(int n)
 }
 
 int smp_cpus;
+uint32_t cpuid_signature;
 uint32_t cpuid_features;
 uint32_t cpuid_ext_features;
 unsigned long ram_size;
@@ -383,7 +384,7 @@ unsigned long ram_size;
 unsigned long ebda_cur_addr;
 #endif
 int acpi_enabled;
-uint32_t pm_io_base;
+uint32_t pm_io_base, smb_io_base;
 int pm_sci_int;
 unsigned long bios_table_cur_addr;
 unsigned long bios_table_end_addr;
@@ -392,6 +393,7 @@ void cpu_probe(void)
 {
     uint32_t eax, ebx, ecx, edx;
     cpuid(1, eax, ebx, ecx, edx);
+    cpuid_signature = eax;
     cpuid_features = edx;
     cpuid_ext_features = ecx;
 }
@@ -404,12 +406,15 @@ static int cmos_readb(int addr)
 
 void ram_probe(void)
 {
+  if (cmos_readb(0x34) | cmos_readb(0x35))
     ram_size = (cmos_readb(0x34) | (cmos_readb(0x35) << 8)) * 65536 + 
         16 * 1024 * 1024;
+  else
+    ram_size = (cmos_readb(0x17) | (cmos_readb(0x18) << 8)) * 1024;
 #ifdef BX_USE_EBDA_TABLES
     ebda_cur_addr = ((*(uint16_t *)(0x40e)) << 4) + 0x380;
 #endif
-    BX_INFO("ram_size=0x%08lx\n");
+    BX_INFO("ram_size=0x%08lx\n", ram_size);
 }
 
 /****************************************************/
@@ -478,6 +483,7 @@ typedef struct PCIDevice {
 
 static uint32_t pci_bios_io_addr;
 static uint32_t pci_bios_mem_addr;
+static uint32_t pci_bios_bigmem_addr;
 /* host irqs corresponding to PCI irqs A-D */
 static uint8_t pci_irqs[4] = { 11, 9, 11, 9 };
 static PCIDevice i440_pcidev;
@@ -579,9 +585,11 @@ static void bios_shadow_init(PCIDevice *d)
 
     /* remap the BIOS to shadow RAM an keep it read/write while we
        are writing tables */
-    memcpy((void *)BIOS_TMP_STORAGE, (void *)0x000f0000, 0x10000);
     v = pci_config_readb(d, 0x59);
-    v = (v & 0x0f) | (0x30);
+    v &= 0xcf;
+    pci_config_writeb(d, 0x59, v);
+    memcpy((void *)BIOS_TMP_STORAGE, (void *)0x000f0000, 0x10000);
+    v |= 0x30;
     pci_config_writeb(d, 0x59, v);
     memcpy((void *)0x000f0000, (void *)BIOS_TMP_STORAGE, 0x10000);
     
@@ -637,32 +645,39 @@ extern uint8_t smm_code_start, smm_code_end;
 #ifdef BX_USE_SMM
 static void smm_init(PCIDevice *d)
 {
-    /* copy the SMM relocation code */
-    memcpy((void *)0x38000, &smm_relocation_start,
-           &smm_relocation_end - &smm_relocation_start);
+    uint32_t value;
 
-    /* enable SMI generation when writing to the APMC register */
-    pci_config_writel(d, 0x58, pci_config_readl(d, 0x58) | (1 << 25));
+    /* check if SMM init is already done */
+    value = pci_config_readl(d, 0x58);
+    if ((value & (1 << 25)) == 0) {
 
-    /* init APM status port */
-    outb(0xb3, 0x01);
+        /* copy the SMM relocation code */
+        memcpy((void *)0x38000, &smm_relocation_start,
+               &smm_relocation_end - &smm_relocation_start);
 
-    /* raise an SMI interrupt */
-    outb(0xb2, 0x00);
+        /* enable SMI generation when writing to the APMC register */
+        pci_config_writel(d, 0x58, value | (1 << 25));
 
-    /* wait until SMM code executed */
-    while (inb(0xb3) != 0x00);
+        /* init APM status port */
+        outb(0xb3, 0x01);
 
-    /* enable the SMM memory window */
-    pci_config_writeb(&i440_pcidev, 0x72, 0x02 | 0x48);
+        /* raise an SMI interrupt */
+        outb(0xb2, 0x00);
 
-    /* copy the SMM code */
-    memcpy((void *)0xa8000, &smm_code_start,
-           &smm_code_end - &smm_code_start);
-    wbinvd();
-    
-    /* close the SMM memory window and enable normal SMM */
-    pci_config_writeb(&i440_pcidev, 0x72, 0x02 | 0x08);
+        /* wait until SMM code executed */
+        while (inb(0xb3) != 0x00);
+
+        /* enable the SMM memory window */
+        pci_config_writeb(&i440_pcidev, 0x72, 0x02 | 0x48);
+
+        /* copy the SMM code */
+        memcpy((void *)0xa8000, &smm_code_start,
+               &smm_code_end - &smm_code_start);
+        wbinvd();
+
+        /* close the SMM memory window and enable normal SMM */
+        pci_config_writeb(&i440_pcidev, 0x72, 0x02 | 0x08);
+    }
 }
 #endif
 
@@ -736,6 +751,8 @@ static void pci_bios_init_device(PCIDevice *d)
                 size = (~(val & ~0xf)) + 1;
                 if (val & PCI_ADDRESS_SPACE_IO)
                     paddr = &pci_bios_io_addr;
+                else if (size >= 0x04000000)
+                    paddr = &pci_bios_bigmem_addr;
                 else
                     paddr = &pci_bios_mem_addr;
                 *paddr = (*paddr + size - 1) & ~(size - 1);
@@ -759,6 +776,9 @@ static void pci_bios_init_device(PCIDevice *d)
         pm_io_base = PM_IO_BASE;
         pci_config_writel(d, 0x40, pm_io_base | 1);
         pci_config_writeb(d, 0x80, 0x01); /* enable PM io space */
+        smb_io_base = SMB_IO_BASE;
+        pci_config_writel(d, 0x90, smb_io_base | 1);
+        pci_config_writeb(d, 0xd2, 0x09); /* enable SMBus io space */
         pm_sci_int = pci_config_readb(d, PCI_INTERRUPT_LINE);
 #ifdef BX_USE_SMM
         smm_init(d);
@@ -794,6 +814,9 @@ void pci_bios_init(void)
 #else
     pci_bios_mem_addr = 0xb0000000;
 #endif
+    pci_bios_bigmem_addr = ram_size;
+    if (pci_bios_bigmem_addr < 0x90000000)
+        pci_bios_bigmem_addr = 0x90000000;
 
     pci_for_each_device(pci_bios_init_bridges);
 
@@ -1192,11 +1215,11 @@ static int acpi_checksum(const uint8_t *data, int len)
 }
 
 static void acpi_build_table_header(struct acpi_table_header *h, 
-                                    char *sig, int len)
+                                    char *sig, int len, uint8_t rev)
 {
     memcpy(h->signature, sig, 4);
     h->length = cpu_to_le32(len);
-    h->revision = 0;
+    h->revision = rev;
 #ifdef BX_QEMU
     memcpy(h->oem_id, "QEMU  ", 6);
     memcpy(h->oem_table_id, "QEMU", 4);
@@ -1284,10 +1307,11 @@ void acpi_bios_init(void)
     rsdp->checksum = acpi_checksum((void *)rsdp, 20);
     
     /* RSDT */
+    memset(rsdt, 0, sizeof(*rsdt));
     rsdt->table_offset_entry[0] = cpu_to_le32(fadt_addr);
     rsdt->table_offset_entry[1] = cpu_to_le32(madt_addr);
     acpi_build_table_header((struct acpi_table_header *)rsdt, 
-                            "RSDT", sizeof(*rsdt));
+                            "RSDT", sizeof(*rsdt), 1);
     
     /* FADT */
     memset(fadt, 0, sizeof(*fadt));
@@ -1311,7 +1335,7 @@ void acpi_bios_init(void)
     /* WBINVD + PROC_C1 + PWR_BUTTON + SLP_BUTTON + FIX_RTC */
     fadt->flags = cpu_to_le32((1 << 0) | (1 << 2) | (1 << 4) | (1 << 5) | (1 << 6));
     acpi_build_table_header((struct acpi_table_header *)fadt, "FACP", 
-                            sizeof(*fadt));
+                            sizeof(*fadt), 1);
 
     /* FACS */
     memset(facs, 0, sizeof(*facs));
@@ -1346,7 +1370,7 @@ void acpi_bios_init(void)
         io_apic->interrupt = cpu_to_le32(0);
 
         acpi_build_table_header((struct acpi_table_header *)madt, 
-                                "APIC", madt_size);
+                                "APIC", madt_size, 1);
     }
 }
 
