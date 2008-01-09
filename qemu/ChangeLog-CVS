@@ -1,3 +1,31 @@
+2008-01-09 13:14  ths
+
+	* qemu-doc.texi: qemu manpage: describe arguments of usbdevice
+	  option, by Aurelien Jarno.
+
+2008-01-09 13:03  ths
+
+	* target-mips/exec.h: Fix typo which broke MIPS32R2 64-bit FPU
+	  support.
+
+2008-01-08 20:32  ths
+
+	* vl.c: Fix segfault caused by fall through, by Juergen Lock.
+
+2008-01-08 19:11  ths
+
+	* target-mips/op_helper.c: Fix broken absoluteness check for
+	  cabs.d.*.
+
+2008-01-08 15:39  ths
+
+	* linux-user/main.c: Fix section switching buglet, by Edgar E.
+	  Iglesias.
+
+2008-01-08 01:00  ths
+
+	* configure: Mac OS X build fix, by Andreas Faerber.
+
 2008-01-06 19:53  bellard
 
 	* block-raw-posix.c: restore original values for ai.aio_threads and
