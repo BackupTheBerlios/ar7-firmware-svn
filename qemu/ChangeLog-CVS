@@ -1,3 +1,93 @@
+2008-01-14 22:50  balrog
+
+	* audio/dsound_template.h: Make dsound compile again (patch by
+	  malc, spotted by C.W. Betts).
+
+2008-01-14 22:45  balrog
+
+	* vnc.c: Add a missing vga_hw_update() when accepting a connection
+	  (Anders Melchiorsen).
+
+2008-01-14 05:27  balrog
+
+	* configure, qemu-doc.texi, vl.c, hw/ac97.c, hw/audiodev.h: PCI
+	  AC97 emulation by malc.
+
+2008-01-14 05:24  balrog
+
+	* Makefile, Makefile.target, configure, audio/alsaaudio.c,
+	  audio/audio.c, audio/audio_int.h, audio/audio_pt_int.c,
+	  audio/audio_pt_int.h, audio/dsound_template.h,
+	  audio/dsoundaudio.c, audio/esdaudio.c, audio/ossaudio.c,
+	  audio/wavaudio.c, hw/dma.c, hw/sb16.c: pthreads-based audio and
+	  miscellaneous audio clean-up (malc).	ESD support (malc,
+	  Frederick Reeve).
+
+2008-01-14 04:48  balrog
+
+	* block-vmdk.c: Add a path length check to prevent heap overflow
+	  (Eric Milliken).
+
+2008-01-14 04:43  balrog
+
+	* hw/acpi.c: Bump ACPI/SMBus PIIX4 controller revision to 3
+	  (Marcelo Tosatti).
+
+2008-01-14 04:41  balrog
+
+	* Makefile, vl.c, hw/usb-serial.c, hw/usb.h: USB-to-serial device
+	  (Samuel Thibault).
+
+2008-01-14 04:18  balrog
+
+	* target-cris/: op.c, translate.c: Optimize clear insns by treating
+	  support reg P0 specially and add missing micro-op RETURN's (Edgar
+	  E. Iglesias).
+
+2008-01-14 04:15  balrog
+
+	* hw/ide.c: Set READY_STAT after a WIN_DIAGNOSE per ATA-3 (Till
+	  Straumann).
+
+2008-01-14 04:11  balrog
+
+	* vl.c: Clean-up /tmp directory after -smb use (Mark Jonckheere).
+
+2008-01-14 04:05  balrog
+
+	* hw/ide.c: Multi-profile DVD-ROM support (Carlo Marcelo Arenas
+	  Belon).
+
+2008-01-14 03:56  balrog
+
+	* qemu-doc.texi, vl.c: Change -drive parsing so that paths don't
+	  have to be double-escaped (Laurent Vivier, Johannes Schindelin)
+
+2008-01-14 03:39  balrog
+
+	* hw/gumstix.c: Revert accidentally added second NIC in
+	  Gumstix-connect - this should probably be a separate board.
+
+2008-01-14 03:36  balrog
+
+	* .cvsignore, Makefile, hw/gumstix.c: Fully clean up on Mac OS X
+	  Leopard (Andreas Färber).
+
+2008-01-14 03:25  balrog
+
+	* hw/usb-hid.c: Add mouse wheel in the usb-mouse HID Report (by
+	  Daniel Godás).
+
+2008-01-14 02:52  balrog
+
+	* hw/vmware_vga.c: Register io ports as selected by PCI config in
+	  VMware SVGA.	Should prevent segfaults with RTL8139.
+
+2008-01-14 00:51  balrog
+
+	* vnc.c: Reduce redundant timer ticks in VNC, by Anders
+	  Melchiorsen.
+
 2008-01-09 13:14  ths
 
 	* qemu-doc.texi: qemu manpage: describe arguments of usbdevice
