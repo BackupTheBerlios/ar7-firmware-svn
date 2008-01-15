@@ -1,3 +1,9 @@
+2008-01-14 23:09  balrog
+
+	* Makefile.target, configure, qemu-doc.texi, hw/gus.c, hw/gusemu.h,
+	  hw/gusemu_hal.c, hw/gusemu_mixer.c, hw/gustate.h: Gravis
+	  Ultrasound GF1 sound card emulation (malc).
+
 2008-01-14 22:50  balrog
 
 	* audio/dsound_template.h: Make dsound compile again (patch by
