@@ -1,3 +1,23 @@
+2008-01-17 22:47  balrog
+
+	* qemu-doc.texi, audio/dsound_template.h: Miscellaneous fixes after
+	  recent audio additions (malc).
+
+2008-01-17 22:07  blueswir1
+
+	* hw/slavio_serial.c:  Shuffle code to avoid NetBSD gcc 3.4.6
+	  inlining bug (Rumko)
+
+2008-01-17 22:04  blueswir1
+
+	* hw/: eccmemctl.c, sun4m.c, sun4m.h:  Give ECC controller an IRQ
+	  (Robert Reif)
+
+2008-01-17 14:56  ths
+
+	* s390-dis.c: Revert licensing to "GPLv2 or later", by Ulrich
+	  Hecht.
+
 2008-01-14 23:09  balrog
 
 	* Makefile.target, configure, qemu-doc.texi, hw/gus.c, hw/gusemu.h,
