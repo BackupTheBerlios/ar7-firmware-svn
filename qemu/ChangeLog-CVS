@@ -1,3 +1,25 @@
+2008-01-26 10:13  blueswir1
+
+	* hw/slavio_timer.c:  Fix user timer mode change (Robert Reif)
+
+2008-01-25 20:52  blueswir1
+
+	* hw/iommu.c:  Add TurboSPARC mask ID register (Robert Reif)
+
+2008-01-25 20:51  blueswir1
+
+	* hw/slavio_timer.c:  User timer limit fixes (Robert Reif)
+
+2008-01-23 20:01  ths
+
+	* cpu-all.h, cpu-exec.c, qemu-doc.texi, vl.c: Add option to disable
+	  TB cache, by Herve Poussineau.
+
+2008-01-23 00:25  ths
+
+	* cocoa.m: Core Graphics support (cocoa.m rewrite), by Mike
+	  Kronenberg.
+
 2008-01-21 16:07  bellard
 
 	* softmmu_header.h: fixed register constraint
