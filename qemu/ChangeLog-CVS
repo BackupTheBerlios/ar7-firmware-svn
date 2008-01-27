@@ -1,3 +1,9 @@
+2008-01-27 10:49  blueswir1
+
+	* hw/: slavio_misc.c, sun4m.c, sun4m.h: Rearrange slavio_misc code
+	  to prepare for different addresses Pass first env instead of
+	  using cpu_single_env directly Add Aux1 to Sun4c
+
 2008-01-26 10:13  blueswir1
 
 	* hw/slavio_timer.c:  Fix user timer mode change (Robert Reif)
