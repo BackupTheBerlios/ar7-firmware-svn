@@ -1,3 +1,29 @@
+2008-01-31 16:19  bellard
+
+	* tests/test-i386-code16.S: suppressed warnings
+
+2008-01-31 16:19  bellard
+
+	* tests/Makefile: compilation fix
+
+2008-01-31 15:56  bellard
+
+	* tests/test-i386.c: compilation fixes - added bswap - comments
+
+2008-01-31 12:32  bellard
+
+	* Makefile, Makefile.target, configure: Makefile cleanup - more
+	  generic support of 32 bit compilation on x86_64
+
+2008-01-31 11:43  bellard
+
+	* i386-vl.ld: removed unused file
+
+2008-01-31 10:22  bellard
+
+	* cpu-defs.h, osdep.h, softmmu_header.h, softmmu_template.h: use
+	  simpler REGPARM convention - make CPUTLBEntry size a power of two
+
 2008-01-27 10:49  blueswir1
 
 	* hw/: slavio_misc.c, sun4m.c, sun4m.h: Rearrange slavio_misc code
