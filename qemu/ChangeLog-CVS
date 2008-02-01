@@ -1,3 +1,46 @@
+2008-02-01 21:12  blueswir1
+
+	* hw/sun4m.c, pc-bios/README, pc-bios/openbios-sparc32: Move AUX1
+	  and AUX2 to correct locations
+
+	  Update Sparc32 OpenBIOS image to SVN revision 185. Changes: r184:
+	  Enforce malloc alignment r185: Move AUX1 and AUX2 to correct
+	  locations, rename APC
+
+2008-02-01 14:01  bellard
+
+	* tcg/README: typos
+
+2008-02-01 11:50  bellard
+
+	* LICENSE, Makefile.target, configure, cpu-all.h, cpu-defs.h,
+	  cpu-exec.c, dyngen-op.h, dyngen.c, dyngen.h, exec-all.h, exec.c,
+	  translate-all.c, translate-op.c, target-alpha/op.c,
+	  target-alpha/translate.c, target-arm/op.c,
+	  target-arm/translate.c, target-cris/op.c,
+	  target-cris/translate.c, target-i386/exec.h,
+	  target-i386/helper.c, target-i386/helper.h, target-i386/op.c,
+	  target-i386/opreg_template.h, target-i386/translate.c,
+	  target-m68k/op.c, target-m68k/translate.c, target-mips/op.c,
+	  target-mips/translate.c, target-ppc/op.c, target-ppc/translate.c,
+	  target-sh4/op.c, target-sh4/translate.c, target-sparc/op.c,
+	  target-sparc/translate.c: use the TCG code generator
+
+2008-02-01 11:05  bellard
+
+	* tcg/: LICENSE, README, TODO, tcg-dyngen.c, tcg-op.h, tcg-opc.h,
+	  tcg-runtime.c, tcg.c, tcg.h, i386/tcg-target.c,
+	  i386/tcg-target.h, x86_64/tcg-target.c, x86_64/tcg-target.h: TCG
+	  code generator
+
+2008-02-01 11:03  bellard
+
+	* TODO: update
+
+2008-02-01 11:02  bellard
+
+	* Makefile: typo
+
 2008-01-31 16:19  bellard
 
 	* tests/test-i386-code16.S: suppressed warnings
