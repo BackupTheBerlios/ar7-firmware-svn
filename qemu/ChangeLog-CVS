@@ -1,3 +1,24 @@
+2008-02-03 22:06  bellard
+
+	* tcg/: x86_64/tcg-target.c, i386/tcg-target.c: compare fix
+
+2008-02-03 20:56  pbrook
+
+	* target-i386/translate.c, tcg/tcg-op.h, tcg/tcg.c, tcg/tcg.h: Add
+	  TCG variable opaque type.
+
+2008-02-03 20:20  pbrook
+
+	* configure: Robustify source directory check.
+
+2008-02-03 18:35  pbrook
+
+	* exec-all.h: Fix opparam_buf size estimate.
+
+2008-02-03 17:27  pbrook
+
+	* configure: Use ARCH_CFLAGS in configure tests.
+
 2008-02-03 05:33  balrog
 
 	* hw/pc.c: Fix VMware VGA init call (Anthony Liguori).
