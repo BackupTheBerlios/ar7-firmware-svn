@@ -1,3 +1,49 @@
+2008-02-03 05:33  balrog
+
+	* hw/pc.c: Fix VMware VGA init call (Anthony Liguori).
+	  s/vga_ram_size/vga_ram_addr/
+
+2008-02-03 05:22  balrog
+
+	* configure: Fix building under paths with symlinks (patch from
+	  Richard Purdie).
+
+2008-02-03 05:05  balrog
+
+	* hw/scsi-disk.c: Implement more INQUIRY command replies for scsi
+	  disk (Igor Kovalenko).
+
+2008-02-03 04:45  balrog
+
+	* vl.c: Do not set RTC frequency if already set (Aurelien Jarno).
+
+2008-02-03 04:37  balrog
+
+	* hw/ide.c: Simplify guess_disk_lchs - should fix Windows stack
+	  corruption spotted by TeLeMan (patch by Tristan Gingold).
+
+2008-02-03 04:26  balrog
+
+	* target-i386/helper.c: NMI and INTR events injection should not be
+	  handled as software interrupts (Bernhard Kauer).
+
+2008-02-03 03:54  balrog
+
+	* qemu-doc.texi, vnc.c: Add VNC reverse connections, by Eddie
+	  Kohler.
+
+2008-02-03 03:42  balrog
+
+	* target-i386/: cpu.h, helper.c: Make SVM env->cr[8] a valid
+	  register (patch from TeLeMan).
+
+2008-02-03 03:20  balrog
+
+	* Makefile.target, qemu-doc.texi, hw/e1000.c, hw/e1000_hw.h,
+	  hw/pci.c, hw/pci.h: E1000 NIC emulation (Nir Peleg, patch from
+	  Dor Laor).  Applied %s/^\([^I ]*\)^I/\1    /g on e1000.c and
+	  added e1000 to help message.
+
 2008-02-01 23:45  pbrook
 
 	* Makefile.target: Add missing dependencies on generated files (for
