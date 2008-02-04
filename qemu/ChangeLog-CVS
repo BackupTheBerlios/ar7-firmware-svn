@@ -1,3 +1,13 @@
+2008-02-04 15:47  ths
+
+	* texi2pod.pl: Update texi2pod.pl.
+
+2008-02-04 01:37  bellard
+
+	* tcg/: README, tcg-op.h, tcg-opc.h, tcg.c, tcg.h: fixed sign
+	  extensions - added explicit side effect op flag - added discard
+	  instruction
+
 2008-02-03 22:06  bellard
 
 	* tcg/: x86_64/tcg-target.c, i386/tcg-target.c: compare fix
