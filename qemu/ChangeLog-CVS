@@ -1,3 +1,15 @@
+2008-02-04 23:26  bellard
+
+	* linux-user/syscall.c: lock_iovec() fix
+
+2008-02-04 23:03  bellard
+
+	* tcg/tcg.c: win32: suppress alloca() warning
+
+2008-02-04 23:00  bellard
+
+	* dyngen.c: win32 fix
+
 2008-02-04 15:47  ths
 
 	* texi2pod.pl: Update texi2pod.pl.
