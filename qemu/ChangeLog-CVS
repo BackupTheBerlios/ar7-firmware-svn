@@ -1,3 +1,57 @@
+2008-02-10 18:02  balrog
+
+	* hw/: omap.h, omap_i2c.c: Make omap I2C controller work
+	  (previously untested).  Implement post-OMAP1 changes.  Introduce
+	  omap L4 abstraction.
+
+2008-02-10 17:33  balrog
+
+	* Makefile, Makefile.target, configure, console.c, console.h,
+	  curses.c, curses_keys.h, monitor.c, vl.c, vnc.c, hw/cirrus_vga.c,
+	  hw/jazz_led.c, hw/omap_lcdc.c, hw/pl110.c, hw/pxa2xx_lcd.c,
+	  hw/ssd0303.c, hw/ssd0323.c, hw/tcx.c, hw/vga.c, hw/vga_int.h,
+	  hw/vmware_vga.c: Add an ncurses UI.
+
+2008-02-10 15:10  balrog
+
+	* qemu-img.c: Correct qemu-img usage hint (Andreas Färber).
+
+2008-02-10 15:09  pbrook
+
+	* translate-all.c, tcg/tcg.c, tcg/tcg.h, tcg/i386/tcg-target.c,
+	  tcg/x86_64/tcg-target.c: Simplify TCG relocation bugfix.
+
+2008-02-10 14:40  balrog
+
+	* hw/serial.c: Add serial loopback mode (patch from Hervé
+	  Poussineau).
+
+2008-02-10 14:39  balrog
+
+	* hw/pckbd.c: Enhance PC kbd debugging (patch from HervÃ©
+	  Poussineau)
+
+2008-02-10 14:34  balrog
+
+	* hw/: e1000.c, parallel.c: Fix parallel port software emulation
+	  (Hervé Poussineau).	Remove __iomem, also unused.
+
+2008-02-10 14:28  balrog
+
+	* linux-user/syscall.c: Don't error out on zero-length chunks in
+	  writev, as to mimic Linux (Kirill A. Shutemov).
+
+2008-02-10 14:21  balrog
+
+	* vl.c, hw/e1000.c: Remove unused boolean_t, should fix building
+	  for Solaris.	Fix a typo (Stuart Brady).
+
+2008-02-10 03:41  pbrook
+
+	* translate-all.c, tcg/tcg.c, tcg/tcg.h: Fix TCG relocation bug
+	  (exposed by fault after brcond op).  Add FIXME for annother
+	  potential bug.
+
 2008-02-04 23:26  bellard
 
 	* linux-user/syscall.c: lock_iovec() fix

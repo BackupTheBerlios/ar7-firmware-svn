@@ -97,6 +97,9 @@ void tcg_out_reloc(TCGContext *s, uint8_t *code_ptr, int type,
 
     l = &s->labels[label_index];
     if (l->has_value) {
+        /* FIXME: This may break relocations on RISC targets that
+           modify instruction fields in place.  The caller may not have 
+           written the initial value.  */
         patch_reloc(code_ptr, type, l->u.value + addend);
     } else {
         /* add a new relocation entry */
@@ -1649,8 +1652,7 @@ void dump_op_count(void)
 
 
 static inline int tcg_gen_code_common(TCGContext *s, uint8_t *gen_code_buf,
-                                      int do_search_pc,
-                                      const uint8_t *searched_pc)
+                                      long search_pc)
 {
     int opc, op_index, macro_op_index;
     const TCGOpDef *def;
@@ -1754,7 +1756,7 @@ static inline int tcg_gen_code_common(TCGContext *s, uint8_t *gen_code_buf,
             }
 #endif
             tcg_reg_alloc_bb_end(s);
-            if (do_search_pc) {
+            if (search_pc >= 0) {
                 s->code_ptr += def->copy_size;
                 args += def->nb_args;
             } else {
@@ -1771,13 +1773,11 @@ static inline int tcg_gen_code_common(TCGContext *s, uint8_t *gen_code_buf,
         }
         args += def->nb_args;
     next: ;
-        if (do_search_pc) {
-            if (searched_pc < s->code_ptr) {
-                if (macro_op_index >= 0)
-                    return macro_op_index;
-                else
-                    return op_index;
-            }
+        if (search_pc >= 0 && search_pc < s->code_ptr - gen_code_buf) {
+            if (macro_op_index >= 0)
+                return macro_op_index;
+            else
+                return op_index;
         }
         op_index++;
 #ifndef NDEBUG
@@ -1802,7 +1802,7 @@ int dyngen_code(TCGContext *s, uint8_t *gen_code_buf)
     }
 #endif
 
-    tcg_gen_code_common(s, gen_code_buf, 0, NULL);
+    tcg_gen_code_common(s, gen_code_buf, -1);
 
     /* flush instruction cache */
     flush_icache_range((unsigned long)gen_code_buf, 
@@ -1810,11 +1810,11 @@ int dyngen_code(TCGContext *s, uint8_t *gen_code_buf)
     return s->code_ptr -  gen_code_buf;
 }
 
-/* return the index of the micro operation such as the pc after is <
-   search_pc. Note: gen_code_buf is accessed during the operation, but
-   its content should not be modified. Return -1 if not found. */
-int dyngen_code_search_pc(TCGContext *s, uint8_t *gen_code_buf,
-                          const uint8_t *searched_pc)
+/* Return the index of the micro operation such as the pc after is <
+   offset bytes from the start of the TB.  The contents of gen_code_buf must
+   not be changed, though writing the same values is ok.
+   Return -1 if not found. */
+int dyngen_code_search_pc(TCGContext *s, uint8_t *gen_code_buf, long offset)
 {
-    return tcg_gen_code_common(s, gen_code_buf, 1, searched_pc);
+    return tcg_gen_code_common(s, gen_code_buf, offset);
 }
