@@ -1,3 +1,17 @@
+2008-02-11 21:01  blueswir1
+
+	* hw/sun4m.c:  Fix SS-20 auxio addresses
+
+2008-02-11 19:27  blueswir1
+
+	* target-sparc/: cpu.h, helper.c, op_helper.c, translate.c:
+	  Sparc32 MMU register fixes (Robert Reif)
+
+2008-02-11 01:09  balrog
+
+	* hw/vga.c: Force a resize after leaving graphical mode in curses
+	  (spotted by Samuel Thibault).
+
 2008-02-10 18:02  balrog
 
 	* hw/: omap.h, omap_i2c.c: Make omap I2C controller work
