@@ -1,3 +1,13 @@
+2008-02-12 22:01  ths
+
+	* gdbstub.c, linux-user/main.c, linux-user/signal.c,
+	  linux-user/syscall.c, linux-user/mips/target_signal.h,
+	  linux-user/mips64/target_signal.h,
+	  linux-user/mipsn32/target_signal.h, target-mips/cpu.h,
+	  target-mips/op.c, target-mips/op_helper.c,
+	  target-mips/op_template.c, target-mips/translate.c: Make MIPS MT
+	  implementation more cache friendly.
+
 2008-02-11 21:01  blueswir1
 
 	* hw/sun4m.c:  Fix SS-20 auxio addresses
