@@ -1,3 +1,8 @@
+2008-02-14 18:46  blueswir1
+
+	* target-sparc/: cpu.h, translate.c:  Fix remote debugger memory
+	  access problems reported by Matthias Stein
+
 2008-02-12 22:01  ths
 
 	* gdbstub.c, linux-user/main.c, linux-user/signal.c,
