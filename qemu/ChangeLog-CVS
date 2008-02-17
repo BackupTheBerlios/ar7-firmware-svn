@@ -1,3 +1,7 @@
+2008-02-17 09:45  blueswir1
+
+	* tcg/tcg.c:  Fix typo
+
 2008-02-14 18:46  blueswir1
 
 	* target-sparc/: cpu.h, translate.c:  Fix remote debugger memory
