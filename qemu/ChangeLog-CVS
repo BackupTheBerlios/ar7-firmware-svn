@@ -1,3 +1,9 @@
+2008-02-17 12:42  balrog
+
+	* qemu-common.h, sysemu.h, vl.c, hw/m48t59.c, hw/mc146818rtc.c,
+	  hw/omap.c, hw/pl031.c, hw/pxa2xx.c: Unify RTCs that use host
+	  time, fix M48t59 alarm.
+
 2008-02-17 09:45  blueswir1
 
 	* tcg/tcg.c:  Fix typo
