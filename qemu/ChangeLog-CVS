@@ -1,3 +1,55 @@
+2008-02-28 12:29  edgar_igl
+
+	* linux-user/: main.c, signal.c: First try at supporting ordinary
+	  signals for CRIS linux-user guests.
+
+2008-02-28 12:23  edgar_igl
+
+	* tests/cris/: check_sigalrm.c, Makefile: Add small testcase for
+	  ordinary signals.
+
+2008-02-28 10:37  edgar_igl
+
+	* target-cris/translate.c: Cut the translation block after
+	  translating a break insn. This avoids an issue where QEMU finds
+	  an illegal CRIS insn while the guest is returning through a
+	  signal return trampoline.
+
+2008-02-28 09:28  edgar_igl
+
+	* gdbstub.c, target-cris/cpu.h, target-cris/helper.c,
+	  target-cris/mmu.c, target-cris/op.c, target-cris/translate.c:
+	  More consistent naming for CRIS register-number macros.
+
+2008-02-27 18:53  blueswir1
+
+	* Makefile.target, dyngen.c, tcg/sparc/tcg-target.c,
+	  tcg/sparc/tcg-target.h:  Preliminary Sparc TCG target
+
+2008-02-27 18:44  blueswir1
+
+	* target-sparc/: op_mem.h, translate.c:  Temporary fix for i386
+	  host
+
+2008-02-27 16:25  edgar_igl
+
+	* dis-asm.h: Initialize disasinfo->private_data, binutils does it
+	  and some disassemblers depend on it.
+
+2008-02-25 19:29  blueswir1
+
+	* tcg/tcg-op.h:  Fix mixed defines
+
+2008-02-25 11:00  edgar_igl
+
+	* tests/cris/: Makefile, check_ftag.c: Add testcase for CRIS
+	  ftag/fidx cache flushing insns.
+
+2008-02-25 10:58  edgar_igl
+
+	* target-cris/: translate.c, crisv32-decode.h: Silently ignore CRIS
+	  cache flushes, instead of aborting due to unknown insn.
+
 2008-02-24 15:10  blueswir1
 
 	* target-sparc/: exec.h, helper.h, op.c, op_helper.c, op_mem.h,
