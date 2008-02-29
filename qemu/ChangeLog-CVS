@@ -1,3 +1,19 @@
+2008-02-29 20:36  blueswir1
+
+	* tcg/x86_64/tcg-target.c:  Fix compiler warning
+
+2008-02-29 20:34  blueswir1
+
+	* tcg/sparc/tcg-target.c:  Fix register references (Igor Kovalenko)
+
+2008-02-29 20:26  blueswir1
+
+	* hw/sun4m.c: Fix sun4m machine if MAX_FD != 2 (Hervé Poussineau)
+
+2008-02-29 20:24  blueswir1
+
+	* hw/fdc.c: Give names to magic numbers (Hervé Poussineau)
+
 2008-02-28 12:29  edgar_igl
 
 	* linux-user/: main.c, signal.c: First try at supporting ordinary
