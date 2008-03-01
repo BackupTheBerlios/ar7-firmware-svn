@@ -1,3 +1,17 @@
+2008-03-01 19:50  edgar_igl
+
+	* tests/cris/check_btst.s: Add test-case for btst CCS flags
+	  updates.
+
+2008-03-01 18:25  edgar_igl
+
+	* hw/etraxfs_ser.c, hw/etraxfs_timer.c, target-cris/helper.c,
+	  target-cris/op.c: * target-cris/op.c: Make sure the bit-test insn
+	  only updates the XNZ flags.  * target-cris/helper.c: Update ERP
+	  for user-mode simulation aswell.  * hw/etraxfs_timer.c: Support
+	  multiple timers.  * hw/etraxfs_ser.c: Multiple ports, the data
+	  just goes to stdout.
+
 2008-02-29 20:36  blueswir1
 
 	* tcg/x86_64/tcg-target.c:  Fix compiler warning
