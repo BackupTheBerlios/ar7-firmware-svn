@@ -1,3 +1,37 @@
+2008-03-03 23:23  edgar_igl
+
+	* linux-user/signal.c: CRIS signals: * Save $mof across signals.  *
+	  Cleaned up frame accesses.
+
+2008-03-02 19:28  blueswir1
+
+	* target-sparc/: cpu.h, helper.c, helper.h, op.c, translate.c:
+	  Convert tick operations to TCG
+
+2008-03-02 19:25  blueswir1
+
+	* target-sparc/: op.c, translate.c:  Convert movr and (partially)
+	  movcc to TCG
+
+2008-03-02 19:22  blueswir1
+
+	* target-sparc/: op.c, translate.c:  Convert addx, subx, next_insn
+	  and mov_pc_npc to TCG
+
+2008-03-02 19:20  blueswir1
+
+	* tcg/tcg-op.h:  Add brcond_tl
+
+2008-03-02 09:48  blueswir1
+
+	* Makefile.target, hw/esp.c, hw/scsi.h, hw/sun4m.c, hw/sun4m.h: Let
+	  ESP SCSI adapter to be usable outside sun4m (Hervé Poussineau)
+
+2008-03-01 23:23  edgar_igl
+
+	* configure, tests/Makefile, tests/test-mmap.c: Add a tests for
+	  user-mode mmap
+
 2008-03-01 19:50  edgar_igl
 
 	* tests/cris/check_btst.s: Add test-case for btst CCS flags

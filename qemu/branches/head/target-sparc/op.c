@@ -215,11 +215,6 @@ void OPPROTO op_add_T1_T0_cc(void)
     FORCE_RET();
 }
 
-void OPPROTO op_addx_T1_T0(void)
-{
-    T0 += T1 + FLAG_SET(PSR_CARRY);
-}
-
 void OPPROTO op_addx_T1_T0_cc(void)
 {
     target_ulong src1;
@@ -411,11 +406,6 @@ void OPPROTO op_sub_T1_T0_cc(void)
         env->psr |= PSR_OVF;
 #endif
     FORCE_RET();
-}
-
-void OPPROTO op_subx_T1_T0(void)
-{
-    T0 -= T1 + FLAG_SET(PSR_CARRY);
 }
 
 void OPPROTO op_subx_T1_T0_cc(void)
@@ -816,42 +806,6 @@ void OPPROTO op_wrccr(void)
     PUT_CCR(env, T0);
 }
 
-void OPPROTO op_rdtick(void)
-{
-    T0 = do_tick_get_count(env->tick);
-}
-
-void OPPROTO op_wrtick(void)
-{
-    do_tick_set_count(env->tick, T0);
-}
-
-void OPPROTO op_wrtick_cmpr(void)
-{
-    do_tick_set_limit(env->tick, T0);
-}
-
-void OPPROTO op_rdstick(void)
-{
-    T0 = do_tick_get_count(env->stick);
-}
-
-void OPPROTO op_wrstick(void)
-{
-    do_tick_set_count(env->stick, T0);
-    do_tick_set_count(env->hstick, T0);
-}
-
-void OPPROTO op_wrstick_cmpr(void)
-{
-    do_tick_set_limit(env->stick, T0);
-}
-
-void OPPROTO op_wrhstick_cmpr(void)
-{
-    do_tick_set_limit(env->hstick, T0);
-}
-
 void OPPROTO op_rdtpc(void)
 {
     T0 = env->tpc[env->tl];
@@ -1183,17 +1137,6 @@ void OPPROTO op_eval_brgez(void)
     T2 = ((int64_t)T0 >= 0);
 }
 #endif
-
-void OPPROTO op_mov_pc_npc(void)
-{
-    env->pc = env->npc;
-}
-
-void OPPROTO op_next_insn(void)
-{
-    env->pc = env->npc;
-    env->npc = env->npc + 4;
-}
 
 void OPPROTO op_jmp_label(void)
 {
@@ -1609,12 +1552,6 @@ void OPPROTO op_fmovq_cc(void)
         QT0 = QT1;
 }
 #endif
-
-void OPPROTO op_mov_cc(void)
-{
-    if (T2)
-        T0 = T1;
-}
 
 void OPPROTO op_flushw(void)
 {
