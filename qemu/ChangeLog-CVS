@@ -1,3 +1,13 @@
+2008-03-05 18:59  blueswir1
+
+	* linux-user/main.c, target-sparc/cpu.h, target-sparc/op.c,
+	  target-sparc/op_helper.c, target-sparc/translate.c:  Convert
+	  Sparc64 trap state ops to TCG
+
+2008-03-05 00:52  pbrook
+
+	* tcg/tcg-op.h: 32-bit host sign extension fix (Juergen Lock).
+
 2008-03-04 21:29  blueswir1
 
 	* hw/sun4m.c:  Show IRQ set or reset (Robert Reif)
