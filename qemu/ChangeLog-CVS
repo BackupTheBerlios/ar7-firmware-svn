@@ -1,3 +1,39 @@
+2008-03-06 22:07  balrog
+
+	* Makefile.target, hw/omap.c, hw/omap.h, hw/omap1.c,
+	  hw/omap1_clk.c, hw/omap_clk.c, hw/omap_dma.c: Split OMAP DMA out
+	  to a file apart.  Rename omap files to better reflect
+	  OMAP1-specific parts.
+
+2008-03-06 21:43  balrog
+
+	* hw/vmware_vga.c: Check for out of range update regions (original
+	  patch from Anthony Liguori).
+
+2008-03-06 21:28  balrog
+
+	* hw/vmware_vga.c: Register VMware SVGA's memory io region with PCI
+	  framework.
+
+2008-03-06 21:09  blueswir1
+
+	* target-sparc/: cpu.h, exec.h, helper.h, op.c, translate.c:
+	  Convert exception ops to TCG
+
+2008-03-06 17:13  blueswir1
+
+	* target-sparc/translate.c:  Fix microSPARC II SFSR mask (Robert
+	  Reif)
+
+2008-03-05 19:27  blueswir1
+
+	* vl.c, hw/boards.h, hw/sun4m.c:  Add more machine definitions
+
+2008-03-05 19:16  blueswir1
+
+	* Makefile:  Properly bomb out on errors in Makefile shell
+	  fragments (Ian Jackson)
+
 2008-03-05 18:59  blueswir1
 
 	* linux-user/main.c, target-sparc/cpu.h, target-sparc/op.c,
