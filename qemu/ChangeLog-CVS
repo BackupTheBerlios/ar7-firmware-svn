@@ -1,3 +1,12 @@
+2008-03-08 14:33  blueswir1
+
+	* tcg/: tcg.c, sparc/tcg-target.c, sparc/tcg-target.h:	Add
+	  function prologue, fix pointer load on Sparc64 host
+
+2008-03-07 19:21  blueswir1
+
+	* tcg/sparc/tcg-target.c:  Update based on Stuart Brady's comments
+
 2008-03-06 22:07  balrog
 
 	* Makefile.target, hw/omap.c, hw/omap.h, hw/omap1.c,
