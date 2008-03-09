@@ -1,3 +1,14 @@
+2008-03-09 07:59  blueswir1
+
+	* block-vvfat.c, vl.c, darwin-user/qemu.h, darwin-user/syscall.c,
+	  hw/alpha_palcode.c, target-i386/helper.c, target-i386/svm.h:	Fix
+	  some functions declared () rather than (void) (Ian Jackson)
+
+2008-03-08 22:36  blueswir1
+
+	* target-sparc/: fbranch_template.h, op.c, translate.c:  Convert
+	  branches and conditional moves to TCG
+
 2008-03-08 14:33  blueswir1
 
 	* tcg/: tcg.c, sparc/tcg-target.c, sparc/tcg-target.h:	Add
