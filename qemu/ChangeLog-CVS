@@ -1,3 +1,50 @@
+2008-03-10 01:12  aurel32
+
+	* hw/gt64xxx.c: GT64XXX: fix endianness issues:
+
+	  - Byte swapping for internal GT64XXX registers is controlled by
+	  the bit   12 of the Configuration Register and not by the PCI
+	  Internal Command   register.	- The bit 0 of the PCI Internal
+	  Command register controls byte swapping   for PCI access *except
+	  for the internal PCI device*, that is when both   bus and device
+	  numbers are 0.
+
+2008-03-10 01:09  aurel32
+
+	* target-ppc/op_helper.c: mtfsf: fix FPSCR_VX and FPSCR_FEX
+	  computation
+
+	  The patch below fixes the computation of FPSCR_VX and FPSCR_FEX
+	  when using the mtfsf instruction. As stated in the PowerPC manual
+	  the mtfsf instruction can't alter those bit, and thus it should
+	  always be computed.
+
+	  Acked by Jocelyn Mayer.
+
+2008-03-10 01:05  aurel32
+
+	* block.c: Honor TMPDIR environment variable
+
+2008-03-10 01:02  aurel32
+
+	* hw/e1000.c: Change the e1000 mmio addr space according to spec.
+
+	  According to the Intel 82540EM manual, the mmio space is 128k
+	  size.  Copied from Xen list and noted by tina..yang@oracle.com
+
+	  Signed-off-by: Dor Laor <dor.laor@qumranet.com>
+
+2008-03-10 00:43  aurel32
+
+	* vl.c: Be consistent in -clock parameter. Display also the list of
+	  available sources if no valid clock name has been specified.
+	  (Hervé Poussineau)
+
+2008-03-09 21:46  blueswir1
+
+	* target-sparc/: op.c, translate.c:  Convert andn, orn and xnor to
+	  TCG
+
 2008-03-09 07:59  blueswir1
 
 	* block-vvfat.c, vl.c, darwin-user/qemu.h, darwin-user/syscall.c,
