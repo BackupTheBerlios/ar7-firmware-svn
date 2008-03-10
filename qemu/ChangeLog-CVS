@@ -1,3 +1,10 @@
+2008-03-10 20:34  aurel32
+
+	* cocoa.m, sdl.c, vl.c, vnc.c: Let the USB tablet reach the far
+	  bottom and right pixels
+
+	  (Samuel Thibault)
+
 2008-03-10 01:12  aurel32
 
 	* hw/gt64xxx.c: GT64XXX: fix endianness issues:
