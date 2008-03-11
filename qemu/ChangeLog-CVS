@@ -1,3 +1,13 @@
+2008-03-11 22:01  blueswir1
+
+	* osdep.h, tcg/tcg.c, tcg/i386/tcg-target.c,
+	  tcg/sparc/tcg-target.c, tcg/x86_64/tcg-target.c:  Remove blank
+	  elements in tcg_target_reg_alloc_order[] (Stuart Brady)
+
+2008-03-11 21:59  blueswir1
+
+	* target-sparc/translate.c:  Use a TCG global for regwptr
+
 2008-03-11 18:17  aurel32
 
 	* block-qcow.c, block-qcow2.c, block-vmdk.c, block.c, block.h,
