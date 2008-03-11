@@ -1,3 +1,14 @@
+2008-03-11 18:17  aurel32
+
+	* block-qcow.c, block-qcow2.c, block-vmdk.c, block.c, block.h,
+	  block_int.h: Fix CVE-2008-0928 - insufficient block device
+	  address range checking
+
+	  Qemu 0.9.1 and earlier does not perform range checks for block
+	  device read or write requests, which allows guest host users with
+	  root privileges to access arbitrary memory and escape the virtual
+	  machine.
+
 2008-03-10 20:34  aurel32
 
 	* cocoa.m, sdl.c, vl.c, vnc.c: Let the USB tablet reach the far
