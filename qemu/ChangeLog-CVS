@@ -1,3 +1,124 @@
+2008-03-13 21:47  blueswir1
+
+	* target-sparc/translate.c:  Use tcg_const_tl for zero constant
+
+2008-03-13 21:46  blueswir1
+
+	* tcg/tcg-op.h:  Add tcg_const_tl
+
+2008-03-13 21:45  blueswir1
+
+	* target-sparc/: cpu.h, op.c, translate.c:  Convert condition code
+	  changing versions of add, sub, logic, and div to TCG
+
+2008-03-13 20:23  aurel32
+
+	* hw/: ds1225y.c, mips.h: ds1225y nvram: Fix some bugs
+
+	  - whole nvram was erased in some conditions - fix out of range
+	  accesses - improve reading speed by keeping contents in memory -
+	  rename capacity to chip_size
+
+	  (Hervé Poussineau)
+
+2008-03-13 20:20  aurel32
+
+	* console.h, sdl.c, vl.c: Slowdown SDL while minimized
+
+	  When SDL is invisible/minimized, there is no need to keep calling
+	  the VGA refresh 33 times per second.	This patch reduces in that
+	  case the rate to 2 times per second, which should be responsive
+	  enough for the un-minimizing event.
+
+	  (Samuel Thibault)
+
+2008-03-13 20:20  aurel32
+
+	* sdl.c: SDL mouse events smoothness
+
+	  (Samuel Thibault)
+
+2008-03-13 20:20  aurel32
+
+	* target-ppc/op_helper.c: Math functions helper for
+	  CONFIG_SOFTFLOAT=yes
+
+	  The patch below adds isfinite() and isnormal() functions which
+	  can work with float64 type, used when CONFIG_SOFTFLOAT=yes.
+
+2008-03-13 20:19  aurel32
+
+	* cpu-all.h, target-ppc/op.c, target-ppc/op_helper.c,
+	  target-ppc/op_helper.h, target-ppc/op_helper_mem.h,
+	  target-ppc/op_mem.h: Use float32/64 instead of float/double
+
+	  The patch below uses the float32 and float64 types instead of the
+	  float and double types in the PPC code. This doesn't change
+	  anything when using softfloat-native as the types are the same,
+	  but that helps compiling the PPC target with softfloat.
+
+	  It also defines a new union CPU_FloatU in addition to
+	  CPU_DoubleU, and use them instead of identical unions that are
+	  defined in numerous places.
+
+2008-03-13 20:18  aurel32
+
+	* hw/e1000.c: e1000: fix endianness issues
+
+	  This patch fixes endianness issues in the e1000 nic emulation,
+	  which currently only works on little endian hosts with little
+	  endian targets.
+
+	  Byte swapping does not depend on host endianness, so this patch
+	  remove the use of cpu_to_le32 and le32_to_cpu functions. It
+	  depends on the path from the CPU to the device, which is
+	  currently and *wrongly* implemented in Qemu as a byteswap on big
+	  endian targets. This patch does the same as in other devices
+	  emulation as all the currently implemented targets work with this
+	  implementation.
+
+2008-03-13 20:17  aurel32
+
+	* hw/rtl8139.c: rtl8139: fix endianness on big endian targets
+
+	  On big endian targets with mmio accesses, the values are not
+	  always swapped, depending on the accessed register. The Linux
+	  8139too module was able to cope with that, but not the 8139cp
+	  one.
+
+2008-03-13 18:34  blueswir1
+
+	* tcg/: tcg.c, i386/tcg-target.c, sparc/tcg-target.c,
+	  x86_64/tcg-target.c:	Fix i32 memory backed variables on 64-bit
+	  host
+
+2008-03-13 02:19  aurel32
+
+	* hw/ds1225y.c: Convert from DOS to UNIX format, no code change.
+
+2008-03-12 22:40  aurel32
+
+	* tcg/README: TCG README fixes (Stuart Brady)
+
+2008-03-12 00:30  aurel32
+
+	* block-qcow.c, block-qcow2.c, block-vmdk.c, block.c, block.h,
+	  block_int.h, linux-user/syscall.c: Revert fix for CVE-2008-0928.
+	  Will be fixed in a different way later.
+
+2008-03-12 00:22  aurel32
+
+	* target-sh4/: op.c, translate.c: SH4, fix several instructions
+
+	  fix instruction code for frchg, fschg, ocbp.	fix addressing mode
+	  handling for @Rn+, @-Rn, @(disp,gbr).  fix operation for div0s.
+	  fix comments for mov imm, add imm, @(r0+,gbr), mac.l @Rm+,@Rn+.
+	  fix ldb to ldub for or/tst/xor.b #imm,@(r0,gbr).  add fmov
+	  extended operations.	add fcmp/eq, fcmp/gt, fneg, fabs, fsqrt,
+	  fcnvsd, fcnvds.
+
+	  (Takashi Yoshii)
+
 2008-03-11 22:01  blueswir1
 
 	* osdep.h, tcg/tcg.c, tcg/i386/tcg-target.c,
