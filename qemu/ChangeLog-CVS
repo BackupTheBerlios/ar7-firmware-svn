@@ -1,3 +1,38 @@
+2008-03-14 07:45  aurel32
+
+	* hw/pflash_cfi01.c: CFI: Fix AMD erase support
+
+	  (Jean-Christophe PLAGNIOL-VILLARD)
+
+2008-03-14 07:10  edgar_igl
+
+	* gdbstub.c: Improve readability by moving the continue operation
+	  into aseparate function.
+
+2008-03-14 02:50  edgar_igl
+
+	* hw/: etraxfs.c, etraxfs_pic.c, etraxfs_ser.c, etraxfs_timer.c:
+	  Made the etrax timers and serial-ports base address relocatable.
+	  Use target_phys_addr_t instead of target_ulong.
+
+2008-03-14 02:11  edgar_igl
+
+	* target-cris/translate.c: A first small step to convert the CRIS
+	  translator to TCG.
+
+2008-03-14 02:08  edgar_igl
+
+	* target-cris/: cpu.h, helper.h, mmu.c, mmu.h, op.c, op_helper.c:
+	  Model more parts of the ETRAX mmu (still alot missing).
+
+2008-03-14 02:04  edgar_igl
+
+	* Makefile.target, cpu-exec.c, translate-all.c, hw/etraxfs.c,
+	  hw/etraxfs_pic.c, hw/etraxfs_ser.c, hw/etraxfs_timer.c,
+	  target-cris/helper.c: * Add a model of the ETRAX interrupt
+	  controller.  * Clean up the interrupt handling a bit.  * Connect
+	  some NOR flash to the test board.
+
 2008-03-13 21:47  blueswir1
 
 	* target-sparc/translate.c:  Use tcg_const_tl for zero constant
