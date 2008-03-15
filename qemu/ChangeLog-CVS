@@ -1,3 +1,28 @@
+2008-03-15 10:13  edgar_igl
+
+	* target-cris/translate.c: Simplified some dead extended arith code
+	  after search and replace.
+
+2008-03-14 22:09  blueswir1
+
+	* target-sparc/translate.c:  Eliminate some uses of T2
+
+2008-03-14 20:42  blueswir1
+
+	* target-sparc/: op.c, translate.c:  Convert udivx and sdivx to TCG
+
+2008-03-14 18:37  blueswir1
+
+	* exec.c:  Allow op_opt for all targets
+
+2008-03-14 18:35  blueswir1
+
+	* target-sparc/translate.c:  Use memory globals for G registers
+
+2008-03-14 15:11  edgar_igl
+
+	* linux-user/mmap.c: Use TARGET_FMT_lx.
+
 2008-03-14 07:45  aurel32
 
 	* hw/pflash_cfi01.c: CFI: Fix AMD erase support
