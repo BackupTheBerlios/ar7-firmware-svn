@@ -1,3 +1,19 @@
+2008-03-15 21:45  edgar_igl
+
+	* target-cris/translate.c: More TCG conversions for CRIS.  * Bit
+	  swap insn (bitwise not, endian swap and bit reverse).  * Muls and
+	  mulu.  * Extended arithmetics.  * Parts of the condition code
+	  handling.  * Use tcg_const_tl.
+
+2008-03-15 19:12  blueswir1
+
+	* target-sparc/translate.c:  Use a TCG global for fsr
+
+2008-03-15 19:11  blueswir1
+
+	* target-sparc/: helper.h, op.c, op_helper.c, translate.c:  Convert
+	  ldfsr and stfsr to TCG
+
 2008-03-15 10:13  edgar_igl
 
 	* target-cris/translate.c: Simplified some dead extended arith code
