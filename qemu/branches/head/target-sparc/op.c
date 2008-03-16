@@ -171,58 +171,6 @@
 
 #define FLAG_SET(x) ((env->psr&x)?1:0)
 
-void OPPROTO op_umul_T1_T0(void)
-{
-    uint64_t res;
-    res = (uint64_t) T0 * (uint64_t) T1;
-#ifdef TARGET_SPARC64
-    T0 = res;
-#else
-    T0 = res & 0xffffffff;
-#endif
-    env->y = res >> 32;
-}
-
-void OPPROTO op_smul_T1_T0(void)
-{
-    uint64_t res;
-    res = (int64_t) ((int32_t) T0) * (int64_t) ((int32_t) T1);
-#ifdef TARGET_SPARC64
-    T0 = res;
-#else
-    T0 = res & 0xffffffff;
-#endif
-    env->y = res >> 32;
-}
-
-void OPPROTO op_mulscc_T1_T0(void)
-{
-    unsigned int b1, N, V, b2;
-    target_ulong src1;
-
-    N = FLAG_SET(PSR_NEG);
-    V = FLAG_SET(PSR_OVF);
-    b1 = N ^ V;
-    b2 = T0 & 1;
-    T0 = (b1 << 31) | (T0 >> 1);
-    if (!(env->y & 1))
-        T1 = 0;
-    /* do addition and update flags */
-    src1 = T0;
-    T0 += T1;
-    env->psr = 0;
-    if (!T0)
-        env->psr |= PSR_ZERO;
-    if ((int32_t) T0 < 0)
-        env->psr |= PSR_NEG;
-    if (T0 < src1)
-        env->psr |= PSR_CARRY;
-    if (((src1 ^ T1 ^ -1) & (src1 ^ T0)) & (1 << 31))
-        env->psr |= PSR_OVF;
-    env->y = (b2 << 31) | (env->y >> 1);
-    FORCE_RET();
-}
-
 void OPPROTO op_udiv_T1_T0(void)
 {
     uint64_t x0;

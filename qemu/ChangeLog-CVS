@@ -1,3 +1,36 @@
+2008-03-16 20:24  blueswir1
+
+	* target-sparc/: op.c, translate.c:  Convert umul and smul to TCG
+
+2008-03-16 20:23  blueswir1
+
+	* target-sparc/translate.c:  Use a TCG global for pc and npc
+
+2008-03-16 20:22  blueswir1
+
+	* target-sparc/: cpu.h, op.c, translate.c:  Convert mulscc to TCG,
+	  add cc_src2
+
+2008-03-16 20:21  blueswir1
+
+	* tcg/tcg.h:  Increase max temps limit
+
+2008-03-16 20:18  blueswir1
+
+	* target-sparc/translate.c:  Discard unused data, use less temps
+
+2008-03-16 20:16  blueswir1
+
+	* tcg/tcg-op.h:  Add discard_ptr and discard_tl
+
+2008-03-16 17:51  edgar_igl
+
+	* target-cris/translate.c: More TCG conversions for CRIS.
+
+2008-03-16 17:38  edgar_igl
+
+	* target-cris/cpu.h: Remove unused members.
+
 2008-03-15 21:45  edgar_igl
 
 	* target-cris/translate.c: More TCG conversions for CRIS.  * Bit
