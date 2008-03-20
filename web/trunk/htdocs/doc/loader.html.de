@@ -4,34 +4,16 @@
 	<title>Bootloader Dokumentation</title>
         <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 	<meta name="author" content="Stefan Weil">
-	<link rel=stylesheet type="text/css" href="../ar7.css" />
+        <link rel=stylesheet type="text/css" href="../style.css" />
 </head>
 
 <body>
-<table class=page summary="page">
-<tr class=titlebar>
-<td>
-<a href="http://developer.berlios.de">
-<img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS Logo"></a>
-</td>
-<td>
-<a href="loader.html.de">deutsch</a> <a href="loader.html.en">english</a>
-</td>
-</tr>
+  <!--#include virtual="../menu.html.de"-->
 
-<tr>
-<td class=menu>
-<table class=menu summary="menu">
-<tr><th><a href="http://developer.berlios.de/projects/ar7-firmware/">AR7-Firmware</a></th></tr>
-<tr><td><a href="../index">Overview</a></td></tr>
-<tr><td><a href="loader">Bootloader</a></td></tr>
-<tr><td><a href="../openwrt/index">OpenWrt</a></td></tr>
-<tr><td><a href="../devices/">Router</a></td></tr>
-<tr><td><a href="../tools/">Tools</a></td></tr>
-</table>
-</td>
-
-<td class=page>
+  <div class="pagesection">
+    <div class="pageheader">
+      <a href="loader.html.de">deutsch</a> <a href="loader.html.en">english</a>
+    </div>
 
 <h1>Bootloader for Sinus 154 DSL Basic SE and Sinus 154 DSL Basic 3</h1>
 
@@ -226,8 +208,6 @@ Current kernel is 1640 KiB uncompressed, 680 KiB zipped, 500 KiB LZMA + zipped.
 Current squashfs is 652 KiB.
 </pre>
 
-</td>
-</tr>
-</table>
+</div>
 </body>
 </html>
