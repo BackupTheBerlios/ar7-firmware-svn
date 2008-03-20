@@ -186,8 +186,11 @@ int main(int argc,char *argv[])
 	int complete,retry_num,pack_counter,read_number,write_number,i;
 	unsigned short crc_value;
 	unsigned char ack_id;
+	unsigned char last_ack_id = 0;
 	long filelength;
 	long readlength = 0;
+        unsigned percent;
+        unsigned last_percent = 0;
 
 	setbuf(stderr, NULL);
 	
@@ -218,7 +221,7 @@ int main(int argc,char *argv[])
 
 	while((read(fd,&ack_id,1))<=0);
 	
-	fprintf(stderr, "%c\n", ack_id);
+	//~ fprintf(stderr, "%c\n", ack_id);
 	ack_id=XMODEM_ACK;
 	while(!complete)
 	{
@@ -249,15 +252,19 @@ int main(int argc,char *argv[])
 				frame_data[XMODEM_DATA_SIZE_SOH+3]=(unsigned char)(crc_value >> 8);
 				frame_data[XMODEM_DATA_SIZE_SOH+4]=(unsigned char)(crc_value);
 				write_number = write( fd, frame_data, XMODEM_DATA_SIZE_SOH + 5);
-				fprintf(stderr, "waiting for ACK,%d,%d,...", pack_counter, write_number);
+				//~ fprintf(stderr, "waiting for ACK,%d,%d,...", pack_counter, write_number);
 				while((read(fd,&ack_id,1))<=0);
-			
-				fprintf(stderr, "%ld %% ", readlength * 100 / filelength);
 
-				if(ack_id == XMODEM_ACK)
-					fprintf(stderr, "Ok!\r");
-				else
-					fprintf(stderr, "Error!\n");
+                                percent = (unsigned)(readlength * 100 / filelength);
+                                if ((ack_id != last_ack_id) || (percent != last_percent)) {
+                                  last_ack_id = ack_id;
+                                  last_percent = percent;
+                                  if (ack_id == XMODEM_ACK) {
+                                    fprintf(stderr, "%u%% ok\r", percent);
+                                  } else {
+                                    fprintf(stderr, "%u%% error\n", percent);
+                                  }
+                                }
 			}
 			else
 			{
@@ -288,7 +295,7 @@ int main(int argc,char *argv[])
 				write_number = write(fd,frame_data,XMODEM_DATA_SIZE + 5);
 				fprintf(stderr, "Retry for ACK,%d,%d...", pack_counter, write_number);
 				while((read(fd,&ack_id,1))<=0);
-				
+
 				if( ack_id == XMODEM_ACK )
 					fprintf(stderr, "OK\n");
 				else
