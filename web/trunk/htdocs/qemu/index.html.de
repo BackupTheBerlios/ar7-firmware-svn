@@ -5,8 +5,7 @@
         <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 	<meta name="description" content="Linux based firmware for AR7 based routers">
 	<meta name="author" content="Stefan Weil">
-	<meta name="keywords" content="QEMU, Linux, firmware, router, AR7, GPL,
-		Sinus 154, SX541">
+	<meta name="keywords" content="QEMU, Linux, firmware, router, AR7, GPL, Sinus 154, SX541">
 	<link rel=stylesheet type="text/css" href="../style.css" />
 </head>
 
@@ -42,7 +41,7 @@ sah ich das erste Mal die Bootmeldungen meines Routers in einer Emulation
 statt im Terminalprogramm an der seriellen Schnittstelle.</p>
 
 <p>Inzwischen startet auch der Linux-Kernel: ganz unterschiedliche
-Router booten in der Emulation bis zur Eingabeaufforderung, und anschließend
+Router booten in der Emulation bis zur Eingabeaufforderung, und anschlieend
 kann man in der Shell (busybox) weiter herumprobieren.
 Die Emulation mit QEMU ist also so brauchbar,
 dass auch andere Entwickler davon profitieren können.</p>
@@ -56,7 +55,7 @@ dass auch andere Entwickler davon profitieren können.</p>
 <ul>
 <li>Linux-Distribution OpenWrt mit Anpassungen für T-Sinus 154 DSL Basic SE,
 optional mit Original-Bootloader von BRN
-<li>Original-Firmware der AVM Fritz!Box Fon WLAN einschließlich Bootloader
+<li>Original-Firmware der AVM Fritz!Box Fon WLAN einschlie&szlig;lich Bootloader
 ADAM2
 </ul>
 
@@ -120,7 +119,7 @@ und über die (emulierte) serielle Schnittstelle bedient werden kann.</p>
 
 <p>Ein AR7-basiertes System (beispielsweise mein DSL-Router) hat immer
 4 KiB internen ROM-Speicher mit der physikalischen Adresse 0x1fc00000,
-außerdem in der Regel 2 MiB, 4 MiB oder mehr externen Flash-Speicher mit
+au&szlig;erdem in der Regel 2 MiB, 4 MiB oder mehr externen Flash-Speicher mit
 der physikalischen Adresse 0x10000000.</p>
 
 <p>Für eine möglichst umfassende Emulation benötigt man beide Speicherbereiche.
@@ -179,7 +178,7 @@ lange dauert und umständlich ist.</p>
 <li>Taste '!' drücken (Wechsel in Administrator-Mode).
 <li>Taste 'r' drücken (Speicher auslesen).
 <li>Startadresse, Datenlänge und Anzahl Daten wählen.
-<li>Dump wird ausgegeben. Die Ausgabe läßt man sinnvollerweise vom
+  <li>Dump wird ausgegeben. Die Ausgabe lä&szlig;t man sinnvollerweise vom
     Terminalprogramm in eine Datei mitschreiben.
 </ul>
 
@@ -198,7 +197,7 @@ Enter the Count to Read....(Maximun 10000)1024
 0xBFC00000 
 </pre>
 
-<p>Die mitgeschriebene Datei des Dumps kann anschließend ins Binärformat
+<p>Die mitgeschriebene Datei des Dumps kann anschlie&szlig;end ins Binärformat
 konvertiert werden, beispielsweise mit dem Ruby-Skript
 <a href="../tools/dump2bin.rb">dump2bin.rb</a>:</p>
 
@@ -218,7 +217,7 @@ Enter the Count to Read....(Maximun 10000)524288
 
 <h2>QEMU als Debugwerkzeug</h2>
 
-<p>QEMU emuliert kein Cache-Memory, weil das zu Geschwindigkeitseinbußen
+<p>QEMU emuliert kein Cache-Memory, weil das zu Geschwindigkeitseinbu&szlig;en
 führen würde. In seltenen Fällen verhält sich die Emulation dadurch
 anders als die Originalhardware. Insbesondere kann es passieren, dass
 ein Kernel mit Emulation wunderbar läuft, wegen fehlerhafter
@@ -245,7 +244,8 @@ Flashspeicher nur gelesen wird.</p>
 <h1>Andere Emulatoren für MIPS</h1>
 
 <p>Zum Experimentieren mit kleineren Codeabschnitten eignet sich
-<a href="">SPIM</a>. Dieser MIPS-Emulator nimmt direkt Assemblercode als
+  <a href="http://www.cs.wisc.edu/~larus/spim.html">SPIM</a>.
+  Dieser MIPS-Emulator nimmt direkt Assemblercode als
 Eingabe, eignet sich daher nicht für Binärdaten wie Flash-Images oder
 Kernel-Images.</p>
 
