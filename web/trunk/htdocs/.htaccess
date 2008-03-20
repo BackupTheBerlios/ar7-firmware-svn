@@ -1,0 +1,8 @@
+# Einstellungen für alternative Inhalte
+#Options MultiViews #FollowSymLinks IncludesNoExec
+Options +Indexes FollowSymLinks IncludesNoExec
+#AddType text/x-server-parsed-html .shtml .html
+#AddType application/x-httpd-parse .html
+#AddType text/html .shtml
+AddHandler server-parsed .html
+# eof

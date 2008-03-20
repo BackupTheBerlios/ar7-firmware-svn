@@ -4,33 +4,16 @@
 	<title>OpenWrt f&uuml;r Sinus 154 DSL Basic SE</title>
 	<meta http-equiv="Content-Type" content="text/html">
 	<meta name="author" content="Stefan Weil">
-	<link rel=stylesheet type="text/css" href="../ar7.css" />
+	<link rel=stylesheet type="text/css" href="../style.css" />
 </head>
 
 <body>
-<table class=page summary="page">
-<tr class=titlebar>
-<td>
-<a href="http://developer.berlios.de">
-<img src="http://developer.berlios.de/bslogo.php?group_id=3721" width="124" height="32" border="0" alt="BerliOS"></a>
-</td>
-<td>
+<!--#include virtual="/menu.html.de"-->
+
+<div class="pagesection">
+<div class="pageheader">
 <a href="index.html.de">deutsch</a> <a href="index.html.en">english</a>
-</tr>
-
-<tr>
-<td class=menu>
-<table class=menu summary="menu">
-<tr><th><a href="http://developer.berlios.de/projects/ar7-firmware/">AR7-Firmware</a></th></tr>
-<tr><td><a href="../index">Übersicht</a></td></tr>
-<tr><td><a href="../doc/loader">Bootloader</a></td></tr>
-<tr><td><a href="../openwrt/index">OpenWrt</a></td></tr>
-<tr><td><a href="../devices/">Router</a></td></tr>
-<tr><td><a href="../tools/">Werkzeuge</a></td></tr>
-</table>
-</td>
-
-<td class=page>
+</div>
 
 <h2>Die OpenWrt Portierung f&uuml;r Sinus 154 DSL Basic SE</h2>
 
@@ -60,7 +43,7 @@ Die wichtigsten Punkte stehen zuerst:
 
 <ul>
 <li>WLAN funktioniert in der Betriebsart AP mit dem
-<a href="tiwlan">Treiber von TI</a>,
+<a href="tiwlan.html">Treiber von TI</a>,
 aber noch nicht als WLAN Client. Da ich schon einen Access Point in
 Betrieb habe, w&auml;re letzteres f&uuml;r mich sehr wichtig.
 Auch ist unsch&ouml;n, dass die Lizenzbedingungen des Treiber von TI
@@ -148,8 +131,6 @@ ein Firmware-Image passen (genauer: sie passen schon, aber der Bootloader
 st&uuml;rzt beim Ladeversuch ab. Das aktuelle mkfirm.c kann daher getrennte
 Firmware-Images f&uuml;r Kernel und Filesystem erzeugen.
 
-</td>
-</tr>
-</table>
+</div>
 </body>
 </html>
