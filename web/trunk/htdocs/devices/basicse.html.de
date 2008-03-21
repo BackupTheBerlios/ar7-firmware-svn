@@ -115,21 +115,24 @@ vom Hersteller
 - leider ist der Programmcode aber nicht allgemein zugänglich.
 Näheres findet man bei http://www.linux-mips.org/wiki/AR7.</p>
 
-<p>Im Open-Source-Bereich findet man das Projekt http://acx100.sourceforge.net/,
+<p>Im Open-Source-Bereich findet man das Projekt
+<a href="http://acx100.sourceforge.net/">ACX100</a>,
 das mit seinem Linux-Treiber für ACX100 auch den ACX111
-zumindest teilweise unterstützt. Das Projekt kennt zur Zeit
-allerdings nur die Bussysteme PCI und USB, nicht aber VLYNQ.</p>
+zumindest teilweise unterstützt.
+Inzwischen läuft dieser Treiber nicht nur mit den Bussystemen PCI und USB,
+sondern auch mit VLYNQ.
+<a href="../openwrt/">OpenWrt</a> enthält bereits alle notwendigen Anpassungen.</p>
 
 <table summary="wlan">
-<tr><th>Feature</th><th>TCOM</th><th>TI</th><th>ACX100</th></tr>
-<tr><td>Source Code</td><td>no</td><td>closed</td><td>open</td></tr>
-<tr><td>802.11g++</td><td>no</td><td>yes</td><td>no</td></tr>
-<tr><td>Access Point</td><td>yes</td><td>yes</td><td>(no)</td></tr>
-<tr><td>Client Mode</td><td>no</td><td>no</td><td>yes</td></tr>
-<tr><td>WEP</td><td>yes</td><td>yes</td><td>(yes)</td></tr>
-<tr><td>WPA</td><td>yes</td><td>yes</td><td>no</td></tr>
-<tr><td>VLYNQ</td><td>yes</td><td>yes</td><td>no</td></tr>
-<tr><td>Linux ioctls</td><td>no</td><td>no</td><td>yes</td></tr>
+<tr><th>Feature</th><th>TCOM</th><th>TI</th><th>ACX100 (old)</th><th>ACX100 (new)</th></tr>
+<tr><td>Source Code</td><td>no</td><td>closed</td><td>open</td><td>open</td></tr>
+<tr><td>802.11g++</td><td>no</td><td>yes</td><td>no</td><td>no</td></tr>
+<tr><td>Access Point</td><td>yes</td><td>yes</td><td>no</td><td>?</td></tr>
+<tr><td>Client Mode</td><td>no</td><td>no</td><td>yes</td><td>yes</td></tr>
+<tr><td>WEP</td><td>yes</td><td>yes</td><td>yes</td><td>yes</td></tr>
+<tr><td>WPA</td><td>yes</td><td>yes</td><td>no</td><td>yes</td></tr>
+<tr><td>VLYNQ</td><td>yes</td><td>yes</td><td>yes</td><td>yes</td></tr>
+<tr><td>Linux ioctls</td><td>no</td><td>no</td><td>yes</td><td>yes</td></tr>
 </table>
 
 <h3>Speicherbelegung</h3>
@@ -137,7 +140,6 @@ allerdings nur die Bussysteme PCI und USB, nicht aber VLYNQ.</p>
 <table summary="memory map">
 <tr><th>Startadresse</th><th>Endadresse</th><th>Inhalt</th></tr>
 <tr><td>0x80000000</td><td>0x80000fff</td><td>interner RAM 4 KiB</td></tr>
-<tr><td>0x80001000</td><td>0x8fffffff</td><td>?</td></tr>
 <tr><td>0x90000000</td><td>0x90ffffff</td><td>RAM 16 MiB</td></tr>
 <tr><td>0x91000000</td><td>0x95ffffff</td><td>wie 0x90000000?</td></tr>
 <tr><td>0x96000000</td><td>0xafffffff</td><td>?</td></tr>
