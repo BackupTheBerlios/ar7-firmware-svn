@@ -1,3 +1,108 @@
+2008-03-21 19:31  blueswir1
+
+	* target-sparc/exec.h:	Remove leftover definitions
+
+2008-03-21 19:08  blueswir1
+
+	* target-sparc/: helper.h, op.c, op_helper.c, translate.c:  Convert
+	  align checks to TCG
+
+2008-03-21 19:05  blueswir1
+
+	* hw/: fdc.c, fdc.h, slavio_misc.c, sun4m.c, sun4m.h:  Wire up TC
+	  signal from Aux1 to FDC
+
+2008-03-21 19:03  blueswir1
+
+	* Makefile.target, tcg/tcg-dyngen.c, tcg/tcg-op.h, tcg/tcg-opc.h,
+	  tcg/tcg.c:  Prepare for op.c removal and zero legacy ops
+
+2008-03-21 18:59  blueswir1
+
+	* target-sparc/: op.c, translate.c:  Convert jumps to labels to TCG
+
+2008-03-21 18:58  blueswir1
+
+	* tcg/tcg-op.h:  Make TCG br op available
+
+2008-03-21 18:57  blueswir1
+
+	* target-sparc/: helper.h, op.c, op_helper.c, translate.c:  Convert
+	  save, restore, saved, restored, and flushw to TCG
+
+2008-03-21 18:56  blueswir1
+
+	* target-sparc/: helper.h, op.c, op_helper.c, translate.c:  Convert
+	  other float and VIS ops to TCG
+
+2008-03-21 18:53  blueswir1
+
+	* target-sparc/: fop_template.h, op.c, translate.c:  Convert float
+	  move ops to TCG
+
+2008-03-21 17:07  pbrook
+
+	* linux-user/signal.c: Fix Thumb signal handlers.
+
+2008-03-18 19:10  blueswir1
+
+	* target-sparc/: helper.h, op.c, op_helper.c, translate.c:  Convert
+	  udiv and sdiv ops to TCG
+
+2008-03-18 19:09  blueswir1
+
+	* target-sparc/translate.c:  Use ext_i32_i64 instead of ext32s_i64
+
+2008-03-18 19:08  blueswir1
+
+	* target-sparc/: helper.h, op.c, op_helper.c, translate.c:  Convert
+	  CCR and CWP ops to TCG
+
+2008-03-18 19:06  blueswir1
+
+	* target-sparc/: helper.h, op.c, op_helper.c, translate.c:  Convert
+	  array8/16/32 and alignaddr to TCG
+
+2008-03-18 07:55  aurel32
+
+	* curses_keys.h: Typo in curses_keys.h.
+
+	  (Dan Nelson)
+
+2008-03-18 07:55  aurel32
+
+	* hw/fdc.h: Clean fdc.h
+
+	  (Hervé Poussineau)
+
+2008-03-18 07:54  aurel32
+
+	* hw/ps2.c: Add KBD_CMD_SCANCODE command.
+
+	  (Hervé Poussineau)
+
+2008-03-18 07:53  aurel32
+
+	* hw/acpi.c, hw/mips_malta.c, sysemu.h, vl.c, hw/pc.c, hw/pc.h,
+	  hw/piix_pci.c: SCI fixes
+
+	  (Anthony Liguori)
+
+2008-03-18 07:52  aurel32
+
+	* block-qcow.c: restore rw support for vvfat
+
+	  (Carlo Marcelo Arenas)
+
+2008-03-18 07:52  aurel32
+
+	* qemu-doc.texi: Documentation update for the monitor change
+	  command
+
+2008-03-18 07:51  aurel32
+
+	* qemu-doc.texi: Documentation for the -curses option
+
 2008-03-16 20:24  blueswir1
 
 	* target-sparc/: op.c, translate.c:  Convert umul and smul to TCG
