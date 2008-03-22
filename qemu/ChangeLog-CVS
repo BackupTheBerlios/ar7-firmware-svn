@@ -1,3 +1,16 @@
+2008-03-22 09:47  blueswir1
+
+	* target-sparc/: op_mem.h, translate.c:  Convert ldf/ldfsr and
+	  stf/stfsr to TCG
+
+2008-03-22 09:40  blueswir1
+
+	* target-sparc/translate.c:  Fix i32/i64/TL mismatches
+
+2008-03-22 09:39  blueswir1
+
+	* tcg/tcg-op.h:  Add TL variants of trunc and ext/extu
+
 2008-03-21 19:31  blueswir1
 
 	* target-sparc/exec.h:	Remove leftover definitions
