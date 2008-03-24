@@ -1,3 +1,15 @@
+2008-03-24 03:31  pbrook
+
+	* vl.c: Put tap fd into nonblocking mode.
+
+2008-03-23 12:50  blueswir1
+
+	* target-sparc/translate.c:  Fix mulscc
+
+2008-03-23 01:47  pbrook
+
+	* configure: Fix and document curses configury bits.
+
 2008-03-22 09:47  blueswir1
 
 	* target-sparc/: op_mem.h, translate.c:  Convert ldf/ldfsr and
