@@ -1,3 +1,159 @@
+2008-03-29 16:46  blueswir1
+
+	* target-sparc/: cpu.h, helper.c, translate.c:	Move CPU stuff
+	  unrelated to translation to helper.c
+
+2008-03-29 13:15  aurel32
+
+	* hw/ide.c: IDE: Improve DMA transfers by increasing the buffer
+	  size
+
+	  (Ian Jackson)
+
+2008-03-29 10:09  blueswir1
+
+	* target-sparc/translate.c:  Rename T[012] according to their roles
+
+2008-03-29 10:03  blueswir1
+
+	* target-sparc/translate.c:  Avoid writes to T1 except for
+	  loads/stores, convert some T0 uses to cpu_tmp0
+
+2008-03-29 09:59  blueswir1
+
+	* target-sparc/translate.c:  Accidentally dropped one change from
+	  previous commit
+
+2008-03-28 23:57  aurel32
+
+	* hw/ne2000.c: Revert "Fix ne2000_can_receive() function".
+
+	  When the card is stopped, it should always accept packets, and
+	  then discard them. Thanks to Paul Brook for the explanations.
+
+2008-03-28 23:32  aurel32
+
+	* hw/: g364fb.c, g364fb_template.h: g364 framebuffer device
+
+	  (Hervé Poussineau)
+
+2008-03-28 23:32  aurel32
+
+	* linux-user/syscall.c: add pread64 and pwrite64 system calls
+
+	  (Gary Thomas)
+
+2008-03-28 23:31  aurel32
+
+	* linux-user/syscall_defs.h: Fix flock64 structure on a few target
+	  (noticed by Gary Thomas)
+
+2008-03-28 23:31  aurel32
+
+	* hw/apic.c: ignore reads to the EOI register
+
+	  (Glauber Costa)
+
+2008-03-28 23:31  aurel32
+
+	* hw/e1000.c: e1000: add phy specific status register
+
+	  (Tristan Gingold)
+
+2008-03-28 23:31  aurel32
+
+	* hw/e1000_hw.h: e1000: fix eerd registers
+
+	  (Tristan Gingold)
+
+2008-03-28 23:30  aurel32
+
+	* bswap.h, hw/e1000.c: e1000: fix unaligned access
+
+	  (Tristan Gingold)
+
+2008-03-28 23:30  aurel32
+
+	* target-i386/helper.c: x86-64: recompute DF after eflags has been
+	  modified when emulating SYSCALL
+
+	  (Jakub Jermar)
+
+2008-03-28 23:29  aurel32
+
+	* hw/mipsnet.c: Fix mipsnet device ID, noticed by Vijay Kumar.
+
+2008-03-28 23:29  aurel32
+
+	* exec-all.h, exec.c: Use spinlock_t for interrupt_lock, lock
+	  support for HPPA (Stuart Brady)
+
+2008-03-28 23:29  aurel32
+
+	* hw/ne2000.c: Fix ne2000_can_receive() function
+
+	  (Samuel Thibault)
+
+2008-03-28 23:28  aurel32
+
+	* hw/piix_pci.c: Add missing initial values for PIIX3 function 0
+	  (PIRQRC)
+
+	  (Sebastian Herbszt)
+
+2008-03-28 23:28  aurel32
+
+	* pc-bios/: bios.bin, bios.diff: update from latest Bochs BIOS
+
+2008-03-28 23:28  aurel32
+
+	* hw/pc.c: Tell BIOS about the number of CPUs
+
+	  Previously, the BIOS would probe the CPUs for SMP guests.  This
+	  tends to be very unreliably because of startup timing issues.  By
+	  passing the number of CPUs in the CMOS, the BIOS can detect the
+	  number of CPUs much more reliably.
+
+	  (Anthony Liguori)
+
+2008-03-27 00:31  pbrook
+
+	* linux-user/elfload.c: Implement AT_CLKTCK.
+
+2008-03-26 23:40  pbrook
+
+	* linux-user/main.c: Revert accidental commit.
+
+2008-03-26 21:55  pbrook
+
+	* vl.c, linux-user/main.c: Remove fixed length commandline buffers.
+
+2008-03-26 21:47  blueswir1
+
+	* target-sparc/translate.c:  Concentrate cpu_T[012] use to one
+	  function
+
+2008-03-26 21:45  blueswir1
+
+	* target-sparc/translate.c:  Split icc and xcc flag calculations
+
+2008-03-26 21:45  blueswir1
+
+	* target-sparc/translate.c:  Remove some legacy definitions
+
+2008-03-26 20:30  pbrook
+
+	* target-m68k/op.c: m68k compare fix.
+
+2008-03-25 23:28  pbrook
+
+	* linux-user/main.c, linux-user/syscall.c, target-cris/cpu.h: m68k
+	  mmap2 fixes.
+
+2008-03-24 18:47  blueswir1
+
+	* target-sparc/translate.c:  Fix a sign extension problem
+
 2008-03-24 03:31  pbrook
 
 	* vl.c: Put tap fd into nonblocking mode.
