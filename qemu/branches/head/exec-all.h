@@ -79,7 +79,7 @@ int cpu_gen_code_copy(CPUState *env, struct TranslationBlock *tb,
 int cpu_restore_state_copy(struct TranslationBlock *tb,
                            CPUState *env, unsigned long searched_pc,
                            void *puc);
-void cpu_resume_from_signal(CPUState *env1, void *puc);
+void cpu_resume_from_signal(CPUState *env1, void *puc) __attribute__((__noreturn__));
 void cpu_exec_init(CPUState *env);
 int page_unprotect(target_ulong address, unsigned long pc, void *puc);
 void tb_invalidate_phys_page_range(target_ulong start, target_ulong end,
