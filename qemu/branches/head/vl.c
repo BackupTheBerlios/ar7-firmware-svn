@@ -26,9 +26,9 @@
 #include "hw/usb.h"
 #include "hw/pcmcia.h"
 #include "hw/pc.h"
-#include "hw/fdc.h"
 #include "hw/audiodev.h"
 #include "hw/isa.h"
+#include "hw/baum.h"
 #include "net.h"
 #include "console.h"
 #include "sysemu.h"
@@ -215,6 +215,7 @@ const char *vnc_display;
 int acpi_enabled = 1;
 int fd_bootchk = 1;
 int no_reboot = 0;
+int no_shutdown = 0;
 int cursor_hide = 1;
 int graphic_rotate = 0;
 int daemonize = 0;
@@ -3474,7 +3475,12 @@ CharDriverState *qemu_chr_open(const char *filename)
     } else
     if (strstart(filename, "file:", &p)) {
         return qemu_chr_open_win_file_out(p);
-    }
+    } else
+#endif
+#ifdef CONFIG_BRLAPI
+    if (!strcmp(filename, "braille")) {
+        return chr_baum_init();
+    } else
 #endif
     {
         return NULL;
@@ -5282,6 +5288,10 @@ static int usb_device_add(const char *devname)
         dev = usb_wacom_init();
     } else if (strstart(devname, "serial:", &p)) {
         dev = usb_serial_init(p);
+#ifdef CONFIG_BRLAPI
+    } else if (!strcmp(devname, "braille")) {
+        dev = usb_baum_init();
+#endif
     } else {
         return -1;
     }
@@ -7541,7 +7551,7 @@ static int main_loop(void)
                 qemu_time += profile_getclock() - ti;
 #endif
                 next_cpu = env->next_cpu ?: first_cpu;
-                if (event_pending) {
+                if (event_pending && likely(ret != EXCP_DEBUG)) {
                     ret = EXCP_INTERRUPT;
                     event_pending = 0;
                     break;
@@ -7561,7 +7571,12 @@ static int main_loop(void)
 
             if (shutdown_requested) {
                 ret = EXCP_INTERRUPT;
-                break;
+                if (no_shutdown) {
+                    vm_stop(0);
+                    no_shutdown = 0;
+                }
+                else
+                    break;
             }
             if (reset_requested) {
                 reset_requested = 0;
@@ -7573,7 +7588,7 @@ static int main_loop(void)
 		qemu_system_powerdown();
                 ret = EXCP_INTERRUPT;
             }
-            if (ret == EXCP_DEBUG) {
+            if (unlikely(ret == EXCP_DEBUG)) {
                 vm_stop(EXCP_DEBUG);
             }
             /* If all cpus are halted then wait until the next IRQ */
@@ -7720,6 +7735,7 @@ static void help(int exitcode)
            "-curses         use a curses/ncurses interface instead of SDL\n"
 #endif
            "-no-reboot      exit instead of rebooting\n"
+           "-no-shutdown    stop before shutdown\n"
            "-loadvm file    start right away with a saved state (loadvm in monitor)\n"
 	   "-vnc display    start a VNC server on display\n"
 #ifndef _WIN32
@@ -7826,6 +7842,7 @@ enum {
     QEMU_OPTION_no_acpi,
     QEMU_OPTION_curses,
     QEMU_OPTION_no_reboot,
+    QEMU_OPTION_no_shutdown,
     QEMU_OPTION_show_cursor,
     QEMU_OPTION_daemonize,
     QEMU_OPTION_option_rom,
@@ -7931,6 +7948,7 @@ const QEMUOption qemu_options[] = {
     { "vmwarevga", 0, QEMU_OPTION_vmsvga },
     { "no-acpi", 0, QEMU_OPTION_no_acpi },
     { "no-reboot", 0, QEMU_OPTION_no_reboot },
+    { "no-shutdown", 0, QEMU_OPTION_no_shutdown },
     { "show-cursor", 0, QEMU_OPTION_show_cursor },
     { "daemonize", 0, QEMU_OPTION_daemonize },
     { "option-rom", HAS_ARG, QEMU_OPTION_option_rom },
@@ -8002,6 +8020,7 @@ static void register_machines(void)
     qemu_register_machine(&taihu_machine);
 #elif defined(TARGET_MIPS)
     qemu_register_machine(&mips_machine);
+    qemu_register_machine(&mips_magnum_machine);
     qemu_register_machine(&mips_malta_machine);
     qemu_register_machine(&mips_pica61_machine);
     qemu_register_machine(&mips_mipssim_machine);
@@ -8056,7 +8075,7 @@ static void register_machines(void)
 #ifdef HAS_AUDIO
 struct soundhw soundhw[] = {
 #ifdef HAS_AUDIO_CHOICE
-#ifdef TARGET_I386
+#if defined(TARGET_I386) || defined(TARGET_MIPS)
     {
         "pcspk",
         "PC speaker",
@@ -8718,6 +8737,9 @@ int main(int argc, char **argv)
                 break;
             case QEMU_OPTION_no_reboot:
                 no_reboot = 1;
+                break;
+            case QEMU_OPTION_no_shutdown:
+                no_shutdown = 1;
                 break;
             case QEMU_OPTION_show_cursor:
                 cursor_hide = 0;

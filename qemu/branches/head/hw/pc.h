@@ -39,8 +39,11 @@ void irq_info(void);
 /* APIC */
 typedef struct IOAPICState IOAPICState;
 
+#define APIC_LINT0	3
+
 int apic_init(CPUState *env);
 int apic_accept_pic_intr(CPUState *env);
+void apic_local_deliver(CPUState *env, int vector);
 int apic_get_interrupt(CPUState *env);
 IOAPICState *ioapic_init(void);
 void ioapic_set_irq(void *opaque, int vector, int level);
@@ -59,7 +62,7 @@ int pit_get_mode(PITState *pit, int channel);
 int pit_get_out(PITState *pit, int channel, int64_t current_time);
 
 /* vmport.c */
-void vmport_init(CPUState *env);
+void vmport_init(void);
 void vmport_register(unsigned char command, IOPortReadFunc *func, void *opaque);
 
 /* vmmouse.c */
