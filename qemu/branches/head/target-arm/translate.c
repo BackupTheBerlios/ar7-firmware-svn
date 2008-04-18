@@ -905,11 +905,6 @@ static inline void gen_set_pc_im(uint32_t val)
     store_cpu_field(tmp, regs[15]);
 }
 
-static inline void gen_set_pc_T0(void)
-{
-    tcg_gen_st_i32(cpu_T[0], cpu_env, offsetof(CPUState, regs[15]));
-}
-
 static inline void gen_movl_reg_TN(DisasContext *s, int reg, int t)
 {
     TCGv tmp;
@@ -1009,7 +1004,7 @@ static inline void gen_vfp_##name(int dp)                             \
         gen_helper_vfp_##name##s(cpu_F0s, cpu_F0s, cpu_F1s, cpu_env); \
 }
 
-#define VFP_OP1i(name)                               \
+#define VFP_OP1(name)                               \
 static inline void gen_vfp_##name(int dp, int arg)  \
 {                                                   \
     if (dp)                                         \
@@ -1068,9 +1063,9 @@ static inline void gen_vfp_cmpe(int dp)
 static inline void gen_vfp_F1_ld0(int dp)
 {
     if (dp)
-        tcg_gen_movi_i64(cpu_F0d, 0);
+        tcg_gen_movi_i64(cpu_F1d, 0);
     else
-        tcg_gen_movi_i32(cpu_F0s, 0);
+        tcg_gen_movi_i32(cpu_F1s, 0);
 }
 
 static inline void gen_vfp_uito(int dp)
@@ -3117,7 +3112,7 @@ static int disas_vfp_insn(CPUState * env, DisasContext *s, uint32_t insn)
                         else
                             i |= 0x800;
                         n |= i << 19;
-                        tcg_gen_movi_i32(cpu_F0d, ((uint64_t)n) << 32);
+                        tcg_gen_movi_i32(cpu_F0s, n);
                     }
                     break;
                 case 15: /* extension space */
@@ -3486,7 +3481,7 @@ static int gen_set_psr_T0(DisasContext *s, uint32_t mask, int spsr)
 static void gen_exception_return(DisasContext *s)
 {
     TCGv tmp;
-    gen_set_pc_T0();
+    gen_movl_reg_T0(s, 15);
     tmp = load_cpu_field(spsr);
     gen_set_cpsr(tmp, 0xffffffff);
     dead_tmp(tmp);
@@ -8497,7 +8492,7 @@ static void disas_thumb_insn(CPUState *env, DisasContext *s)
         if (cond == 0xf) {
             /* swi */
             gen_set_condexec(s);
-            gen_set_pc_im(s->pc | 1);
+            gen_set_pc_im(s->pc);
             s->is_jmp = DISAS_SWI;
             break;
         }
