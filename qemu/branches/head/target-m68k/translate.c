@@ -420,7 +420,7 @@ static inline int gen_extend(int val, int opsize, int sign)
 }
 
 /* Generate code for an "effective address".  Does not adjust the base
-   register for autoincrememnt addressing modes.  */
+   register for autoincrement addressing modes.  */
 static int gen_lea(DisasContext *s, uint16_t insn, int opsize)
 {
     int reg;
