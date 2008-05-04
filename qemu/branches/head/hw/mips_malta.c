@@ -436,7 +436,7 @@ static MaltaFPGAState *malta_fpga_init(target_phys_addr_t base, CPUState *env)
     cpu_register_physical_memory(base, 0x900, malta);
     cpu_register_physical_memory(base + 0xa00, 0x100000 - 0xa00, malta);
 
-    s->display = qemu_chr_open("vc");
+    s->display = qemu_chr_open("vc:320x200");
     qemu_chr_printf(s->display, "\e[HMalta LEDBAR\r\n");
     qemu_chr_printf(s->display, "+--------+\r\n");
     qemu_chr_printf(s->display, "+        +\r\n");
@@ -447,7 +447,7 @@ static MaltaFPGAState *malta_fpga_init(target_phys_addr_t base, CPUState *env)
     qemu_chr_printf(s->display, "+        +\r\n");
     qemu_chr_printf(s->display, "+--------+\r\n");
 
-    uart_chr = qemu_chr_open("vc");
+    uart_chr = qemu_chr_open("vc:80Cx24C");
     qemu_chr_printf(uart_chr, "CBUS UART\r\n");
     s->uart = serial_mm_init(base + 0x900, 3, env->irq[2], uart_chr, 1);
 
@@ -763,7 +763,7 @@ static void main_cpu_reset(void *opaque)
 }
 
 static
-void mips_malta_init (int ram_size, int vga_ram_size,
+void mips_malta_init (ram_addr_t ram_size, int vga_ram_size,
                       const char *boot_device, DisplayState *ds,
                       const char *kernel_filename, const char *kernel_cmdline,
                       const char *initrd_filename, const char *cpu_model)
