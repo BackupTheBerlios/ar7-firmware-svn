@@ -171,7 +171,6 @@ static inline TranslationBlock *tb_find_fast(void)
 #if defined(TARGET_I386)
     flags = env->hflags;
     flags |= (env->eflags & (IOPL_MASK | TF_MASK | VM_MASK));
-    flags |= env->intercept;
     cs_base = env->segs[R_CS].base;
     pc = cs_base + env->eip;
 #elif defined(TARGET_ARM)
@@ -218,7 +217,7 @@ static inline TranslationBlock *tb_find_fast(void)
     cs_base = 0;
     pc = env->pc;
 #elif defined(TARGET_CRIS)
-    flags = env->pregs[PR_CCS] & U_FLAG;
+    flags = env->pregs[PR_CCS] & (U_FLAG | X_FLAG);
     flags |= env->dslot;
     cs_base = 0;
     pc = env->pc;
@@ -247,11 +246,6 @@ int cpu_exec(CPUState *env1)
 {
 #define DECLARE_HOST_REGS 1
 #include "hostregs_helper.h"
-#if defined(TARGET_SPARC)
-#if defined(reg_REGWPTR)
-    uint32_t *saved_regwptr;
-#endif
-#endif
     int ret, interrupt_request;
     TranslationBlock *tb;
     uint8_t *tc_ptr;
@@ -274,9 +268,6 @@ int cpu_exec(CPUState *env1)
     CC_OP = CC_OP_EFLAGS;
     env->eflags &= ~(DF_MASK | CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
 #elif defined(TARGET_SPARC)
-#if defined(reg_REGWPTR)
-    saved_regwptr = REGWPTR;
-#endif
 #elif defined(TARGET_M68K)
     env->cc_op = CC_OP_FLAGS;
     env->cc_dest = env->sr & 0xf;
@@ -333,7 +324,7 @@ int cpu_exec(CPUState *env1)
 #elif defined(TARGET_MIPS)
                     do_interrupt(env);
 #elif defined(TARGET_SPARC)
-                    do_interrupt(env->exception_index);
+                    do_interrupt(env);
 #elif defined(TARGET_ARM)
                     do_interrupt(env);
 #elif defined(TARGET_SH4)
@@ -474,7 +465,8 @@ int cpu_exec(CPUState *env1)
 			     (pil == 15 || pil > env->psrpil)) ||
 			    type != TT_EXTINT) {
 			    env->interrupt_request &= ~CPU_INTERRUPT_HARD;
-			    do_interrupt(env->interrupt_index);
+                            env->exception_index = env->interrupt_index;
+                            do_interrupt(env);
 			    env->interrupt_index = 0;
 #if !defined(TARGET_SPARC64) && !defined(CONFIG_USER_ONLY)
                             cpu_check_irqs(env);
@@ -562,8 +554,6 @@ int cpu_exec(CPUState *env1)
 #elif defined(TARGET_ARM)
                     cpu_dump_state(env, logfile, fprintf, 0);
 #elif defined(TARGET_SPARC)
-		    REGWPTR = env->regbase + (env->cwp * 16);
-		    env->regwptr = REGWPTR;
                     cpu_dump_state(env, logfile, fprintf, 0);
 #elif defined(TARGET_PPC)
                     cpu_dump_state(env, logfile, fprintf, 0);
@@ -620,13 +610,6 @@ int cpu_exec(CPUState *env1)
                 env->current_tb = NULL;
                 /* reset soft MMU for next block (it can currently
                    only be set by a memory fault) */
-#if defined(TARGET_I386) && !defined(CONFIG_SOFTMMU)
-                if (env->hflags & HF_SOFTMMU_MASK) {
-                    env->hflags &= ~HF_SOFTMMU_MASK;
-                    /* do not allow linking to another block */
-                    next_tb = 0;
-                }
-#endif
 #if defined(USE_KQEMU)
 #define MIN_CYCLE_BEFORE_SWITCH (100 * 1000)
                 if (kqemu_is_ok(env) &&
@@ -647,9 +630,6 @@ int cpu_exec(CPUState *env1)
 #elif defined(TARGET_ARM)
     /* XXX: Save/restore host fpu exception state?.  */
 #elif defined(TARGET_SPARC)
-#if defined(reg_REGWPTR)
-    REGWPTR = saved_regwptr;
-#endif
 #elif defined(TARGET_PPC)
 #elif defined(TARGET_M68K)
     cpu_m68k_flush_flags(env, env->cc_op);
