@@ -3788,9 +3788,11 @@ static target_ulong disas_insn(DisasContext *s, target_ulong pc_start)
         }
         break;
 
+    case 0x82:
+        if (CODE64(s))
+            goto illegal_op;
     case 0x80: /* GRP1 */
     case 0x81:
-    case 0x82:
     case 0x83:
         {
             int val;
@@ -6407,6 +6409,9 @@ static target_ulong disas_insn(DisasContext *s, target_ulong pc_start)
         break;
 #endif
     case 0x1a2: /* cpuid */
+        if (s->cc_op != CC_OP_DYNAMIC)
+            gen_op_set_cc_op(s->cc_op);
+        gen_jmp_im(pc_start - s->cs_base);
         tcg_gen_helper_0_0(helper_cpuid);
         break;
     case 0xf4: /* hlt */
@@ -6415,8 +6420,8 @@ static target_ulong disas_insn(DisasContext *s, target_ulong pc_start)
         } else {
             if (s->cc_op != CC_OP_DYNAMIC)
                 gen_op_set_cc_op(s->cc_op);
-            gen_jmp_im(s->pc - s->cs_base);
-            tcg_gen_helper_0_0(helper_hlt);
+            gen_jmp_im(pc_start - s->cs_base);
+            tcg_gen_helper_0_1(helper_hlt, tcg_const_i32(s->pc - pc_start));
             s->is_jmp = 3;
         }
         break;
@@ -6514,6 +6519,8 @@ static target_ulong disas_insn(DisasContext *s, target_ulong pc_start)
                     if (!(s->cpuid_ext_features & CPUID_EXT_MONITOR) ||
                         s->cpl != 0)
                         goto illegal_op;
+                    if (s->cc_op != CC_OP_DYNAMIC)
+                        gen_op_set_cc_op(s->cc_op);
                     gen_jmp_im(pc_start - s->cs_base);
 #ifdef TARGET_X86_64
                     if (s->aflag == 2) {
@@ -6536,8 +6543,8 @@ static target_ulong disas_insn(DisasContext *s, target_ulong pc_start)
                         gen_op_set_cc_op(s->cc_op);
                         s->cc_op = CC_OP_DYNAMIC;
                     }
-                    gen_jmp_im(s->pc - s->cs_base);
-                    tcg_gen_helper_0_0(helper_mwait);
+                    gen_jmp_im(pc_start - s->cs_base);
+                    tcg_gen_helper_0_1(helper_mwait, tcg_const_i32(s->pc - pc_start));
                     gen_eob(s);
                     break;
                 default:
@@ -6569,9 +6576,11 @@ static target_ulong disas_insn(DisasContext *s, target_ulong pc_start)
                         gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
                         break;
                     } else {
-                        tcg_gen_helper_0_0(helper_vmrun);
-                        s->cc_op = CC_OP_EFLAGS;
-                        gen_eob(s);
+                        tcg_gen_helper_0_2(helper_vmrun, 
+                                           tcg_const_i32(s->aflag),
+                                           tcg_const_i32(s->pc - pc_start));
+                        tcg_gen_exit_tb(0);
+                        s->is_jmp = 3;
                     }
                     break;
                 case 1: /* VMMCALL */
@@ -6586,7 +6595,8 @@ static target_ulong disas_insn(DisasContext *s, target_ulong pc_start)
                         gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
                         break;
                     } else {
-                        tcg_gen_helper_0_0(helper_vmload);
+                        tcg_gen_helper_0_1(helper_vmload,
+                                           tcg_const_i32(s->aflag));
                     }
                     break;
                 case 3: /* VMSAVE */
@@ -6596,7 +6606,8 @@ static target_ulong disas_insn(DisasContext *s, target_ulong pc_start)
                         gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
                         break;
                     } else {
-                        tcg_gen_helper_0_0(helper_vmsave);
+                        tcg_gen_helper_0_1(helper_vmsave,
+                                           tcg_const_i32(s->aflag));
                     }
                     break;
                 case 4: /* STGI */
@@ -6635,7 +6646,8 @@ static target_ulong disas_insn(DisasContext *s, target_ulong pc_start)
                         gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
                         break;
                     } else {
-                        tcg_gen_helper_0_0(helper_invlpga);
+                        tcg_gen_helper_0_1(helper_invlpga,
+                                           tcg_const_i32(s->aflag));
                     }
                     break;
                 default:
@@ -6695,6 +6707,9 @@ static target_ulong disas_insn(DisasContext *s, target_ulong pc_start)
                         goto illegal_op;
                     }
                 } else {
+                    if (s->cc_op != CC_OP_DYNAMIC)
+                        gen_op_set_cc_op(s->cc_op);
+                    gen_jmp_im(pc_start - s->cs_base);
                     gen_lea_modrm(s, modrm, &reg_addr, &offset_addr);
                     tcg_gen_helper_0_1(helper_invlpg, cpu_A0);
                     gen_jmp_im(s->pc - s->cs_base);
