@@ -411,9 +411,7 @@ struct CPUMIPSState {
     /* We waste some space so we can handle shadow registers like TCs. */
     TCState tcs[MIPS_SHADOW_SET_MAX];
     /* Qemu */
-    int interrupt_request;
     int error_code;
-    int user_mode_only; /* user mode only simulation */
     uint32_t hflags;    /* CPU State */
     /* TMASK defines different execution modes */
 #define MIPS_HFLAG_TMASK  0x01FF
@@ -488,6 +486,8 @@ void do_unassigned_access(target_phys_addr_t addr, int is_write, int is_exec,
 #define cpu_gen_code cpu_mips_gen_code
 #define cpu_signal_handler cpu_mips_signal_handler
 #define cpu_list mips_cpu_list
+
+#define CPU_SAVE_VERSION 3
 
 /* MMU modes definitions. We carefully match the indices with our
    hflags layout. */
@@ -571,5 +571,11 @@ int cpu_mips_exec(CPUMIPSState *s);
 CPUMIPSState *cpu_mips_init(const char *cpu_model);
 uint32_t cpu_mips_get_clock (void);
 int cpu_mips_signal_handler(int host_signum, void *pinfo, void *puc);
+
+#define CPU_PC_FROM_TB(env, tb) do { \
+    env->active_tc.PC = tb->pc; \
+    env->hflags &= ~MIPS_HFLAG_BMASK; \
+    env->hflags |= tb->flags & MIPS_HFLAG_BMASK; \
+    } while (0)
 
 #endif /* !defined (__MIPS_CPU_H__) */
