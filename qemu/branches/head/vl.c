@@ -3870,6 +3870,19 @@ VLANClientState *qemu_new_vlan_client(VLANState *vlan,
     return vc;
 }
 
+void qemu_del_vlan_client(VLANClientState *vc)
+{
+    VLANClientState **pvc = &vc->vlan->first_client;
+
+    while (*pvc != NULL)
+        if (*pvc == vc) {
+            *pvc = vc->next;
+            free(vc);
+            break;
+        } else
+            pvc = &(*pvc)->next;
+}
+
 int qemu_can_send_packet(VLANClientState *vc1)
 {
     VLANState *vlan = vc1->vlan;
@@ -5475,6 +5488,12 @@ static int usb_device_add(const char *devname)
     } else if (!strcmp(devname, "braille")) {
         dev = usb_baum_init();
 #endif
+    } else if (strstart(devname, "net:", &p)) {
+        int nicidx = strtoul(p, NULL, 0);
+
+        if (nicidx >= nb_nics || strcmp(nd_table[nicidx].model, "usb"))
+            return -1;
+        dev = usb_net_init(&nd_table[nicidx]);
     } else {
         return -1;
     }
@@ -8579,6 +8598,16 @@ int main(int argc, char **argv)
     if (!linux_boot && net_boot == 0 &&
         nb_drives_opt == 0)
         help(1);
+
+    if (!linux_boot && *kernel_cmdline != '\0') {
+        fprintf(stderr, "-append only allowed with -kernel option\n");
+        exit(1);
+    }
+
+    if (!linux_boot && initrd_filename != NULL) {
+        fprintf(stderr, "-initrd only allowed with -kernel option\n");
+        exit(1);
+    }
 
     /* boot to floppy or the default cd if no hard disk defined yet */
     if (!boot_devices[0]) {
