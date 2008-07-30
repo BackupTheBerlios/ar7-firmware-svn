@@ -1447,6 +1447,7 @@ struct omap_eac_s {
 
 #define EAC_BUF_LEN 1024
         uint32_t rxbuf[EAC_BUF_LEN];
+        int rxoff;
         int rxlen;
         int rxavail;
         uint32_t txbuf[EAC_BUF_LEN];
@@ -1478,7 +1479,7 @@ static inline void omap_eac_interrupt_update(struct omap_eac_s *s)
 
 static inline void omap_eac_in_dmarequest_update(struct omap_eac_s *s)
 {
-    qemu_set_irq(s->codec.rxdrq, s->codec.rxavail + s->codec.rxlen &&
+    qemu_set_irq(s->codec.rxdrq, (s->codec.rxavail || s->codec.rxlen) &&
                     ((s->codec.config[1] >> 12) & 1));		/* DMAREN */
 }
 
@@ -1490,26 +1491,61 @@ static inline void omap_eac_out_dmarequest_update(struct omap_eac_s *s)
 
 static inline void omap_eac_in_refill(struct omap_eac_s *s)
 {
-    int left, start = 0;
+    int left = MIN(EAC_BUF_LEN - s->codec.rxlen, s->codec.rxavail) << 2;
+    int start = ((s->codec.rxoff + s->codec.rxlen) & (EAC_BUF_LEN - 1)) << 2;
+    int leftwrap = MIN(left, (EAC_BUF_LEN << 2) - start);
+    int recv = 1;
+    uint8_t *buf = (uint8_t *) s->codec.rxbuf + start;
 
-    s->codec.rxlen = MIN(s->codec.rxavail, EAC_BUF_LEN);
-    s->codec.rxavail -= s->codec.rxlen;
+    left -= leftwrap;
+    start = 0;
+    while (leftwrap && (recv = AUD_read(s->codec.in_voice, buf + start,
+                                    leftwrap)) > 0) {	/* Be defensive */
+        start += recv;
+        leftwrap -= recv;
+    }
+    if (recv <= 0)
+        s->codec.rxavail = 0;
+    else
+        s->codec.rxavail -= start >> 2;
+    s->codec.rxlen += start >> 2;
 
-    for (left = s->codec.rxlen << 2; left; start = (EAC_BUF_LEN << 2) - left)
-        left -= AUD_read(s->codec.in_voice,
-                        (uint8_t *) s->codec.rxbuf + start, left);
+    if (recv > 0 && left > 0) {
+        start = 0;
+        while (left && (recv = AUD_read(s->codec.in_voice,
+                                        (uint8_t *) s->codec.rxbuf + start,
+                                        left)) > 0) {	/* Be defensive */
+            start += recv;
+            left -= recv;
+        }
+        if (recv <= 0)
+            s->codec.rxavail = 0;
+        else
+            s->codec.rxavail -= start >> 2;
+        s->codec.rxlen += start >> 2;
+    }
 }
 
 static inline void omap_eac_out_empty(struct omap_eac_s *s)
 {
-    int left, start = 0;
+    int left = s->codec.txlen << 2;
+    int start = 0;
+    int sent = 1;
 
-    for (left = s->codec.txlen << 2; left; start = (s->codec.txlen << 2) - left)
-        left -= AUD_write(s->codec.out_voice,
-                        (uint8_t *) s->codec.txbuf + start, left);
+    while (left && (sent = AUD_write(s->codec.out_voice,
+                                    (uint8_t *) s->codec.txbuf + start,
+                                    left)) > 0) {	/* Be defensive */
+        start += sent;
+        left -= sent;
+    }
 
-    s->codec.txavail -= s->codec.txlen;
-    s->codec.txlen = 0;
+    if (!sent) {
+        s->codec.txavail = 0;
+        omap_eac_out_dmarequest_update(s);
+    }
+
+    if (start)
+        s->codec.txlen = 0;
 }
 
 static void omap_eac_in_cb(void *opaque, int avail_b)
@@ -1517,8 +1553,9 @@ static void omap_eac_in_cb(void *opaque, int avail_b)
     struct omap_eac_s *s = (struct omap_eac_s *) opaque;
 
     s->codec.rxavail = avail_b >> 2;
-    omap_eac_in_dmarequest_update(s);
+    omap_eac_in_refill(s);
     /* TODO: possibly discard current buffer if overrun */
+    omap_eac_in_dmarequest_update(s);
 }
 
 static void omap_eac_out_cb(void *opaque, int free_b)
@@ -1526,10 +1563,10 @@ static void omap_eac_out_cb(void *opaque, int free_b)
     struct omap_eac_s *s = (struct omap_eac_s *) opaque;
 
     s->codec.txavail = free_b >> 2;
-    if (s->codec.txlen > s->codec.txavail)
-        s->codec.txlen = s->codec.txavail;
-    omap_eac_out_empty(s);
-    omap_eac_out_dmarequest_update(s);
+    if (s->codec.txlen)
+        omap_eac_out_empty(s);
+    else
+        omap_eac_out_dmarequest_update(s);
 }
 
 static void omap_eac_enable_update(struct omap_eac_s *s)
@@ -1591,7 +1628,9 @@ static void omap_eac_format_update(struct omap_eac_s *s)
 {
     audsettings_t fmt;
 
-    omap_eac_out_empty(s);
+    /* The hardware buffers at most one sample */
+    if (s->codec.rxlen)
+        s->codec.rxlen = 1;
 
     if (s->codec.in_voice) {
         AUD_set_active_in(s->codec.in_voice, 0);
@@ -1599,10 +1638,14 @@ static void omap_eac_format_update(struct omap_eac_s *s)
         s->codec.in_voice = 0;
     }
     if (s->codec.out_voice) {
+        omap_eac_out_empty(s);
         AUD_set_active_out(s->codec.out_voice, 0);
         AUD_close_out(&s->codec.card, s->codec.out_voice);
         s->codec.out_voice = 0;
+        s->codec.txavail = 0;
     }
+    /* Discard what couldn't be written */
+    s->codec.txlen = 0;
 
     omap_eac_enable_update(s);
     if (!s->codec.enable)
@@ -1663,6 +1706,7 @@ static void omap_eac_reset(struct omap_eac_s *s)
     s->codec.config[1] = 0x0000;
     s->codec.config[2] = 0x0007;
     s->codec.config[3] = 0x1ffc;
+    s->codec.rxoff = 0;
     s->codec.rxlen = 0;
     s->codec.txlen = 0;
     s->codec.rxavail = 0;
@@ -1676,6 +1720,7 @@ static uint32_t omap_eac_read(void *opaque, target_phys_addr_t addr)
 {
     struct omap_eac_s *s = (struct omap_eac_s *) opaque;
     int offset = addr - s->base;
+    uint32_t ret;
 
     switch (offset) {
     case 0x000:	/* CPCFR1 */
@@ -1739,16 +1784,19 @@ static uint32_t omap_eac_read(void *opaque, target_phys_addr_t addr)
         /* This should be write-only?  Docs list it as read-only.  */
         return 0x0000;
     case 0x0b8:	/* ADRDR */
-        if (likely(s->codec.rxlen > 1))
-            return s->codec.rxbuf[EAC_BUF_LEN - s->codec.rxlen --];
-        else if (s->codec.rxlen) {
+        if (likely(s->codec.rxlen > 1)) {
+            ret = s->codec.rxbuf[s->codec.rxoff ++];
+            s->codec.rxlen --;
+            s->codec.rxoff &= EAC_BUF_LEN - 1;
+            return ret;
+        } else if (s->codec.rxlen) {
+            ret = s->codec.rxbuf[s->codec.rxoff ++];
+            s->codec.rxlen --;
+            s->codec.rxoff &= EAC_BUF_LEN - 1;
             if (s->codec.rxavail)
                 omap_eac_in_refill(s);
-            else {
-                s->codec.rxlen = 0;
-                omap_eac_in_dmarequest_update(s);
-            }
-            return s->codec.rxbuf[EAC_BUF_LEN - 1];
+            omap_eac_in_dmarequest_update(s);
+            return ret;
         }
         return 0x0000;
     case 0x0bc:	/* AGCFR */
@@ -1881,8 +1929,8 @@ static void omap_eac_write(void *opaque, target_phys_addr_t addr,
                                 s->codec.txlen == s->codec.txavail)) {
             if (s->codec.txavail)
                 omap_eac_out_empty(s);
-            else
-                s->codec.txlen = 0;
+            /* Discard what couldn't be written */
+            s->codec.txlen = 0;
         }
         break;
 
@@ -3528,6 +3576,32 @@ struct omap_sysctl_s {
     uint32_t msuspendmux[5];
 };
 
+static uint32_t omap_sysctl_read8(void *opaque, target_phys_addr_t addr)
+{
+
+    struct omap_sysctl_s *s = (struct omap_sysctl_s *) opaque;
+    int offset = addr - s->base;
+    int pad_offset, byte_offset;
+    int value;
+
+    switch (offset) {
+    case 0x030 ... 0x140:	/* CONTROL_PADCONF - only used in the POP */
+        pad_offset = (offset - 0x30) >> 2;
+        byte_offset = (offset - 0x30) & (4 - 1);
+
+        value = s->padconf[pad_offset];
+        value = (value >> (byte_offset * 8)) & 0xff;
+
+        return value;
+
+    default:
+        break;
+    }
+
+    OMAP_BAD_REG(addr);
+    return 0;
+}
+
 static uint32_t omap_sysctl_read(void *opaque, target_phys_addr_t addr)
 {
     struct omap_sysctl_s *s = (struct omap_sysctl_s *) opaque;
@@ -3629,6 +3703,31 @@ static uint32_t omap_sysctl_read(void *opaque, target_phys_addr_t addr)
     return 0;
 }
 
+static void omap_sysctl_write8(void *opaque, target_phys_addr_t addr,
+                uint32_t value)
+{
+    struct omap_sysctl_s *s = (struct omap_sysctl_s *) opaque;
+    int offset = addr - s->base;
+    int pad_offset, byte_offset;
+    int prev_value;
+
+    switch (offset) {
+    case 0x030 ... 0x140:	/* CONTROL_PADCONF - only used in the POP */
+        pad_offset = (offset - 0x30) >> 2;
+        byte_offset = (offset - 0x30) & (4 - 1);
+
+        prev_value = s->padconf[pad_offset];
+        prev_value &= ~(0xff << (byte_offset * 8));
+        prev_value |= ((value & 0x1f1f1f1f) << (byte_offset * 8)) & 0x1f1f1f1f;
+        s->padconf[pad_offset] = prev_value;
+        break;
+
+    default:
+        OMAP_BAD_REG(addr);
+        break;
+    }
+}
+
 static void omap_sysctl_write(void *opaque, target_phys_addr_t addr,
                 uint32_t value)
 {
@@ -3726,13 +3825,13 @@ static void omap_sysctl_write(void *opaque, target_phys_addr_t addr,
 }
 
 static CPUReadMemoryFunc *omap_sysctl_readfn[] = {
-    omap_badwidth_read32,	/* TODO */
+    omap_sysctl_read8,
     omap_badwidth_read32,	/* TODO */
     omap_sysctl_read,
 };
 
 static CPUWriteMemoryFunc *omap_sysctl_writefn[] = {
-    omap_badwidth_write32,	/* TODO */
+    omap_sysctl_write8,
     omap_badwidth_write32,	/* TODO */
     omap_sysctl_write,
 };
@@ -4139,7 +4238,7 @@ static uint32_t omap_gpmc_read(void *opaque, target_phys_addr_t addr)
         cs = (offset - 0x060) / 0x30;
         offset -= cs * 0x30;
         f = s->cs_file + cs;
-        switch (offset - cs * 0x30) {
+        switch (offset) {
             case 0x60:	/* GPMC_CONFIG1 */
                 return f->config[0];
             case 0x64:	/* GPMC_CONFIG2 */
