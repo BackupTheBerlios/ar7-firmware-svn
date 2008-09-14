@@ -346,7 +346,8 @@ for opt do
 done
 
 # default flags for all hosts
-CFLAGS="$CFLAGS -Wall -O2 -g -fno-strict-aliasing"
+CFLAGS="$CFLAGS -O2 -g -fno-strict-aliasing"
+CFLAGS="$CFLAGS -Wall -Wundef -Wendif-labels -Wwrite-strings"
 LDFLAGS="$LDFLAGS -g"
 if test "$werror" = "yes" ; then
 CFLAGS="$CFLAGS -Werror"
@@ -774,9 +775,14 @@ fi
 if test "$vde" = "yes" ; then
   cat > $TMPC << EOF
 #include <libvdeplug.h>
-int main(void) { struct vde_open_args a = {0, 0, 0} ; return 0;}
+int main(void)
+{
+    struct vde_open_args a = {0, 0, 0};
+    vde_open("", "", &a);
+    return 0;
+}
 EOF
-    if $cc $ARCH_CFLAGS -o $TMPE $TMPC 2> /dev/null ; then
+    if $cc $ARCH_CFLAGS -o $TMPE $TMPC -lvdeplug 2> /dev/null ; then
         :
     else
         vde="no"
@@ -1219,6 +1225,7 @@ if test "$brlapi" = "yes" ; then
 fi
 if test "$aio" = "yes" ; then
   echo "#define CONFIG_AIO 1" >> $config_h
+  echo "CONFIG_AIO=yes" >> $config_mak
 fi
 
 # XXX: suppress that

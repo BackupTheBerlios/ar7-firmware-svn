@@ -192,7 +192,7 @@ void get_tmp_filename(char *filename, int size)
 void get_tmp_filename(char *filename, int size)
 {
     int fd;
-    char *tmpdir;
+    const char *tmpdir;
     /* XXX: race condition possible */
     tmpdir = getenv("TMPDIR");
     if (!tmpdir)
@@ -340,6 +340,7 @@ int bdrv_open2(BlockDriverState *bs, const char *filename, int flags,
     if (flags & BDRV_O_SNAPSHOT) {
         BlockDriverState *bs1;
         int64_t total_size;
+        int is_protocol = 0;
 
         /* if snapshot, we create a temporary backing file and open it
            instead of opening 'filename' directly */
@@ -354,10 +355,21 @@ int bdrv_open2(BlockDriverState *bs, const char *filename, int flags,
             return -1;
         }
         total_size = bdrv_getlength(bs1) >> SECTOR_BITS;
+
+        if (bs1->drv && bs1->drv->protocol_name)
+            is_protocol = 1;
+
         bdrv_delete(bs1);
 
         get_tmp_filename(tmp_filename, sizeof(tmp_filename));
-        realpath(filename, backing_filename);
+
+        /* Real path is meaningless for protocols */
+        if (is_protocol)
+            snprintf(backing_filename, sizeof(backing_filename),
+                     "%s", filename);
+        else
+            realpath(filename, backing_filename);
+
         if (bdrv_create(&bdrv_qcow2, tmp_filename,
                         total_size, backing_filename, 0) < 0) {
             return -1;
@@ -1282,17 +1294,15 @@ static int bdrv_read_em(BlockDriverState *bs, int64_t sector_num,
     BlockDriverAIOCB *acb;
 
     async_ret = NOT_DONE;
-    qemu_aio_wait_start();
     acb = bdrv_aio_read(bs, sector_num, buf, nb_sectors,
                         bdrv_rw_em_cb, &async_ret);
-    if (acb == NULL) {
-        qemu_aio_wait_end();
+    if (acb == NULL)
         return -1;
-    }
+
     while (async_ret == NOT_DONE) {
         qemu_aio_wait();
     }
-    qemu_aio_wait_end();
+
     return async_ret;
 }
 
@@ -1303,17 +1313,13 @@ static int bdrv_write_em(BlockDriverState *bs, int64_t sector_num,
     BlockDriverAIOCB *acb;
 
     async_ret = NOT_DONE;
-    qemu_aio_wait_start();
     acb = bdrv_aio_write(bs, sector_num, buf, nb_sectors,
                          bdrv_rw_em_cb, &async_ret);
-    if (acb == NULL) {
-        qemu_aio_wait_end();
+    if (acb == NULL)
         return -1;
-    }
     while (async_ret == NOT_DONE) {
         qemu_aio_wait();
     }
-    qemu_aio_wait_end();
     return async_ret;
 }
 
@@ -1336,6 +1342,8 @@ void bdrv_init(void)
 #ifndef _WIN32
     bdrv_register(&bdrv_nbd);
 #endif
+
+    qemu_aio_init();
 }
 
 void *qemu_aio_get(BlockDriverState *bs, BlockDriverCompletionFunc *cb,

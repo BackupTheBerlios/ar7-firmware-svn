@@ -180,6 +180,10 @@ else
 QEMU_IMG_BLOCK_OBJS += nbd.o qemu-img-block-raw-posix.o
 endif
 
+ifdef CONFIG_AIO
+QEMU_IMG_BLOCK_OBJS += compatfd.o
+endif
+
 ######################################################################
 
 qemu-img$(EXESUF): qemu-img.o qemu-img-block.o $(QEMU_IMG_BLOCK_OBJS)
@@ -195,7 +199,7 @@ qemu-nbd-%.o: %.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -DQEMU_NBD -c -o $@ $<
 
 qemu-nbd$(EXESUF):  qemu-nbd.o qemu-nbd-nbd.o qemu-img-block.o \
-		    osdep.o qemu-nbd-block-raw-posix.o $(BLOCK_OBJS)
+		    osdep.o qemu-nbd-block-raw-posix.o compatfd.o $(BLOCK_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $^ -lz $(LIBS)
 
 # dyngen host tool
