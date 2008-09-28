@@ -32,6 +32,7 @@
 #include "smbus.h"
 #include "boards.h"
 #include "console.h"
+#include "fw_cfg.h"
 
 /* output Bochs bios info messages */
 //#define DEBUG_BIOS
@@ -44,6 +45,7 @@
 
 /* Leave a chunk of memory at the top of RAM for the BIOS ACPI tables.  */
 #define ACPI_DATA_SIZE       0x10000
+#define BIOS_CFG_IOPORT 0x510
 
 #define MAX_IDE_BUS 2
 
@@ -416,6 +418,8 @@ static void bochs_bios_write(void *opaque, uint32_t addr, uint32_t val)
 
 static void bochs_bios_init(void)
 {
+    void *fw_cfg;
+
     register_ioport_write(0x400, 1, 2, bochs_bios_write, NULL);
     register_ioport_write(0x401, 1, 2, bochs_bios_write, NULL);
     register_ioport_write(0x402, 1, 1, bochs_bios_write, NULL);
@@ -426,6 +430,10 @@ static void bochs_bios_init(void)
     register_ioport_write(0x502, 1, 2, bochs_bios_write, NULL);
     register_ioport_write(0x500, 1, 1, bochs_bios_write, NULL);
     register_ioport_write(0x503, 1, 1, bochs_bios_write, NULL);
+
+    fw_cfg = fw_cfg_init(BIOS_CFG_IOPORT, BIOS_CFG_IOPORT + 1, 0, 0);
+    fw_cfg_add_i32(fw_cfg, FW_CFG_ID, 1);
+    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
 }
 
 /* Generate an initial boot sector which sets state and jump to
@@ -777,15 +785,27 @@ static void pc_init1(ram_addr_t ram_size, int vga_ram_size,
     vmport_init();
 
     /* allocate RAM */
-    ram_addr = qemu_ram_alloc(ram_size);
-    cpu_register_physical_memory(0, below_4g_mem_size, ram_addr);
+    ram_addr = qemu_ram_alloc(0xa0000);
+    cpu_register_physical_memory(0, 0xa0000, ram_addr);
+
+    /* Allocate, even though we won't register, so we don't break the
+     * phys_ram_base + PA assumption. This range includes vga (0xa0000 - 0xc0000),
+     * and some bios areas, which will be registered later
+     */
+    ram_addr = qemu_ram_alloc(0x100000 - 0xa0000);
+    ram_addr = qemu_ram_alloc(below_4g_mem_size - 0x100000);
+    cpu_register_physical_memory(0x100000,
+                 below_4g_mem_size - 0x100000,
+                 ram_addr);
 
     /* above 4giga memory allocation */
     if (above_4g_mem_size > 0) {
-        cpu_register_physical_memory((target_phys_addr_t) 0x100000000ULL,
+        ram_addr = qemu_ram_alloc(above_4g_mem_size);
+        cpu_register_physical_memory(0x100000000ULL,
                                      above_4g_mem_size,
-                                     ram_addr + below_4g_mem_size);
+                                     ram_addr);
     }
+
 
     /* allocate VGA RAM */
     vga_ram_addr = qemu_ram_alloc(vga_ram_size);

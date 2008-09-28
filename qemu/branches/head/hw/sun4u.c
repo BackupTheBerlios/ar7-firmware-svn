@@ -31,12 +31,21 @@
 #include "sysemu.h"
 #include "boards.h"
 #include "firmware_abi.h"
+#include "fw_cfg.h"
+
+//#define DEBUG_IRQ
+
+#ifdef DEBUG_IRQ
+#define DPRINTF(fmt, args...)                           \
+    do { printf("CPUIRQ: " fmt , ##args); } while (0)
+#else
+#define DPRINTF(fmt, args...)
+#endif
 
 #define KERNEL_LOAD_ADDR     0x00404000
 #define CMDLINE_ADDR         0x003ff000
 #define INITRD_LOAD_ADDR     0x00300000
 #define PROM_SIZE_MAX        (4 * 1024 * 1024)
-#define PROM_ADDR            0x1fff0000000ULL
 #define PROM_VADDR           0x000ffd00000ULL
 #define APB_SPECIAL_BASE     0x1fe00000000ULL
 #define APB_MEM_BASE         0x1ff00000000ULL
@@ -44,9 +53,15 @@
 #define PROM_FILENAME        "openbios-sparc64"
 #define NVRAM_SIZE           0x2000
 #define MAX_IDE_BUS          2
+#define BIOS_CFG_IOPORT      0x510
+
+#define MAX_PILS 16
 
 struct hwdef {
     const char * const default_cpu_model;
+    uint16_t machine_id;
+    uint64_t prom_addr;
+    uint64_t console_serial_base;
 };
 
 int DMA_get_channel_mode (int nchan)
@@ -198,13 +213,63 @@ void irq_info(void)
 {
 }
 
+void cpu_check_irqs(CPUState *env)
+{
+    uint32_t pil = env->pil_in | (env->softint & ~SOFTINT_TIMER) |
+        ((env->softint & SOFTINT_TIMER) << 14);
+
+    if (pil && (env->interrupt_index == 0 ||
+                (env->interrupt_index & ~15) == TT_EXTINT)) {
+        unsigned int i;
+
+        for (i = 15; i > 0; i--) {
+            if (pil & (1 << i)) {
+                int old_interrupt = env->interrupt_index;
+
+                env->interrupt_index = TT_EXTINT | i;
+                if (old_interrupt != env->interrupt_index) {
+                    DPRINTF("Set CPU IRQ %d\n", i);
+                    cpu_interrupt(env, CPU_INTERRUPT_HARD);
+                }
+                break;
+            }
+        }
+    } else if (!pil && (env->interrupt_index & ~15) == TT_EXTINT) {
+        DPRINTF("Reset CPU IRQ %d\n", env->interrupt_index & 15);
+        env->interrupt_index = 0;
+        cpu_reset_interrupt(env, CPU_INTERRUPT_HARD);
+    }
+}
+
+static void cpu_set_irq(void *opaque, int irq, int level)
+{
+    CPUState *env = opaque;
+
+    if (level) {
+        DPRINTF("Raise CPU IRQ %d\n", irq);
+        env->halted = 0;
+        env->pil_in |= 1 << irq;
+        cpu_check_irqs(env);
+    } else {
+        DPRINTF("Lower CPU IRQ %d\n", irq);
+        env->pil_in &= ~(1 << irq);
+        cpu_check_irqs(env);
+    }
+}
+
 void qemu_system_powerdown(void)
 {
 }
 
+typedef struct ResetData {
+    CPUState *env;
+    uint64_t reset_addr;
+} ResetData;
+
 static void main_cpu_reset(void *opaque)
 {
-    CPUState *env = opaque;
+    ResetData *s = (ResetData *)opaque;
+    CPUState *env = s->env;
 
     cpu_reset(env);
     ptimer_set_limit(env->tick, 0x7fffffffffffffffULL, 1);
@@ -213,12 +278,18 @@ static void main_cpu_reset(void *opaque)
     ptimer_run(env->stick, 0);
     ptimer_set_limit(env->hstick, 0x7fffffffffffffffULL, 1);
     ptimer_run(env->hstick, 0);
+    env->gregs[1] = 0; // Memory start
+    env->gregs[2] = ram_size; // Memory size
+    env->gregs[3] = 0; // Machine description XXX
+    env->pc = s->reset_addr;
+    env->npc = env->pc + 4;
 }
 
 static void tick_irq(void *opaque)
 {
     CPUState *env = opaque;
 
+    env->softint |= SOFTINT_TIMER;
     cpu_interrupt(env, CPU_INTERRUPT_TIMER);
 }
 
@@ -226,6 +297,7 @@ static void stick_irq(void *opaque)
 {
     CPUState *env = opaque;
 
+    env->softint |= SOFTINT_TIMER;
     cpu_interrupt(env, CPU_INTERRUPT_TIMER);
 }
 
@@ -233,11 +305,8 @@ static void hstick_irq(void *opaque)
 {
     CPUState *env = opaque;
 
+    env->softint |= SOFTINT_TIMER;
     cpu_interrupt(env, CPU_INTERRUPT_TIMER);
-}
-
-static void dummy_cpu_set_irq(void *opaque, int irq, int level)
-{
 }
 
 static const int ide_iobase[2] = { 0x1f0, 0x170 };
@@ -270,6 +339,8 @@ static void sun4uv_init(ram_addr_t RAM_size, int vga_ram_size,
     int drive_index;
     BlockDriverState *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
     BlockDriverState *fd[MAX_FD];
+    void *fw_cfg;
+    ResetData *reset_info;
 
     linux_boot = (kernel_filename != NULL);
 
@@ -293,14 +364,21 @@ static void sun4uv_init(ram_addr_t RAM_size, int vga_ram_size,
     bh = qemu_bh_new(hstick_irq, env);
     env->hstick = ptimer_init(bh);
     ptimer_set_period(env->hstick, 1ULL);
-    qemu_register_reset(main_cpu_reset, env);
-    main_cpu_reset(env);
+
+    reset_info = qemu_mallocz(sizeof(ResetData));
+    reset_info->env = env;
+    reset_info->reset_addr = hwdef->prom_addr + 0x40ULL;
+    qemu_register_reset(main_cpu_reset, reset_info);
+    main_cpu_reset(reset_info);
+    // Override warm reset address with cold start address
+    env->pc = hwdef->prom_addr + 0x20ULL;
+    env->npc = env->pc + 4;
 
     /* allocate RAM */
     cpu_register_physical_memory(0, RAM_size, 0);
 
     prom_offset = RAM_size + vga_ram_size;
-    cpu_register_physical_memory(PROM_ADDR,
+    cpu_register_physical_memory(hwdef->prom_addr,
                                  (PROM_SIZE_MAX + TARGET_PAGE_SIZE) &
                                  TARGET_PAGE_MASK,
                                  prom_offset | IO_MEM_ROM);
@@ -308,11 +386,16 @@ static void sun4uv_init(ram_addr_t RAM_size, int vga_ram_size,
     if (bios_name == NULL)
         bios_name = PROM_FILENAME;
     snprintf(buf, sizeof(buf), "%s/%s", bios_dir, bios_name);
-    ret = load_elf(buf, PROM_ADDR - PROM_VADDR, NULL, NULL, NULL);
+    ret = load_elf(buf, hwdef->prom_addr - PROM_VADDR, NULL, NULL, NULL);
     if (ret < 0) {
-        fprintf(stderr, "qemu: could not load prom '%s'\n",
-                buf);
-        exit(1);
+        ret = load_image_targphys(buf, hwdef->prom_addr,
+                                  (PROM_SIZE_MAX + TARGET_PAGE_SIZE) &
+                                  TARGET_PAGE_MASK);
+        if (ret < 0) {
+            fprintf(stderr, "qemu: could not load prom '%s'\n",
+                    buf);
+            exit(1);
+        }
     }
 
     kernel_size = 0;
@@ -359,7 +442,13 @@ static void sun4uv_init(ram_addr_t RAM_size, int vga_ram_size,
     pci_cirrus_vga_init(pci_bus, ds, phys_ram_base + RAM_size, RAM_size,
                         vga_ram_size);
 
-    for(i = 0; i < MAX_SERIAL_PORTS; i++) {
+    i = 0;
+    if (hwdef->console_serial_base) {
+        serial_mm_init(hwdef->console_serial_base, 0, NULL, 115200,
+                       serial_hds[i], 1);
+        i++;
+    }
+    for(; i < MAX_SERIAL_PORTS; i++) {
         if (serial_hds[i]) {
             serial_init(serial_io[i], NULL/*serial_irq[i]*/, 115200,
                         serial_hds[i]);
@@ -379,7 +468,7 @@ static void sun4uv_init(ram_addr_t RAM_size, int vga_ram_size,
         pci_nic_init(pci_bus, &nd_table[i], -1);
     }
 
-    irq = qemu_allocate_irqs(dummy_cpu_set_irq, NULL, 32);
+    irq = qemu_allocate_irqs(cpu_set_irq, env, MAX_PILS);
     if (drive_get_max_bus(IF_IDE) >= MAX_IDE_BUS) {
         fprintf(stderr, "qemu: too many IDE bus\n");
         exit(1);
@@ -415,16 +504,39 @@ static void sun4uv_init(ram_addr_t RAM_size, int vga_ram_size,
                            graphic_width, graphic_height, graphic_depth,
                            (uint8_t *)&nd_table[0].macaddr);
 
+    fw_cfg = fw_cfg_init(BIOS_CFG_IOPORT, BIOS_CFG_IOPORT + 1, 0, 0);
+    fw_cfg_add_i32(fw_cfg, FW_CFG_ID, 1);
+    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
+    fw_cfg_add_i16(fw_cfg, FW_CFG_MACHINE_ID, hwdef->machine_id);
 }
+
+enum {
+    sun4u_id = 0,
+    sun4v_id = 64,
+    niagara_id,
+};
 
 static const struct hwdef hwdefs[] = {
     /* Sun4u generic PC-like machine */
     {
         .default_cpu_model = "TI UltraSparc II",
+        .machine_id = sun4u_id,
+        .prom_addr = 0x1fff0000000ULL,
+        .console_serial_base = 0,
     },
     /* Sun4v generic PC-like machine */
     {
         .default_cpu_model = "Sun UltraSparc T1",
+        .machine_id = sun4v_id,
+        .prom_addr = 0x1fff0000000ULL,
+        .console_serial_base = 0,
+    },
+    /* Sun4v generic Niagara machine */
+    {
+        .default_cpu_model = "Sun UltraSparc T1",
+        .machine_id = niagara_id,
+        .prom_addr = 0xfff0000000ULL,
+        .console_serial_base = 0xfff0c2c000ULL,
     },
 };
 
@@ -448,6 +560,16 @@ static void sun4v_init(ram_addr_t RAM_size, int vga_ram_size,
                 kernel_cmdline, initrd_filename, cpu_model, &hwdefs[1]);
 }
 
+/* Niagara hardware initialisation */
+static void niagara_init(ram_addr_t RAM_size, int vga_ram_size,
+                         const char *boot_devices, DisplayState *ds,
+                         const char *kernel_filename, const char *kernel_cmdline,
+                         const char *initrd_filename, const char *cpu_model)
+{
+    sun4uv_init(RAM_size, vga_ram_size, boot_devices, ds, kernel_filename,
+                kernel_cmdline, initrd_filename, cpu_model, &hwdefs[2]);
+}
+
 QEMUMachine sun4u_machine = {
     .name = "sun4u",
     .desc = "Sun4u platform",
@@ -460,6 +582,14 @@ QEMUMachine sun4v_machine = {
     .name = "sun4v",
     .desc = "Sun4v platform",
     .init = sun4v_init,
+    .ram_require = PROM_SIZE_MAX + VGA_RAM_SIZE,
+    .nodisk_ok = 1,
+};
+
+QEMUMachine niagara_machine = {
+    .name = "Niagara",
+    .desc = "Sun4v platform, Niagara",
+    .init = niagara_init,
     .ram_require = PROM_SIZE_MAX + VGA_RAM_SIZE,
     .nodisk_ok = 1,
 };

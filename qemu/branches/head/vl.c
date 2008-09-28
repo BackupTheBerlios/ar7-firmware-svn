@@ -100,10 +100,9 @@
 #include <stropts.h>
 #endif
 #endif
-#else
-#include <winsock2.h>
-int inet_aton(const char *cp, struct in_addr *ia);
 #endif
+
+#include "qemu_socket.h"
 
 #if defined(CONFIG_SLIRP)
 #include "libslirp.h"
@@ -124,8 +123,6 @@ int inet_aton(const char *cp, struct in_addr *ia);
 #define getopt_long_only getopt_long
 #define memalign(align, size) malloc(size)
 #endif
-
-#include "qemu_socket.h"
 
 #ifdef CONFIG_SDL
 #ifdef __APPLE__
@@ -177,6 +174,7 @@ int nb_drives;
 /* point to the block driver where the snapshots are managed */
 BlockDriverState *bs_snapshots;
 int vga_ram_size;
+enum vga_retrace_method vga_retrace_method = VGA_RETRACE_DUMB;
 static DisplayState display_state;
 int nographic;
 int curses;
@@ -256,6 +254,8 @@ static int icount_time_shift;
 static int64_t qemu_icount_bias;
 QEMUTimer *icount_rt_timer;
 QEMUTimer *icount_vm_timer;
+
+uint8_t qemu_uuid[16];
 
 #define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
 
@@ -2133,12 +2133,6 @@ static int send_all(int fd, const uint8_t *buf, int len1)
     return len1 - len;
 }
 
-void socket_set_nonblock(int fd)
-{
-    unsigned long opt = 1;
-    ioctlsocket(fd, FIONBIO, &opt);
-}
-
 #else
 
 static int unix_write(int fd, const uint8_t *buf, int len1)
@@ -2164,13 +2158,6 @@ static int unix_write(int fd, const uint8_t *buf, int len1)
 static inline int send_all(int fd, const uint8_t *buf, int len1)
 {
     return unix_write(fd, buf, len1);
-}
-
-void socket_set_nonblock(int fd)
-{
-    int f;
-    f = fcntl(fd, F_GETFL);
-    fcntl(fd, F_SETFL, f | O_NONBLOCK);
 }
 #endif /* !_WIN32 */
 
@@ -5474,12 +5461,7 @@ static int drive_init(struct drive_opt *arg, int snapshot,
     index = -1;
     cache = 1;
 
-    if (!strcmp(machine->name, "realview") ||
-        !strcmp(machine->name, "SS-5") ||
-        !strcmp(machine->name, "SS-10") ||
-        !strcmp(machine->name, "SS-600MP") ||
-        !strcmp(machine->name, "versatilepb") ||
-        !strcmp(machine->name, "versatileab")) {
+    if (machine->use_scsi) {
         type = IF_SCSI;
         max_devs = MAX_SCSI_DEVS;
         pstrcpy(devname, sizeof(devname), "scsi");
@@ -7705,6 +7687,8 @@ static void help(int exitcode)
            "                use -soundhw ? to get the list of supported cards\n"
            "                use -soundhw all to enable all of them\n"
 #endif
+           "-vga [std|cirrus|vmware]\n"
+           "                select video card type\n"
            "-localtime      set the real time clock to local time [default=utc]\n"
            "-full-screen    start in full screen\n"
 #ifdef TARGET_I386
@@ -7716,6 +7700,7 @@ static void help(int exitcode)
            "-g WxH[xDEPTH]  Set the initial graphical resolution and depth\n"
 #endif
            "-name string    set the name of the guest\n"
+           "-uuid %%08x-%%04x-%%04x-%%04x-%%012x specify machine UUID\n"
            "\n"
            "Network options:\n"
            "-net nic[,vlan=n][,macaddr=addr][,model=type]\n"
@@ -7782,8 +7767,6 @@ static void help(int exitcode)
            "-no-kqemu       disable KQEMU kernel module usage\n"
 #endif
 #ifdef TARGET_I386
-           "-std-vga        simulate a standard VGA card with VESA Bochs Extensions\n"
-           "                (default is CL-GD5446 PCI VGA)\n"
            "-no-acpi        disable ACPI\n"
 #endif
 #ifdef CONFIG_CURSES
@@ -7874,10 +7857,8 @@ enum {
     QEMU_OPTION_bios,
     QEMU_OPTION_k,
     QEMU_OPTION_localtime,
-    QEMU_OPTION_cirrusvga,
-    QEMU_OPTION_vmsvga,
     QEMU_OPTION_g,
-    QEMU_OPTION_std_vga,
+    QEMU_OPTION_vga,
     QEMU_OPTION_echr,
     QEMU_OPTION_monitor,
     QEMU_OPTION_serial,
@@ -7910,6 +7891,7 @@ enum {
     QEMU_OPTION_startdate,
     QEMU_OPTION_tb_size,
     QEMU_OPTION_icount,
+    QEMU_OPTION_uuid,
 };
 
 typedef struct QEMUOption {
@@ -7978,7 +7960,7 @@ const QEMUOption qemu_options[] = {
     { "g", 1, QEMU_OPTION_g },
 #endif
     { "localtime", 0, QEMU_OPTION_localtime },
-    { "std-vga", 0, QEMU_OPTION_std_vga },
+    { "vga", HAS_ARG, QEMU_OPTION_vga },
     { "echr", HAS_ARG, QEMU_OPTION_echr },
     { "monitor", HAS_ARG, QEMU_OPTION_monitor },
     { "serial", HAS_ARG, QEMU_OPTION_serial },
@@ -7998,11 +7980,10 @@ const QEMUOption qemu_options[] = {
 #ifdef CONFIG_CURSES
     { "curses", 0, QEMU_OPTION_curses },
 #endif
+    { "uuid", HAS_ARG, QEMU_OPTION_uuid },
 
     /* temporary options */
     { "usb", 0, QEMU_OPTION_usb },
-    { "cirrusvga", 0, QEMU_OPTION_cirrusvga },
-    { "vmwarevga", 0, QEMU_OPTION_vmsvga },
     { "no-acpi", 0, QEMU_OPTION_no_acpi },
     { "no-reboot", 0, QEMU_OPTION_no_reboot },
     { "no-shutdown", 0, QEMU_OPTION_no_shutdown },
@@ -8200,6 +8181,39 @@ static void select_soundhw (const char *optarg)
 }
 #endif
 
+static void select_vgahw (const char *p)
+{
+    const char *opts;
+
+    if (strstart(p, "std", &opts)) {
+        cirrus_vga_enabled = 0;
+        vmsvga_enabled = 0;
+    } else if (strstart(p, "cirrus", &opts)) {
+        cirrus_vga_enabled = 1;
+        vmsvga_enabled = 0;
+    } else if (strstart(p, "vmware", &opts)) {
+        cirrus_vga_enabled = 0;
+        vmsvga_enabled = 1;
+    } else {
+    invalid_vga:
+        fprintf(stderr, "Unknown vga type: %s\n", p);
+        exit(1);
+    }
+    while (*opts) {
+        const char *nextopt;
+
+        if (strstart(opts, ",retrace=", &nextopt)) {
+            opts = nextopt;
+            if (strstart(opts, "dumb", &nextopt))
+                vga_retrace_method = VGA_RETRACE_DUMB;
+            else if (strstart(opts, "precise", &nextopt))
+                vga_retrace_method = VGA_RETRACE_PRECISE;
+            else goto invalid_vga;
+        } else goto invalid_vga;
+        opts = nextopt;
+    }
+}
+
 #ifdef _WIN32
 static BOOL WINAPI qemu_ctrl_handler(DWORD type)
 {
@@ -8207,6 +8221,23 @@ static BOOL WINAPI qemu_ctrl_handler(DWORD type)
     return TRUE;
 }
 #endif
+
+static int qemu_uuid_parse(const char *str, uint8_t *uuid)
+{
+    int ret;
+
+    if(strlen(str) != 36)
+        return -1;
+
+    ret = sscanf(str, UUID_FMT, &uuid[0], &uuid[1], &uuid[2], &uuid[3],
+            &uuid[4], &uuid[5], &uuid[6], &uuid[7], &uuid[8], &uuid[9],
+            &uuid[10], &uuid[11], &uuid[12], &uuid[13], &uuid[14], &uuid[15]);
+
+    if(ret != 16)
+        return -1;
+
+    return 0;
+}
 
 #define MAX_NET_CLIENTS 32
 
@@ -8646,17 +8677,8 @@ int main(int argc, char **argv)
             case QEMU_OPTION_localtime:
                 rtc_utc = 0;
                 break;
-            case QEMU_OPTION_cirrusvga:
-                cirrus_vga_enabled = 1;
-                vmsvga_enabled = 0;
-                break;
-            case QEMU_OPTION_vmsvga:
-                cirrus_vga_enabled = 0;
-                vmsvga_enabled = 1;
-                break;
-            case QEMU_OPTION_std_vga:
-                cirrus_vga_enabled = 0;
-                vmsvga_enabled = 0;
+            case QEMU_OPTION_vga:
+                select_vgahw (optarg);
                 break;
             case QEMU_OPTION_g:
                 {
@@ -8785,6 +8807,13 @@ int main(int argc, char **argv)
                 break;
             case QEMU_OPTION_show_cursor:
                 cursor_hide = 0;
+                break;
+            case QEMU_OPTION_uuid:
+                if(qemu_uuid_parse(optarg, qemu_uuid) < 0) {
+                    fprintf(stderr, "Fail to parse UUID string."
+                            " Wrong format.\n");
+                    exit(1);
+                }
                 break;
 	    case QEMU_OPTION_daemonize:
 		daemonize = 1;
@@ -8968,7 +8997,6 @@ int main(int argc, char **argv)
 
     init_timers();
     init_timer_alarm();
-    qemu_aio_init();
     if (use_icount && icount_time_shift < 0) {
         use_icount = 2;
         /* 125MIPS seems a reasonable initial guess at the guest speed.

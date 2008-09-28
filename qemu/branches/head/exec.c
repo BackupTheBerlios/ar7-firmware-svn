@@ -279,17 +279,24 @@ static void page_init(void)
 #endif
 }
 
-static inline PageDesc *page_find_alloc(target_ulong index)
+static inline PageDesc **page_l1_map(target_ulong index)
 {
-    PageDesc **lp, *p;
-
 #if TARGET_LONG_BITS > 32
     /* Host memory outside guest VM.  For 32-bit targets we have already
        excluded high addresses.  */
     if (index > ((target_ulong)L2_SIZE * L1_SIZE))
         return NULL;
 #endif
-    lp = &l1_map[index >> L2_BITS];
+    return &l1_map[index >> L2_BITS];
+}
+
+static inline PageDesc *page_find_alloc(target_ulong index)
+{
+    PageDesc **lp, *p;
+    lp = page_l1_map(index);
+    if (!lp)
+        return NULL;
+
     p = *lp;
     if (!p) {
         /* allocate if not found */
@@ -316,9 +323,12 @@ static inline PageDesc *page_find_alloc(target_ulong index)
 
 static inline PageDesc *page_find(target_ulong index)
 {
-    PageDesc *p;
+    PageDesc **lp, *p;
+    lp = page_l1_map(index);
+    if (!lp)
+        return NULL;
 
-    p = l1_map[index >> L2_BITS];
+    p = *lp;
     if (!p)
         return 0;
     return p + (index & (L2_SIZE - 1));
@@ -400,7 +410,7 @@ static void code_gen_alloc(unsigned long tb_size)
         code_gen_buffer_size = DEFAULT_CODE_GEN_BUFFER_SIZE;
 #else
         /* XXX: needs ajustments */
-        code_gen_buffer_size = (int)(phys_ram_size / 4);
+        code_gen_buffer_size = (unsigned long)(phys_ram_size / 4);
 #endif
     }
     if (code_gen_buffer_size < MIN_CODE_GEN_BUFFER_SIZE)
@@ -427,6 +437,28 @@ static void code_gen_alloc(unsigned long tb_size)
 #endif
         code_gen_buffer = mmap(start, code_gen_buffer_size,
                                PROT_WRITE | PROT_READ | PROT_EXEC,
+                               flags, -1, 0);
+        if (code_gen_buffer == MAP_FAILED) {
+            fprintf(stderr, "Could not allocate dynamic translator buffer\n");
+            exit(1);
+        }
+    }
+#elif defined(__FreeBSD__)
+    {
+        int flags;
+        void *addr = NULL;
+        flags = MAP_PRIVATE | MAP_ANONYMOUS;
+#if defined(__x86_64__)
+        /* FreeBSD doesn't have MAP_32BIT, use MAP_FIXED and assume
+         * 0x40000000 is free */
+        flags |= MAP_FIXED;
+        addr = (void *)0x40000000;
+        /* Cannot map more than that */
+        if (code_gen_buffer_size > (800 * 1024 * 1024))
+            code_gen_buffer_size = (800 * 1024 * 1024);
+#endif
+        code_gen_buffer = mmap(addr, code_gen_buffer_size,
+                               PROT_WRITE | PROT_READ | PROT_EXEC, 
                                flags, -1, 0);
         if (code_gen_buffer == MAP_FAILED) {
             fprintf(stderr, "Could not allocate dynamic translator buffer\n");
@@ -1408,7 +1440,7 @@ void cpu_set_log(int log_flags)
 #if !defined(CONFIG_SOFTMMU)
         /* must avoid mmap() usage of glibc by setting a buffer "by hand" */
         {
-            static uint8_t logfile_buf[4096];
+            static char logfile_buf[4096];
             setvbuf(logfile, logfile_buf, _IOLBF, sizeof(logfile_buf));
         }
 #else

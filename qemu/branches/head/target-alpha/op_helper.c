@@ -58,14 +58,14 @@ void helper_print_mem_EA (target_ulong EA)
 
 /*****************************************************************************/
 /* Exceptions processing helpers */
-void helper_excp (uint32_t excp, uint32_t error)
+void helper_excp (int excp, int error)
 {
     env->exception_index = excp;
     env->error_code = error;
     cpu_loop_exit();
 }
 
-void helper_amask (void)
+uint64_t helper_amask (uint64_t arg)
 {
     switch (env->implver) {
     case IMPLVER_2106x:
@@ -74,20 +74,21 @@ void helper_amask (void)
     case IMPLVER_21164:
     case IMPLVER_21264:
     case IMPLVER_21364:
-        T0 &= ~env->amask;
+        arg &= ~env->amask;
         break;
     }
+    return arg;
 }
 
-void helper_load_pcc (void)
+uint64_t helper_load_pcc (void)
 {
     /* XXX: TODO */
-    T0 = 0;
+    return 0;
 }
 
-void helper_load_implver (void)
+uint64_t helper_load_implver (void)
 {
-    T0 = env->implver;
+    return env->implver;
 }
 
 void helper_load_fpcr (void)
@@ -136,93 +137,115 @@ void helper_store_fpcr (void)
     }
 }
 
-void helper_load_irf (void)
+spinlock_t intr_cpu_lock = SPIN_LOCK_UNLOCKED;
+
+uint64_t helper_rs(void)
 {
-    /* XXX: TODO */
-    T0 = 0;
+    uint64_t tmp;
+
+    spin_lock(&intr_cpu_lock);
+    tmp = env->intr_flag;
+    env->intr_flag = 1;
+    spin_unlock(&intr_cpu_lock);
+
+    return tmp;
 }
 
-void helper_set_irf (void)
+uint64_t helper_rc(void)
 {
-    /* XXX: TODO */
+    uint64_t tmp;
+
+    spin_lock(&intr_cpu_lock);
+    tmp = env->intr_flag;
+    env->intr_flag = 0;
+    spin_unlock(&intr_cpu_lock);
+
+    return tmp;
 }
 
-void helper_clear_irf (void)
+uint64_t helper_addqv (uint64_t op1, uint64_t op2)
 {
-    /* XXX: TODO */
-}
-
-void helper_addqv (void)
-{
-    T2 = T0;
-    T0 += T1;
-    if (unlikely((T2 ^ T1 ^ (-1ULL)) & (T2 ^ T0) & (1ULL << 63))) {
+    uint64_t tmp = op1;
+    op1 += op2;
+    if (unlikely((tmp ^ op2 ^ (-1ULL)) & (tmp ^ op1) & (1ULL << 63))) {
         helper_excp(EXCP_ARITH, EXCP_ARITH_OVERFLOW);
     }
+    return op1;
 }
 
-void helper_addlv (void)
+uint64_t helper_addlv (uint64_t op1, uint64_t op2)
 {
-    T2 = T0;
-    T0 = (uint32_t)(T0 + T1);
-    if (unlikely((T2 ^ T1 ^ (-1UL)) & (T2 ^ T0) & (1UL << 31))) {
+    uint64_t tmp = op1;
+    op1 = (uint32_t)(op1 + op2);
+    if (unlikely((tmp ^ op2 ^ (-1UL)) & (tmp ^ op1) & (1UL << 31))) {
         helper_excp(EXCP_ARITH, EXCP_ARITH_OVERFLOW);
     }
+    return op1;
 }
 
-void helper_subqv (void)
+uint64_t helper_subqv (uint64_t op1, uint64_t op2)
 {
-    T2 = T0;
-    T0 -= T1;
-    if (unlikely(((~T2) ^ T0 ^ (-1ULL)) & ((~T2) ^ T1) & (1ULL << 63))) {
+    uint64_t tmp = op1;
+    op1 -= op2;
+    if (unlikely(((~tmp) ^ op1 ^ (-1ULL)) & ((~tmp) ^ op2) & (1ULL << 63))) {
         helper_excp(EXCP_ARITH, EXCP_ARITH_OVERFLOW);
     }
+    return op1;
 }
 
-void helper_sublv (void)
+uint64_t helper_sublv (uint64_t op1, uint64_t op2)
 {
-    T2 = T0;
-    T0 = (uint32_t)(T0 - T1);
-    if (unlikely(((~T2) ^ T0 ^ (-1UL)) & ((~T2) ^ T1) & (1UL << 31))) {
+    uint64_t tmp = op1;
+    op1 = (uint32_t)(op1 - op2);
+    if (unlikely(((~tmp) ^ op1 ^ (-1UL)) & ((~tmp) ^ op2) & (1UL << 31))) {
         helper_excp(EXCP_ARITH, EXCP_ARITH_OVERFLOW);
     }
+    return op1;
 }
 
-void helper_mullv (void)
+uint64_t helper_mullv (uint64_t op1, uint64_t op2)
 {
-    int64_t res = (int64_t)T0 * (int64_t)T1;
+    int64_t res = (int64_t)op1 * (int64_t)op2;
 
     if (unlikely((int32_t)res != res)) {
         helper_excp(EXCP_ARITH, EXCP_ARITH_OVERFLOW);
     }
-    T0 = (int64_t)((int32_t)res);
+    return (int64_t)((int32_t)res);
 }
 
-void helper_mulqv ()
+uint64_t helper_mulqv (uint64_t op1, uint64_t op2)
 {
     uint64_t tl, th;
 
-    muls64(&tl, &th, T0, T1);
+    muls64(&tl, &th, op1, op2);
     /* If th != 0 && th != -1, then we had an overflow */
     if (unlikely((th + 1) > 1)) {
         helper_excp(EXCP_ARITH, EXCP_ARITH_OVERFLOW);
     }
-    T0 = tl;
+    return tl;
 }
 
-void helper_ctpop (void)
+uint64_t helper_umulh (uint64_t op1, uint64_t op2)
 {
-    T0 = ctpop64(T0);
+    uint64_t tl, th;
+
+    mulu64(&tl, &th, op1, op2);
+    return th;
 }
 
-void helper_ctlz (void)
+uint64_t helper_ctpop (uint64_t arg)
 {
-    T0 = clz64(T0);
+    return ctpop64(arg);
 }
 
-void helper_cttz (void)
+uint64_t helper_ctlz (uint64_t arg)
 {
-    T0 = ctz64(T0);
+    return clz64(arg);
+}
+
+uint64_t helper_cttz (uint64_t arg)
+{
+    return ctz64(arg);
 }
 
 static always_inline uint64_t byte_zap (uint64_t op, uint8_t mskb)
@@ -242,148 +265,106 @@ static always_inline uint64_t byte_zap (uint64_t op, uint8_t mskb)
     return op & ~mask;
 }
 
-void helper_mskbl (void)
+uint64_t helper_mskbl(uint64_t val, uint64_t mask)
 {
-    T0 = byte_zap(T0, 0x01 << (T1 & 7));
+    return byte_zap(val, 0x01 << (mask & 7));
 }
 
-void helper_extbl (void)
+uint64_t helper_insbl(uint64_t val, uint64_t mask)
 {
-    T0 >>= (T1 & 7) * 8;
-    T0 = byte_zap(T0, 0xFE);
+    val <<= (mask & 7) * 8;
+    return byte_zap(val, ~(0x01 << (mask & 7)));
 }
 
-void helper_insbl (void)
+uint64_t helper_mskwl(uint64_t val, uint64_t mask)
 {
-    T0 <<= (T1 & 7) * 8;
-    T0 = byte_zap(T0, ~(0x01 << (T1 & 7)));
+    return byte_zap(val, 0x03 << (mask & 7));
 }
 
-void helper_mskwl (void)
+uint64_t helper_inswl(uint64_t val, uint64_t mask)
 {
-    T0 = byte_zap(T0, 0x03 << (T1 & 7));
+    val <<= (mask & 7) * 8;
+    return byte_zap(val, ~(0x03 << (mask & 7)));
 }
 
-void helper_extwl (void)
+uint64_t helper_mskll(uint64_t val, uint64_t mask)
 {
-    T0 >>= (T1 & 7) * 8;
-    T0 = byte_zap(T0, 0xFC);
+    return byte_zap(val, 0x0F << (mask & 7));
 }
 
-void helper_inswl (void)
+uint64_t helper_insll(uint64_t val, uint64_t mask)
 {
-    T0 <<= (T1 & 7) * 8;
-    T0 = byte_zap(T0, ~(0x03 << (T1 & 7)));
+    val <<= (mask & 7) * 8;
+    return byte_zap(val, ~(0x0F << (mask & 7)));
 }
 
-void helper_mskll (void)
+uint64_t helper_zap(uint64_t val, uint64_t mask)
 {
-    T0 = byte_zap(T0, 0x0F << (T1 & 7));
+    return byte_zap(val, mask);
 }
 
-void helper_extll (void)
+uint64_t helper_zapnot(uint64_t val, uint64_t mask)
 {
-    T0 >>= (T1 & 7) * 8;
-    T0 = byte_zap(T0, 0xF0);
+    return byte_zap(val, ~mask);
 }
 
-void helper_insll (void)
+uint64_t helper_mskql(uint64_t val, uint64_t mask)
 {
-    T0 <<= (T1 & 7) * 8;
-    T0 = byte_zap(T0, ~(0x0F << (T1 & 7)));
+    return byte_zap(val, 0xFF << (mask & 7));
 }
 
-void helper_zap (void)
+uint64_t helper_insql(uint64_t val, uint64_t mask)
 {
-    T0 = byte_zap(T0, T1);
+    val <<= (mask & 7) * 8;
+    return byte_zap(val, ~(0xFF << (mask & 7)));
 }
 
-void helper_zapnot (void)
+uint64_t helper_mskwh(uint64_t val, uint64_t mask)
 {
-    T0 = byte_zap(T0, ~T1);
+    return byte_zap(val, (0x03 << (mask & 7)) >> 8);
 }
 
-void helper_mskql (void)
+uint64_t helper_inswh(uint64_t val, uint64_t mask)
 {
-    T0 = byte_zap(T0, 0xFF << (T1 & 7));
+    val >>= 64 - ((mask & 7) * 8);
+    return byte_zap(val, ~((0x03 << (mask & 7)) >> 8));
 }
 
-void helper_extql (void)
+uint64_t helper_msklh(uint64_t val, uint64_t mask)
 {
-    T0 >>= (T1 & 7) * 8;
-    T0 = byte_zap(T0, 0x00);
+    return byte_zap(val, (0x0F << (mask & 7)) >> 8);
 }
 
-void helper_insql (void)
+uint64_t helper_inslh(uint64_t val, uint64_t mask)
 {
-    T0 <<= (T1 & 7) * 8;
-    T0 = byte_zap(T0, ~(0xFF << (T1 & 7)));
+    val >>= 64 - ((mask & 7) * 8);
+    return byte_zap(val, ~((0x0F << (mask & 7)) >> 8));
 }
 
-void helper_mskwh (void)
+uint64_t helper_mskqh(uint64_t val, uint64_t mask)
 {
-    T0 = byte_zap(T0, (0x03 << (T1 & 7)) >> 8);
+    return byte_zap(val, (0xFF << (mask & 7)) >> 8);
 }
 
-void helper_inswh (void)
+uint64_t helper_insqh(uint64_t val, uint64_t mask)
 {
-    T0 >>= 64 - ((T1 & 7) * 8);
-    T0 = byte_zap(T0, ~((0x03 << (T1 & 7)) >> 8));
+    val >>= 64 - ((mask & 7) * 8);
+    return byte_zap(val, ~((0xFF << (mask & 7)) >> 8));
 }
 
-void helper_extwh (void)
-{
-    T0 <<= 64 - ((T1 & 7) * 8);
-    T0 = byte_zap(T0, ~0x07);
-}
-
-void helper_msklh (void)
-{
-    T0 = byte_zap(T0, (0x0F << (T1 & 7)) >> 8);
-}
-
-void helper_inslh (void)
-{
-    T0 >>= 64 - ((T1 & 7) * 8);
-    T0 = byte_zap(T0, ~((0x0F << (T1 & 7)) >> 8));
-}
-
-void helper_extlh (void)
-{
-    T0 <<= 64 - ((T1 & 7) * 8);
-    T0 = byte_zap(T0, ~0x0F);
-}
-
-void helper_mskqh (void)
-{
-    T0 = byte_zap(T0, (0xFF << (T1 & 7)) >> 8);
-}
-
-void helper_insqh (void)
-{
-    T0 >>= 64 - ((T1 & 7) * 8);
-    T0 = byte_zap(T0, ~((0xFF << (T1 & 7)) >> 8));
-}
-
-void helper_extqh (void)
-{
-    T0 <<= 64 - ((T1 & 7) * 8);
-    T0 = byte_zap(T0, 0x00);
-}
-
-void helper_cmpbge (void)
+uint64_t helper_cmpbge (uint64_t op1, uint64_t op2)
 {
     uint8_t opa, opb, res;
     int i;
 
     res = 0;
     for (i = 0; i < 7; i++) {
-        opa = T0 >> (i * 8);
-        opb = T1 >> (i * 8);
+        opa = op1 >> (i * 8);
+        opb = op2 >> (i * 8);
         if (opa >= opb)
             res |= 1 << i;
     }
-    T0 = res;
+    return res;
 }
 
 void helper_cmov_fir (int freg)

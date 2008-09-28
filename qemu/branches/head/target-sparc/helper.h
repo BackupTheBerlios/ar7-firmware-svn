@@ -31,12 +31,13 @@ DEF_HELPER(target_ulong, helper_cas_asi, (target_ulong addr, \
 DEF_HELPER(target_ulong, helper_casx_asi, (target_ulong addr, \
                                            target_ulong val1, \
                                            target_ulong val2, uint32_t asi))
+DEF_HELPER(void, helper_set_softint, (uint64_t value))
+DEF_HELPER(void, helper_clear_softint, (uint64_t value))
+DEF_HELPER(void, helper_write_softint, (uint64_t value))
 DEF_HELPER(void, helper_tick_set_count, (void *opaque, uint64_t count))
 DEF_HELPER(uint64_t, helper_tick_get_count, (void *opaque))
 DEF_HELPER(void, helper_tick_set_limit, (void *opaque, uint64_t limit))
 #endif
-DEF_HELPER(void, helper_trap, (target_ulong nb_trap))
-DEF_HELPER(void, helper_trapcc, (target_ulong nb_trap, target_ulong do_trap))
 DEF_HELPER(void, helper_check_align, (target_ulong addr, uint32_t align))
 DEF_HELPER(void, helper_debug, (void))
 DEF_HELPER(void, helper_save, (void))
@@ -44,7 +45,6 @@ DEF_HELPER(void, helper_restore, (void))
 DEF_HELPER(void, helper_flush, (target_ulong addr))
 DEF_HELPER(target_ulong, helper_udiv, (target_ulong a, target_ulong b))
 DEF_HELPER(target_ulong, helper_sdiv, (target_ulong a, target_ulong b))
-DEF_HELPER(uint64_t, helper_pack64, (target_ulong high, target_ulong low))
 DEF_HELPER(void, helper_stdf, (target_ulong addr, int mem_idx))
 DEF_HELPER(void, helper_lddf, (target_ulong addr, int mem_idx))
 DEF_HELPER(void, helper_ldqf, (target_ulong addr, int mem_idx))

@@ -1,6 +1,8 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
+#include "qemu-aio.h"
+
 /* block.c */
 typedef struct BlockDriver BlockDriver;
 
@@ -47,10 +49,8 @@ typedef struct QEMUSnapshotInfo {
                                      bdrv_file_open()) */
 #define BDRV_O_DIRECT      0x0020
 
-#ifndef QEMU_IMG
 void bdrv_info(void);
 void bdrv_info_stats(void);
-#endif
 
 void bdrv_init(void);
 BlockDriver *bdrv_find_format(const char *format_name);
@@ -88,10 +88,6 @@ BlockDriverAIOCB *bdrv_aio_write(BlockDriverState *bs, int64_t sector_num,
                                  const uint8_t *buf, int nb_sectors,
                                  BlockDriverCompletionFunc *cb, void *opaque);
 void bdrv_aio_cancel(BlockDriverAIOCB *acb);
-
-void qemu_aio_init(void);
-void qemu_aio_flush(void);
-void qemu_aio_wait(void);
 
 int qemu_key_check(BlockDriverState *bs, const char *name);
 

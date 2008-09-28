@@ -2,8 +2,8 @@
 
 -include config-host.mak
 
-.PHONY: all clean distclean dvi info install install-doc tar tarbin \
-	speed test html dvi info
+.PHONY: all clean cscope distclean dvi html info install install-doc \
+	recurse-all speed tar tarbin test
 
 VPATH=$(SRC_PATH):$(SRC_PATH)/hw
 
@@ -28,7 +28,11 @@ ifdef CONFIG_SOLARIS
 LIBS+=-lsocket -lnsl -lresolv
 endif
 
-all: $(TOOLS) $(DOCS) recurse-all 
+ifdef CONFIG_WIN32
+LIBS+=-lwinmm -lws2_32 -liphlpapi
+endif
+
+all: $(TOOLS) $(DOCS) recurse-all
 
 SUBDIR_RULES=$(patsubst %,subdir-%, $(TARGET_DIRS))
 
@@ -46,9 +50,17 @@ recurse-all: $(SUBDIR_RULES)
 BLOCK_OBJS=cutils.o qemu-malloc.o
 BLOCK_OBJS+=block-cow.o block-qcow.o aes.o block-vmdk.o block-cloop.o
 BLOCK_OBJS+=block-dmg.o block-bochs.o block-vpc.o block-vvfat.o
-BLOCK_OBJS+=block-qcow2.o block-parallels.o
-ifndef CONFIG_WIN32
-BLOCK_OBJS+=block-nbd.o
+BLOCK_OBJS+=block-qcow2.o block-parallels.o block-nbd.o
+BLOCK_OBJS+=nbd.o block.o aio.o
+
+ifdef CONFIG_WIN32
+BLOCK_OBJS += block-raw-win32.o
+else
+BLOCK_OBJS += block-raw-posix.o
+endif
+
+ifdef CONFIG_AIO
+BLOCK_OBJS += compatfd.o
 endif
 
 ######################################################################
@@ -59,11 +71,6 @@ endif
 
 OBJS=$(BLOCK_OBJS)
 OBJS+=readline.o console.o
-OBJS+=block.o
-
-ifndef CONFIG_WIN32
-OBJS+=nbd.o
-endif
 
 OBJS+=irq.o
 OBJS+=i2c.o smbus.o smbus_eeprom.o max7310.o max111x.o wm8750.o
@@ -173,33 +180,15 @@ libqemu_user.a: $(USER_OBJS)
 	rm -f $@ 
 	$(AR) rcs $@ $(USER_OBJS)
 
-QEMU_IMG_BLOCK_OBJS = $(BLOCK_OBJS)
-ifdef CONFIG_WIN32
-QEMU_IMG_BLOCK_OBJS += qemu-img-block-raw-win32.o
-else
-QEMU_IMG_BLOCK_OBJS += nbd.o qemu-img-block-raw-posix.o
-endif
-
-ifdef CONFIG_AIO
-QEMU_IMG_BLOCK_OBJS += compatfd.o
-endif
-
 ######################################################################
 
-qemu-img$(EXESUF): qemu-img.o qemu-img-block.o $(QEMU_IMG_BLOCK_OBJS)
+qemu-img$(EXESUF): qemu-img.o qemu-tool.o osdep.o $(BLOCK_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $^ -lz $(LIBS)
-
-qemu-img-%.o: %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -DQEMU_IMG -c -o $@ $<
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 
-qemu-nbd-%.o: %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -DQEMU_NBD -c -o $@ $<
-
-qemu-nbd$(EXESUF):  qemu-nbd.o qemu-nbd-nbd.o qemu-img-block.o \
-		    osdep.o qemu-nbd-block-raw-posix.o compatfd.o $(BLOCK_OBJS)
+qemu-nbd$(EXESUF):  qemu-nbd.o qemu-tool.o osdep.o $(BLOCK_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $^ -lz $(LIBS)
 
 # dyngen host tool
@@ -307,6 +296,8 @@ info: qemu-doc.info qemu-tech.info
 dvi: qemu-doc.dvi qemu-tech.dvi
 
 html: qemu-doc.html qemu-tech.html
+
+qemu-doc.dvi qemu-doc.html qemu-doc.info: qemu-img.texi qemu-nbd.texi
 
 VERSION ?= $(shell cat VERSION)
 FILE = qemu-$(VERSION)

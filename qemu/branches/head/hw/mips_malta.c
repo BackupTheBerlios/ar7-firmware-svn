@@ -701,7 +701,8 @@ static int64_t load_kernel (CPUState *env)
     ram_addr_t initrd_offset;
 
     if (load_elf(loaderparams.kernel_filename, VIRT_TO_PHYS_ADDEND,
-                 &kernel_entry, &kernel_low, &kernel_high) < 0) {
+                 (uint64_t *)&kernel_entry, (uint64_t *)&kernel_low,
+                 (uint64_t *)&kernel_high) < 0) {
         fprintf(stderr, "qemu: could not load kernel '%s'\n",
                 loaderparams.kernel_filename);
         exit(1);
@@ -878,7 +879,6 @@ void mips_malta_init (ram_addr_t ram_size, int vga_ram_size,
     /* Init internal devices */
     cpu_mips_irq_init_cpu(env);
     cpu_mips_clock_init(env);
-    cpu_mips_irqctrl_init();
 
     /* Interrupt controller */
     /* The 8259 is attached to the MIPS CPU INT0 pin, ie interrupt 2 */

@@ -61,10 +61,6 @@
 
 #define REFCOUNT_SHIFT 1 /* refcount size is 2 bytes */
 
-#ifndef offsetof
-#define offsetof(type, field) ((size_t) &((type *)0)->field)
-#endif
-
 typedef struct QCowHeader {
     uint32_t magic;
     uint32_t version;
@@ -921,7 +917,7 @@ static uint64_t alloc_cluster_offset(BlockDriverState *bs,
             /* how many free clusters ? */
 
             while (i < nb_clusters) {
-                cluster_offset = l2_table[l2_index + i];
+                cluster_offset = be64_to_cpu(l2_table[l2_index + i]);
                 if (cluster_offset != 0)
                     break;
                 i++;

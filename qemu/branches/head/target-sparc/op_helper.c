@@ -10,6 +10,7 @@
 //#define DEBUG_UNALIGNED
 //#define DEBUG_UNASSIGNED
 //#define DEBUG_ASI
+//#define DEBUG_PCALL
 
 #ifdef DEBUG_MMU
 #define DPRINTF_MMU(fmt, args...) \
@@ -52,20 +53,6 @@ void raise_exception(int tt)
 {
     env->exception_index = tt;
     cpu_loop_exit();
-}
-
-void helper_trap(target_ulong nb_trap)
-{
-    env->exception_index = TT_TRAP + (nb_trap & 0x7f);
-    cpu_loop_exit();
-}
-
-void helper_trapcc(target_ulong nb_trap, target_ulong do_trap)
-{
-    if (do_trap) {
-        env->exception_index = TT_TRAP + (nb_trap & 0x7f);
-        cpu_loop_exit();
-    }
 }
 
 static inline void set_cwp(int new_cwp)
@@ -1061,7 +1048,7 @@ void helper_st_asi(target_ulong addr, uint64_t val, int asi, int size)
             break;
         case 0x01c00a04: /* MXCC control register */
             if (size == 4)
-                env->mxccregs[3] = (env->mxccregs[0xa] & 0xffffffff00000000ULL)
+                env->mxccregs[3] = (env->mxccregs[3] & 0xffffffff00000000ULL)
                     | val;
             else
                 DPRINTF_MXCC("%08x: unimplemented access size: %d\n", addr,
@@ -1512,6 +1499,8 @@ uint64_t helper_ld_asi(target_ulong addr, int asi, int size, int sign)
     case 0x18: // As if user primary LE
     case 0x80: // Primary
     case 0x88: // Primary LE
+    case 0xe2: // UA2007 Primary block init
+    case 0xe3: // UA2007 Secondary block init
         if ((asi & 0x80) && (env->pstate & PS_PRIV)) {
             if ((env->def->features & CPU_FEATURE_HYPV)
                 && env->hpstate & HS_PRIV) {
@@ -1784,6 +1773,8 @@ void helper_st_asi(target_ulong addr, target_ulong val, int asi, int size)
     case 0x18: // As if user primary LE
     case 0x80: // Primary
     case 0x88: // Primary LE
+    case 0xe2: // UA2007 Primary block init
+    case 0xe3: // UA2007 Secondary block init
         if ((asi & 0x80) && (env->pstate & PS_PRIV)) {
             if ((env->def->features & CPU_FEATURE_HYPV)
                 && env->hpstate & HS_PRIV) {
@@ -1950,6 +1941,8 @@ void helper_st_asi(target_ulong addr, target_ulong val, int asi, int size)
         }
     case 0x55: // I-MMU data access
         {
+            // TODO: auto demap
+
             unsigned int i = (addr >> 3) & 0x3f;
 
             env->itlb_tag[i] = env->immuregs[6];
@@ -1957,7 +1950,22 @@ void helper_st_asi(target_ulong addr, target_ulong val, int asi, int size)
             return;
         }
     case 0x57: // I-MMU demap
-        // XXX
+        {
+            unsigned int i;
+
+            for (i = 0; i < 64; i++) {
+                if ((env->itlb_tte[i] & 0x8000000000000000ULL) != 0) {
+                    target_ulong mask = 0xffffffffffffe000ULL;
+
+                    mask <<= 3 * ((env->itlb_tte[i] >> 61) & 3);
+                    if ((val & mask) == (env->itlb_tag[i] & mask)) {
+                        env->itlb_tag[i] = 0;
+                        env->itlb_tte[i] = 0;
+                    }
+                    return;
+                }
+            }
+        }
         return;
     case 0x58: // D-MMU regs
         {
@@ -2027,6 +2035,23 @@ void helper_st_asi(target_ulong addr, target_ulong val, int asi, int size)
             return;
         }
     case 0x5f: // D-MMU demap
+        {
+            unsigned int i;
+
+            for (i = 0; i < 64; i++) {
+                if ((env->dtlb_tte[i] & 0x8000000000000000ULL) != 0) {
+                    target_ulong mask = 0xffffffffffffe000ULL;
+
+                    mask <<= 3 * ((env->dtlb_tte[i] >> 61) & 3);
+                    if ((val & mask) == (env->dtlb_tag[i] & mask)) {
+                        env->dtlb_tag[i] = 0;
+                        env->dtlb_tte[i] = 0;
+                    }
+                    return;
+                }
+            }
+        }
+        return;
     case 0x49: // Interrupt data receive
         // XXX
         return;
@@ -2159,6 +2184,8 @@ void helper_stf_asi(target_ulong addr, int asi, int size, int rd)
 
     helper_check_align(addr, 3);
     switch (asi) {
+    case 0xe0: // UA2007 Block commit store primary (cache flush)
+    case 0xe1: // UA2007 Block commit store secondary (cache flush)
     case 0xf0: // Block store primary
     case 0xf1: // Block store secondary
     case 0xf8: // Block store primary LE
@@ -2199,11 +2226,11 @@ target_ulong helper_cas_asi(target_ulong addr, target_ulong val1,
 {
     target_ulong ret;
 
-    val1 &= 0xffffffffUL;
+    val2 &= 0xffffffffUL;
     ret = helper_ld_asi(addr, asi, 4, 0);
     ret &= 0xffffffffUL;
-    if (val1 == ret)
-        helper_st_asi(addr, val2 & 0xffffffffUL, asi, 4);
+    if (val2 == ret)
+        helper_st_asi(addr, val1 & 0xffffffffUL, asi, 4);
     return ret;
 }
 
@@ -2213,8 +2240,8 @@ target_ulong helper_casx_asi(target_ulong addr, target_ulong val1,
     target_ulong ret;
 
     ret = helper_ld_asi(addr, asi, 8, 0);
-    if (val1 == ret)
-        helper_st_asi(addr, val2, asi, 8);
+    if (val2 == ret)
+        helper_st_asi(addr, val1, asi, 8);
     return ret;
 }
 #endif /* TARGET_SPARC64 */
@@ -2279,11 +2306,6 @@ target_ulong helper_sdiv(target_ulong a, target_ulong b)
         env->cc_src2 = 0;
         return x0;
     }
-}
-
-uint64_t helper_pack64(target_ulong high, target_ulong low)
-{
-    return ((uint64_t)high << 32) | (uint64_t)(low & 0xffffffff);
 }
 
 void helper_stdf(target_ulong addr, int mem_idx)
@@ -2675,6 +2697,21 @@ void helper_retry(void)
     PUT_CWP64(env, env->tsptr->tstate & 0xff);
     env->tl--;
     env->tsptr = &env->ts[env->tl & MAXTL_MASK];
+}
+
+void helper_set_softint(uint64_t value)
+{
+    env->softint |= (uint32_t)value;
+}
+
+void helper_clear_softint(uint64_t value)
+{
+    env->softint &= (uint32_t)~value;
+}
+
+void helper_write_softint(uint64_t value)
+{
+    env->softint = (uint32_t)value;
 }
 #endif
 

@@ -33,7 +33,6 @@ void cpu_loop_exit(void);
 void do_raise_exception_err (uint32_t exception, int error_code);
 void do_raise_exception (uint32_t exception);
 
-void cpu_mips_irqctrl_init (void);
 uint32_t cpu_mips_get_random (CPUState *env);
 uint32_t cpu_mips_get_count (CPUState *env);
 void cpu_mips_store_count (CPUState *env, uint32_t value);
@@ -87,7 +86,7 @@ static inline void compute_hflags(CPUState *env)
     if (env->CP0_Status & (1 << CP0St_FR))
         env->hflags |= MIPS_HFLAG_F64;
     if (env->insn_flags & ISA_MIPS32R2) {
-        if (env->fpu->fcr0 & (1 << FCR0_F64))
+        if (env->active_fpu.fcr0 & (1 << FCR0_F64))
             env->hflags |= MIPS_HFLAG_COP1X;
     } else if (env->insn_flags & ISA_MIPS32) {
         if (env->hflags & MIPS_HFLAG_64)

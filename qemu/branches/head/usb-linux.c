@@ -35,10 +35,28 @@
 #include <sys/ioctl.h>
 #include <signal.h>
 
-#include <linux/usb/ch9.h>
 #include <linux/usbdevice_fs.h>
 #include <linux/version.h>
 #include "hw/usb.h"
+
+/* We redefine it to avoid version problems */
+struct usb_ctrltransfer {
+    uint8_t  bRequestType;
+    uint8_t  bRequest;
+    uint16_t wValue;
+    uint16_t wIndex;
+    uint16_t wLength;
+    uint32_t timeout;
+    void *data;
+};
+
+struct usb_ctrlrequest {
+    uint8_t bRequestType;
+    uint8_t bRequest;
+    uint16_t wValue;
+    uint16_t wIndex;
+    uint16_t wLength;
+};
 
 typedef int USBScanFunc(void *opaque, int bus_num, int addr, int class_id,
                         int vendor_id, int product_id,
@@ -710,7 +728,7 @@ static int do_token_out(USBDevice *dev, USBPacket *p)
  *
  * Returns length of the transaction or one of the USB_RET_XXX codes.
  */
-int usb_host_handle_packet(USBDevice *s, USBPacket *p)
+static int usb_host_handle_packet(USBDevice *s, USBPacket *p)
 {
     switch(p->pid) {
     case USB_MSG_ATTACH:
@@ -1431,20 +1449,20 @@ static int usb_host_info_device(void *opaque, int bus_num, int addr,
     return 0;
 }
 
-static void dec2str(int val, char *str)
+static void dec2str(int val, char *str, size_t size)
 {
     if (val == -1)
-        strcpy(str, "*");
+        snprintf(str, size, "*");
     else
-        sprintf(str, "%d", val); 
+        snprintf(str, size, "%d", val); 
 }
 
-static void hex2str(int val, char *str)
+static void hex2str(int val, char *str, size_t size)
 {
     if (val == -1)
-        strcpy(str, "*");
+        snprintf(str, size, "*");
     else
-        sprintf(str, "%x", val);
+        snprintf(str, size, "%x", val);
 }
 
 void usb_host_info(void)
@@ -1457,10 +1475,10 @@ void usb_host_info(void)
         term_printf("  Auto filters:\n");
     for (f = usb_auto_filter; f; f = f->next) {
         char bus[10], addr[10], vid[10], pid[10];
-        dec2str(f->bus_num, bus);
-        dec2str(f->addr, addr);
-        hex2str(f->vendor_id, vid);
-        hex2str(f->product_id, pid);
+        dec2str(f->bus_num, bus, sizeof(bus));
+        dec2str(f->addr, addr, sizeof(addr));
+        hex2str(f->vendor_id, vid, sizeof(vid));
+        hex2str(f->product_id, pid, sizeof(pid));
     	term_printf("    Device %s.%s ID %s:%s\n", bus, addr, vid, pid);
     }
 }
