@@ -175,8 +175,6 @@ static int nvram_boot_set(void *opaque, const char *boot_device)
     return 0;
 }
 
-extern int nographic;
-
 static void nvram_init(m48t59_t *nvram, uint8_t *macaddr, const char *cmdline,
                        const char *boot_devices, ram_addr_t RAM_size,
                        uint32_t kernel_size,
@@ -693,7 +691,7 @@ static void sun4c_hw_init(const struct hwdef *hwdef, ram_addr_t RAM_size,
     slavio_serial_init(hwdef->serial_base, slavio_irq[hwdef->ser_irq],
                        serial_hds[1], serial_hds[0]);
 
-    slavio_misc = slavio_misc_init(-1, hwdef->apc_base,
+    slavio_misc = slavio_misc_init(0, hwdef->apc_base,
                                    hwdef->aux1_base, hwdef->aux2_base,
                                    slavio_irq[hwdef->me_irq], env, &fdc_tc);
 
@@ -1293,6 +1291,7 @@ QEMUMachine ss5_machine = {
     .ram_require = PROM_SIZE_MAX + TCX_SIZE,
     .nodisk_ok = 1,
     .use_scsi = 1,
+    .max_cpus = 16,
 };
 
 QEMUMachine ss10_machine = {
@@ -1302,6 +1301,7 @@ QEMUMachine ss10_machine = {
     .ram_require = PROM_SIZE_MAX + TCX_SIZE,
     .nodisk_ok = 1,
     .use_scsi = 1,
+    .max_cpus = 16,
 };
 
 QEMUMachine ss600mp_machine = {
@@ -1311,6 +1311,7 @@ QEMUMachine ss600mp_machine = {
     .ram_require = PROM_SIZE_MAX + TCX_SIZE,
     .nodisk_ok = 1,
     .use_scsi = 1,
+    .max_cpus = 16,
 };
 
 QEMUMachine ss20_machine = {
@@ -1320,6 +1321,7 @@ QEMUMachine ss20_machine = {
     .ram_require = PROM_SIZE_MAX + TCX_SIZE,
     .nodisk_ok = 1,
     .use_scsi = 1,
+    .max_cpus = 16,
 };
 
 QEMUMachine ss2_machine = {
@@ -1329,6 +1331,7 @@ QEMUMachine ss2_machine = {
     .ram_require = PROM_SIZE_MAX + TCX_SIZE,
     .nodisk_ok = 1,
     .use_scsi = 1,
+    .max_cpus = 16,
 };
 
 QEMUMachine voyager_machine = {
@@ -1338,6 +1341,7 @@ QEMUMachine voyager_machine = {
     .ram_require = PROM_SIZE_MAX + TCX_SIZE,
     .nodisk_ok = 1,
     .use_scsi = 1,
+    .max_cpus = 16,
 };
 
 QEMUMachine ss_lx_machine = {
@@ -1347,6 +1351,7 @@ QEMUMachine ss_lx_machine = {
     .ram_require = PROM_SIZE_MAX + TCX_SIZE,
     .nodisk_ok = 1,
     .use_scsi = 1,
+    .max_cpus = 16,
 };
 
 QEMUMachine ss4_machine = {
@@ -1356,6 +1361,7 @@ QEMUMachine ss4_machine = {
     .ram_require = PROM_SIZE_MAX + TCX_SIZE,
     .nodisk_ok = 1,
     .use_scsi = 1,
+    .max_cpus = 16,
 };
 
 QEMUMachine scls_machine = {
@@ -1365,6 +1371,7 @@ QEMUMachine scls_machine = {
     .ram_require = PROM_SIZE_MAX + TCX_SIZE,
     .nodisk_ok = 1,
     .use_scsi = 1,
+    .max_cpus = 16,
 };
 
 QEMUMachine sbook_machine = {
@@ -1374,6 +1381,7 @@ QEMUMachine sbook_machine = {
     .ram_require = PROM_SIZE_MAX + TCX_SIZE,
     .nodisk_ok = 1,
     .use_scsi = 1,
+    .max_cpus = 16,
 };
 
 static const struct sun4d_hwdef sun4d_hwdefs[] = {
@@ -1622,6 +1630,7 @@ QEMUMachine ss1000_machine = {
     .ram_require = PROM_SIZE_MAX + TCX_SIZE,
     .nodisk_ok = 1,
     .use_scsi = 1,
+    .max_cpus = 16,
 };
 
 QEMUMachine ss2000_machine = {
@@ -1631,4 +1640,5 @@ QEMUMachine ss2000_machine = {
     .ram_require = PROM_SIZE_MAX + TCX_SIZE,
     .nodisk_ok = 1,
     .use_scsi = 1,
+    .max_cpus = 16,
 };

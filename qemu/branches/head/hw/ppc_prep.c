@@ -31,6 +31,7 @@
 #include "pci.h"
 #include "ppc.h"
 #include "boards.h"
+#include "qemu-log.h"
 
 //#define HARD_DEBUG_PPC_IO
 //#define DEBUG_PPC_IO
@@ -43,9 +44,6 @@
 #define BIOS_FILENAME "ppc_rom.bin"
 #define KERNEL_LOAD_ADDR 0x01000000
 #define INITRD_LOAD_ADDR 0x01800000
-
-extern int loglevel;
-extern FILE *logfile;
 
 #if defined (HARD_DEBUG_PPC_IO) && !defined (DEBUG_PPC_IO)
 #define DEBUG_PPC_IO
@@ -760,8 +758,9 @@ static void ppc_prep_init (ram_addr_t ram_size, int vga_ram_size,
 }
 
 QEMUMachine prep_machine = {
-    "prep",
-    "PowerPC PREP platform",
-    ppc_prep_init,
-    BIOS_SIZE + VGA_RAM_SIZE,
+    .name = "prep",
+    .desc = "PowerPC PREP platform",
+    .init = ppc_prep_init,
+    .ram_require = BIOS_SIZE + VGA_RAM_SIZE,
+    .max_cpus = 1,
 };

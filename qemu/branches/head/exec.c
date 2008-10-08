@@ -38,6 +38,7 @@
 #include "qemu-common.h"
 #include "tcg.h"
 #include "hw/hw.h"
+#include "osdep.h"
 #if defined(CONFIG_USER_ONLY)
 #include <qemu.h>
 #endif
@@ -82,10 +83,10 @@
 #define TARGET_PHYS_ADDR_SPACE_BITS 32
 #endif
 
-TranslationBlock *tbs;
+static TranslationBlock *tbs;
 int code_gen_max_blocks;
 TranslationBlock *tb_phys_hash[CODE_GEN_PHYS_HASH_SIZE];
-int nb_tbs;
+static int nb_tbs;
 /* any access to the tbs or the page table must use this lock */
 spinlock_t tb_lock = SPIN_LOCK_UNLOCKED;
 
@@ -102,10 +103,10 @@ spinlock_t tb_lock = SPIN_LOCK_UNLOCKED;
 #endif
 
 uint8_t code_gen_prologue[1024] code_gen_section;
-uint8_t *code_gen_buffer;
-unsigned long code_gen_buffer_size;
+static uint8_t *code_gen_buffer;
+static unsigned long code_gen_buffer_size;
 /* threshold to flush the translated code buffer */
-unsigned long code_gen_buffer_max_size; 
+static unsigned long code_gen_buffer_max_size;
 uint8_t *code_gen_ptr;
 
 #if !defined(CONFIG_USER_ONLY)
@@ -113,6 +114,7 @@ ram_addr_t phys_ram_size;
 int phys_ram_fd;
 uint8_t *phys_ram_base;
 uint8_t *phys_ram_dirty;
+static int in_migration;
 static ram_addr_t phys_ram_alloc_offset = 0;
 #endif
 
@@ -166,7 +168,7 @@ unsigned long qemu_host_page_mask;
 
 /* XXX: for system emulation, it could just be an array */
 static PageDesc *l1_map[L1_SIZE];
-PhysPageDesc **l1_phys_map;
+static PhysPageDesc **l1_phys_map;
 
 #if !defined(CONFIG_USER_ONLY)
 static void io_mem_init(void);
@@ -180,7 +182,7 @@ static int io_mem_watch;
 #endif
 
 /* log support */
-const char *logfilename = "/tmp/qemu.log";
+static const char *logfilename = "/tmp/qemu.log";
 FILE *logfile;
 int loglevel;
 static int log_append = 0;
@@ -637,7 +639,7 @@ static void tb_page_check(void)
     }
 }
 
-void tb_jmp_check(TranslationBlock *tb)
+static void tb_jmp_check(TranslationBlock *tb)
 {
     TranslationBlock *tb1;
     unsigned int n1;
@@ -1511,7 +1513,7 @@ void cpu_reset_interrupt(CPUState *env, int mask)
     env->interrupt_request &= ~mask;
 }
 
-CPULogItem cpu_log_items[] = {
+const CPULogItem cpu_log_items[] = {
     { CPU_LOG_TB_OUT_ASM, "out_asm",
       "show generated host assembly code for each compiled TB" },
     { CPU_LOG_TB_IN_ASM, "in_asm",
@@ -1551,7 +1553,7 @@ static int cmp1(const char *s1, int n, const char *s2)
 /* takes a comma separated list of log masks. Return 0 if error. */
 int cpu_str_to_log_mask(const char *str)
 {
-    CPULogItem *item;
+    const CPULogItem *item;
     int mask;
     const char *p, *p1;
 
@@ -1807,6 +1809,17 @@ void cpu_physical_memory_reset_dirty(ram_addr_t start, ram_addr_t end,
 #endif
 #endif
     }
+}
+
+int cpu_physical_memory_set_dirty_tracking(int enable)
+{
+    in_migration = enable;
+    return 0;
+}
+
+int cpu_physical_memory_get_dirty_tracking(void)
+{
+    return in_migration;
 }
 
 static inline void tlb_update_dirty(CPUTLBEntry *tlb_entry)
@@ -2271,7 +2284,7 @@ ram_addr_t qemu_ram_alloc(ram_addr_t size)
 {
     ram_addr_t addr;
     if ((phys_ram_alloc_offset + size) > phys_ram_size) {
-        fprintf(stderr, "Not enough memory (requested_size = %" PRIu64 ", max memory = %" PRIu64 "\n",
+        fprintf(stderr, "Not enough memory (requested_size = %" PRIu64 ", max memory = %" PRIu64 ")\n",
                 (uint64_t)size, (uint64_t)phys_ram_size);
         abort();
     }
@@ -2289,10 +2302,30 @@ static uint32_t unassigned_mem_readb(void *opaque, target_phys_addr_t addr)
 #ifdef DEBUG_UNASSIGNED
     printf("Unassigned mem read " TARGET_FMT_plx "\n", addr);
 #endif
-#ifdef TARGET_SPARC
-    do_unassigned_access(addr, 0, 0, 0);
-#elif defined(TARGET_CRIS)
-    do_unassigned_access(addr, 0, 0, 0);
+#if defined(TARGET_SPARC) || defined(TARGET_CRIS)
+    do_unassigned_access(addr, 0, 0, 0, 1);
+#endif
+    return 0;
+}
+
+static uint32_t unassigned_mem_readw(void *opaque, target_phys_addr_t addr)
+{
+#ifdef DEBUG_UNASSIGNED
+    printf("Unassigned mem read " TARGET_FMT_plx "\n", addr);
+#endif
+#if defined(TARGET_SPARC) || defined(TARGET_CRIS)
+    do_unassigned_access(addr, 0, 0, 0, 2);
+#endif
+    return 0;
+}
+
+static uint32_t unassigned_mem_readl(void *opaque, target_phys_addr_t addr)
+{
+#ifdef DEBUG_UNASSIGNED
+    printf("Unassigned mem read " TARGET_FMT_plx "\n", addr);
+#endif
+#if defined(TARGET_SPARC) || defined(TARGET_CRIS)
+    do_unassigned_access(addr, 0, 0, 0, 4);
 #endif
     return 0;
 }
@@ -2302,23 +2335,41 @@ static void unassigned_mem_writeb(void *opaque, target_phys_addr_t addr, uint32_
 #ifdef DEBUG_UNASSIGNED
     printf("Unassigned mem write " TARGET_FMT_plx " = 0x%x\n", addr, val);
 #endif
-#ifdef TARGET_SPARC
-    do_unassigned_access(addr, 1, 0, 0);
-#elif defined(TARGET_CRIS)
-    do_unassigned_access(addr, 1, 0, 0);
+#if defined(TARGET_SPARC) || defined(TARGET_CRIS)
+    do_unassigned_access(addr, 1, 0, 0, 1);
+#endif
+}
+
+static void unassigned_mem_writew(void *opaque, target_phys_addr_t addr, uint32_t val)
+{
+#ifdef DEBUG_UNASSIGNED
+    printf("Unassigned mem write " TARGET_FMT_plx " = 0x%x\n", addr, val);
+#endif
+#if defined(TARGET_SPARC) || defined(TARGET_CRIS)
+    do_unassigned_access(addr, 1, 0, 0, 2);
+#endif
+}
+
+static void unassigned_mem_writel(void *opaque, target_phys_addr_t addr, uint32_t val)
+{
+#ifdef DEBUG_UNASSIGNED
+    printf("Unassigned mem write " TARGET_FMT_plx " = 0x%x\n", addr, val);
+#endif
+#if defined(TARGET_SPARC) || defined(TARGET_CRIS)
+    do_unassigned_access(addr, 1, 0, 0, 4);
 #endif
 }
 
 static CPUReadMemoryFunc *unassigned_mem_read[3] = {
     unassigned_mem_readb,
-    unassigned_mem_readb,
-    unassigned_mem_readb,
+    unassigned_mem_readw,
+    unassigned_mem_readl,
 };
 
 static CPUWriteMemoryFunc *unassigned_mem_write[3] = {
     unassigned_mem_writeb,
-    unassigned_mem_writeb,
-    unassigned_mem_writeb,
+    unassigned_mem_writew,
+    unassigned_mem_writel,
 };
 
 static void notdirty_mem_writeb(void *opaque, target_phys_addr_t ram_addr,
@@ -2964,9 +3015,19 @@ void stl_phys_notdirty(target_phys_addr_t addr, uint32_t val)
         io_index = (pd >> IO_MEM_SHIFT) & (IO_MEM_NB_ENTRIES - 1);
         io_mem_write[io_index][2](io_mem_opaque[io_index], addr, val);
     } else {
-        ptr = phys_ram_base + (pd & TARGET_PAGE_MASK) +
-            (addr & ~TARGET_PAGE_MASK);
+        unsigned long addr1 = (pd & TARGET_PAGE_MASK) + (addr & ~TARGET_PAGE_MASK);
+        ptr = phys_ram_base + addr1;
         stl_p(ptr, val);
+
+        if (unlikely(in_migration)) {
+            if (!cpu_physical_memory_is_dirty(addr1)) {
+                /* invalidate code */
+                tb_invalidate_phys_page_range(addr1, addr1 + 4, 0);
+                /* set dirty bit */
+                phys_ram_dirty[addr1 >> TARGET_PAGE_BITS] |=
+                    (0xff & ~CODE_DIRTY_FLAG);
+            }
+        }
     }
 }
 

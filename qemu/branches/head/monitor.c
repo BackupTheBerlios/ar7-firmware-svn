@@ -66,8 +66,8 @@ typedef struct term_cmd_t {
 static CharDriverState *monitor_hd[MAX_MON];
 static int hide_banner;
 
-static term_cmd_t term_cmds[];
-static term_cmd_t info_cmds[];
+static const term_cmd_t term_cmds[];
+static const term_cmd_t info_cmds[];
 
 static uint8_t term_outbuf[1024];
 static int term_outbuf_index;
@@ -175,9 +175,9 @@ static int compare_cmd(const char *name, const char *list)
     return 0;
 }
 
-static void help_cmd1(term_cmd_t *cmds, const char *prefix, const char *name)
+static void help_cmd1(const term_cmd_t *cmds, const char *prefix, const char *name)
 {
-    term_cmd_t *cmd;
+    const term_cmd_t *cmd;
 
     for(cmd = cmds; cmd->name != NULL; cmd++) {
         if (!name || !strcmp(name, cmd->name))
@@ -192,7 +192,7 @@ static void help_cmd(const char *name)
     } else {
         help_cmd1(term_cmds, "", name);
         if (name && !strcmp(name, "log")) {
-            CPULogItem *item;
+            const CPULogItem *item;
             term_printf("Log items (comma separated):\n");
             term_printf("%-10s %s\n", "none", "remove all logs");
             for(item = cpu_log_items; item->mask != 0; item++) {
@@ -221,7 +221,7 @@ static void do_commit(const char *device)
 
 static void do_info(const char *item)
 {
-    term_cmd_t *cmd;
+    const term_cmd_t *cmd;
     void (*handler)(void);
 
     if (!item)
@@ -860,6 +860,9 @@ static const KeyDef key_defs[] = {
     { 0x30, "b" },
     { 0x31, "n" },
     { 0x32, "m" },
+    { 0x33, "comma" },
+    { 0x34, "dot" },
+    { 0x35, "slash" },
 
     { 0x37, "asterisk" },
 
@@ -1372,7 +1375,7 @@ static void do_inject_nmi(int cpu_index)
 }
 #endif
 
-static term_cmd_t term_cmds[] = {
+static const term_cmd_t term_cmds[] = {
     { "help|?", "s?", do_help,
       "[cmd]", "show the help" },
     { "commit", "s", do_commit,
@@ -1454,7 +1457,7 @@ static term_cmd_t term_cmds[] = {
     { NULL, NULL, },
 };
 
-static term_cmd_t info_cmds[] = {
+static const term_cmd_t info_cmds[] = {
     { "version", "", do_info_version,
       "", "show the version of qemu" },
     { "network", "", do_info_network,
@@ -1527,12 +1530,12 @@ static jmp_buf expr_env;
 typedef struct MonitorDef {
     const char *name;
     int offset;
-    target_long (*get_value)(struct MonitorDef *md, int val);
+    target_long (*get_value)(const struct MonitorDef *md, int val);
     int type;
 } MonitorDef;
 
 #if defined(TARGET_I386)
-static target_long monitor_get_pc (struct MonitorDef *md, int val)
+static target_long monitor_get_pc (const struct MonitorDef *md, int val)
 {
     CPUState *env = mon_get_cpu();
     if (!env)
@@ -1542,7 +1545,7 @@ static target_long monitor_get_pc (struct MonitorDef *md, int val)
 #endif
 
 #if defined(TARGET_PPC)
-static target_long monitor_get_ccr (struct MonitorDef *md, int val)
+static target_long monitor_get_ccr (const struct MonitorDef *md, int val)
 {
     CPUState *env = mon_get_cpu();
     unsigned int u;
@@ -1558,7 +1561,7 @@ static target_long monitor_get_ccr (struct MonitorDef *md, int val)
     return u;
 }
 
-static target_long monitor_get_msr (struct MonitorDef *md, int val)
+static target_long monitor_get_msr (const struct MonitorDef *md, int val)
 {
     CPUState *env = mon_get_cpu();
     if (!env)
@@ -1566,7 +1569,7 @@ static target_long monitor_get_msr (struct MonitorDef *md, int val)
     return env->msr;
 }
 
-static target_long monitor_get_xer (struct MonitorDef *md, int val)
+static target_long monitor_get_xer (const struct MonitorDef *md, int val)
 {
     CPUState *env = mon_get_cpu();
     if (!env)
@@ -1574,7 +1577,7 @@ static target_long monitor_get_xer (struct MonitorDef *md, int val)
     return ppc_load_xer(env);
 }
 
-static target_long monitor_get_decr (struct MonitorDef *md, int val)
+static target_long monitor_get_decr (const struct MonitorDef *md, int val)
 {
     CPUState *env = mon_get_cpu();
     if (!env)
@@ -1582,7 +1585,7 @@ static target_long monitor_get_decr (struct MonitorDef *md, int val)
     return cpu_ppc_load_decr(env);
 }
 
-static target_long monitor_get_tbu (struct MonitorDef *md, int val)
+static target_long monitor_get_tbu (const struct MonitorDef *md, int val)
 {
     CPUState *env = mon_get_cpu();
     if (!env)
@@ -1590,7 +1593,7 @@ static target_long monitor_get_tbu (struct MonitorDef *md, int val)
     return cpu_ppc_load_tbu(env);
 }
 
-static target_long monitor_get_tbl (struct MonitorDef *md, int val)
+static target_long monitor_get_tbl (const struct MonitorDef *md, int val)
 {
     CPUState *env = mon_get_cpu();
     if (!env)
@@ -1601,7 +1604,7 @@ static target_long monitor_get_tbl (struct MonitorDef *md, int val)
 
 #if defined(TARGET_SPARC)
 #ifndef TARGET_SPARC64
-static target_long monitor_get_psr (struct MonitorDef *md, int val)
+static target_long monitor_get_psr (const struct MonitorDef *md, int val)
 {
     CPUState *env = mon_get_cpu();
     if (!env)
@@ -1610,7 +1613,7 @@ static target_long monitor_get_psr (struct MonitorDef *md, int val)
 }
 #endif
 
-static target_long monitor_get_reg(struct MonitorDef *md, int val)
+static target_long monitor_get_reg(const struct MonitorDef *md, int val)
 {
     CPUState *env = mon_get_cpu();
     if (!env)
@@ -1619,7 +1622,7 @@ static target_long monitor_get_reg(struct MonitorDef *md, int val)
 }
 #endif
 
-static MonitorDef monitor_defs[] = {
+static const MonitorDef monitor_defs[] = {
 #ifdef TARGET_I386
 
 #define SEG(name, seg) \
@@ -1870,7 +1873,7 @@ static void expr_error(const char *fmt)
 /* return 0 if OK, -1 if not found, -2 if no CPU defined */
 static int get_monitor_def(target_long *pval, const char *name)
 {
-    MonitorDef *md;
+    const MonitorDef *md;
     void *ptr;
 
     for(md = monitor_defs; md->name != NULL; md++) {
@@ -2164,7 +2167,7 @@ static void monitor_handle_command(const char *cmdline)
     const char *p, *pstart, *typestr;
     char *q;
     int c, nb_args, len, i, has_arg;
-    term_cmd_t *cmd;
+    const term_cmd_t *cmd;
     char cmdname[256];
     char buf[1024];
     void *str_allocated[MAX_ARGS];
@@ -2327,8 +2330,8 @@ static void monitor_handle_command(const char *cmdline)
                         /* for 'i', not specifying a size gives -1 as size */
                         if (size < 0)
                             size = default_fmt_size;
+                        default_fmt_size = size;
                     }
-                    default_fmt_size = size;
                     default_fmt_format = format;
                 } else {
                     count = 1;
@@ -2601,7 +2604,7 @@ void readline_find_completion(const char *cmdline)
     char *args[MAX_ARGS];
     int nb_args, i, len;
     const char *ptype, *str;
-    term_cmd_t *cmd;
+    const term_cmd_t *cmd;
     const KeyDef *key;
 
     parse_cmdline(cmdline, &nb_args, args);
@@ -2691,10 +2694,27 @@ static void term_read(void *opaque, const uint8_t *buf, int size)
         readline_handle_byte(buf[i]);
 }
 
+static int monitor_suspended;
+
 static void monitor_handle_command1(void *opaque, const char *cmdline)
 {
     monitor_handle_command(cmdline);
-    monitor_start_input();
+    if (!monitor_suspended)
+        monitor_start_input();
+    else
+        monitor_suspended = 2;
+}
+
+void monitor_suspend(void)
+{
+    monitor_suspended = 1;
+}
+
+void monitor_resume(void)
+{
+    if (monitor_suspended == 2)
+        monitor_start_input();
+    monitor_suspended = 0;
 }
 
 static void monitor_start_input(void)

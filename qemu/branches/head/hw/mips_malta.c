@@ -36,6 +36,7 @@
 #include "sysemu.h"
 #include "audio/audio.h"
 #include "boards.h"
+#include "qemu-log.h"
 
 //#define DEBUG_BOARD_INIT
 
@@ -58,8 +59,6 @@
 #define ENVP_ENTRY_SIZE	 	256
 
 #define MAX_IDE_BUS 2
-
-extern FILE *logfile;
 
 typedef struct {
     uint32_t leds;
@@ -951,4 +950,5 @@ QEMUMachine mips_malta_machine = {
     .init = mips_malta_init,
     .ram_require = VGA_RAM_SIZE + BIOS_SIZE,
     .nodisk_ok = 1,
+    .max_cpus = 1,
 };

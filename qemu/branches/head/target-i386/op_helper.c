@@ -1956,6 +1956,27 @@ void helper_cpuid(void)
         ECX = CPUID_MWAIT_EMX | CPUID_MWAIT_IBE;
         EDX = 0;
         break;
+    case 6:
+        /* Thermal and Power Leaf */
+        EAX = 0;
+        EBX = 0;
+        ECX = 0;
+        EDX = 0;
+        break;
+    case 9:
+        /* Direct Cache Access Information Leaf */
+        EAX = 0; /* Bits 0-31 in DCA_CAP MSR */
+        EBX = 0;
+        ECX = 0;
+        EDX = 0;
+        break;
+    case 0xA:
+        /* Architectural Performance Monitoring Leaf */
+        EAX = 0;
+        EBX = 0;
+        ECX = 0;
+        EDX = 0;
+        break;
     case 0x80000000:
         EAX = env->cpuid_xlevel;
         EBX = env->cpuid_vendor1;
@@ -2630,7 +2651,8 @@ void helper_iret_real(int shift)
         POPW(ssp, sp, sp_mask, new_eflags);
     }
     ESP = (ESP & ~sp_mask) | (sp & sp_mask);
-    load_seg_vm(R_CS, new_cs);
+    env->segs[R_CS].selector = new_cs;
+    env->segs[R_CS].base = (new_cs << 4);
     env->eip = new_eip;
     if (env->eflags & VM_MASK)
         eflags_mask = TF_MASK | AC_MASK | ID_MASK | IF_MASK | RF_MASK | NT_MASK;
@@ -3154,12 +3176,6 @@ void helper_wrmsr(void)
     case MSR_VM_HSAVE_PA:
         env->vm_hsave = val;
         break;
-    case MSR_IA32_PERF_STATUS:
-        /* tsc_increment_by_tick */ 
-        val = 1000ULL;
-        /* CPU multiplier */
-        val |= (((uint64_t)4ULL) << 40);
-        break;
 #ifdef TARGET_X86_64
     case MSR_LSTAR:
         env->lstar = val;
@@ -3216,6 +3232,12 @@ void helper_rdmsr(void)
         break;
     case MSR_VM_HSAVE_PA:
         val = env->vm_hsave;
+        break;
+    case MSR_IA32_PERF_STATUS:
+        /* tsc_increment_by_tick */
+        val = 1000ULL;
+        /* CPU multiplier */
+        val |= (((uint64_t)4ULL) << 40);
         break;
 #ifdef TARGET_X86_64
     case MSR_LSTAR:

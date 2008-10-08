@@ -50,6 +50,12 @@ void do_info_snapshots(void);
 
 void main_loop_wait(int timeout);
 
+int qemu_savevm_state_begin(QEMUFile *f);
+int qemu_savevm_state_iterate(QEMUFile *f);
+int qemu_savevm_state_complete(QEMUFile *f);
+int qemu_savevm_state(QEMUFile *f);
+int qemu_loadvm_state(QEMUFile *f);
+
 /* Polling handling */
 
 /* return TRUE if no sleep should be done afterwards */
@@ -78,6 +84,7 @@ extern int vmsvga_enabled;
 extern int graphic_width;
 extern int graphic_height;
 extern int graphic_depth;
+extern int nographic;
 extern const char *keyboard_layout;
 extern int win2k_install_hack;
 extern int alt_grab;
@@ -87,7 +94,6 @@ extern int cursor_hide;
 extern int graphic_rotate;
 extern int no_quit;
 extern int semihosting_enabled;
-extern int autostart;
 extern int old_param;
 extern const char *bootp_filename;
 
