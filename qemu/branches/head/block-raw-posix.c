@@ -25,7 +25,6 @@
 #include "qemu-timer.h"
 #include "qemu-char.h"
 #include "block_int.h"
-#include "compatfd.h"
 #include <assert.h>
 #ifdef CONFIG_AIO
 #include <aio.h>
@@ -74,6 +73,16 @@
 #define DEBUG_BLOCK_PRINT(formatCstr, args...)
 #endif
 
+/* OS X does not have O_DSYNC */
+#ifndef O_DSYNC
+#define O_DSYNC O_SYNC
+#endif
+
+/* Approximate O_DIRECT with O_DSYNC if O_DIRECT isn't available */
+#ifndef O_DIRECT
+#define O_DIRECT O_DSYNC
+#endif
+
 #define FTYPE_FILE   0
 #define FTYPE_CD     1
 #define FTYPE_FD     2
@@ -102,9 +111,7 @@ typedef struct BDRVRawState {
     int fd_got_error;
     int fd_media_changed;
 #endif
-#if defined(O_DIRECT)
     uint8_t* aligned_buf;
-#endif
 } BDRVRawState;
 
 static int posix_aio_init(void);
@@ -130,10 +137,13 @@ static int raw_open(BlockDriverState *bs, const char *filename, int flags)
     }
     if (flags & BDRV_O_CREAT)
         open_flags |= O_CREAT | O_TRUNC;
-#ifdef O_DIRECT
-    if (flags & BDRV_O_DIRECT)
+
+    /* Use O_DSYNC for write-through caching, no flags for write-back caching,
+     * and O_DIRECT for no caching. */
+    if ((flags & BDRV_O_NOCACHE))
         open_flags |= O_DIRECT;
-#endif
+    else if (!(flags & BDRV_O_CACHE_WB))
+        open_flags |= O_DSYNC;
 
     s->type = FTYPE_FILE;
 
@@ -147,9 +157,8 @@ static int raw_open(BlockDriverState *bs, const char *filename, int flags)
     s->fd = fd;
     for (i = 0; i < RAW_FD_POOL_SIZE; i++)
         s->fd_pool[i] = -1;
-#if defined(O_DIRECT)
     s->aligned_buf = NULL;
-    if (flags & BDRV_O_DIRECT) {
+    if ((flags & BDRV_O_NOCACHE)) {
         s->aligned_buf = qemu_memalign(512, ALIGNED_BUFFER_SIZE);
         if (s->aligned_buf == NULL) {
             ret = -errno;
@@ -157,7 +166,6 @@ static int raw_open(BlockDriverState *bs, const char *filename, int flags)
             return ret;
         }
     }
-#endif
     return 0;
 }
 
@@ -282,7 +290,6 @@ label__raw_write__success:
 }
 
 
-#if defined(O_DIRECT)
 /*
  * offset and count are in bytes and possibly not aligned. For files opened
  * with O_DIRECT, necessary alignments are ensured before calling
@@ -433,12 +440,6 @@ static int raw_pwrite(BlockDriverState *bs, int64_t offset,
     return raw_pwrite_aligned(bs, offset, buf, count) + sum;
 }
 
-#else
-#define raw_pread raw_pread_aligned
-#define raw_pwrite raw_pwrite_aligned
-#endif
-
-
 #ifdef CONFIG_AIO
 /***********************************************************/
 /* Unix AIO using POSIX AIO */
@@ -453,7 +454,7 @@ typedef struct RawAIOCB {
 
 typedef struct PosixAioState
 {
-    int fd;
+    int rfd, wfd;
     RawAIOCB *first_aio;
 } PosixAioState;
 
@@ -494,30 +495,17 @@ static void posix_aio_read(void *opaque)
     PosixAioState *s = opaque;
     RawAIOCB *acb, **pacb;
     int ret;
-    size_t offset;
-    union {
-        struct qemu_signalfd_siginfo siginfo;
-        char buf[128];
-    } sig;
+    ssize_t len;
 
-    /* try to read from signalfd, don't freak out if we can't read anything */
-    offset = 0;
-    while (offset < 128) {
-        ssize_t len;
+    do {
+        char byte;
 
-        len = read(s->fd, sig.buf + offset, 128 - offset);
+        len = read(s->rfd, &byte, 1);
         if (len == -1 && errno == EINTR)
             continue;
-        if (len == -1 && errno == EAGAIN) {
-            /* there is no natural reason for this to happen,
-             * so we'll spin hard until we get everything just
-             * to be on the safe side. */
-            if (offset > 0)
-                continue;
-        }
-
-        offset += len;
-    }
+        if (len == -1 && errno == EAGAIN)
+            break;
+    } while (len == -1);
 
     for(;;) {
         pacb = &s->first_aio;
@@ -565,10 +553,22 @@ static int posix_aio_flush(void *opaque)
 
 static PosixAioState *posix_aio_state;
 
+static void aio_signal_handler(int signum)
+{
+    if (posix_aio_state) {
+        char byte = 0;
+
+        write(posix_aio_state->wfd, &byte, sizeof(byte));
+    }
+
+    qemu_service_io();
+}
+
 static int posix_aio_init(void)
 {
-    sigset_t mask;
+    struct sigaction act;
     PosixAioState *s;
+    int fds[2];
   
     if (posix_aio_state)
         return 0;
@@ -577,21 +577,23 @@ static int posix_aio_init(void)
     if (s == NULL)
         return -ENOMEM;
 
-    /* Make sure to block AIO signal */
-    sigemptyset(&mask);
-    sigaddset(&mask, SIGUSR2);
-    sigprocmask(SIG_BLOCK, &mask, NULL);
-    
+    sigfillset(&act.sa_mask);
+    act.sa_flags = 0; /* do not restart syscalls to interrupt select() */
+    act.sa_handler = aio_signal_handler;
+    sigaction(SIGUSR2, &act, NULL);
+
     s->first_aio = NULL;
-    s->fd = qemu_signalfd(&mask);
-    if (s->fd == -1) {
-        fprintf(stderr, "failed to create signalfd\n");
+    if (pipe(fds) == -1) {
+        fprintf(stderr, "failed to create pipe\n");
         return -errno;
     }
 
-    fcntl(s->fd, F_SETFL, O_NONBLOCK);
+    s->rfd = fds[0];
+    s->wfd = fds[1];
 
-    qemu_aio_set_fd_handler(s->fd, posix_aio_read, NULL, posix_aio_flush, s);
+    fcntl(s->wfd, F_SETFL, O_NONBLOCK);
+
+    qemu_aio_set_fd_handler(s->rfd, posix_aio_read, NULL, posix_aio_flush, s);
 
 #if defined(__linux__)
     {
@@ -661,7 +663,6 @@ static BlockDriverAIOCB *raw_aio_read(BlockDriverState *bs,
      * If O_DIRECT is used and the buffer is not aligned fall back
      * to synchronous IO.
      */
-#if defined(O_DIRECT)
     BDRVRawState *s = bs->opaque;
 
     if (unlikely(s->aligned_buf != NULL && ((uintptr_t) buf % 512))) {
@@ -672,7 +673,6 @@ static BlockDriverAIOCB *raw_aio_read(BlockDriverState *bs,
         qemu_bh_schedule(bh);
         return &acb->common;
     }
-#endif
 
     acb = raw_aio_setup(bs, sector_num, buf, nb_sectors, cb, opaque);
     if (!acb)
@@ -694,7 +694,6 @@ static BlockDriverAIOCB *raw_aio_write(BlockDriverState *bs,
      * If O_DIRECT is used and the buffer is not aligned fall back
      * to synchronous IO.
      */
-#if defined(O_DIRECT)
     BDRVRawState *s = bs->opaque;
 
     if (unlikely(s->aligned_buf != NULL && ((uintptr_t) buf % 512))) {
@@ -705,7 +704,6 @@ static BlockDriverAIOCB *raw_aio_write(BlockDriverState *bs,
         qemu_bh_schedule(bh);
         return &acb->common;
     }
-#endif
 
     acb = raw_aio_setup(bs, sector_num, (uint8_t*)buf, nb_sectors, cb, opaque);
     if (!acb)
@@ -770,10 +768,8 @@ static void raw_close(BlockDriverState *bs)
     if (s->fd >= 0) {
         close(s->fd);
         s->fd = -1;
-#if defined(O_DIRECT)
         if (s->aligned_buf != NULL)
             qemu_free(s->aligned_buf);
-#endif
     }
     raw_close_fd_pool(s);
 }
@@ -1003,10 +999,12 @@ static int hdev_open(BlockDriverState *bs, const char *filename, int flags)
         open_flags |= O_RDONLY;
         bs->read_only = 1;
     }
-#ifdef O_DIRECT
-    if (flags & BDRV_O_DIRECT)
+    /* Use O_DSYNC for write-through caching, no flags for write-back caching,
+     * and O_DIRECT for no caching. */
+    if ((flags & BDRV_O_NOCACHE))
         open_flags |= O_DIRECT;
-#endif
+    else if (!(flags & BDRV_O_CACHE_WB))
+        open_flags |= O_DSYNC;
 
     s->type = FTYPE_FILE;
 #if defined(__linux__)
