@@ -39,6 +39,7 @@
 #include "tcg.h"
 #include "hw/hw.h"
 #include "osdep.h"
+#include "kvm.h"
 #if defined(CONFIG_USER_ONLY)
 #include <qemu.h>
 #endif
@@ -2081,12 +2082,13 @@ int page_check_range(target_ulong start, target_ulong len, int flags)
     target_ulong end;
     target_ulong addr;
 
+    if (start + len < start)
+        /* we've wrapped around */
+        return -1;
+
     end = TARGET_PAGE_ALIGN(start+len); /* must do before we loose bits in the next step */
     start = start & TARGET_PAGE_MASK;
 
-    if( end < start )
-        /* we've wrapped around */
-        return -1;
     for(addr = start; addr < end; addr += TARGET_PAGE_SIZE) {
         p = page_find(addr >> TARGET_PAGE_BITS);
         if( !p )
@@ -2211,6 +2213,9 @@ void cpu_register_physical_memory(target_phys_addr_t start_addr,
         kqemu_set_phys_mem(start_addr, size, phys_offset);
     }
 #endif
+    if (kvm_enabled())
+        kvm_set_phys_mem(start_addr, size, phys_offset);
+
     size = (size + TARGET_PAGE_SIZE - 1) & TARGET_PAGE_MASK;
     end_addr = start_addr + (target_phys_addr_t)size;
     for(addr = start_addr; addr != end_addr; addr += TARGET_PAGE_SIZE) {
