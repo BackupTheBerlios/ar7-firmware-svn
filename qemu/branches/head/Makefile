@@ -193,7 +193,7 @@ qemu-nbd$(EXESUF):  qemu-nbd.o qemu-tool.o osdep.o $(BLOCK_OBJS)
 
 # dyngen host tool
 dyngen$(EXESUF): dyngen.c
-	$(HOST_CC) $(CFLAGS) $(CPPFLAGS) -o $@ $^
+	$(HOST_CC) $(CFLAGS) $(CPPFLAGS) -o $@ $<
 
 config-host.mak: configure
 ifneq ($(wildcard config-host.mak),)
