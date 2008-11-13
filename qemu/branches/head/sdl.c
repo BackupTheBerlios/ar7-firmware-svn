@@ -25,7 +25,7 @@
 #include "console.h"
 #include "sysemu.h"
 
-#include <SDL.h>
+#include <SDL/SDL.h>
 
 #ifndef _WIN32
 #include <signal.h>
@@ -60,7 +60,7 @@ static void sdl_resize(DisplayState *ds, int w, int h)
 {
     int flags;
 
-    //    printf("resizing to %d %d\n", w, h);
+    fprintf(stderr, "resizing to %d %d\n", w, h);
 
     flags = SDL_HWSURFACE|SDL_ASYNCBLIT|SDL_HWACCEL;
     if (gui_fullscreen)
