@@ -1,9 +1,9 @@
 This directory contains an inofficial patched version of QEMU.
 Maintainer is Stefan Weil.
 
-branches        - empty
-tags            - empty
-trunk/qemu      - patched QEMU
+qemu/branches   - empty
+qemu/tags       - empty
+qemu/trunk      - patched QEMU
 
 QEMU is an emulator for many different CPUs.
 
