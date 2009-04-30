@@ -35,15 +35,15 @@ if ( $wgCommandLineMode ) {
 
 $wgSitename         = "Ar7Firmware";
 
-$wgScriptPath	    = "/wiki";
+$wgScriptPath	    = "/w";
 $wgScript           = "$wgScriptPath/index.php";
 $wgRedirectScript   = "$wgScriptPath/redirect.php";
 
 ## For more information on customizing the URLs please see:
 ## http://meta.wikimedia.org/wiki/Eliminating_index.php_from_the_url
 ## If using PHP as a CGI module, the ?title= style usually must be used.
-$wgArticlePath      = "$wgScript/$1";
-# $wgArticlePath      = "$wgScript?title=$1";
+$wgArticlePath      = "/wiki/$1";
+$wgUsePathInfo = true;
 
 $wgStylePath        = "$wgScriptPath/skins";
 $wgStyleDirectory   = "$IP/skins";
