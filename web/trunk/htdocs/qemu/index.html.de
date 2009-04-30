@@ -41,7 +41,7 @@ sah ich das erste Mal die Bootmeldungen meines Routers in einer Emulation
 statt im Terminalprogramm an der seriellen Schnittstelle.</p>
 
 <p>Inzwischen startet auch der Linux-Kernel: ganz unterschiedliche
-Router booten in der Emulation bis zur Eingabeaufforderung, und anschlieend
+Router booten in der Emulation bis zur Eingabeaufforderung, und anschlie&szlig;end
 kann man in der Shell (busybox) weiter herumprobieren.
 Die Emulation mit QEMU ist also so brauchbar,
 dass auch andere Entwickler davon profitieren können.</p>
