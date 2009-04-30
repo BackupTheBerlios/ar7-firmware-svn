@@ -47,7 +47,8 @@ $wgArticlePath      = "$wgScript/$1";
 
 $wgStylePath        = "$wgScriptPath/skins";
 $wgStyleDirectory   = "$IP/skins";
-$wgLogo             = "$wgStylePath/common/images/wiki.png";
+#$wgLogo             = "$wgStylePath/common/images/wiki.png";
+$wgLogo             = "http://developer.berlios.de/bslogo.php?group_id=3721";
 
 $wgUploadPath       = "$wgScriptPath/images";
 $wgUploadDirectory  = "$IP/images";
@@ -127,5 +128,8 @@ $wgDiff3 = "";
 # sure that cached pages are cleared.
 $configdate = gmdate( 'YmdHis', @filemtime( __FILE__ ) );
 $wgCacheEpoch = max( $wgCacheEpoch, $configdate );
+
+# This snippet prevents editing from anonymous users
+$wgGroupPermissions['*']['edit'] = false;
 
 ?>
